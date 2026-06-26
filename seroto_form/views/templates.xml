@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ========================= -->
+    <!-- Modal đăng ký khóa học -->
+    <!-- ========================= -->
+
+    <template id="course_register_modal">
+
+        <div
+            class="modal fade"
+            id="courseRegisterModal"
+            tabindex="-1"
+            aria-labelledby="courseRegisterModalLabel"
+            aria-hidden="true">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h5
+                            class="modal-title"
+                            id="courseRegisterModalLabel">
+
+                            Đăng ký khóa học
+
+                        </h5>
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"/>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Khóa học
+                            </label>
+
+                            <input
+                                id="course_name"
+                                class="form-control"
+                                readonly="readonly"/>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                            Đóng
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <!-- ========================= -->
+    <!-- Homepage -->
+    <!-- ========================= -->
+
+    <template
+        id="course_demo_home"
+        inherit_id="website.homepage">
+
+        <xpath expr="//div[@id='wrap']" position="inside">
+
+            <!-- Render Modal -->
+            <t t-call="seroto_form.course_register_modal"/>
+
+            <section class="container my-5">
+
+                <div class="text-center mb-5">
+
+                    <h2>Đăng ký khóa học</h2>
+
+                    <p>Demo tạo CRM Lead từ Website</p>
+
+                </div>
+
+                <div class="row">
+
+                    <!-- Course 1 -->
+
+                    <div class="col-lg-6 mb-4">
+
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <h4>Python cơ bản</h4>
+
+                                <p>
+                                    Khóa học dành cho người mới bắt đầu.
+                                </p>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-primary register-course"
+                                    data-course="Python cơ bản">
+
+                                    Đăng ký
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Course 2 -->
+
+                    <div class="col-lg-6 mb-4">
+
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <h4>Java Core</h4>
+
+                                <p>
+                                    Khóa học Java nền tảng.
+                                </p>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-primary register-course"
+                                    data-course="Java Core">
+
+                                    Đăng ký
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+                  <div class="card-body">
+                  <form action="/course/register"
+      method="post">
+
+    <input
+        type="hidden"
+        name="csrf_token"
+        t-att-value="request.csrf_token()"/>
+        <div class="mb-3">
+
+    <label>Khóa học</label>
+
+    <input
+        class="form-control"
+        name="course"/>
+
+</div>
+
+    <div class="mb-3">
+
+        <label>Họ tên</label>
+
+        <input
+            class="form-control"
+            name="name"/>
+
+    </div>
+
+    <div class="mb-3">
+
+    <label>Số điện thoại</label>
+
+    <input
+        class="form-control"
+        name="phone"/>
+
+</div>
+
+    <div class="mb-3">
+
+        <label>Email</label>
+
+        <input
+            class="form-control"
+            name="email"/>
+
+    </div>
+
+    <button type="submit" class="btn btn-success">
+
+        Gửi
+
+    </button>
+
+</form>
+                  </div>
+                </div>
+
+            </section>
+
+        </xpath>
+
+    </template>
+
+</odoo>

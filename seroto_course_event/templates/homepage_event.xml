@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <!-- ADD SECTION IN HOME -->
+  <template id="homepage_events" inherit_id="website.homepage">
+    <xpath expr="//div[@id='wrap']" position="inside">
+      <section class="oe_structure">
+        <div class="container py-5">
+          <div class="text-center mb-5">        
+            <h2 class="mb-2">
+              Khóa học
+            </h2>
+            <h5 class="">Các khóa học thay đổi cuộc đời</h5>
+          </div>
+          <!-- <t t-call="seroto_course_event.homepage_event_cards"/> -->
+        </div>
+      </section>
+    </xpath>
+  </template>
+
+  <!-- TEMPLATE EVENT -->
+  <template id="homepage_event_cards">
+    <t t-set="events"
+      t-value="request.env['event.event'].sudo().search([('website_published', '=', True)], limit=3)"
+    />
+    <div class="row">
+      <t t-foreach="events" t-as="event">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card shadow-sm h-100">
+            <!-- <header class="card-header overflow-hidden bg-secondary p-0 border-0 rounded-top"
+              style="height: 200px;"
+            >
+              <div class="d-block h-100 w-100">
+                <t t-call="website.record_cover">
+                  <t t-set="_record" t-value="event"/>
+                </t>
+              </div>
+            </header> -->
+            <div class="card-body">            
+              <t t-call="seroto_course_event.event_card"/>
+            </div>
+            <div class="card-footer">
+              <div>
+                <a
+                  t-att-href="event.website_url"
+                  class="btn btn-outline-primary w-100"
+                >
+                  Chi tiết
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </t>
+    </div>
+    <div class="text-center mt-3">
+      <a href="/event" class="btn btn-primary">Xem thêm</a>
+    </div>
+  </template>
+</odoo>

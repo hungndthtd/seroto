@@ -1,0 +1,28 @@
+<odoo>
+  <record id="course_event_form_inherit_course" model="ir.ui.view">
+    <field name="name">event.event.form.inherit.course</field>
+    <field name="model">event.event</field>
+    <field name="inherit_id" ref="event.view_event_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//div[contains(@class,'oe_title')]/label[@for='name']" position="attributes">
+        <attribute name="string">Tên khóa học</attribute>
+      </xpath>
+      <xpath expr="//field[@name='address_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <!-- <xpath expr="//field[@name='address_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath> -->
+      <xpath expr="//group/group[1]" position="inside">
+        <field name="course_subtitle"/>
+        <field name="course_description"/>
+        <field name="teacher_partner_id" options="{'no_create_edit': False}"/>
+        <field name="enrollment"/>
+      </xpath>
+      <xpath expr="//group[@name='right_event_details']" position="inside">
+        <field name="registration_deadline"/>
+        <field name="register_url"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>
