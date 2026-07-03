@@ -60,7 +60,24 @@ class CourseRegister(http.Controller):
         return tag
 
     # =====================================================
-    # 3. LEAD: get or create (dedupe email + course)
+    # 3. SOURCE: utm.source "Website" (create if not exists)
+    # =====================================================
+    def _get_or_create_source(self):
+
+        Source = request.env["utm.source"].sudo()
+
+        source = Source.search([("name", "=", "Website")], limit=1)
+
+        if not source:
+            source = Source.create({
+                "name": "Website"
+            })
+            _logger.info("Created utm.source ID=%s", source.id)
+
+        return source
+
+    # =====================================================
+    # 4. LEAD: get or create (dedupe email + course)
     # =====================================================
     def _get_or_create_lead(self, post, partner):
 
@@ -91,6 +108,7 @@ class CourseRegister(http.Controller):
             _logger.info("Creating new lead")
 
             team = request.env["crm.team"].sudo().search([], limit=1)
+            source = self._get_or_create_source()
 
             lead_vals = {
                 "name": lead_name,
@@ -98,7 +116,9 @@ class CourseRegister(http.Controller):
                 "email_from": email,
                 "phone": post.get("phone"),
                 "description": post.get("note"),
+                "expected_revenue": float(post.get("list_price") or 0),
                 "team_id": team.id if team else False,
+                "source_id": source.id,
             }
 
             lead = Lead.create(lead_vals)
@@ -114,15 +134,51 @@ class CourseRegister(http.Controller):
         return lead
 
     # =====================================================
-    # 4. CONTROLLER ENTRY POINT
+    # 5. Thông tin khóa học để hiển thị modal "Đăng ký thành công"
+    #    (static/src/js/register_modal.js đọc kết quả trả về của route bên dưới)
+    # =====================================================
+    def _format_class_date_range(self, klass):
+        """Trả về 'dd/mm' hoặc 'dd/mm - dd/mm' (nếu có ngày kết thúc) cho 1 lớp học."""
+        if not klass.date_start:
+            return ""
+        date_range = klass.date_start.strftime("%d/%m")
+        if klass.date_end:
+            date_range += " - " + klass.date_end.strftime("%d/%m")
+        return date_range
+
+    def _get_course_info(self, course_name):
+        course = request.env["seroto.course"].sudo().search(
+            [("name", "=", course_name)], limit=1
+        )
+
+        if not course:
+            return False
+
+        course_type_labels = dict(course._fields["course_type"].selection)
+
+        return {
+            "name": course.name,
+            "image_url": (
+                "/web/image/seroto.course/%s/image" % course.id
+                if course.image
+                else "/web/static/img/placeholder.png"
+            ),
+            "course_type_label": course_type_labels.get(course.course_type, ""),
+            "teacher": course.teacher_id.name or "",
+            "next_class_date": self._format_class_date_range(course.next_class_id),
+            "schedule_note": course.next_class_id.schedule_note or "",
+        }
+
+    # =====================================================
+    # 6. CONTROLLER ENTRY POINT
+    #    type="jsonrpc": form được submit bằng AJAX (xem register_modal.js) để có thể
+    #    hiển thị modal "Đăng ký thành công" ngay trên trang, không reload/redirect.
     # =====================================================
     @http.route(
         "/course/register",
-        type="http",
+        type="jsonrpc",
         auth="public",
         website=True,
-        methods=["POST"],
-        csrf=True,
     )
     def course_register(self, **post):
 
@@ -135,4 +191,7 @@ class CourseRegister(http.Controller):
 
         _logger.info("FINAL LEAD ID=%s", lead.id)
 
-        return request.redirect("/")
+        return {
+            "success": True,
+            "course": self._get_course_info((post.get("course") or "").strip()),
+        }

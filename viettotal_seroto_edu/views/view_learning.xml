@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.assignment  –  Bài tập
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_assignment_form" model="ir.ui.view">
+        <field name="name">edu.assignment.form</field>
+        <field name="model">edu.assignment</field>
+        <field name="arch" type="xml">
+            <form string="Bài tập">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-file-text">
+                            <field name="submission_count" widget="statinfo" string="Bài nộp"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Tên bài tập"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="class_id"/>
+                            <field name="session_id"
+                                   domain="[('class_id','=',class_id)]"/>
+                            <field name="teacher_id" readonly="1"/>
+                            <field name="assignment_type"/>
+                        </group>
+                        <group>
+                            <field name="due_date"/>
+                            <field name="max_score"/>
+                        </group>
+                    </group>
+                    <field name="description" widget="html" placeholder="Nội dung / Yêu cầu bài tập…"/>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                    <notebook>
+                        <page string="Bài nộp học viên">
+                            <field name="submission_ids">
+                                <list editable="bottom">
+                                    <field name="student_id"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state=='graded'"
+                                           decoration-warning="state in ('submitted','late')"
+                                           decoration-muted="state=='not_submitted'"/>
+                                    <field name="date_submitted"/>
+                                    <field name="score"/>
+                                    <field name="feedback"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_assignment_list" model="ir.ui.view">
+        <field name="name">edu.assignment.list</field>
+        <field name="model">edu.assignment</field>
+        <field name="arch" type="xml">
+            <list string="Bài tập" decoration-danger="due_date &lt; current_date">
+                <field name="name"/>
+                <field name="class_id"/>
+                <field name="assignment_type"/>
+                <field name="due_date"/>
+                <field name="max_score"/>
+                <field name="submission_count"/>
+                <field name="teacher_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_assignment" model="ir.actions.act_window">
+        <field name="name">Bài tập</field>
+        <field name="res_model">edu.assignment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.material  –  Tài liệu học tập
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_material_list" model="ir.ui.view">
+        <field name="name">edu.material.list</field>
+        <field name="model">edu.material</field>
+        <field name="arch" type="xml">
+            <list string="Tài liệu học tập">
+                <field name="name"/>
+                <field name="material_type" widget="badge"/>
+                <field name="course_id"/>
+                <field name="class_id"/>
+                <field name="url" widget="url" optional="show"/>
+                <field name="is_public"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_material_form" model="ir.ui.view">
+        <field name="name">edu.material.form</field>
+        <field name="model">edu.material</field>
+        <field name="arch" type="xml">
+            <form string="Tài liệu học tập">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="material_type"/>
+                            <field name="is_public"/>
+                        </group>
+                        <group>
+                            <field name="course_id"/>
+                            <field name="class_id"/>
+                            <field name="session_id"/>
+                            <field name="unit_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="url" widget="url" placeholder="https://…"/>
+                        <field name="description"/>
+                        <field name="note" placeholder="Ghi chú cho giáo viên…"/>
+                    </group>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_material" model="ir.actions.act_window">
+        <field name="name">Tài liệu học tập</field>
+        <field name="res_model">edu.material</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.syllabus  –  Giáo trình
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_syllabus_form" model="ir.ui.view">
+        <field name="name">edu.syllabus.form</field>
+        <field name="model">edu.syllabus</field>
+        <field name="arch" type="xml">
+            <form string="Giáo trình">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Tên giáo trình / Chương"/></h1>
+                    </div>
+                    <group>
+                        <field name="course_id"/>
+                        <field name="sequence"/>
+                        <field name="duration_hours"/>
+                        <field name="unit_count" readonly="1"/>
+                    </group>
+                    <field name="description" placeholder="Mô tả nội dung giáo trình…"/>
+                    <notebook>
+                        <page string="Danh sách bài học">
+                            <field name="unit_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="objective"/>
+                                    <field name="duration_minutes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_syllabus_list" model="ir.ui.view">
+        <field name="name">edu.syllabus.list</field>
+        <field name="model">edu.syllabus</field>
+        <field name="arch" type="xml">
+            <list string="Giáo trình">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="course_id"/>
+                <field name="duration_hours"/>
+                <field name="unit_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_syllabus" model="ir.actions.act_window">
+        <field name="name">Giáo trình</field>
+        <field name="res_model">edu.syllabus</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

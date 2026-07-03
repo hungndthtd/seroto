@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Đăng ký nhóm "Seroto" + snippet "Course Card" vào Website Editor (kéo thả).
+    Dùng anchor ổn định (id="installed_snippets_hook", <snippets id="snippet_structure">)
+    thay vì xpath kiểu "/*[1]" để không phụ thuộc thứ tự phần tử hiện có của module
+    website - tránh xung đột khi module website đổi thứ tự snippet mặc định.
+  -->
+  <template id="seroto_snippets" inherit_id="website.snippets" name="Seroto Snippets">
+
+    <!-- Thêm nhóm (tab) "Seroto" cạnh khu vực nhóm snippet của các module khác -->
+    <xpath expr="//snippets[@id='snippet_groups']/t[@id='installed_snippets_hook']" position="before">
+      <t snippet-group="seroto" t-snippet="website.s_snippet_group" string="Seroto"
+         t-thumbnail="/seroto_form/static/src/img/course.png"/>
+    </xpath>
+
+    <!-- Đăng ký các snippet Course Card vào cuối danh sách Structure -->
+    <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+      <t t-snippet="seroto_form.s_dynamic_course_card" string="Course Card" group="seroto">
+        <keywords>course, khóa học, crm, register, đăng ký, nổi bật</keywords>
+      </t>
+      <t t-snippet="seroto_form.s_dynamic_course_card_teacher" string="Course Card - Giáo viên" group="seroto">
+        <keywords>course, khóa học, giáo viên, teacher, crm, register, đăng ký</keywords>
+      </t>
+      <t t-snippet="seroto_form.s_dynamic_course_card_student" string="Course Card - Học viên" group="seroto">
+        <keywords>course, khóa học, học viên, student, crm, register, đăng ký</keywords>
+      </t>
+    </xpath>
+
+  </template>
+
+</odoo>

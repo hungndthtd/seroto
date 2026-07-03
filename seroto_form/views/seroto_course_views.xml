@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- === Khóa học === -->
+
+  <!-- FORM VIEW -->
+  <record id="view_seroto_course_form" model="ir.ui.view">
+    <field name="name">seroto.course.form</field>
+    <field name="model">seroto.course</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button
+            name="action_publish"
+            type="object"
+            string="Mở đăng ký"
+            class="oe_highlight"
+            invisible="state != 'draft'"
+          />
+          <button
+            name="action_close"
+            type="object"
+            string="Đóng đăng ký"
+            invisible="state != 'published'"
+          />
+          <button
+            name="action_reopen"
+            type="object"
+            string="Mở lại"
+            invisible="state != 'closed'"
+          />
+          <button
+            name="action_view_classes"
+            type="object"
+            string="Xem các lớp"
+          />
+          <field
+            name="state"
+            widget="statusbar"
+            statusbar_visible="draft,published,closed"
+          />
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button
+              name="action_view_classes"
+              type="object"
+              class="oe_stat_button"
+              icon="fa-users"
+            >
+              <field name="class_count" widget="statinfo" string="Lớp học"/>
+            </button>
+            <button
+              name="action_view_product"
+              type="object"
+              class="oe_stat_button"
+              icon="fa-cube"
+              invisible="not product_id"
+            >
+              <div class="o_stat_info">
+                <span class="o_stat_text">Product</span>
+                <span class="o_stat_value">
+                  <field name="product_id" readonly="1"/>
+                </span>
+              </div>
+            </button>
+          </div>
+          <field name="image" widget="image" class="oe_avatar"/>
+          <div class="oe_title">
+            <label for="code" string="Mã khóa học"/>
+            <h3>
+              <field name="code" placeholder="VD: IELTS-01"/>
+            </h3>
+            <label for="name"/>
+            <h1>
+              <field name="name" placeholder="Tên khóa học"/>
+            </h1>
+          </div>
+          <group>
+            <group string="Thông tin chung">
+              <field name="category_id"/>
+              <field name="subtitle"/>
+              <field name="teacher_id" options="{'no_create_edit': False}"/>
+              <field name="course_type"/>
+              <field name="audience_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </group>
+            <group string="Học phí &amp; Thời gian">
+              <field name="tuition_fee"/>
+              <field name="currency_id"/>
+              <field name="tax_ids" widget="many2many_tags"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Mô tả khóa học">
+              <field name="description" placeholder="Mô tả chi tiết khóa học..."/>
+            </page>
+            <page string="Lớp học">
+              <field name="class_ids">
+                <list>
+                  <field name="name"/>
+                  <field name="code"/>
+                  <field name="teacher_id" widget="many2one_avatar"/>
+                  <field name="date_start"/>
+                  <field name="date_end"/>
+                  <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state=='ongoing'"
+                    decoration-info="state=='scheduled'"
+                    decoration-muted="state=='completed'"
+                  />
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+
+  <!-- LIST VIEW -->
+  <record id="view_seroto_course_list" model="ir.ui.view">
+    <field name="name">seroto.course.list</field>
+    <field name="model">seroto.course</field>
+    <field name="arch" type="xml">
+      <list string="Khóa học">
+        <field name="image" widget="image" optional="show" width="36"/>
+        <field name="code"/>
+        <field name="name"/>
+        <field name="category_id"/>
+        <field name="tuition_fee" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+        <field
+          name="state"
+          widget="badge"
+          decoration-success="state=='published'"
+          decoration-danger="state=='closed'"
+          decoration-muted="state=='draft'"
+          decoration-info="state=='archived'"
+        />
+      </list>
+    </field>
+  </record>
+
+  <!-- KANBAN VIEW -->
+  <record id="view_seroto_course_kanban" model="ir.ui.view">
+    <field name="name">seroto.course.kanban</field>
+    <field name="model">seroto.course</field>
+    <field name="arch" type="xml">
+      <kanban>
+        <field name="image"/>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="tuition_fee"/>
+        <field name="currency_id"/>
+        <field name="state"/>
+        <templates>
+          <t t-name="card">
+            <div class="oe_kanban_global_click d-flex justify-content-between">
+              <div class="flex-fill">
+                <strong>
+                  <field name="name"/>
+                </strong>
+                <div class="text-muted small">
+                  [<field name="code"/>]
+                </div>
+                <div class="mb-1">
+                  Giá: 
+                  <field name="tuition_fee" widget="monetary"
+                    options="{'currency_field':'currency_id'}"/>
+                </div>
+                <field
+                  name="state"
+                  widget="badge"
+                  decoration-success="state=='published'"
+                  decoration-danger="state=='closed'"
+                  decoration-muted="state=='draft'"
+                  decoration-info="state=='archived'"
+                />
+              </div>
+              <field name="image" widget="image" class="o_image_64_cover mb-2"/>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <!-- ACTIONS -->
+  <record id="action_seroto_course" model="ir.actions.act_window">
+    <field name="name">Khóa học</field>
+    <field name="res_model">seroto.course</field>
+    <field name="view_mode">kanban,list,form</field>
+  </record>
+
+  <!-- === Đối tượng khóa học (tag) === -->
+
+  <record id="view_seroto_course_audience_list" model="ir.ui.view">
+    <field name="name">seroto.course.audience.list</field>
+    <field name="model">seroto.course.audience</field>
+    <field name="arch" type="xml">
+      <list string="Đối tượng khóa học" editable="bottom">
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="color" widget="color_picker"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_seroto_course_audience_form" model="ir.ui.view">
+    <field name="name">seroto.course.audience.form</field>
+    <field name="model">seroto.course.audience</field>
+    <field name="arch" type="xml">
+      <form string="Đối tượng khóa học">
+        <sheet>
+          <group>
+            <field name="name" placeholder="VD: Giáo viên"/>
+            <field name="code" placeholder="VD: teacher"/>
+            <field name="sequence"/>
+            <field name="color" widget="color_picker"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_seroto_course_audience" model="ir.actions.act_window">
+    <field name="name">Đối tượng khóa học</field>
+    <field name="res_model">seroto.course.audience</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <!-- === Lớp học === -->
+
+  <!-- FORM VIEW -->
+  <record id="view_seroto_course_class_form" model="ir.ui.view">
+    <field name="name">seroto.course.class.form</field>
+    <field name="model">seroto.course.class</field>
+    <field name="arch" type="xml">
+      <form string="Lớp học">
+        <header>
+          <button
+            name="action_start_class"
+            string="Bắt đầu khai giảng"
+            type="object"
+            class="oe_highlight"
+            invisible="state != 'scheduled'"
+          />
+          <button
+            name="action_complete_class"
+            string="Kết thúc lớp"
+            type="object"
+            invisible="state != 'ongoing'"
+            confirm="Xác nhận kết thúc lớp học này?"
+          />
+          <field
+            name="state"
+            widget="statusbar"
+            statusbar_visible="scheduled,ongoing,completed"
+          />
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button class="oe_stat_button" icon="fa-users" name="action_view_students" type="object">
+              <field name="enrolled_count" widget="statinfo" string="Học viên"/>
+            </button>
+            <button class="oe_stat_button" icon="fa-calendar" name="action_view_sessions" type="object">
+              <field name="session_count" widget="statinfo" string="Buổi học"/>
+            </button>
+          </div>
+          <div class="oe_title">
+            <label for="code"/>
+            <h3>
+              <field name="code" placeholder="Mã lớp"/>
+            </h3>
+            <label for="name"/>
+            <h1>
+              <field name="name" placeholder="Tên lớp học"/>
+            </h1>
+          </div>
+          <group>
+            <group string="Thông tin lớp">
+              <field name="course_id"/>
+              <field name="teacher_id"/>
+              <field name="course_type"/>
+              <field name="schedule_note" placeholder="VD: T2-T4-T6, 18:00-20:00"/>
+            </group>
+            <group string="Thời gian &amp; Sĩ số">
+              <field name="date_start"/>
+              <field name="date_end"/>
+              <field name="registration_deadline"/>
+              <field name="max_students"/>
+              <field name="enrolled_count" readonly="1"/>
+              <field name="available_seats" readonly="1"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Danh sách học viên">
+              <field name="enrollment_ids">
+                <list>
+                  <field name="student_id"/>
+                  <field
+                    name="tuition_fee"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                  />
+                  <field
+                    name="payment_status"
+                    widget="badge"
+                    decoration-success="payment_status=='paid'"
+                    decoration-warning="payment_status=='partical'"
+                    decoration-danger="payment_status=='unpaid'"
+                  />
+                  <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state=='completed'"
+                    decoration-info="state=='studying'"
+                    decoration-warning="state=='on_leave'"
+                  />
+                  <field name="currency_id" column_invisible="1"/>
+                </list>
+              </field>
+            </page>
+            <page string="Lịch buổi học">
+              <field name="session_ids">
+                <list editable="bottom">
+                  <field name="sequence" widget="handle"/>
+                  <field name="name"/>
+                  <field name="class_id"/>
+                  <field name="date_session"/>
+                  <field name="time_start" widget="float_time"/>
+                  <field name="time_end" widget="float_time"/>
+                  <field name="duration" widget="float_time" readonly="1"/>
+                  <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state=='completed'"
+                    decoration-info="state=='ongoing'"
+                  />
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+
+  <!-- LIST VIEW -->
+  <record id="view_seroto_course_class_list" model="ir.ui.view">
+    <field name="name">seroto.course.class.list</field>
+    <field name="model">seroto.course.class</field>
+    <field name="arch" type="xml">
+      <list string="Lớp học">
+        <field name="code"/>
+        <field name="name"/>
+        <field name="course_id"/>
+        <field name="teacher_id" widget="many2one_avatar"/>
+        <field name="date_start"/>
+        <field name="date_end"/>
+        <field name="schedule_note"/>
+        <field name="enrolled_count"/>
+        <field name="max_students"/>
+        <field name="available_seats"/>
+        <field
+          name="state"
+          widget="badge"
+          decoration-success="state=='ongoing'"
+          decoration-info="state=='scheduled'"
+          decoration-muted="state=='completed'"
+        />
+      </list>
+    </field>
+  </record>
+
+  <!-- ACTIONS -->
+  <record id="action_seroto_course_class" model="ir.actions.act_window">
+    <field name="name">Lớp học</field>
+    <field name="res_model">seroto.course.class</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <!-- === Buổi học === -->
+
+  <!-- FORM VIEW -->
+  <record id="view_seroto_course_session_form" model="ir.ui.view">
+    <field name="name">seroto.course.session.form</field>
+    <field name="model">seroto.course.session</field>
+    <field name="arch" type="xml">
+      <form string="Buổi học">
+        <header>
+          <button
+            name="action_start_session"
+            type="object"
+            string="Bắt đầu học"
+            class="oe_highlight"
+            invisible="state != 'planned'"
+          />
+          <button
+            name="action_complete_session"
+            type="object"
+            string="Hoàn thành"
+            class="oe_highlight"
+            invisible="state != 'ongoing'"
+          />
+          <field
+            name="state"
+            widget="statusbar"
+            statusbar_visible="planned,ongoing,completed"
+          />
+        </header>
+        <sheet>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="class_id"/>
+              <field name="teacher_id" readonly="1"/>
+              <field name="sequence"/>
+            </group>
+            <group>
+              <field name="date_session"/>
+              <field name="time_start" widget="float_time"/>
+              <field name="time_end" widget="float_time"/>
+              <field name="duration" widget="float_time" readonly="1"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- LIST VIEW -->
+  <record id="view_seroto_course_session_list" model="ir.ui.view">
+    <field name="name">seroto.course.session.list</field>
+    <field name="model">seroto.course.session</field>
+    <field name="arch" type="xml">
+      <list string="Buổi học">
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="class_id"/>
+        <field name="date_session"/>
+        <field name="time_start" widget="float_time"/>
+        <field name="time_end" widget="float_time"/>
+        <field name="duration" widget="float_time" readonly="1"/>
+        <field
+          name="state"
+          widget="badge"
+          decoration-success="state=='completed'"
+          decoration-info="state=='ongoing'"
+        />
+      </list>
+    </field>
+  </record>
+
+  <!-- ACTIONS -->
+  <record id="action_seroto_course_session" model="ir.actions.act_window">
+    <field name="name">Buổi học</field>
+    <field name="res_model">seroto.course.session</field>
+    <field name="view_mode">list,form</field>
+  </record>
+</odoo>

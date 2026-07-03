@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     Trang cảm ơn sau khi đăng ký thành công
+════════════════════════════════════════════════════════════════════════ -->
+<template id="website_thank_you" name="Seroto Edu – Đăng ký thành công">
+    <t t-call="website.layout">
+        <t t-set="additional_title"><t t-out="page_title"/></t>
+        <t t-call-assets="viettotal_seroto_edu.assets_website" t-css="True" t-js="False"/>
+
+        <div class="se-page">
+            <div class="se-thankyou">
+                <div class="se-thankyou-card">
+                    <div class="se-thankyou-icon">✓</div>
+                    <h1>Đăng ký thành công!</h1>
+                    <p>
+                        Cảm ơn <strong><t t-out="name"/></strong> đã đăng ký học tại
+                        <strong>Seroto Education</strong>.
+                    </p>
+                    <t t-if="ref">
+                        <p style="margin-top:8px;">Mã hồ sơ của bạn:</p>
+                        <div class="se-ref-badge"><t t-out="ref"/></div>
+                    </t>
+                    <p style="font-size:14px; color:var(--se-muted);">
+                        Tư vấn viên sẽ liên hệ với bạn trong vòng <strong>24 giờ làm việc</strong>
+                        để xác nhận lịch học và hướng dẫn thủ tục nhập học.
+                    </p>
+
+                    <div style="background:#F0FDF4; border-radius:8px; padding:16px; margin:20px 0; text-align:left;">
+                        <p style="font-size:13px; font-weight:700; color:#166534; margin-bottom:8px;">
+                            📋 Bước tiếp theo:
+                        </p>
+                        <ol style="font-size:13px; color:#15803D; margin:0; padding-left:18px; line-height:1.8;">
+                            <li>Tư vấn viên gọi điện xác nhận thông tin</li>
+                            <li>Ký hợp đồng &amp; thanh toán học phí</li>
+                            <li>Nhận thông báo ngày khai giảng</li>
+                            <li>Bắt đầu hành trình học tập!</li>
+                        </ol>
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="/dang-ky/tra-cuu" class="se-btn se-btn-navy">
+                            🔍 Tra cứu hồ sơ
+                        </a>
+                        <a href="/dang-ky" class="se-btn"
+                           style="background:var(--se-bg); color:var(--se-navy); border:1.5px solid var(--se-border);">
+                            ← Về trang khoá học
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     Trang tra cứu tình trạng hồ sơ
+════════════════════════════════════════════════════════════════════════ -->
+<template id="website_lookup" name="Seroto Edu – Tra cứu hồ sơ">
+    <t t-call="website.layout">
+        <t t-set="additional_title"><t t-out="page_title"/></t>
+        <t t-call-assets="viettotal_seroto_edu.assets_website" t-css="True" t-js="False"/>
+
+        <div class="se-page">
+            <!-- Hero mini -->
+            <div class="se-form-hero">
+                <h1>🔍 Tra cứu hồ sơ đăng ký</h1>
+                <p>Nhập số điện thoại hoặc email để kiểm tra tình trạng hồ sơ</p>
+            </div>
+
+            <div class="se-lookup" style="padding-top:48px;">
+                <div class="container">
+
+                    <!-- Ô tìm kiếm -->
+                    <div class="se-lookup-box">
+                        <h2>Tra cứu theo SĐT / Email</h2>
+                        <p style="color:var(--se-muted); font-size:14px; margin-bottom:24px;">
+                            Nhập số điện thoại hoặc email bạn đã dùng khi đăng ký
+                        </p>
+                        <form method="post" action="/dang-ky/tra-cuu">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="se-field-group">
+                                <label for="keyword">Số điện thoại hoặc Email</label>
+                                <div class="d-flex gap-2">
+                                    <input type="text" name="keyword" id="keyword"
+                                           t-att-value="keyword"
+                                           placeholder="0901234567 hoặc email@example.com"
+                                           style="flex:1;"/>
+                                    <button type="submit" class="se-btn se-btn-navy" style="white-space:nowrap;">
+                                        Tra cứu
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Kết quả -->
+                    <t t-if="searched">
+                        <div style="max-width:640px; margin:0 auto;">
+
+                            <t t-if="not results">
+                                <div style="text-align:center; padding:40px 20px; color:var(--se-muted);">
+                                    <div style="font-size:48px; margin-bottom:12px;">🔍</div>
+                                    <h3 style="color:var(--se-navy);">Không tìm thấy hồ sơ</h3>
+                                    <p>
+                                        Không có hồ sơ nào với số điện thoại / email
+                                        <strong><t t-out="keyword"/></strong>.
+                                    </p>
+                                    <p style="font-size:14px;">
+                                        Bạn chưa đăng ký?
+                                        <a href="/dang-ky/form" style="color:var(--se-navy); font-weight:700;">
+                                            Đăng ký ngay →
+                                        </a>
+                                    </p>
+                                </div>
+                            </t>
+
+                            <t t-if="results">
+                                <h3 style="font-size:18px; font-weight:700; color:var(--se-navy); margin-bottom:16px;">
+                                    Tìm thấy <t t-out="len(results)"/> hồ sơ
+                                </h3>
+
+                                <t t-foreach="results" t-as="adm">
+                                    <div class="se-lookup-result">
+                                        <div class="se-ref">Mã hồ sơ: <strong><t t-out="adm.name"/></strong></div>
+                                        <div class="se-name"><t t-out="adm.student_name"/></div>
+                                        <div class="se-course">
+                                            <t t-if="adm.course_id">
+                                                📚 <t t-out="adm.course_id.name"/>
+                                            </t>
+                                            <t t-if="adm.course_class_id">
+                                                &amp;nbsp;·&amp;nbsp; 🏫 <t t-out="adm.course_class_id.name"/>
+                                            </t>
+                                        </div>
+                                        <div>
+                                            📅 Ngày đăng ký:
+                                            <t t-out="adm.date_registration.strftime('%d/%m/%Y') if adm.date_registration else 'N/A'"/>
+                                        </div>
+
+                                        <!-- Trạng thái badge -->
+                                        <t t-set="st" t-value="adm.state"/>
+                                        <span t-attf-class="se-status-badge #{st == 'enrolled' and 'se-status-enrolled' or st == 'cancelled' and 'se-status-cancelled' or st == 'new' and 'se-status-new' or 'se-status-default'}">
+                                            <t t-if="st == 'new'">🟡 Mới tiếp nhận</t>
+                                            <t t-elif="st == 'consulting'">🔵 Đang tư vấn</t>
+                                            <t t-elif="st == 'registered'">🔵 Đã xác nhận</t>
+                                            <t t-elif="st == 'contracted'">🟣 Đã ký hợp đồng</t>
+                                            <t t-elif="st == 'paid'">🟢 Đã thanh toán</t>
+                                            <t t-elif="st == 'enrolled'">✅ Đã nhập học</t>
+                                            <t t-elif="st == 'cancelled'">❌ Đã huỷ</t>
+                                            <t t-else=""><t t-out="st"/></t>
+                                        </span>
+
+                                        <!-- Thanh toán -->
+                                        <t t-if="adm.payment_status and adm.payment_status != 'unpaid'">
+                                            <div style="font-size:13px; color:var(--se-muted); margin-top:6px;">
+                                                💰 Thanh toán:
+                                                <t t-if="adm.payment_status == 'paid'">
+                                                    <span style="color:var(--se-success); font-weight:600;">Đã thanh toán đủ</span>
+                                                </t>
+                                                <t t-elif="adm.payment_status == 'partial'">
+                                                    <span style="color:var(--se-amber-d); font-weight:600;">
+                                                        Đã đóng <t t-out="'{:,.0f}'.format(adm.amount_paid)"/>đ
+                                                        / còn <t t-out="'{:,.0f}'.format(adm.amount_remaining)"/>đ
+                                                    </span>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+
+                                <div style="text-align:center; padding:16px 0; font-size:14px; color:var(--se-muted);">
+                                    Thông tin chưa chính xác hoặc cần hỗ trợ?
+                                    <br/>
+                                    Liên hệ tư vấn viên: <strong style="color:var(--se-navy);">📞 1800 xxxx</strong>
+                                </div>
+                            </t>
+
+                        </div>
+                    </t>
+
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+</odoo>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.certificate  –  Chứng chỉ học viên
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_certificate_form" model="ir.ui.view">
+        <field name="name">edu.certificate.form</field>
+        <field name="model">edu.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Chứng chỉ">
+                <header>
+                    <button name="action_issue" string="Cấp chứng chỉ"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'draft'"
+                            confirm="Xác nhận cấp chứng chỉ cho học viên này?"/>
+                    <button name="action_print_certificate" string="In chứng chỉ"
+                            type="object"
+                            invisible="state != 'issued'"/>
+                    <button name="action_revoke" string="Thu hồi"
+                            type="object"
+                            invisible="state != 'issued'"
+                            confirm="Thu hồi chứng chỉ này? Hành động không thể hoàn tác."/>
+                    <button name="action_reset_to_draft" string="Đặt lại về nháp"
+                            type="object"
+                            invisible="state != 'revoked'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,issued,revoked"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Đã thu hồi" bg_color="bg-danger"
+                            invisible="state != 'revoked'"/>
+                    <div class="oe_title">
+                        <label for="name" string="Số chứng chỉ"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Học viên &amp; Khoá học">
+                            <field name="student_id"/>
+                            <field name="class_id"/>
+                            <field name="course_id" readonly="1"/>
+                            <field name="enrollment_id"/>
+                        </group>
+                        <group string="Loại chứng chỉ">
+                            <field name="template_id"/>
+                            <field name="certificate_type" readonly="1"/>
+                            <field name="issuing_organization" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Kết quả">
+                            <field name="exam_result_id"/>
+                            <field name="score"/>
+                            <field name="grade"/>
+                            <field name="skills_detail" placeholder="L: 7.0, R: 6.5, W: 6.0, S: 6.5"/>
+                        </group>
+                        <group string="Ngày tháng">
+                            <field name="date_completed_course"/>
+                            <field name="date_issued"/>
+                            <field name="date_expiry"/>
+                            <field name="issued_by" widget="many2one_avatar_user"/>
+                        </group>
+                    </group>
+                    <group string="Mã xác minh">
+                        <field name="verification_code" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="File chứng chỉ">
+                            <group>
+                                <field name="certificate_file" widget="binary"
+                                       filename="certificate_filename"/>
+                                <field name="certificate_filename"/>
+                            </group>
+                        </page>
+                        <page string="Ghi chú">
+                            <field name="note"/>
+                            <field name="revoke_reason" invisible="state != 'revoked'"
+                                   placeholder="Lý do thu hồi…"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_certificate_list" model="ir.ui.view">
+        <field name="name">edu.certificate.list</field>
+        <field name="model">edu.certificate</field>
+        <field name="arch" type="xml">
+            <list string="Chứng chỉ"
+                  decoration-success="state=='issued'"
+                  decoration-muted="state=='revoked'">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="certificate_type"/>
+                <field name="course_id"/>
+                <field name="score"/>
+                <field name="grade"/>
+                <field name="date_issued"/>
+                <field name="date_expiry"/>
+                <field name="issued_by" widget="many2one_avatar_user"/>
+                <field name="verification_code"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='issued'"
+                       decoration-info="state=='draft'"
+                       decoration-danger="state=='revoked'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_certificate_search" model="ir.ui.view">
+        <field name="name">edu.certificate.search</field>
+        <field name="model">edu.certificate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Số chứng chỉ"/>
+                <field name="student_id"/>
+                <field name="verification_code"/>
+                <field name="course_id"/>
+                <separator/>
+                <filter name="issued" string="Đã cấp" domain="[('state','=','issued')]"/>
+                <filter name="draft" string="Nháp" domain="[('state','=','draft')]"/>
+                <filter name="expiring" string="Sắp hết hạn (30 ngày)"
+                        domain="[('date_expiry','&lt;=',(context_today()+datetime.timedelta(30)).strftime('%Y-%m-%d')),
+                                  ('date_expiry','&gt;=',context_today().strftime('%Y-%m-%d')),
+                                  ('state','=','issued')]"/>
+                <group >
+                    <filter name="group_type" string="Loại chứng chỉ" context="{'group_by':'certificate_type'}"/>
+                    <filter name="group_course" string="Khoá học" context="{'group_by':'course_id'}"/>
+                    <filter name="group_year" string="Năm cấp" context="{'group_by':'date_issued:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_certificate" model="ir.actions.act_window">
+        <field name="name">Chứng chỉ</field>
+        <field name="res_model">edu.certificate</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_certificate_search"/>
+        <field name="context">{'search_default_issued': 1}</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.certificate.template  –  Mẫu chứng chỉ (config)
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_certificate_template_form" model="ir.ui.view">
+        <field name="name">edu.certificate.template.form</field>
+        <field name="model">edu.certificate.template</field>
+        <field name="arch" type="xml">
+            <form string="Mẫu chứng chỉ">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="certificate_type"/>
+                            <field name="issuing_organization"/>
+                            <field name="validity_months"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="report_id"/>
+                            <field name="course_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group string="Mô tả">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Nội dung mẫu HTML">
+                            <field name="template_html" widget="html"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_certificate_template_list" model="ir.ui.view">
+        <field name="name">edu.certificate.template.list</field>
+        <field name="model">edu.certificate.template</field>
+        <field name="arch" type="xml">
+            <list string="Mẫu chứng chỉ">
+                <field name="name"/>
+                <field name="certificate_type"/>
+                <field name="issuing_organization"/>
+                <field name="validity_months"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_certificate_template" model="ir.actions.act_window">
+        <field name="name">Mẫu chứng chỉ</field>
+        <field name="res_model">edu.certificate.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

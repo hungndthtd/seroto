@@ -1,0 +1,25 @@
+.s_course_card {
+
+    padding:60px 0;
+
+    .course-card{
+
+        border:1px solid #DDD;
+
+        border-radius:10px;
+
+        padding:25px;
+
+        transition:.3s;
+
+        background:white;
+
+    }
+
+    .course-card:hover{
+
+        box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+    }
+
+}

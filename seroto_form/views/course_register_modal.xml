@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <!--
+    Modal đăng ký khóa học - TÁCH RIÊNG khỏi templates.xml (trước đây định nghĩa chung
+    với course_demo_home) để không phụ thuộc vào việc trang chủ (templates.xml) có được
+    bật hay không. Được dùng chung bởi:
+    - views/templates.xml (course_demo_home - nếu còn bật)
+    - views/snippets/s_course_card.xml (snippet kéo thả "Course Card")
+
+    QUAN TRỌNG: input csrf_token bên dưới phải được render MỚI ở MỖI lần tải trang
+    (request.csrf_token() gắn với session hiện tại). Vì vậy modal này KHÔNG được đặt
+    bên trong 1 snippet có thể kéo thả/lưu vào trang - nếu không, lúc lưu trang, Website
+    Builder sẽ "đóng băng" HTML đã render (kèm token cũ) thành nội dung tĩnh vĩnh viễn,
+    khiến form đăng ký luôn báo lỗi "Session expired (invalid CSRF token)" dù có F5 lại.
+    Xem template course_register_modal_layout bên dưới - nó gắn modal vào
+    website.layout (ngoài vùng nội dung có thể chỉnh sửa/lưu) để đảm bảo luôn tươi mới.
+  -->
+  <template id="course_register_modal">
+    <div class="modal fade" id="courseRegisterModal" tabindex="-1"
+         aria-labelledby="courseRegisterModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="max-width: 420px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="courseRegisterModalLabel">Đăng ký khóa học</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"/>
+          </div>
+
+          <div class="modal-body">
+            <!--
+              Form được submit bằng AJAX (rpc, xem register_modal.js) tới route jsonrpc
+              /course/register - không còn submit POST thường nên không cần csrf_token
+              (jsonrpc không bị chặn CSRF như form POST truyền thống). action/method giữ
+              lại chỉ để tham khảo, JS luôn preventDefault() trước khi form thật sự gửi.
+            -->
+            <form id="course_register_form" action="/course/register" method="post">
+              <input type="hidden" id="course_price" name="list_price"/>
+
+              <div class="mb-3">
+                <label>Khóa học</label>
+                <input id="course_name" class="form-control" readonly="readonly"/>
+                <input type="hidden" name="course" id="course_value"/>
+              </div>
+
+              <div class="mb-3">
+                <label>Họ tên</label>
+                <input class="form-control" name="name" required="required"/>
+              </div>
+
+              <div class="mb-3">
+                <label>Số điện thoại</label>
+                <input class="form-control" name="phone" required="required"/>
+              </div>
+
+              <div class="mb-3">
+                <label>Email</label>
+                <input class="form-control" name="email" required="required"/>
+              </div>
+
+              <button id="submit_btn" type="submit" class="btn btn-success">Đăng ký</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!--
+    Modal thông báo đăng ký thành công - nội dung (tên khóa học, ảnh, hình thức học,
+    giảng viên, ngày học, giờ học) do register_modal.js điền vào sau khi nhận phản hồi
+    thành công từ /course/register, không render sẵn dữ liệu qua QWeb.
+  -->
+  <template id="course_register_success_modal">
+    <div class="modal fade" id="courseRegisterSuccessModal" tabindex="-1"
+         aria-labelledby="courseRegisterSuccessModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="max-width: 420px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="courseRegisterSuccessModalLabel">
+              Đăng ký khóa học thành công
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"/>
+          </div>
+
+          <div class="modal-body text-center">
+            <p>
+              Bạn đã đăng ký thành công khóa học
+              <br/>
+              "<strong id="success_course_name"/>"
+            </p>
+            <img id="success_course_image" class="img-fluid mb-3 rounded"
+                 style="max-height:200px; object-fit:cover;" alt=""/>
+            <p class="text-start mb-1">
+              Hình thức học: <span id="success_course_type"/>
+            </p>
+            <p class="text-start mb-1">
+              Giảng viên: <span id="success_course_teacher"/>
+            </p>
+            <p class="text-start mb-1">
+              Ngày học: <span id="success_course_date"/>
+            </p>
+            <p class="text-start mb-1">
+              Giờ học: <span id="success_course_time"/>
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!--
+    Gắn 2 modal làm CON CUỐI của #wrapwrap (không phải "before" nó) - render trên MỌI
+    trang frontend qua website.layout, luôn tươi mới mỗi request, không bị "đóng băng"
+    khi lưu trang qua Website Builder (vì nằm ngoài #wrap - vùng nội dung có thể lưu).
+    Đặt "inside" #wrapwrap (không phải "before") để widget JS (register_modal.js, scope
+    mặc định "#wrapwrap" theo cơ chế gắn public widget của Odoo) có thể tìm thấy được -
+    nếu đặt ngoài #wrapwrap, JS sẽ không bao giờ gắn được vào modal/form bên trong.
+  -->
+  <template id="course_register_modal_layout" inherit_id="website.layout">
+    <xpath expr="//div[@id='wrapwrap']" position="inside">
+      <t t-call="seroto_form.course_register_modal"/>
+      <t t-call="seroto_form.course_register_success_modal"/>
+    </xpath>
+  </template>
+
+</odoo>

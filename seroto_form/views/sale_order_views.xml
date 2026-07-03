@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Thêm field "Học viên" (seroto.student) vào form Báo giá (sale.order), ngay cạnh
+    field "Khách hàng" (partner_id) - hiển thị dạng many2one chọn từ danh sách, giống
+    cách partner_id hoạt động. Dùng khi tạo Báo giá mới từ Lead (nút "Báo giá mới").
+  -->
+  <record id="view_order_form_seroto_student" model="ir.ui.view">
+    <field name="name">sale.order.form.seroto.student</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//group[@name='partner_details']/field[@name='partner_id']" position="after">
+        <field name="student_id" placeholder="Chọn học viên..."/>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.admission  –  Hồ sơ tuyển sinh (tích hợp Sales/Invoice)
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_admission_form" model="ir.ui.view">
+        <field name="name">edu.admission.form</field>
+        <field name="model">edu.admission</field>
+        <field name="arch" type="xml">
+            <form string="Hồ sơ tuyển sinh">
+                <header>
+                    <button name="action_confirm_registration" string="Xác nhận đăng ký"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'new'"/>
+                    <button name="action_sign_contract" string="Ký HĐ → Tạo Sales Order"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'registered'"
+                            confirm="Xác nhận ký hợp đồng và tạo Sales Order?"/>
+                    <button name="action_create_invoice" string="Tạo hoá đơn"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'contracted' or not sale_order_id"/>
+                    <button name="action_enroll" string="Nhập học → Tạo học viên"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'paid'"
+                            confirm="Xác nhận tạo học viên và ghi danh vào lớp học?"/>
+                    <button name="action_cancel" string="Huỷ"
+                            type="object"
+                            invisible="state in ('enrolled','cancelled')"
+                            confirm="Xác nhận huỷ hồ sơ? Sales Order (nếu có) cũng sẽ bị huỷ."/>
+                    <button name="action_reset_to_new" string="Đặt lại"
+                            type="object"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,registered,contracted,paid,enrolled"/>
+                </header>
+
+                <sheet>
+                    <!-- ── Stat Buttons ──────────────────────────────────── -->
+                    <div class="oe_button_box" name="button_box">
+
+                        <!-- Sales Order -->
+                        <button name="action_view_sale_order" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                invisible="not sale_order_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Sales Order</span>
+                                <span class="o_stat_value">
+                                    <field name="sale_order_id" readonly="1"/>
+                                </span>
+                            </div>
+                        </button>
+
+                        <!-- Hoá đơn -->
+                        <button name="action_view_invoice" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="invoice_count == 0">
+                            <field name="invoice_count" widget="statinfo" string="Hoá đơn"/>
+                        </button>
+
+                        <!-- Học viên -->
+                        <button name="%(action_edu_student_list)d" type="action"
+                                class="oe_stat_button" icon="fa-user"
+                                invisible="not student_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Học viên</span>
+                            </div>
+                        </button>
+
+                        <!-- Tạo SO thủ công (khi chưa có SO) -->
+                        <button name="action_create_sale_order" type="object"
+                                class="oe_stat_button" icon="fa-plus-circle"
+                                invisible="sale_order_id or state in ('new','enrolled','cancelled')"
+                                string="Tạo Sales Order"/>
+                    </div>
+
+                    <!-- ── Header info ──────────────────────────────────── -->
+                    <div class="oe_title">
+                        <label for="name" string="Mã hồ sơ"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <!-- ── Alert: trạng thái thanh toán ────────────────── -->
+                    <div class="alert alert-success" role="alert"
+                         invisible="invoice_payment_state != 'paid'">
+                        ✅ Đã thanh toán đủ qua hoá đơn.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="invoice_payment_state != 'partial'">
+                        ⚠️ Đã thanh toán một phần. Còn lại:
+                        <strong><field name="amount_remaining" widget="monetary"
+                                       options="{'currency_field':'currency_id'}"/></strong>
+                    </div>
+                    <div class="alert alert-danger" role="alert"
+                         invisible="state not in ('contracted','paid') or sale_order_id">
+                        ⚠️ Chưa có Sales Order. Nhấn <b>Tạo Sales Order</b> để tạo hợp đồng và hoá đơn.
+                    </div>
+
+                    <group>
+                        <group string="Thông tin học viên">
+                            <field name="student_name" placeholder="Họ và tên đầy đủ"/>
+                            <field name="date_of_birth"/>
+                            <field name="gender"/>
+                            <field name="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="id_number"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group string="Khoá học &amp; Lớp học">
+                            <field name="course_id"/>
+                            <field name="course_class_id"/>
+                            <field name="date_registration"/>
+                            <field name="expected_start_date"/>
+                            <field name="counselor_id" widget="many2one_avatar_user"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Phụ huynh / Bảo lãnh">
+                            <field name="parent_name"/>
+                            <field name="parent_phone"/>
+                            <field name="parent_relationship"/>
+                        </group>
+                        <group string="Nguồn tuyển sinh">
+                            <field name="admission_channel"/>
+                            <field name="source_id"/>
+                            <field name="medium_id"/>
+                            <field name="campaign_id"/>
+                            <field name="referred_by"/>
+                        </group>
+                    </group>
+
+                    <!-- ── Học phí & Thanh toán ──────────────────────── -->
+                    <group string="Học phí &amp; Thanh toán">
+                        <group string="Học phí">
+                            <field name="tuition_fee"/>
+                            <field name="discount_amount"/>
+                            <field name="discount_reason"
+                                   invisible="not discount_amount"
+                                   placeholder="Lý do giảm giá…"/>
+                            <field name="final_fee" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Trạng thái thanh toán">
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="sale_order_state" readonly="1" widget="badge"
+                                   decoration-success="sale_order_state=='sale'"
+                                   decoration-muted="sale_order_state in ('draft','cancel')"/>
+                            <field name="invoice_count" readonly="1"/>
+                            <field name="invoice_payment_state" readonly="1" widget="badge"
+                                   decoration-success="invoice_payment_state=='paid'"
+                                   decoration-warning="invoice_payment_state=='partial'"
+                                   decoration-danger="invoice_payment_state=='not_paid'"/>
+                            <field name="amount_paid" readonly="1"/>
+                            <field name="amount_remaining" readonly="1"/>
+                            <field name="payment_status" widget="badge"
+                                   decoration-success="payment_status=='paid'"
+                                   decoration-warning="payment_status=='partial'"
+                                   decoration-danger="payment_status=='unpaid'"/>
+                        </group>
+                    </group>
+
+                    <group string="Liên kết hệ thống">
+                        <field name="crm_lead_id"/>
+                        <field name="student_id" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Địa chỉ">
+                            <group>
+                                <field name="address" placeholder="Địa chỉ thường trú"/>
+                                <field name="current_address" placeholder="Địa chỉ hiện tại"/>
+                            </group>
+                        </page>
+                        <page string="Học vấn &amp; Mục tiêu">
+                            <group>
+                                <group string="Học vấn / Nghề nghiệp">
+                                    <field name="education_level"/>
+                                    <field name="current_job"/>
+                                    <field name="workplace"/>
+                                </group>
+                                <group string="Mục tiêu học tập">
+                                    <field name="english_level"/>
+                                    <field name="target_cert"/>
+                                    <field name="target_score"/>
+                                </group>
+                            </group>
+                            <field name="learning_goal" placeholder="Mục tiêu học tập của học viên…"/>
+                        </page>
+                        <page string="Ghi chú tư vấn">
+                            <field name="note" placeholder="Nội dung tư vấn…"/>
+                            <field name="cancel_reason" invisible="state != 'cancelled'"
+                                   placeholder="Lý do huỷ…"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List -->
+    <record id="view_edu_admission_list" model="ir.ui.view">
+        <field name="name">edu.admission.list</field>
+        <field name="model">edu.admission</field>
+        <field name="arch" type="xml">
+            <list string="Hồ sơ tuyển sinh"
+                  decoration-success="state=='enrolled'"
+                  decoration-muted="state=='cancelled'"
+                  decoration-warning="state=='new'">
+                <field name="name"/>
+                <field name="student_name"/>
+                <field name="phone"/>
+                <field name="course_id"/>
+                <field name="course_class_id"/>
+                <field name="date_registration"/>
+                <field name="counselor_id" widget="many2one_avatar_user"/>
+                <field name="admission_channel"/>
+                <field name="final_fee" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                <field name="sale_order_id" optional="show"/>
+                <field name="invoice_count" optional="show"/>
+                <field name="payment_status" widget="badge"
+                       decoration-success="payment_status=='paid'"
+                       decoration-warning="payment_status=='partial'"
+                       decoration-danger="payment_status=='unpaid'"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='enrolled'"
+                       decoration-info="state in ('registered','contracted','paid')"
+                       decoration-muted="state=='cancelled'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_edu_admission_search" model="ir.ui.view">
+        <field name="name">edu.admission.search</field>
+        <field name="model">edu.admission</field>
+        <field name="arch" type="xml">
+            <search string="Tìm hồ sơ tuyển sinh">
+                <field name="name" string="Mã hồ sơ"/>
+                <field name="student_name" string="Tên học viên"/>
+                <field name="phone"/>
+                <field name="course_id"/>
+                <field name="counselor_id"/>
+                <field name="sale_order_id"/>
+                <separator/>
+                <filter name="state_new" string="Mới" domain="[('state','=','new')]"/>
+                <filter name="state_consulting" string="Đang tư vấn" domain="[('state','=','consulting')]"/>
+                <filter name="state_registered" string="Đã đăng ký" domain="[('state','=','registered')]"/>
+                <filter name="state_contracted" string="Đã ký HĐ" domain="[('state','=','contracted')]"/>
+                <filter name="state_paid" string="Đã thanh toán" domain="[('state','=','paid')]"/>
+                <filter name="state_enrolled" string="Đã nhập học" domain="[('state','=','enrolled')]"/>
+                <filter name="state_cancelled" string="Đã huỷ" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter name="no_so" string="Chưa có Sales Order"
+                        domain="[('sale_order_id','=',False),('state','not in',['new','cancelled'])]"/>
+                <filter name="unpaid" string="Chưa thanh toán"
+                        domain="[('payment_status','=','unpaid')]"/>
+                <filter name="my_admissions" string="Do tôi phụ trách"
+                        domain="[('counselor_id','=',uid)]"/>
+                <filter name="today" string="Đăng ký hôm nay"
+                        domain="[('date_registration','=',context_today().strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter name="group_state" string="Trạng thái" context="{'group_by':'state'}"/>
+                    <filter name="group_course" string="Khoá học" context="{'group_by':'course_id'}"/>
+                    <filter name="group_counselor" string="Tư vấn viên" context="{'group_by':'counselor_id'}"/>
+                    <filter name="group_channel" string="Kênh tuyển sinh" context="{'group_by':'admission_channel'}"/>
+                    <filter name="group_payment" string="Thanh toán" context="{'group_by':'payment_status'}"/>
+                    <filter name="group_month" string="Tháng" context="{'group_by':'date_registration:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kanban -->
+    <record id="view_edu_admission_kanban" model="ir.ui.view">
+        <field name="name">edu.admission.kanban</field>
+        <field name="model">edu.admission</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="student_name"/>
+                <field name="phone"/>
+                <field name="course_id"/>
+                <field name="counselor_id"/>
+                <field name="final_fee"/>
+                <field name="currency_id"/>
+                <field name="state"/>
+                <field name="payment_status"/>
+                <field name="sale_order_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="student_name"/></strong>
+                            <div class="text-muted small"><field name="phone"/></div>
+                            <div><field name="course_id"/></div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <span class="badge bg-info">
+                                    <field name="final_fee" widget="monetary"
+                                           options="{'currency_field':'currency_id'}"/>
+                                </span>
+                                <field name="counselor_id" widget="many2one_avatar_user"/>
+                            </div>
+                            <div class="mt-1">
+                                <field name="payment_status" widget="badge"
+                                       decoration-success="payment_status=='paid'"
+                                       decoration-warning="payment_status=='partial'"
+                                       decoration-danger="payment_status=='unpaid'"/>
+                                <t t-if="record.sale_order_id.raw_value">
+                                    <span class="badge bg-success ms-1">SO</span>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_edu_admission" model="ir.actions.act_window">
+        <field name="name">Hồ sơ tuyển sinh</field>
+        <field name="res_model">edu.admission</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_edu_admission_search"/>
+        <field name="context">{'search_default_state_new': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có hồ sơ tuyển sinh nào</p>
+            <p>Tạo hồ sơ mới hoặc học viên đăng ký qua website sẽ tự động tạo hồ sơ tại đây.</p>
+        </field>
+    </record>
+
+</odoo>

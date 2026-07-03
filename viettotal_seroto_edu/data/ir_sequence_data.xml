@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Mã hồ sơ tuyển sinh: ADM/2024/00001 -->
+        <record id="seq_edu_admission" model="ir.sequence">
+            <field name="name">Hồ sơ tuyển sinh</field>
+            <field name="code">edu.admission</field>
+            <field name="prefix">ADM/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Mã học viên: HV/00001 -->
+        <record id="seq_edu_student" model="ir.sequence">
+            <field name="name">Học viên</field>
+            <field name="code">edu.student</field>
+            <field name="prefix">HV/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Mã giáo viên: GV/00001 -->
+        <record id="seq_edu_teacher" model="ir.sequence">
+            <field name="name">Giáo viên</field>
+            <field name="code">edu.teacher</field>
+            <field name="prefix">GV/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Mã đăng ký học: ENR/2024/00001 -->
+        <record id="seq_edu_enrollment" model="ir.sequence">
+            <field name="name">Đăng ký học</field>
+            <field name="code">edu.enrollment</field>
+            <field name="prefix">ENR/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Mã chứng chỉ: CERT/2024/00001 -->
+        <record id="seq_edu_certificate" model="ir.sequence">
+            <field name="name">Chứng chỉ</field>
+            <field name="code">edu.certificate</field>
+            <field name="prefix">CERT/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Mã phản hồi chăm sóc: FB/2024/00001 -->
+        <record id="seq_edu_care_feedback" model="ir.sequence">
+            <field name="name">Phản hồi học viên</field>
+            <field name="code">edu.care.feedback</field>
+            <field name="prefix">FB/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

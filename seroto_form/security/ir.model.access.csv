@@ -1,1 +1,13 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_seroto_course_user,seroto.course user,model_seroto_course,base.group_user,1,0,0,0
+access_seroto_course_manager,seroto.course manager,model_seroto_course,base.group_system,1,1,1,1
+access_seroto_course_class_user,seroto.course.class user,model_seroto_course_class,base.group_user,1,1,0,0
+access_seroto_course_class_manager,seroto.course.class manager,model_seroto_course_class,base.group_system,1,1,1,1
+access_seroto_course_session_user,seroto.course.session user,model_seroto_course_session,base.group_user,1,1,0,0
+access_seroto_course_session_manager,seroto.course.session manager,model_seroto_course_session,base.group_system,1,1,1,1
+access_seroto_student_user,seroto.student user,model_seroto_student,base.group_user,1,0,0,0
+access_seroto_student_manager,seroto.student manager,model_seroto_student,base.group_system,1,1,1,1
+access_seroto_enrollment_user,seroto.enrollment user,model_seroto_enrollment,base.group_user,1,1,1,0
+access_seroto_enrollment_manager,seroto.enrollment manager,model_seroto_enrollment,base.group_system,1,1,1,1
+access_seroto_course_audience_user,seroto.course.audience user,model_seroto_course_audience,base.group_user,1,0,0,0
+access_seroto_course_audience_manager,seroto.course.audience manager,model_seroto_course_audience,base.group_system,1,1,1,1

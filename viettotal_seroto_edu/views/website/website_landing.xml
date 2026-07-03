@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="website_landing_page" name="Seroto Edu – Trang đăng ký học">
+    <t t-call="website.layout">
+        <t t-set="additional_title"><t t-out="page_title"/></t>
+        <t t-set="no_header_image" t-value="True"/>
+
+        <!-- CSS -->
+        <t t-call-assets="viettotal_seroto_edu.assets_website" t-css="True" t-js="False"/>
+
+        <div class="se-page">
+
+            <!-- ── Hero ────────────────────────────────────────────── -->
+            <section class="se-hero">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <h1>
+                                Bắt đầu hành trình<br/>
+                                <em>chinh phục tiếng Anh</em><br/>
+                                cùng Seroto Education
+                            </h1>
+                            <p class="lead">
+                                Chương trình học cá nhân hoá · Giáo viên kinh nghiệm ·
+                                Cam kết đầu ra rõ ràng
+                            </p>
+                            <div class="d-flex gap-3 flex-wrap">
+                                <a href="/dang-ky/form" class="se-btn se-btn-primary">
+                                    ✏️ Đăng ký học ngay
+                                </a>
+                                <a href="#courses" class="se-btn se-btn-outline">
+                                    Xem khoá học ↓
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="se-form-card" style="padding:28px;">
+                                <h3 style="font-size:18px; font-weight:700; color:var(--se-navy); margin-bottom:16px;">
+                                    📝 Đăng ký nhanh – Nhận tư vấn miễn phí
+                                </h3>
+                                <form action="/dang-ky/quick-submit" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="se-field-group">
+                                        <label for="quick_name">Họ và tên <span class="required">*</span></label>
+                                        <input type="text" name="name" id="quick_name"
+                                               required="required" placeholder="Nguyễn Văn A"/>
+                                    </div>
+                                    <div class="se-field-group">
+                                        <label for="quick_phone">Số điện thoại <span class="required">*</span></label>
+                                        <input type="tel" name="phone" id="quick_phone"
+                                               required="required" placeholder="0901 234 567"/>
+                                    </div>
+                                    <div class="se-field-group">
+                                        <label for="quick_email">Email</label>
+                                        <input type="email" name="email" id="quick_email"
+                                               placeholder="email@example.com"/>
+                                    </div>
+                                    <div class="se-field-group">
+                                        <label for="quick_course">Khoá học quan tâm</label>
+                                        <select name="course_id" id="quick_course">
+                                            <option value="">-- Chọn khoá học --</option>
+                                            <t t-foreach="courses" t-as="course">
+                                                <option t-att-value="course.id"><t t-out="course.name"/></option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="se-btn se-btn-primary w-100"
+                                            style="justify-content:center;">
+                                        ✏️ Đăng ký ngay
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Stats strip ─────────────────────────────────────── -->
+            <div class="se-stats-strip">
+                <div class="container">
+                    <div class="row g-4 text-center">
+                        <div class="col-6 col-md-3 se-stat-item">
+                            <div class="se-stat-num">5,000+</div>
+                            <div class="se-stat-label">Học viên đã theo học</div>
+                        </div>
+                        <div class="col-6 col-md-3 se-stat-item">
+                            <div class="se-stat-num">98%</div>
+                            <div class="se-stat-label">Hài lòng với khoá học</div>
+                        </div>
+                        <div class="col-6 col-md-3 se-stat-item">
+                            <div class="se-stat-num">12+</div>
+                            <div class="se-stat-label">Năm kinh nghiệm đào tạo</div>
+                        </div>
+                        <div class="col-6 col-md-3 se-stat-item">
+                            <div class="se-stat-num">100%</div>
+                            <div class="se-stat-label">Cam kết đầu ra</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Khoá học ────────────────────────────────────────── -->
+            <section class="se-courses-section" id="courses">
+                <div class="container">
+                    <h2>Khoá học đang mở đăng ký</h2>
+                    <p class="se-section-sub">Chọn khoá học phù hợp với mục tiêu và trình độ của bạn</p>
+
+                    <t t-if="not courses">
+                        <div class="alert alert-info">
+                            Hiện chưa có khoá học nào đang mở đăng ký.
+                            <a href="/dang-ky/form">Để lại thông tin</a> để được tư vấn.
+                        </div>
+                    </t>
+
+                    <div class="row g-4">
+                        <t t-foreach="courses" t-as="course">
+                            <div class="col-md-6 col-lg-4 d-flex">
+                                <div class="se-course-card w-100">
+                                    <div class="se-course-card-body">
+                                        <span class="se-course-badge">
+                                            <t t-out="course.category_id.name or 'Khoá học'"/>
+                                        </span>
+                                        <h3><t t-out="course.name"/></h3>
+                                        <p>
+                                            <t t-out="course.objectives or course.description or ''"/>
+                                        </p>
+                                        <div class="se-course-meta">
+                                            <t t-if="course.total_sessions">
+                                                <span>📚 <t t-out="course.total_sessions"/> buổi</span>
+                                            </t>
+                                            <t t-if="course.total_hours">
+                                                <span>⏱ <t t-out="'%g' % course.total_hours"/> giờ</span>
+                                            </t>
+                                            <t t-if="course.has_certificate">
+                                                <span>🎓 <t t-out="course.certificate_type or 'Có chứng chỉ'"/></span>
+                                            </t>
+                                        </div>
+                                        <t t-if="course.tuition_fee">
+                                            <div class="se-price">
+                                                <t t-out="'{:,.0f}'.format(course.tuition_fee)"/>
+                                                <small style="font-size:14px;font-weight:400;color:var(--se-muted)"> đ</small>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="se-course-card-footer">
+                                        <a t-attf-href="/dang-ky/form?course_id=#{course.id}"
+                                           class="se-btn se-btn-navy w-100" style="justify-content:center;">
+                                            Đăng ký khoá này →
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- CTA khi không thấy khoá phù hợp -->
+                    <div class="text-center mt-5 pt-3" style="border-top: 1px solid var(--se-border);">
+                        <p style="color:var(--se-muted);">Không tìm thấy khoá học phù hợp?</p>
+                        <a href="/dang-ky/form" class="se-btn se-btn-primary">
+                            ✏️ Để lại thông tin – tư vấn miễn phí
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Tra cứu hồ sơ ───────────────────────────────────── -->
+            <section style="padding:48px 0; background:#fff;">
+                <div class="container text-center">
+                    <h3 style="font-size:22px; font-weight:700; color:var(--se-navy); margin-bottom:8px;">
+                        Đã đăng ký? Tra cứu tình trạng hồ sơ
+                    </h3>
+                    <p style="color:var(--se-muted); margin-bottom:20px;">
+                        Nhập số điện thoại hoặc email đã đăng ký để kiểm tra
+                    </p>
+                    <a href="/dang-ky/tra-cuu" class="se-btn se-btn-outline"
+                       style="background:var(--se-navy); color:#fff;">
+                        🔍 Tra cứu hồ sơ
+                    </a>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- JS -->
+        <t t-call-assets="viettotal_seroto_edu.assets_website" t-css="False" t-js="True"/>
+    </t>
+</template>
+</odoo>

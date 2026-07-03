@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.care.activity  –  Log tương tác chăm sóc
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_care_activity_form" model="ir.ui.view">
+        <field name="name">edu.care.activity.form</field>
+        <field name="model">edu.care.activity</field>
+        <field name="arch" type="xml">
+            <form string="Hoạt động chăm sóc">
+                <sheet>
+                    <widget name="web_ribbon" title="Nguy cơ nghỉ học" bg_color="bg-danger"
+                            invisible="result != 'at_risk'"/>
+                    <widget name="web_ribbon" title="Upsell thành công" bg_color="bg-success"
+                            invisible="result != 'upsell_done'"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Thông tin">
+                            <field name="student_id"/>
+                            <field name="care_staff_id" widget="many2one_avatar_user"/>
+                            <field name="category_id"/>
+                            <field name="class_id"
+                                   domain="[('enrollment_ids.student_id','=',student_id)]"/>
+                        </group>
+                        <group string="Tương tác">
+                            <field name="activity_type"/>
+                            <field name="direction"/>
+                            <field name="date_activity"/>
+                            <field name="duration_minutes"/>
+                        </group>
+                    </group>
+                    <group string="Nội dung trao đổi">
+                        <field name="summary" nolabel="1"
+                               placeholder="Tóm tắt nội dung trao đổi với học viên…"/>
+                    </group>
+                    <group string="Phản hồi học viên">
+                        <field name="student_feedback" nolabel="1"
+                               placeholder="Ý kiến, mong muốn, phàn nàn của học viên…"/>
+                    </group>
+                    <group>
+                        <group string="Kết quả">
+                            <field name="result"/>
+                            <field name="crm_lead_id"
+                                   invisible="result != 'upsell_done'"/>
+                        </group>
+                        <group string="Follow-up tiếp theo">
+                            <field name="next_action_date"/>
+                            <field name="next_action_note" placeholder="Nội dung cần làm tiếp theo…"/>
+                        </group>
+                    </group>
+                    <group string="Hành động cần thực hiện">
+                        <field name="action_required" nolabel="1"
+                               placeholder="Các việc cần làm sau buổi trao đổi này…"/>
+                    </group>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_care_activity_list" model="ir.ui.view">
+        <field name="name">edu.care.activity.list</field>
+        <field name="model">edu.care.activity</field>
+        <field name="arch" type="xml">
+            <list string="Log chăm sóc học viên"
+                  decoration-danger="result=='at_risk'"
+                  decoration-success="result=='upsell_done'"
+                  decoration-warning="result=='negative'">
+                <field name="date_activity"/>
+                <field name="student_id"/>
+                <field name="activity_type" widget="badge"/>
+                <field name="direction"/>
+                <field name="care_staff_id" widget="many2one_avatar_user"/>
+                <field name="summary"/>
+                <field name="result" widget="badge"
+                       decoration-danger="result=='at_risk'"
+                       decoration-success="result in ('positive','upsell_done')"
+                       decoration-warning="result in ('negative','no_answer')"/>
+                <field name="next_action_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_care_activity_kanban" model="ir.ui.view">
+        <field name="name">edu.care.activity.kanban</field>
+        <field name="model">edu.care.activity</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="result" class="o_kanban_small_column">
+                <field name="student_id"/>
+                <field name="activity_type"/>
+                <field name="date_activity"/>
+                <field name="care_staff_id"/>
+                <field name="result"/>
+                <field name="next_action_date"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="student_id"/></strong>
+                            <div class="text-muted small">
+                                <field name="activity_type"/> –
+                                <field name="date_activity"/>
+                            </div>
+                            <div class="mt-1"><field name="summary"/></div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <span class="text-muted small">
+                                    Follow-up: <field name="next_action_date"/>
+                                </span>
+                                <field name="care_staff_id" widget="many2one_avatar_user"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_edu_care_activity_search" model="ir.ui.view">
+        <field name="name">edu.care.activity.search</field>
+        <field name="model">edu.care.activity</field>
+        <field name="arch" type="xml">
+            <search string="Tìm hoạt động chăm sóc">
+                <field name="student_id"/>
+                <field name="care_staff_id"/>
+                <field name="activity_type"/>
+                <separator/>
+                <filter name="at_risk" string="Nguy cơ nghỉ học" domain="[('result','=','at_risk')]"/>
+                <filter name="no_answer" string="Không liên lạc được" domain="[('result','=','no_answer')]"/>
+                <filter name="needs_followup" string="Cần follow-up"
+                        domain="[('next_action_date','&lt;=',context_today().strftime('%Y-%m-%d')),
+                                  ('next_action_date','!=',False)]"/>
+                <filter name="my_activities" string="Do tôi phụ trách"
+                        domain="[('care_staff_id','=',uid)]"/>
+                <filter name="today" string="Hôm nay"
+                        domain="[('date_activity','&gt;=',context_today().strftime('%Y-%m-%d 00:00:00')),
+                                  ('date_activity','&lt;=',context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <group >
+                    <filter name="group_student" string="Học viên" context="{'group_by':'student_id'}"/>
+                    <filter name="group_result" string="Kết quả" context="{'group_by':'result'}"/>
+                    <filter name="group_type" string="Loại tương tác" context="{'group_by':'activity_type'}"/>
+                    <filter name="group_staff" string="Nhân viên chăm sóc" context="{'group_by':'care_staff_id'}"/>
+                    <filter name="group_week" string="Tuần" context="{'group_by':'date_activity:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_care_activity" model="ir.actions.act_window">
+        <field name="name">Log chăm sóc học viên</field>
+        <field name="res_model">edu.care.activity</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_edu_care_activity_search"/>
+        <field name="context">{'search_default_my_activities': 1}</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.care.feedback  –  Phản hồi / Khảo sát
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_care_feedback_form" model="ir.ui.view">
+        <field name="name">edu.care.feedback.form</field>
+        <field name="model">edu.care.feedback</field>
+        <field name="arch" type="xml">
+            <form string="Phản hồi học viên">
+                <sheet>
+                    <widget name="web_ribbon" title="Người ủng hộ" bg_color="bg-success"
+                            invisible="nps_category != 'promoter'"/>
+                    <widget name="web_ribbon" title="Người phàn nàn" bg_color="bg-danger"
+                            invisible="nps_category != 'detractor'"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h3><field name="name" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group string="Thông tin">
+                            <field name="student_id"/>
+                            <field name="class_id"/>
+                            <field name="teacher_id"/>
+                            <field name="date_feedback"/>
+                            <field name="feedback_type"/>
+                        </group>
+                        <group string="Điểm NPS">
+                            <field name="nps_score"
+                                   widget="priority"
+                                   options="{'stars': 10}"/>
+                            <field name="nps_category" readonly="1" widget="badge"
+                                   decoration-success="nps_category=='promoter'"
+                                   decoration-warning="nps_category=='passive'"
+                                   decoration-danger="nps_category=='detractor'"/>
+                            <field name="satisfaction_score"/>
+                        </group>
+                    </group>
+                    <group string="Đánh giá chi tiết">
+                        <group>
+                            <field name="teacher_rating" widget="priority" options="{'stars':5}"/>
+                            <field name="content_rating" widget="priority" options="{'stars':5}"/>
+                            <field name="facility_rating" widget="priority" options="{'stars':5}"/>
+                        </group>
+                        <group>
+                            <field name="schedule_rating" widget="priority" options="{'stars':5}"/>
+                            <field name="care_rating" widget="priority" options="{'stars':5}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Nhận xét">
+                            <group>
+                                <field name="positive_comment" nolabel="1"
+                                       placeholder="Điều học viên thích / đánh giá cao…"/>
+                                <field name="improvement_comment" nolabel="1"
+                                       placeholder="Điều cần cải thiện theo ý kiến học viên…"/>
+                                <field name="referral_names"
+                                       placeholder="Tên bạn bè học viên giới thiệu (nếu có)…"/>
+                            </group>
+                        </page>
+                        <page string="Xử lý">
+                            <group>
+                                <field name="care_staff_id" widget="many2one_avatar_user"/>
+                                <field name="action_taken" placeholder="Hành động đã thực hiện…"/>
+                                <field name="is_resolved"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_care_feedback_list" model="ir.ui.view">
+        <field name="name">edu.care.feedback.list</field>
+        <field name="model">edu.care.feedback</field>
+        <field name="arch" type="xml">
+            <list string="Phản hồi học viên"
+                  decoration-success="nps_category=='promoter'"
+                  decoration-danger="nps_category=='detractor'">
+                <field name="name"/>
+                <field name="date_feedback"/>
+                <field name="student_id"/>
+                <field name="feedback_type"/>
+                <field name="nps_score"/>
+                <field name="nps_category" widget="badge"
+                       decoration-success="nps_category=='promoter'"
+                       decoration-warning="nps_category=='passive'"
+                       decoration-danger="nps_category=='detractor'"/>
+                <field name="satisfaction_score"/>
+                <field name="teacher_rating"/>
+                <field name="care_staff_id" widget="many2one_avatar_user"/>
+                <field name="is_resolved" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_care_feedback_search" model="ir.ui.view">
+        <field name="name">edu.care.feedback.search</field>
+        <field name="model">edu.care.feedback</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/>
+                <field name="feedback_type"/>
+                <separator/>
+                <filter name="promoter" string="Người ủng hộ (NPS 9-10)"
+                        domain="[('nps_category','=','promoter')]"/>
+                <filter name="detractor" string="Người phàn nàn (NPS 0-6)"
+                        domain="[('nps_category','=','detractor')]"/>
+                <filter name="unresolved" string="Chưa xử lý"
+                        domain="[('is_resolved','=',False)]"/>
+                <group >
+                    <filter name="group_type" string="Loại khảo sát" context="{'group_by':'feedback_type'}"/>
+                    <filter name="group_nps" string="Phân loại NPS" context="{'group_by':'nps_category'}"/>
+                    <filter name="group_month" string="Tháng" context="{'group_by':'date_feedback:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_care_feedback" model="ir.actions.act_window">
+        <field name="name">Phản hồi học viên</field>
+        <field name="res_model">edu.care.feedback</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_care_feedback_search"/>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.care.schedule  –  Kế hoạch chăm sóc
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_care_schedule_form" model="ir.ui.view">
+        <field name="name">edu.care.schedule.form</field>
+        <field name="model">edu.care.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Kế hoạch chăm sóc">
+                <header>
+                    <button name="action_mark_done" string="Đã thực hiện"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'planned'"/>
+                    <button name="action_postpone" string="Dời lịch"
+                            type="object"
+                            invisible="state != 'planned'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="planned,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="student_id"/>
+                            <field name="care_staff_id" widget="many2one_avatar_user"/>
+                            <field name="care_type"/>
+                        </group>
+                        <group>
+                            <field name="scheduled_date"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="date_done" readonly="1"/>
+                            <field name="activity_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Nội dung kế hoạch">
+                        <field name="description" nolabel="1"
+                               placeholder="Mục tiêu, nội dung cần trao đổi…"/>
+                    </group>
+                    <group string="Kết quả thực hiện" invisible="state == 'planned'">
+                        <field name="note" nolabel="1" placeholder="Kết quả sau khi thực hiện…"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_care_schedule_list" model="ir.ui.view">
+        <field name="name">edu.care.schedule.list</field>
+        <field name="model">edu.care.schedule</field>
+        <field name="arch" type="xml">
+            <list string="Kế hoạch chăm sóc"
+                  decoration-danger="state=='planned' and scheduled_date &lt; current_date"
+                  decoration-success="state=='done'"
+                  decoration-muted="state in ('postponed','cancelled')">
+                <field name="scheduled_date"/>
+                <field name="student_id"/>
+                <field name="care_type"/>
+                <field name="priority" widget="priority"/>
+                <field name="care_staff_id" widget="many2one_avatar_user"/>
+                <field name="description"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='done'"
+                       decoration-info="state=='planned'"
+                       decoration-muted="state in ('postponed','cancelled')"/>
+                <button name="action_mark_done" string="Đã xong"
+                        type="object" icon="fa-check"
+                        invisible="state != 'planned'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_care_schedule_search" model="ir.ui.view">
+        <field name="name">edu.care.schedule.search</field>
+        <field name="model">edu.care.schedule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/>
+                <field name="care_staff_id"/>
+                <field name="care_type"/>
+                <separator/>
+                <filter name="planned" string="Chờ thực hiện" domain="[('state','=','planned')]"/>
+                <filter name="overdue" string="Quá hạn"
+                        domain="[('state','=','planned'),
+                                  ('scheduled_date','&lt;',context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="today" string="Hôm nay"
+                        domain="[('scheduled_date','=',context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="my_schedule" string="Của tôi"
+                        domain="[('care_staff_id','=',uid)]"/>
+                <group >
+                    <filter name="group_type" string="Loại chăm sóc" context="{'group_by':'care_type'}"/>
+                    <filter name="group_staff" string="Nhân viên" context="{'group_by':'care_staff_id'}"/>
+                    <filter name="group_state" string="Trạng thái" context="{'group_by':'state'}"/>
+                    <filter name="group_week" string="Tuần" context="{'group_by':'scheduled_date:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_care_schedule" model="ir.actions.act_window">
+        <field name="name">Kế hoạch chăm sóc</field>
+        <field name="res_model">edu.care.schedule</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_care_schedule_search"/>
+        <field name="context">{'search_default_planned': 1, 'search_default_my_schedule': 1}</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         edu.care.category  (config)
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <record id="view_edu_care_category_list" model="ir.ui.view">
+        <field name="name">edu.care.category.list</field>
+        <field name="model">edu.care.category</field>
+        <field name="arch" type="xml">
+            <list string="Danh mục chăm sóc" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_care_category" model="ir.actions.act_window">
+        <field name="name">Danh mục chăm sóc</field>
+        <field name="res_model">edu.care.category</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>
