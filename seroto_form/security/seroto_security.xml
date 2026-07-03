@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+
+    <!--
+      Phân quyền theo chức vụ cho seroto_form - cùng cơ chế Odoo dùng cho Kế toán
+      (res.groups + implied_ids để phân cấp, res.groups.privilege + ir.module.category
+      để nhóm hiển thị trong Settings > Users & Companies > Users > tab Quyền truy cập).
+
+      Cấu trúc phân cấp (nhóm cao kế thừa toàn bộ quyền nhóm thấp qua implied_ids):
+
+        Nhân viên Sale ──┐
+        Giáo viên ───────┼─→ Quản lý đào tạo (kế thừa Giáo viên + thêm quyền Khóa học/Lớp học) ─┐
+        Nhân viên CS học viên ┘                                                                  ├─→ Quản trị viên (toàn quyền)
+                                                                                                    ┘
+
+      Chi tiết quyền từng model xem security/ir.model.access.csv.
+    -->
+
+    <record id="module_category_seroto" model="ir.module.category">
+      <field name="name">Seroto - Đào tạo</field>
+      <field name="sequence">50</field>
+    </record>
+
+    <record id="res_groups_privilege_seroto" model="res.groups.privilege">
+      <field name="name">Seroto</field>
+      <field name="category_id" ref="module_category_seroto"/>
+      <field name="sequence">1</field>
+    </record>
+
+    <!-- === Nhóm quyền cơ bản (độc lập nhau) === -->
+
+    <record id="group_seroto_sale" model="res.groups">
+      <field name="name">Nhân viên Sale</field>
+      <field name="privilege_id" ref="res_groups_privilege_seroto"/>
+      <field name="sequence">10</field>
+      <field name="comment">Quản lý Học viên và Đăng ký học (tư vấn, đăng ký) - không truy cập Buổi học/Điểm danh.</field>
+      <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_seroto_teacher" model="res.groups">
+      <field name="name">Giáo viên</field>
+      <field name="privilege_id" ref="res_groups_privilege_seroto"/>
+      <field name="sequence">20</field>
+      <field name="comment">Quản lý Buổi học, Điểm danh; xem/sửa Lớp học, xem Học viên và Đăng ký học.</field>
+      <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_seroto_care" model="res.groups">
+      <field name="name">Nhân viên chăm sóc học viên</field>
+      <field name="privilege_id" ref="res_groups_privilege_seroto"/>
+      <field name="sequence">30</field>
+      <field name="comment">Theo dõi tiến độ học tập, điểm danh; chăm sóc học viên trong và sau khóa học.</field>
+      <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- === Nhóm quyền quản lý (kế thừa các nhóm cơ bản qua implied_ids) === -->
+
+    <record id="group_seroto_training_manager" model="res.groups">
+      <field name="name">Quản lý đào tạo</field>
+      <field name="privilege_id" ref="res_groups_privilege_seroto"/>
+      <field name="sequence">40</field>
+      <field name="comment">Kế thừa quyền Giáo viên + toàn quyền Khóa học/Lớp học/Buổi học/Đối tượng khóa học/Học viên/Đăng ký học.</field>
+      <field name="implied_ids" eval="[(4, ref('group_seroto_teacher'))]"/>
+    </record>
+
+    <record id="group_seroto_admin" model="res.groups">
+      <field name="name">Quản trị viên</field>
+      <field name="privilege_id" ref="res_groups_privilege_seroto"/>
+      <field name="sequence">50</field>
+      <field name="comment">Toàn quyền trên tất cả: Khóa học, Học viên, Chăm sóc.</field>
+      <field name="implied_ids" eval="[
+          (4, ref('group_seroto_training_manager')),
+          (4, ref('group_seroto_sale')),
+          (4, ref('group_seroto_care')),
+      ]"/>
+      <!-- Tự động gán cho admin mặc định của hệ thống, giống group_account_manager -->
+      <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+  </data>
+</odoo>

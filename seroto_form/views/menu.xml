@@ -42,7 +42,25 @@
     action="action_seroto_student"
     sequence="1"/>
 
-  
+  <!-- Chăm sóc -->
+  <menuitem
+    id="menu_seroto_care_root"
+    name="Chăm sóc"
+    sequence="30"/>
+  <menuitem
+    id="menu_seroto_care_progress"
+    parent="menu_seroto_care_root"
+    name="Tiến độ học tập"
+    action="action_seroto_care_progress"
+    sequence="1"/>
+  <menuitem
+    id="menu_seroto_care_attendance"
+    parent="menu_seroto_care_root"
+    name="Điểm danh"
+    action="action_seroto_attendance"
+    sequence="2"/>
+
+
 
     
 

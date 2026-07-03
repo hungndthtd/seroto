@@ -23,8 +23,17 @@
       <t t-snippet="seroto_form.s_dynamic_course_card_teacher" string="Course Card - Giáo viên" group="seroto">
         <keywords>course, khóa học, giáo viên, teacher, crm, register, đăng ký</keywords>
       </t>
+      <t t-snippet="seroto_form.s_dynamic_course_card_school" string="Course Card - Trường học" group="seroto">
+        <keywords>course, khóa học, học viên, student, crm, register, đăng ký</keywords>
+      </t>
       <t t-snippet="seroto_form.s_dynamic_course_card_student" string="Course Card - Học viên" group="seroto">
         <keywords>course, khóa học, học viên, student, crm, register, đăng ký</keywords>
+      </t>
+      <t t-snippet="seroto_form.s_team" string="Team - Đội ngũ" group="seroto">
+        <keywords>team</keywords>
+      </t>
+      <t t-snippet="seroto_form.s_project" string="Project - Dự án" group="seroto">
+        <keywords>project</keywords>
       </t>
     </xpath>
 

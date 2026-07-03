@@ -143,14 +143,14 @@
     <section class="s_dynamic_course_card o_colored_level pt48 pb48">
       <div class="container">
         <div class="text-center mb-4">
-          <h2>Khóa học nổi bật</h2>
+          <h1>Khóa học nổi bật</h1>
           <p>Khám phá các khóa học đang mở đăng ký</p>
         </div>
 
-        <t t-set="products"
+        <!-- <t t-set="products"
            t-value="request.env['seroto.course'].sudo().search([('active', '=', True)], limit=3)"/>
 
-        <t t-call="seroto_form.s_course_card_content"/>
+        <t t-call="seroto_form.s_course_card_content"/> -->
       </div>
     </section>
   </template>
@@ -170,6 +170,25 @@
            t-value="request.env['seroto.course'].sudo().search([
                ('active', '=', True),
                ('audience_ids.code', '=', 'teacher'),
+           ], limit=3)"/>
+
+        <t t-call="seroto_form.s_course_card_content"/>
+      </div>
+    </section>
+  </template>
+
+  <!-- Snippet lọc đề mục "Học viên" (code = 'school') -->
+  <template id="s_dynamic_course_card_school" name="Course Card - Trường học">
+    <section class="s_dynamic_course_card o_colored_level pt48 pb48" data-audience-code="school">
+      <div class="container">
+        <div class="mb-4">
+          <h3><i class="fa fa-suitcase me-2"/>EQ dành cho Ban giám hiệu, chủ trường, trưởng dự án trường học hạnh phúc ở trường:</h3>
+        </div>
+
+        <t t-set="products"
+           t-value="request.env['seroto.course'].sudo().search([
+               ('active', '=', True),
+               ('audience_ids.code', '=', 'school'),
            ], limit=3)"/>
 
         <t t-call="seroto_form.s_course_card_content"/>

@@ -1,25 +1,112 @@
-.s_course_card {
+.custom-snippet {
+  .text-blue {
+    color: #66a1ee;
+  }
+  .text-orange {
+    color: #EF6723;
+  }
+  .text-yellow {
+    color: #F6C246;
+  }
+  .text-green {
+    color: #008080;
+  }
+  .text-indigo {
+    color: #051F4D;
+  }
+  .text-xs {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .text-sm {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .text-md {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .text-lg {
+    font-size: 18px;
+  }
+  .text-xl {
+    font-size: 20px;
+  }
+  .text-2xl {
+    font-size: 24px;
+  }
 
-    padding:60px 0;
-
-    .course-card{
-
-        border:1px solid #DDD;
-
-        border-radius:10px;
-
-        padding:25px;
-
-        transition:.3s;
-
-        background:white;
-
+  /* Project */
+  .s_project {
+    &-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-top: 40px;
+      gap: 24px;
+      &.reverse {
+        text-align: right;
+        justify-content: flex-end;
+        .card__shape {
+          left: auto;
+          right: 0;
+        }
+        .card__image {
+          order: 2;
+          &-tag {
+            right: 0;
+            left: -10px;
+          }
+        }
+      }
+      .card__shape {
+        --size: 150px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: var(--size);
+        height: var(--size);
+        z-index: -1;
+      }
+      .card__image {
+        --size: 240px;
+        position: relative;
+        border: 1px solid rgba(13, 98, 242, 0.4);
+        border-radius: 100%;
+        width: var(--size);
+        height: var(--size);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        &-border {
+          border-radius: 100%;
+          border: 10px solid #fff;
+          box-shadow: rgba(0, 0, 0, 0.7) 0px 15px 20px -20px;
+        }
+        &-tag {
+          --size: 115px;
+          width: var(--size);
+          height: var(--size);
+          position: absolute;
+          right: -10px;
+          bottom: -25px;
+          border-radius: 100%;
+          border: 1px solid rgb(84, 163, 227);
+          background: #fff;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .card__content {
+        max-width: 460px;
+      }
     }
-
-    .course-card:hover{
-
-        box-shadow:0 10px 30px rgba(0,0,0,.15);
-
-    }
-
+  }
 }
