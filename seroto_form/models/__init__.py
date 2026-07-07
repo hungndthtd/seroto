@@ -4,4 +4,5 @@ from . import (
   seroto_course,
   seroto_student,
   sale_order,
+  seroto_care,
 )

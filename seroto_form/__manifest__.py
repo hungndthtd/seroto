@@ -14,6 +14,9 @@
     'sale'
   ],
   'data': [
+    # Nhóm quyền theo chức vụ (Sale/Giáo viên/CS học viên/Quản lý đào tạo/Quản trị
+    # viên) - PHẢI load trước ir.model.access.csv vì CSV tham chiếu tới các group này.
+    'security/seroto_security.xml',
     'security/ir.model.access.csv',
 
     'data/ir_sequence_data.xml',
@@ -26,9 +29,15 @@
     # Bật lại snippet kéo thả "Course Card" (trước đây bị comment nên chưa hề
     # hiển thị trong Website Editor dù đã có file XML/JS).
     'views/snippets/s_course_card.xml',
+    'views/snippets/s_team.xml',
+    'views/snippets/s_project.xml',
     'views/snippets/snippets.xml',
     'views/seroto_course_views.xml',
     'views/seroto_student_views.xml',
+    # Bước 1 "Chăm sóc học viên": Điểm danh + Tiến độ học / % hoàn thành.
+    # Phải load SAU seroto_course_views.xml/seroto_student_views.xml vì kế thừa
+    # (inherit_id) các view định nghĩa trong 2 file đó.
+    'views/seroto_care_views.xml',
     'views/sale_order_views.xml',
     'views/course_page.xml',
     'views/menu.xml',
