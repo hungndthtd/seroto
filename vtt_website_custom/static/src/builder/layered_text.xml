@@ -98,6 +98,20 @@
                                         </t>
                                     </div>
                                 </div>
+                                <div class="card shadow-sm mt-3">
+                                    <div class="card-header bg-light py-1 fw-bold small text-secondary">
+                                        CẤU HÌNH CHUNG
+                                    </div>
+                                    <div class="card-body p-2" style="background: #fff;">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <label class="form-label small fw-bold text-muted mb-0">Hiển thị tràn khung (Overflow):</label>
+                                            <select class="form-select form-select-sm" style="width: 120px;" t-model="state.overflow" t-on-change="updatePreview">
+                                                <option value="visible">Visible</option>
+                                                <option value="hidden">Hidden</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Cột Phải: Cấu hình layer đang chọn (Properties Panel) -->
@@ -134,11 +148,17 @@
                                             <!-- Angle, Scale & Opacity sliders -->
                                             <div class="row g-2 mb-3">
                                                 <div class="col-6">
-                                                    <label class="form-label small fw-bold text-muted">Góc xoay: <span t-out="selectedLayer.angle"/>°</label>
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <label class="form-label small fw-bold text-muted mb-0">Góc xoay (°):</label>
+                                                        <input type="number" class="form-control form-control-sm text-end" style="width: 70px;" t-model="selectedLayer.angle" t-on-input="updatePreview" min="0" max="360"/>
+                                                    </div>
                                                     <input type="range" class="form-range" min="0" max="360" t-model="selectedLayer.angle" t-on-input="updatePreview"/>
                                                 </div>
                                                 <div class="col-6">
-                                                    <label class="form-label small fw-bold text-muted">Kích thước (Scale): <span t-out="selectedLayer.scale"/>%</label>
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <label class="form-label small fw-bold text-muted mb-0">Kích thước (%):</label>
+                                                        <input type="number" class="form-control form-control-sm text-end" style="width: 70px;" t-model="selectedLayer.scale" t-on-input="updatePreview" min="5" max="500"/>
+                                                    </div>
                                                     <input type="range" class="form-range" min="5" max="500" t-model="selectedLayer.scale" t-on-input="updatePreview"/>
                                                 </div>
                                             </div>
@@ -162,9 +182,19 @@
                                             <t t-if="selectedLayer.type === 'image'">
                                                 <div class="mb-3">
                                                     <label class="form-label small fw-bold text-muted">Đường dẫn ảnh URL:</label>
-                                                    <div class="input-group">
+                                                    <div class="input-group mb-2">
                                                         <input type="text" class="form-control" t-model="selectedLayer.src" t-on-input="updatePreview" placeholder="https://..."/>
                                                         <button class="btn btn-outline-secondary" type="button" t-on-click="openImageManager"><i class="fa fa-camera"/></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Rộng (Width px):</label>
+                                                        <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customWidth" t-on-input="updatePreview" placeholder="Mặc định"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Cao (Height px):</label>
+                                                        <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customHeight" t-on-input="updatePreview" placeholder="Mặc định"/>
                                                     </div>
                                                 </div>
                                             </t>

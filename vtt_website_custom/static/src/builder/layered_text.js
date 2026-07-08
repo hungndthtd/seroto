@@ -5,6 +5,7 @@ import { BuilderAction } from "@html_builder/core/builder_action";
 import { rpc } from "@web/core/network/rpc";
 import { _t } from "@web/core/l10n/translation";
 import { Component, useState, onWillStart, onMounted, onWillUnmount } from "@odoo/owl";
+import { useService } from "@web/core/utils/hooks";
 import { BaseOptionComponent } from "@html_builder/core/utils";
 
 // 1. OWL Option component to render the custom button in Odoo 19 Sidebar
@@ -32,11 +33,13 @@ export class LayerEditorModal extends Component {
             newSvgName: "",
             newSvgColor: "#333333",
             newSvgCode: "",
+            overflow: (this.props.editingElement.querySelector(".s_layered_text_layers")?.dataset.layeredOverflow) || "visible",
         });
 
         // Backup existing HTML inner structure of decorative layers for cancellation
         const layersContainer = this.props.editingElement.querySelector(".s_layered_text_layers");
         this.originalHtml = layersContainer ? layersContainer.innerHTML : "";
+        this.originalOverflow = this.props.editingElement.style.overflow || "";
 
         // Preload saved SVGs
         onWillStart(async () => {
@@ -324,7 +327,7 @@ export class LayerEditorModal extends Component {
         let properties = {};
 
         if (type === "image") {
-            properties = { src: "", scale: 100, angle: 0, opacity: 100, positionX: "50%", positionY: "50%" };
+            properties = { src: "", scale: 100, angle: 0, opacity: 100, positionX: "50%", positionY: "50%", customWidth: "", customHeight: "" };
         } else if (type === "svg") {
             properties = { customSvgCode: "", color: "#333333", scale: 50, angle: 0, opacity: 100, positionX: "50%", positionY: "50%" };
         } else if (type === "text") {
@@ -447,6 +450,9 @@ export class LayerEditorModal extends Component {
         const layersContainer = this.props.editingElement.querySelector(".s_layered_text_layers");
         if (!layersContainer) return;
         
+        layersContainer.dataset.layeredOverflow = this.state.overflow;
+        this.props.editingElement.style.overflow = this.state.overflow;
+        
         const htmlParts = this.state.layers.map(l => this.compileLayerHtml(l));
         layersContainer.innerHTML = htmlParts.join("");
     }
@@ -455,6 +461,7 @@ export class LayerEditorModal extends Component {
         const layersContainer = this.props.editingElement.querySelector(".s_layered_text_layers");
         if (layersContainer) {
             layersContainer.dataset.layeredConfig = JSON.stringify(this.state.layers);
+            layersContainer.dataset.layeredOverflow = this.state.overflow;
         }
         this.updatePreview();
         this.props.close();
@@ -465,35 +472,52 @@ export class LayerEditorModal extends Component {
         if (layersContainer) {
             layersContainer.innerHTML = this.originalHtml;
         }
+        this.props.editingElement.style.overflow = this.originalOverflow;
         this.props.close();
     }
 
     openImageManager() {
-        this.env.services.media.openMediaDialog({
-            visibleTabs: ["images"],
-            save: (media) => {
-                const img = media.querySelector("img");
-                if (img && img.src) {
-                    const selected = this.getSelectedLayer();
-                    if (selected && selected.type === "image") {
-                        selected.src = img.src;
-                        this.updatePreview();
+        if (window.vttMediaService) {
+            window.vttMediaService.openMediaDialog({
+                visibleTabs: ["IMAGES"],
+                save: (media) => {
+                    let src = "";
+                    if (media) {
+                        if (media.tagName === "IMG") {
+                            src = media.src || media.getAttribute("src");
+                        } else {
+                            const img = media.querySelector("img");
+                            if (img) {
+                                src = img.src || img.getAttribute("src");
+                            }
+                        }
+                    }
+                    if (src) {
+                        const selected = this.getSelectedLayer();
+                        if (selected && selected.type === "image") {
+                            selected.src = src;
+                            this.updatePreview();
+                        }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            console.error("VTT Media Service not available on window");
+        }
     }
 }
 
 // 3. Define the openLayerEditor Action
 export class OpenLayerEditorAction extends BuilderAction {
     static id = "openLayerEditor";
+    static dependencies = ["dialog", "media"];
 
     apply({ editingElement }) {
         const layersContainer = editingElement.querySelector(".s_layered_text_layers");
         const initialConfig = (layersContainer && layersContainer.dataset.layeredConfig) ? JSON.parse(layersContainer.dataset.layeredConfig) : [];
         
-        const dialogService = this.services.dialog || this.env.services.dialog;
+        const actionInstance = this.action || this;
+        const dialogService = actionInstance.services.dialog;
         dialogService.add(LayerEditorModal, {
             editingElement: editingElement,
             initialConfig: initialConfig,
@@ -508,6 +532,8 @@ class WebsiteLayeredTextPlugin extends Plugin {
     static dependencies = ["media"];
     
     setup() {
+        window.vttMediaService = this.dependencies.media;
+        
         const doc = this.document || (this.env && this.env.document) || document;
         if (!doc) return;
 
@@ -517,6 +543,11 @@ class WebsiteLayeredTextPlugin extends Plugin {
             sections.forEach(sec => {
                 const layersContainer = sec.querySelector(".s_layered_text_layers");
                 if (layersContainer && layersContainer.dataset.layeredConfig) {
+                    if (layersContainer.dataset.layeredOverflow) {
+                        sec.style.overflow = layersContainer.dataset.layeredOverflow;
+                    } else {
+                        sec.style.overflow = "visible";
+                    }
                     const layers = JSON.parse(layersContainer.dataset.layeredConfig);
                     const htmlParts = layers.map(l => {
                         const opacity = (l.opacity !== undefined ? l.opacity : 100) / 100;
@@ -525,7 +556,16 @@ class WebsiteLayeredTextPlugin extends Plugin {
                         const posX = l.positionX || "50%";
                         const posY = l.positionY || "50%";
 
-                        const style = `position: absolute; left: ${posX}; top: ${posY}; transform: translate(-50%, -50%) rotate(${angle}deg) scale(${scale}); opacity: ${opacity}; pointer-events: none; z-index: ${l.layerPosition === 'front' ? 2 : 0};`;
+                        let sizeStyle = "";
+                        if (l.type === "image") {
+                            if (l.customWidth) {
+                                sizeStyle += `width: ${l.customWidth}px; `;
+                            }
+                            if (l.customHeight) {
+                                sizeStyle += `height: ${l.customHeight}px; `;
+                            }
+                        }
+                        const style = `position: absolute; left: ${posX}; top: ${posY}; transform: translate(-50%, -50%) rotate(${angle}deg) scale(${scale}); opacity: ${opacity}; pointer-events: none; z-index: ${l.layerPosition === 'front' ? 2 : 0}; ${sizeStyle}`;
 
                         if (l.type === "image" && l.src) {
                             return `<img src="${l.src}" style="${style}" class="deco-layer-item deco-image"/>`;

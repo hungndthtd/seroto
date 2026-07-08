@@ -5,6 +5,7 @@ import { BuilderAction } from "@html_builder/core/builder_action";
 import { rpc } from "@web/core/network/rpc";
 import { _t } from "@web/core/l10n/translation";
 import { Component, useState, onWillStart, onMounted, onWillUnmount } from "@odoo/owl";
+import { useService } from "@web/core/utils/hooks";
 
 // 1. OWL Dialog Component for Custom Background Builder
 export class BackgroundEditorModal extends Component {
@@ -28,6 +29,7 @@ export class BackgroundEditorModal extends Component {
             newSvgName: "",
             newSvgColor: "#333333",
             newSvgCode: "",
+            overflow: this.props.editingElement.dataset.customBgOverflow || "visible",
         });
         
         // Backup original background style on child container to allow cancellation
@@ -38,7 +40,9 @@ export class BackgroundEditorModal extends Component {
             backgroundPosition: existingBg ? existingBg.style.backgroundPosition : "",
             backgroundRepeat: existingBg ? existingBg.style.backgroundRepeat : "",
             backgroundSize: existingBg ? existingBg.style.backgroundSize : "",
+            innerHTML: existingBg ? existingBg.innerHTML : "",
             parentPosition: this.props.editingElement.style.position || "",
+            overflow: this.props.editingElement.style.overflow || "",
         };
 
         // Preload saved templates in the background
@@ -417,7 +421,11 @@ export class BackgroundEditorModal extends Component {
                 positionType: "preset",
                 position: "center",
                 positionX: "50%",
-                positionY: "50%"
+                positionY: "50%",
+                angle: 0,
+                scale: 100,
+                customWidth: "",
+                customHeight: ""
             };
         }
 
@@ -593,7 +601,18 @@ export class BackgroundEditorModal extends Component {
                 const pos = (l.positionType === "custom") ? `${l.positionX || "50%"} ${l.positionY || "50%"}` : (l.position || "center");
                 positions.push(`${pos}, ${pos}`);
                 repeats.push(`${l.repeat}, ${l.repeat}`);
-                sizes.push(`${l.size}, ${l.size}`);
+                
+                let sizeVal = l.size || "cover";
+                if (sizeVal === "custom") {
+                    if (l.customWidth || l.customHeight) {
+                        const w = l.customWidth ? `${l.customWidth}px` : "auto";
+                        const h = l.customHeight ? `${l.customHeight}px` : "auto";
+                        sizeVal = `${w} ${h}`;
+                    } else if (l.scale) {
+                        sizeVal = `${l.scale}%`;
+                    }
+                }
+                sizes.push(`${sizeVal}, ${sizeVal}`);
             }
         });
 
@@ -627,23 +646,119 @@ export class BackgroundEditorModal extends Component {
         return bgContainer;
     }
 
+    renderBgLayers(bgContainer, layers) {
+        bgContainer.innerHTML = "";
+        const activeLayers = [...layers].filter(l => l.visible).reverse();
+        
+        activeLayers.forEach(l => {
+            const opacity = l.opacity !== undefined ? l.opacity / 100 : 1;
+            const rotation = l.angle || 0;
+            
+            const layerEl = document.createElement("div");
+            layerEl.className = "vtt_custom_bg_layer";
+            layerEl.style.position = "absolute";
+            layerEl.style.top = "0";
+            layerEl.style.left = "0";
+            layerEl.style.right = "0";
+            layerEl.style.bottom = "0";
+            layerEl.style.pointerEvents = "none";
+            layerEl.style.opacity = opacity;
+            
+            if (rotation) {
+                layerEl.style.transform = `rotate(${rotation}deg)`;
+            }
+            
+            if (l.type === "color") {
+                layerEl.style.backgroundColor = l.color;
+            } 
+            else if (l.type === "gradient") {
+                layerEl.style.backgroundImage = `linear-gradient(${l.direction}deg, ${l.colorStart}, ${l.colorEnd})`;
+            }
+            else if (l.type === "svg") {
+                let svgContent = "";
+                const rawColor = l.color;
+                
+                if (l.svgType === "dots") {
+                    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${l.scale}" height="${l.scale}" viewBox="0 0 20 20"><circle cx="10" cy="10" r="2.5" fill="${rawColor}"/></svg>`;
+                } else if (l.svgType === "waves") {
+                    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${l.scale * 4}" height="${l.scale}" viewBox="0 0 100 20"><path d="M0 10 Q25 20 50 10 T100 10" fill="none" stroke="${rawColor}" stroke-width="4"/></svg>`;
+                } else if (l.svgType === "grid") {
+                    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${l.scale}" height="${l.scale}" viewBox="0 0 20 20"><rect width="20" height="20" fill="none" stroke="${rawColor}" stroke-width="0.5"/></svg>`;
+                } else if (l.svgType === "stripes") {
+                    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${l.scale}" height="${l.scale}" viewBox="0 0 40 40"><path d="M0 40 L40 0 M-10 10 L10 -10 M30 50 L50 30" fill="none" stroke="${rawColor}" stroke-width="4"/></svg>`;
+                } else if (l.svgType === "custom" && l.customSvgCode) {
+                    let userSvg = l.customSvgCode.trim();
+                    userSvg = userSvg
+                        .replace(/fill=(?!"none")["'][^"']+["']/gi, "")
+                        .replace(/stroke=(?!"none")["'][^"']+["']/gi, "");
+                    
+                    if (userSvg.includes("<symbol") || userSvg.includes("<SYMBOL")) {
+                        const viewBoxMatch = userSvg.match(/viewBox=["']([^"']+)["']/i);
+                        const viewBox = viewBoxMatch ? viewBoxMatch[1] : "0 0 150 150";
+                        const innerContent = userSvg.replace(/<symbol[^>]*>/i, "").replace(/<\/symbol>$/i, "");
+                        userSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" width="${l.scale}" height="${l.scale}"><g fill="${rawColor}" stroke="${rawColor}">${innerContent}</g></svg>`;
+                    } else if (userSvg.includes("<svg") || userSvg.includes("<SVG")) {
+                        const viewBoxMatch = userSvg.match(/viewBox=["']([^"']+)["']/i);
+                        const viewBox = viewBoxMatch ? viewBoxMatch[1] : "0 0 100 100";
+                        const innerContent = userSvg.replace(/<svg[^>]*>/i, "").replace(/<\/symbol>$/, "").replace(/<\/svg>$/, "");
+                        userSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" width="${l.scale}" height="${l.scale}"><g fill="${rawColor}" stroke="${rawColor}">${innerContent}</g></svg>`;
+                    } else {
+                        userSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${l.scale}" height="${l.scale}" viewBox="0 0 20 20"><g fill="${rawColor}" stroke="${rawColor}">${userSvg}</g></svg>`;
+                    }
+                    svgContent = userSvg;
+                }
+                const encoded = encodeURIComponent(svgContent);
+                layerEl.style.backgroundImage = `url("data:image/svg+xml;charset=utf-8,${encoded}")`;
+                const pos = (l.positionType === "custom") ? `${l.positionX || "50%"} ${l.positionY || "50%"}` : (l.position || "center");
+                layerEl.style.backgroundPosition = pos;
+                layerEl.style.backgroundRepeat = l.repeat || "repeat";
+                layerEl.style.backgroundSize = l.size || "auto";
+                
+                // Set transform-origin to match background-position to prevent shifting
+                layerEl.style.transformOrigin = pos;
+            }
+            else if (l.type === "image" && l.src) {
+                layerEl.style.backgroundImage = `url("${l.src}")`;
+                const pos = (l.positionType === "custom") ? `${l.positionX || "50%"} ${l.positionY || "50%"}` : (l.position || "center");
+                layerEl.style.backgroundPosition = pos;
+                layerEl.style.backgroundRepeat = l.repeat || "no-repeat";
+                
+                let sizeVal = l.size || "cover";
+                if (sizeVal === "custom") {
+                    if (l.customWidth || l.customHeight) {
+                        const w = l.customWidth ? `${l.customWidth}px` : "auto";
+                        const h = l.customHeight ? `${l.customHeight}px` : "auto";
+                        sizeVal = `${w} ${h}`;
+                    } else if (l.scale) {
+                        sizeVal = `${l.scale}%`;
+                    }
+                }
+                layerEl.style.backgroundSize = sizeVal;
+                
+                // Set transform-origin to match background-position to prevent shifting
+                layerEl.style.transformOrigin = pos;
+            }
+            
+            bgContainer.appendChild(layerEl);
+        });
+    }
+
     updatePreview() {
-        const styles = this.compileStyles();
         const bgContainer = this.getOrCreateBgContainer();
-        bgContainer.style.backgroundImage = styles.backgroundImage;
-        bgContainer.style.backgroundPosition = styles.backgroundPosition;
-        bgContainer.style.backgroundRepeat = styles.backgroundRepeat;
-        bgContainer.style.backgroundSize = styles.backgroundSize;
+        this.renderBgLayers(bgContainer, this.state.layers);
+        
         // Clean parent styles to prevent Odoo parser crash
         const el = this.props.editingElement;
         el.style.backgroundImage = "";
         el.style.backgroundPosition = "";
         el.style.backgroundRepeat = "";
         el.style.backgroundSize = "";
+        el.style.overflow = this.state.overflow;
     }
 
     applyToSection() {
         this.props.editingElement.dataset.customBgConfig = JSON.stringify(this.state.layers);
+        this.props.editingElement.dataset.customBgOverflow = this.state.overflow;
         this.props.close();
     }
 
@@ -652,14 +767,17 @@ export class BackgroundEditorModal extends Component {
         const bgContainer = el.querySelector(":scope > .vtt_custom_bg");
         if (this.originalStyle.exists) {
             if (bgContainer) {
+                bgContainer.innerHTML = this.originalStyle.innerHTML;
                 bgContainer.style.backgroundImage = this.originalStyle.backgroundImage;
                 bgContainer.style.backgroundPosition = this.originalStyle.backgroundPosition;
                 bgContainer.style.backgroundRepeat = this.originalStyle.backgroundRepeat;
                 bgContainer.style.backgroundSize = this.originalStyle.backgroundSize;
             }
+            el.style.overflow = this.originalStyle.overflow;
         } else {
             if (bgContainer) bgContainer.remove();
             el.style.position = this.originalStyle.parentPosition;
+            el.style.overflow = this.originalStyle.overflow;
         }
         this.props.close();
     }
@@ -690,29 +808,45 @@ export class BackgroundEditorModal extends Component {
     }
 
     openImageManager() {
-        this.env.services.media.openMediaDialog({
-            visibleTabs: ["images"],
-            save: (media) => {
-                const img = media.querySelector("img");
-                if (img && img.src) {
-                    const selected = this.getSelectedLayer();
-                    if (selected && selected.type === "image") {
-                        selected.src = img.src;
-                        this.updatePreview();
+        if (window.vttMediaService) {
+            window.vttMediaService.openMediaDialog({
+                visibleTabs: ["IMAGES"],
+                save: (media) => {
+                    let src = "";
+                    if (media) {
+                        if (media.tagName === "IMG") {
+                            src = media.src || media.getAttribute("src");
+                        } else {
+                            const img = media.querySelector("img");
+                            if (img) {
+                                src = img.src || img.getAttribute("src");
+                            }
+                        }
+                    }
+                    if (src) {
+                        const selected = this.getSelectedLayer();
+                        if (selected && selected.type === "image") {
+                            selected.src = src;
+                            this.updatePreview();
+                        }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            console.error("VTT Media Service not available on window");
+        }
     }
 }
 
 // 2. Define the Custom Background Builder Action
 export class OpenCustomBackgroundBuilderAction extends BuilderAction {
     static id = "openCustomBackgroundBuilder";
+    static dependencies = ["dialog", "media"];
 
     apply({ editingElement }) {
         const initialConfig = editingElement.dataset.customBgConfig ? JSON.parse(editingElement.dataset.customBgConfig) : [];
-        const dialogService = this.services.dialog || this.env.services.dialog;
+        const actionInstance = this.action || this;
+        const dialogService = actionInstance.services.dialog;
         dialogService.add(BackgroundEditorModal, {
             editingElement: editingElement,
             initialConfig: initialConfig,
@@ -727,6 +861,8 @@ class WebsiteCustomBackgroundPlugin extends Plugin {
     static dependencies = ["media"];
     
     setup() {
+        window.vttMediaService = this.dependencies.media;
+        
         // Safely find the document context
         const doc = this.document || (this.env && this.env.document) || document;
         if (!doc) return;
@@ -735,6 +871,9 @@ class WebsiteCustomBackgroundPlugin extends Plugin {
         try {
             const elements = doc.querySelectorAll("[data-custom-bg-config]");
             elements.forEach(el => {
+                if (el.dataset.customBgOverflow) {
+                    el.style.overflow = el.dataset.customBgOverflow;
+                }
                 if (el.style.backgroundImage && el.style.backgroundImage.includes(",")) {
                     let bgContainer = el.querySelector(":scope > .vtt_custom_bg");
                     if (!bgContainer) {

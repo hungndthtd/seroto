@@ -106,6 +106,20 @@
                                         </t>
                                     </div>
                                 </div>
+                                <div class="card shadow-sm mt-3">
+                                    <div class="card-header bg-light py-1 fw-bold small text-secondary">
+                                        CẤU HÌNH CHUNG
+                                    </div>
+                                    <div class="card-body p-2" style="background: #fff;">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <label class="form-label small fw-bold text-muted mb-0">Hiển thị tràn khung (Overflow):</label>
+                                            <select class="form-select form-select-sm" style="width: 120px;" t-model="state.overflow" t-on-change="updatePreview">
+                                                <option value="visible">Visible</option>
+                                                <option value="hidden">Hidden</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Cột Phải: Cấu hình lớp đang chọn (Properties Panel) -->
@@ -272,6 +286,13 @@
                                                         <button class="btn btn-outline-secondary" type="button" t-on-click="openImageManager"><i class="fa fa-camera"/></button>
                                                     </div>
                                                 </div>
+                                                <div class="mb-3 border p-2 rounded bg-light">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <label class="form-label small fw-bold text-muted mb-0">Góc xoay ảnh (°):</label>
+                                                        <input type="number" class="form-control form-control-sm text-end" style="width: 70px;" t-model="selectedLayer.angle" t-on-input="updatePreview" min="0" max="360"/>
+                                                    </div>
+                                                    <input type="range" class="form-range" min="0" max="360" t-model="selectedLayer.angle" t-on-input="updatePreview"/>
+                                                </div>
                                                 <div class="mb-3">
                                                     <label class="form-label small fw-bold text-muted">Size:</label>
                                                     <select class="form-select" t-model="selectedLayer.size" t-on-change="updatePreview">
@@ -280,8 +301,28 @@
                                                         <option value="auto">Auto</option>
                                                         <option value="50%">50%</option>
                                                         <option value="25%">25%</option>
+                                                        <option value="custom">Custom kích thước</option>
                                                     </select>
                                                 </div>
+                                                <t t-if="selectedLayer.size === 'custom'">
+                                                    <div class="mb-3 border p-2 rounded bg-light">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <label class="form-label small fw-bold text-muted mb-0">Tỉ lệ Scale (%):</label>
+                                                            <input type="number" class="form-control form-control-sm text-end" style="width: 70px;" t-model="selectedLayer.scale" t-on-input="updatePreview" min="5" max="500"/>
+                                                        </div>
+                                                        <input type="range" class="form-range" min="5" max="500" t-model="selectedLayer.scale" t-on-input="updatePreview"/>
+                                                        <div class="row g-2 mt-2">
+                                                            <div class="col-6">
+                                                                <label class="form-label small fw-bold text-muted">Rộng (Width px):</label>
+                                                                <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customWidth" t-on-input="updatePreview" placeholder="Auto"/>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label class="form-label small fw-bold text-muted">Cao (Height px):</label>
+                                                                <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customHeight" t-on-input="updatePreview" placeholder="Auto"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </t>
                                                 <div class="row g-2 mb-3">
                                                     <div class="col-6">
                                                         <label class="form-label small fw-bold text-muted">Repeat:</label>
