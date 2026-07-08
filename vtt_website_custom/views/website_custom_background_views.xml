@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_website_custom_background_tree" model="ir.ui.view">
+        <field name="name">website.custom.background.list</field>
+        <field name="model">website.custom.background</field>
+        <field name="arch" type="xml">
+            <list string="Custom Backgrounds">
+                <field name="name"/>
+                <field name="website_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_website_custom_background_form" model="ir.ui.view">
+        <field name="name">website.custom.background.form</field>
+        <field name="model">website.custom.background</field>
+        <field name="arch" type="xml">
+            <form string="Custom Background">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Spring Soft Shapes"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="website_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="CSS Content" name="css_page">
+                            <field name="compiled_css" widget="ace" options="{'mode': 'css'}" readonly="1"/>
+                        </page>
+                        <page string="Raw Design JSON" name="json_page">
+                            <field name="config_json" widget="ace" options="{'mode': 'json'}" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_website_custom_background" model="ir.actions.act_window">
+        <field name="name">Custom Backgrounds</field>
+        <field name="res_model">website.custom.background</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a custom website background pattern.
+            </p>
+            <p>
+                You can save custom background designs from the website editor interface
+                and manage them here.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_website_custom_background"
+              name="Custom Backgrounds"
+              parent="website.menu_website_configuration"
+              action="action_website_custom_background"
+              sequence="91"/>
+</odoo>

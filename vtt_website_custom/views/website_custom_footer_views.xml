@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_website_custom_footer_tree" model="ir.ui.view">
+        <field name="name">website.custom.footer.list</field>
+        <field name="model">website.custom.footer</field>
+        <field name="arch" type="xml">
+            <list string="Custom Footers">
+                <field name="name"/>
+                <field name="website_id"/>
+                <field name="view_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_website_custom_footer_form" model="ir.ui.view">
+        <field name="name">website.custom.footer.form</field>
+        <field name="model">website.custom.footer</field>
+        <field name="arch" type="xml">
+            <form string="Custom Footer">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Christmas Season Footer"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="website_id"/>
+                            <field name="view_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="HTML Architecture" name="arch_page">
+                            <field name="arch" widget="ace" options="{'mode': 'xml'}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_website_custom_footer" model="ir.actions.act_window">
+        <field name="name">Custom Footers</field>
+        <field name="res_model">website.custom.footer</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a custom website footer template.
+            </p>
+            <p>
+                You can save custom footer designs from the website editor interface
+                and manage them here.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_website_custom_footer"
+              name="Custom Footers"
+              parent="website.menu_website_configuration"
+              action="action_website_custom_footer"
+              sequence="90"/>
+
+    <!-- Website Layout Inheritance to output active footer template key as HTML attribute -->
+    <template id="layout_add_footer_key" inherit_id="website.layout">
+        <xpath expr="//html" position="attributes">
+            <attribute name="t-att-data-footer-template-key">footer_template_key</attribute>
+        </xpath>
+    </template>
+</odoo>

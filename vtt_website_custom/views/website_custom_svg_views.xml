@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_website_custom_svg_tree" model="ir.ui.view">
+        <field name="name">website.custom.svg.list</field>
+        <field name="model">website.custom.svg</field>
+        <field name="arch" type="xml">
+            <list string="Custom SVGs">
+                <field name="name"/>
+                <field name="website_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_website_custom_svg_form" model="ir.ui.view">
+        <field name="name">website.custom.svg.form</field>
+        <field name="model">website.custom.svg</field>
+        <field name="arch" type="xml">
+            <form string="Custom SVG">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. My Dot Pattern"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="website_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="SVG Code" name="svg_code_page">
+                            <field name="svg_code" widget="ace" options="{'mode': 'xml'}" placeholder="Paste raw &lt;svg&gt; or &lt;symbol&gt; content here..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_website_custom_svg" model="ir.actions.act_window">
+        <field name="name">Custom SVGs</field>
+        <field name="res_model">website.custom.svg</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a custom SVG asset.
+            </p>
+            <p>
+                You can save custom SVG codes from the website editor interface
+                and manage them here.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_website_custom_svg"
+              name="Custom SVGs"
+              parent="website.menu_website_configuration"
+              action="action_website_custom_svg"
+              sequence="92"/>
+</odoo>

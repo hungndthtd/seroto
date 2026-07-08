@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_website_custom_footer,access.website.custom.footer,model_website_custom_footer,website.group_website_designer,1,1,1,1
+access_website_custom_background,access.website.custom.background,model_website_custom_background,website.group_website_designer,1,1,1,1
+access_website_custom_svg,access.website.custom.svg,model_website_custom_svg,website.group_website_designer,1,1,1,1

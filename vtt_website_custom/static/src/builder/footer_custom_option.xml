@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-inherit="website.FooterTemplateOption" t-inherit-mode="extension">
+    <xpath expr="//BuilderSelect" position="after">
+        <!-- If this page is currently using a custom template, show the "Save to current template" button -->
+        <button t-if="state.hasTemplate" class="btn btn-primary mt-2 w-100 o_save_current_footer_btn" t-on-click="saveToCurrentTemplate">
+            <i class="fa fa-refresh me-1"/> Cập nhật mẫu: <t t-out="state.templateName"/>
+        </button>
+        
+        <button class="btn btn-secondary mt-2 w-100 o_save_custom_footer_btn" t-on-click="saveCustomFooter">
+            <i class="fa fa-plus me-1"/> Lưu thành mẫu mới
+        </button>
+        
+        <button class="btn btn-link mt-1 w-100 text-muted o_reset_footer_btn" t-on-click="resetToGlobalFooter">
+            Sử dụng Footer chung
+        </button>
+    </xpath>
+</t>
+
+</templates>

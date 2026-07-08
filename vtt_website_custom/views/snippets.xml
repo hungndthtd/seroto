@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Snippet Drag & Drop Registration - Register in Inner Content -->
+    <template id="snippets" inherit_id="website.snippets">
+        <xpath expr="//snippets[@id='snippet_content']" position="inside">
+            <t t-snippet="vtt_website_custom.s_layered_text"
+               t-thumbnail="/vtt_website_custom/static/description/thumb.png"/>
+        </xpath>
+    </template>
+
+    <!-- Custom Snippet HTML Structure - Inner Content (Drop-in-only) -->
+    <template id="s_layered_text">
+        <div class="s_layered_text_section o_snippet_drop_in_only position-relative d-block overflow-hidden p-4 rounded" style="min-height: 150px; background-color: #fcfcfc;">
+            <!-- Decorative Layers Container -->
+            <div class="s_layered_text_layers position-absolute top-0 start-0 w-100 h-100 pointer-events-none" data-layered-config="[]">
+                <!-- Inner layers will be rendered dynamically by JS -->
+            </div>
+
+            <!-- Content Area -->
+            <div class="position-relative z-index-1">
+                <p class="s_layered_text_main mb-0" style="font-family: inherit; font-size: 1.2rem; color: #222222; text-align: center; font-weight: bold;">
+                    Nhập văn bản của bạn ở đây
+                </p>
+            </div>
+        </div>
+    </template>
+</odoo>

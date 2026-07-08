@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<!-- 1. Inherit WebsiteBackgroundOption to add our Custom Background Builder button -->
+<t t-inherit="website.WebsiteBackgroundOption" t-inherit-mode="extension">
+    <xpath expr="//BuilderButton[@action=&quot;'toggleBgImage'&quot;]" position="after">
+        <BuilderButton
+            action="'openCustomBackgroundBuilder'"
+            preview="false"
+            id="'open_custom_bg_builder_id'"
+            iconImg="'/html_builder/static/img/options/bg_shape.svg'"
+            className="'px-2 text-warning'"
+            title.translate="Custom Nền"
+        />
+    </xpath>
+</t>
+
+<!-- 2. Giao diện Modal thiết kế hình nền -->
+<t t-name="vtt_website_custom.BackgroundEditorModal">
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 950px;">
+            <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                
+                <!-- Header -->
+                <div class="modal-header bg-dark text-white" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                    <h5 class="modal-title"><i class="fa fa-paint-brush me-2"/>Trình Thiết Kế Hình Nền Đa Lớp</h5>
+                    <!-- Tab navigation -->
+                    <ul class="nav nav-pills ms-4">
+                        <li class="nav-item">
+                            <a t-attf-class="nav-link py-1 px-3 #{state.activeTab === 'editor' ? 'active bg-primary' : 'text-white-50'}" href="#" t-on-click.prevent="() => this.switchTab('editor')">
+                                <i class="fa fa-pencil me-1"/>Thiết kế
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a t-attf-class="nav-link py-1 px-3 #{state.activeTab === 'templates' ? 'active bg-primary' : 'text-white-50'}" href="#" t-on-click.prevent="() => this.switchTab('templates')">
+                                <i class="fa fa-th me-1"/>Mẫu đã lưu
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a t-attf-class="nav-link py-1 px-3 #{state.activeTab === 'svg_library' ? 'active bg-primary' : 'text-white-50'}" href="#" t-on-click.prevent="() => this.switchTab('svg_library')">
+                                <i class="fa fa-cubes me-1"/>Kho SVG
+                                <t t-if="state.librarySvgs.length > 0">
+                                    <span class="badge bg-warning text-dark ms-1" t-out="state.librarySvgs.length"/>
+                                </t>
+                            </a>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn-close btn-close-white ms-auto" t-on-click="cancel"/>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body" style="background: #f8f9fa; max-height: 70vh; overflow-y: auto;">
+
+                    <!-- ===================== TAB: THIẾT KẾ ===================== -->
+                    <div t-if="state.activeTab === 'editor'">
+                        <div class="row g-3">
+                            
+                            <!-- Cột Trái: Danh sách lớp (Layers List) -->
+                            <div class="col-md-5 d-flex flex-column">
+                                <div class="card shadow-sm flex-grow-1">
+                                    <div class="card-header bg-secondary text-white py-2 d-flex align-items-center justify-content-between">
+                                        <span class="fw-bold small">CÁC LỚP HÌNH NỀN</span>
+                                        <div class="dropdown">
+                                            <button class="btn btn-xs btn-light dropdown-toggle py-0 px-1" type="button" id="addLayerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-plus me-1"/>Thêm lớp
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="addLayerDropdown">
+                                                <li><a class="dropdown-menu-item dropdown-item" href="#" t-on-click.prevent="() => this.addLayer('color')">Màu trơn</a></li>
+                                                <li><a class="dropdown-menu-item dropdown-item" href="#" t-on-click.prevent="() => this.addLayer('gradient')">Dải màu (Gradient)</a></li>
+                                                <li><a class="dropdown-menu-item dropdown-item" href="#" t-on-click.prevent="() => this.addLayer('svg')">Họa tiết Vector (SVG)</a></li>
+                                                <li><a class="dropdown-menu-item dropdown-item" href="#" t-on-click.prevent="() => this.addLayer('image')">Hình ảnh</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-2 d-flex flex-column" style="min-height: 250px; background: #fff;">
+                                        <t t-if="state.layers.length === 0">
+                                            <div class="text-center text-muted my-auto">Chưa có lớp nào. Hãy thêm một lớp ở góc trên!</div>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="list-group flex-grow-1 overflow-auto" style="max-height: 350px;">
+                                                <t t-foreach="state.layers" t-as="layer" t-key="layer.id">
+                                                    <div t-attf-class="list-group-item list-group-item-action d-flex align-items-center p-2 #{state.selectedLayerId === layer.id ? 'active' : ''}"
+                                                         style="cursor: pointer;"
+                                                         t-on-click="() => this.selectLayer(layer.id)">
+                                                        <i t-attf-class="fa #{this.getLayerIcon(layer.type)} me-2"/>
+                                                        <div class="flex-grow-1 text-truncate small">
+                                                            <t t-out="this.getLayerName(layer)"/>
+                                                        </div>
+                                                        <button class="btn btn-link btn-xs p-1 text-decoration-none" 
+                                                                t-attf-class="#{layer.visible ? 'text-success' : 'text-muted'}"
+                                                                t-on-click.stop="() => this.toggleLayerVisibility(layer.id)">
+                                                            <i t-attf-class="fa #{layer.visible ? 'fa-eye' : 'fa-eye-slash'}"/>
+                                                        </button>
+                                                        <button class="btn btn-link btn-xs p-1 text-muted" t-on-click.stop="() => this.moveLayer(layer.id, -1)">
+                                                            <i class="fa fa-chevron-up"/>
+                                                        </button>
+                                                        <button class="btn btn-link btn-xs p-1 text-muted" t-on-click.stop="() => this.moveLayer(layer.id, 1)">
+                                                            <i class="fa fa-chevron-down"/>
+                                                        </button>
+                                                        <button class="btn btn-link btn-xs p-1 text-danger ms-1" t-on-click.stop="() => this.removeLayer(layer.id)">
+                                                            <i class="fa fa-trash"/>
+                                                        </button>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cột Phải: Cấu hình lớp đang chọn (Properties Panel) -->
+                            <div class="col-md-7">
+                                <div class="card shadow-sm h-100">
+                                    <div class="card-header bg-light py-2 fw-bold small text-secondary">
+                                        THIẾT LẬP THUỘC TÍNH LỚP
+                                    </div>
+                                    <div class="card-body p-3" style="background: #fff; min-height: 350px; overflow-y: auto; max-height: 450px;">
+                                        <t t-if="!state.selectedLayerId">
+                                            <div class="text-center text-muted my-auto pt-5">Chọn một lớp ở cột bên trái để chỉnh sửa.</div>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="selectedLayer" t-value="this.getSelectedLayer()"/>
+                                            
+                                            <!-- Opacity -->
+                                            <div class="mb-3">
+                                                <label class="form-label small fw-bold text-muted">Độ mờ (Opacity): <span t-out="selectedLayer.opacity"/>%</label>
+                                                <input type="range" class="form-range" min="0" max="100" t-model="selectedLayer.opacity" t-on-input="updatePreview"/>
+                                            </div>
+                                            <hr class="my-3"/>
+
+                                            <!-- Color -->
+                                            <t t-if="selectedLayer.type === 'color'">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-muted d-block">Chọn Màu sắc:</label>
+                                                    <input type="color" class="form-control form-control-color w-100" style="height: 45px;" t-model="selectedLayer.color" t-on-input="updatePreview"/>
+                                                </div>
+                                            </t>
+
+                                            <!-- Gradient -->
+                                            <t t-if="selectedLayer.type === 'gradient'">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-muted d-block">Góc xoay: <span t-out="selectedLayer.direction"/>°</label>
+                                                    <input type="range" class="form-range" min="0" max="360" t-model="selectedLayer.direction" t-on-input="updatePreview"/>
+                                                </div>
+                                                <div class="row g-2">
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Màu bắt đầu:</label>
+                                                        <input type="color" class="form-control form-control-color w-100" t-model="selectedLayer.colorStart" t-on-input="updatePreview"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Màu kết thúc:</label>
+                                                        <input type="color" class="form-control form-control-color w-100" t-model="selectedLayer.colorEnd" t-on-input="updatePreview"/>
+                                                    </div>
+                                                </div>
+                                            </t>
+
+                                            <!-- SVG Pattern -->
+                                            <t t-if="selectedLayer.type === 'svg'">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-muted">Kiểu họa tiết:</label>
+                                                    <select class="form-select" t-model="selectedLayer.svgType" t-on-change="updatePreview">
+                                                        <option value="dots">Chấm bi (Dots)</option>
+                                                        <option value="waves">Gợn sóng (Waves)</option>
+                                                        <option value="grid">Khung lưới (Grid)</option>
+                                                        <option value="stripes">Sọc chéo (Stripes)</option>
+                                                        <option value="custom">Tùy chỉnh mã SVG</option>
+                                                    </select>
+                                                </div>
+                                                <t t-if="selectedLayer.svgType === 'custom'">
+                                                    <div class="mb-3">
+                                                        <label class="form-label small fw-bold text-muted">Chọn nhanh từ Kho SVG:</label>
+                                                        <div class="input-group mb-2">
+                                                            <select class="form-select" t-on-change="(ev) => this.selectLibrarySvg(ev)">
+                                                                <option value="">-- Chọn mẫu họa tiết trong kho --</option>
+                                                                <t t-foreach="state.librarySvgs" t-as="svg" t-key="svg.id">
+                                                                    <option t-att-value="svg.id" t-att-selected="state.selectedLibSvgId == svg.id"><t t-out="svg.name"/></option>
+                                                                </t>
+                                                            </select>
+                                                            <button class="btn btn-outline-primary" type="button" t-on-click="() => this.switchTab('svg_library')" title="Mở Kho SVG trực quan"><i class="fa fa-folder-open"/></button>
+                                                        </div>
+                                                        <label class="form-label small fw-bold text-muted">Nhập/Sửa mã SVG:</label>
+                                                        <textarea class="form-control" rows="4" style="font-family: monospace; font-size: 12px;"
+                                                                  t-model="selectedLayer.customSvgCode" t-on-input="updatePreview"
+                                                                  placeholder="Dán mã &lt;svg&gt;, &lt;symbol&gt; hoặc &lt;path&gt;..."/>
+                                                        <div class="form-text small text-muted">Hỗ trợ dán trực tiếp mã &lt;symbol&gt;, sẽ tự động chuyển đổi.</div>
+                                                        
+                                                        <div class="input-group mt-2">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="Tên để lưu vào kho..." t-model="state.newSvgName"/>
+                                                            <button class="btn btn-info btn-sm text-white" type="button" t-on-click="saveSvgToLibrary"><i class="fa fa-save me-1"/>Lưu vào Kho</button>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-muted">Màu sắc họa tiết:</label>
+                                                    <input type="color" class="form-control form-control-color w-100" t-model="selectedLayer.color" t-on-input="updatePreview"/>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-muted">Góc xoay họa tiết: <span t-out="selectedLayer.angle"/>°</label>
+                                                    <input type="range" class="form-range" min="0" max="360" t-model="selectedLayer.angle" t-on-input="updatePreview"/>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Scale: <span t-out="selectedLayer.scale"/>px</label>
+                                                        <input type="range" class="form-range" min="10" max="300" t-model="selectedLayer.scale" t-on-input="updatePreview"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Size:</label>
+                                                        <select class="form-select" t-model="selectedLayer.size" t-on-change="updatePreview">
+                                                            <option value="auto">Auto</option>
+                                                            <option value="cover">Cover</option>
+                                                            <option value="contain">Contain</option>
+                                                            <option value="50%">50%</option>
+                                                            <option value="25%">25%</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Repeat:</label>
+                                                        <select class="form-select" t-model="selectedLayer.repeat" t-on-change="updatePreview">
+                                                            <option value="repeat">Repeat</option>
+                                                            <option value="no-repeat">No repeat</option>
+                                                            <option value="repeat-x">Repeat X</option>
+                                                            <option value="repeat-y">Repeat Y</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Position:</label>
+                                                        <select class="form-select" t-model="selectedLayer.positionType" t-on-change="updatePreview">
+                                                            <option value="preset">Preset</option>
+                                                            <option value="custom">Custom X/Y</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <t t-if="selectedLayer.positionType === 'preset'">
+                                                    <div class="mb-3">
+                                                        <select class="form-select" t-model="selectedLayer.position" t-on-change="updatePreview">
+                                                            <option value="center">Chính giữa</option>
+                                                            <option value="top left">Trên trái</option>
+                                                            <option value="top right">Trên phải</option>
+                                                            <option value="bottom left">Dưới trái</option>
+                                                            <option value="bottom right">Dưới phải</option>
+                                                        </select>
+                                                    </div>
+                                                </t>
+                                                <t t-if="selectedLayer.positionType === 'custom'">
+                                                    <div class="row g-2 mb-3">
+                                                        <div class="col-6">
+                                                            <label class="form-label small fw-bold text-muted">X: <span t-out="this.getPositionXPercent(selectedLayer)"/>%</label>
+                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionX" t-on-input="updatePreview" placeholder="50%"/>
+                                                            <input type="range" class="form-range" min="0" max="100" 
+                                                                   t-att-value="this.getPositionXPercent(selectedLayer)" 
+                                                                   t-on-input="(ev) => this.updatePositionXFromSlider(selectedLayer, ev)"/>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label class="form-label small fw-bold text-muted">Y: <span t-out="this.getPositionYPercent(selectedLayer)"/>%</label>
+                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionY" t-on-input="updatePreview" placeholder="50%"/>
+                                                            <input type="range" class="form-range" min="0" max="100" 
+                                                                   t-att-value="this.getPositionYPercent(selectedLayer)" 
+                                                                   t-on-input="(ev) => this.updatePositionYFromSlider(selectedLayer, ev)"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </t>
+
+                                            <!-- Image -->
+                                            <t t-if="selectedLayer.type === 'image'">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-muted">Ảnh URL:</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" t-model="selectedLayer.src" t-on-input="updatePreview" placeholder="https://..."/>
+                                                        <button class="btn btn-outline-secondary" type="button" t-on-click="openImageManager"><i class="fa fa-camera"/></button>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-muted">Size:</label>
+                                                    <select class="form-select" t-model="selectedLayer.size" t-on-change="updatePreview">
+                                                        <option value="cover">Cover</option>
+                                                        <option value="contain">Contain</option>
+                                                        <option value="auto">Auto</option>
+                                                        <option value="50%">50%</option>
+                                                        <option value="25%">25%</option>
+                                                    </select>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Repeat:</label>
+                                                        <select class="form-select" t-model="selectedLayer.repeat" t-on-change="updatePreview">
+                                                            <option value="no-repeat">No repeat</option>
+                                                            <option value="repeat">Repeat</option>
+                                                            <option value="repeat-x">Repeat X</option>
+                                                            <option value="repeat-y">Repeat Y</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label small fw-bold text-muted">Position:</label>
+                                                        <select class="form-select" t-model="selectedLayer.positionType" t-on-change="updatePreview">
+                                                            <option value="preset">Preset</option>
+                                                            <option value="custom">Custom X/Y</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <t t-if="selectedLayer.positionType === 'preset'">
+                                                    <div class="mb-3">
+                                                        <select class="form-select" t-model="selectedLayer.position" t-on-change="updatePreview">
+                                                            <option value="center">Chính giữa</option>
+                                                            <option value="top left">Trên trái</option>
+                                                            <option value="top right">Trên phải</option>
+                                                            <option value="bottom left">Dưới trái</option>
+                                                            <option value="bottom right">Dưới phải</option>
+                                                        </select>
+                                                    </div>
+                                                </t>
+                                                <t t-if="selectedLayer.positionType === 'custom'">
+                                                    <div class="row g-2 mb-3">
+                                                        <div class="col-6">
+                                                            <label class="form-label small fw-bold text-muted">X: <span t-out="this.getPositionXPercent(selectedLayer)"/>%</label>
+                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionX" t-on-input="updatePreview" placeholder="50%"/>
+                                                            <input type="range" class="form-range" min="0" max="100" 
+                                                                   t-att-value="this.getPositionXPercent(selectedLayer)" 
+                                                                   t-on-input="(ev) => this.updatePositionXFromSlider(selectedLayer, ev)"/>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label class="form-label small fw-bold text-muted">Y: <span t-out="this.getPositionYPercent(selectedLayer)"/>%</label>
+                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionY" t-on-input="updatePreview" placeholder="50%"/>
+                                                            <input type="range" class="form-range" min="0" max="100" 
+                                                                   t-att-value="this.getPositionYPercent(selectedLayer)" 
+                                                                   t-on-input="(ev) => this.updatePositionYFromSlider(selectedLayer, ev)"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ===================== TAB: MẪU ĐÃ LƯU ===================== -->
+                    <div t-if="state.activeTab === 'templates'">
+                        <t t-if="state.loadingTemplates">
+                            <div class="text-center py-5 text-muted">
+                                <i class="fa fa-spinner fa-spin fa-2x mb-3 d-block"/>
+                                Đang tải danh sách mẫu...
+                            </div>
+                        </t>
+                        <t t-elif="state.savedTemplates.length === 0">
+                            <div class="text-center py-5 text-muted">
+                                <i class="fa fa-folder-open-o fa-3x mb-3 d-block"/>
+                                <h6>Chưa có mẫu nền nào được lưu.</h6>
+                                <p class="small">Hãy chuyển sang tab <strong>Thiết kế</strong>, tạo hình nền và bấm <strong>"Lưu thành mẫu mới"</strong>.</p>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="row g-3">
+                                <t t-foreach="state.savedTemplates" t-as="tpl" t-key="tpl.id">
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="card shadow-sm h-100" style="cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;"
+                                             t-on-click="() => this.applyTemplate(tpl)"
+                                             t-on-mouseenter="(ev) => ev.currentTarget.style.transform='scale(1.03)'"
+                                             t-on-mouseleave="(ev) => ev.currentTarget.style.transform='scale(1)'">
+                                            <!-- Preview area -->
+                                            <div class="card-img-top" 
+                                                 t-att-style="tpl.compiled_css"
+                                                 style="height: 120px; border-bottom: 1px solid #eee;"/>
+                                            <div class="card-body p-2 d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h6 class="card-title mb-0 small fw-bold" t-out="tpl.name"/>
+                                                    <small class="text-muted" t-out="this.getTemplateLayerSummary(tpl)"/>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-danger p-1" title="Xóa mẫu này"
+                                                        t-on-click.stop="() => this.deleteTemplate(tpl)">
+                                                    <i class="fa fa-trash"/>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- ===================== TAB: KHO SVG ===================== -->
+                    <div t-if="state.activeTab === 'svg_library'">
+                        <div class="row g-3">
+                            <!-- Left panel: Add SVG code -->
+                            <div class="col-md-4">
+                                <div class="card shadow-sm h-100">
+                                    <div class="card-header bg-secondary text-white py-2 fw-bold small">
+                                        THÊM SVG MỚI VÀO KHO
+                                    </div>
+                                    <div class="card-body p-3 bg-white">
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold text-muted">Tên họa tiết SVG:</label>
+                                            <input type="text" class="form-control" placeholder="Ví dụ: Lưới chấm bi, Sóng lượn..." t-model="state.newSvgName"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold text-muted">Màu sắc mặc định:</label>
+                                            <input type="color" class="form-control form-control-color w-100" style="height: 35px;" t-model="state.newSvgColor"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold text-muted">Mã code SVG/Symbol:</label>
+                                            <textarea class="form-control" rows="6" style="font-family: monospace; font-size: 11px;"
+                                                      placeholder="Dán mã thẻ &lt;svg&gt;, &lt;symbol&gt; hoặc các thẻ vẽ như &lt;path d='...' /&gt;"
+                                                      t-model="state.newSvgCode"/>
+                                        </div>
+                                        <button class="btn btn-primary w-100" type="button" t-on-click="addSvgToLibraryFromTab">
+                                            <i class="fa fa-plus-circle me-1"/>Thêm vào kho
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right panel: SVG Grid Gallery -->
+                            <div class="col-md-8">
+                                <div class="card shadow-sm h-100">
+                                    <div class="card-header bg-light py-2 fw-bold small text-secondary">
+                                        DANH SÁCH HỌA TIẾT TRONG KHO
+                                    </div>
+                                    <div class="card-body p-3 bg-white" style="min-height: 350px;">
+                                        <t t-if="state.librarySvgs.length === 0">
+                                            <div class="text-center py-5 text-muted my-auto">
+                                                <i class="fa fa-cubes fa-3x mb-3 d-block"/>
+                                                Kho SVG hiện đang trống. Hãy thêm mẫu mới ở bảng bên trái.
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="row g-3 overflow-auto" style="max-height: 400px;">
+                                                <t t-foreach="state.librarySvgs" t-as="svg" t-key="svg.id">
+                                                    <div class="col-sm-6 col-md-4">
+                                                        <div class="card h-100 shadow-sm position-relative" style="transition: transform 0.15s, box-shadow 0.15s;">
+                                                            <!-- Pattern preview area -->
+                                                            <div class="card-img-top" 
+                                                                 t-attf-style="height: 100px; border-bottom: 1px solid #eee; background-color: #fafafa; #{this.getSvgPreviewStyle(svg)}"/>
+                                                            <div class="card-body p-2 d-flex flex-column justify-content-between">
+                                                                <h6 class="card-title text-truncate mb-2 small fw-bold text-center" t-out="svg.name"/>
+                                                                <div class="d-flex align-items-center mb-2 px-1">
+                                                                    <label class="small text-muted me-2" style="font-size: 11px; white-space: nowrap;">Đổi màu mặc định:</label>
+                                                                    <input type="color" class="form-control form-control-color p-0 border-0" style="width: 25px; height: 25px; cursor: pointer;"
+                                                                           t-att-value="svg.color"
+                                                                           t-on-change="(ev) => this.updateSvgColorInLibrary(svg, ev)"/>
+                                                                </div>
+                                                                <div class="d-flex gap-1">
+                                                                    <button class="btn btn-xs btn-primary flex-grow-1" t-on-click="() => this.applyLibrarySvgFromTab(svg)">
+                                                                        <i class="fa fa-check me-1"/>Chọn
+                                                                    </button>
+                                                                    <button class="btn btn-xs btn-danger" title="Xóa khỏi kho" t-on-click="() => this.deleteLibrarySvgFromTab(svg)">
+                                                                        <i class="fa fa-trash"/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer bg-light d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center flex-grow-1 me-3" style="max-width: 350px;">
+                        <input type="text" class="form-control" placeholder="Tên mẫu nền để lưu (ví dụ: Nền Sóng)..." t-model="state.templateName"/>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-secondary" t-on-click="cancel">Hủy bỏ</button>
+                        <button type="button" class="btn btn-info text-white" t-on-click="saveAsTemplate"><i class="fa fa-save me-1"/>Lưu thành mẫu mới</button>
+                        <button type="button" class="btn btn-primary" t-on-click="applyToSection"><i class="fa fa-check me-1"/>Áp dụng cục bộ</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</t>
+
+</templates>
