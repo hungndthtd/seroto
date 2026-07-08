@@ -93,6 +93,9 @@ class WebsiteCourse(http.Controller):
                 # nếu không sẽ in thẳng các thẻ <div data-oe-version="..."> ra màn hình.
                 "description": html2plaintext(course.description or ""),
                 "teacher": course.teacher_id.name or "",
+                # course_type (giá trị thô 'online'/'offline') để JS tô màu badge,
+                # course_type_label là text hiển thị ("Online Zoom"/"Offline").
+                "course_type": course.course_type,
                 "course_type_label": course_type_labels.get(course.course_type, ""),
                 "tuition_fee": course.tuition_fee,
                 "enrollment_label": self._format_enrollment_label(course),

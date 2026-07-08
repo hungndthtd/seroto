@@ -37,6 +37,18 @@
       </t>
     </xpath>
 
+    <!--
+      "Nội dung bên trong" (Inner Content) - khối nhỏ thả VÀO BÊN TRONG 1 section có
+      sẵn (khác với Structure ở trên là 1 section đứng độc lập). Đăng ký vào
+      <snippets id="snippet_content"> giống cách core Odoo làm cho Text/Button/Badge...
+      (xem addons/website/views/snippets/snippets.xml phần "Inner snippets").
+    -->
+    <xpath expr="//snippets[@id='snippet_content']" position="inside">
+      <t t-snippet="seroto_form.s_title_special" string="Title - Tiêu đề" t-thumbnail="/seroto_form/static/src/img/course.png">
+        <keywords>title, tiêu đề</keywords>
+      </t>
+    </xpath>
+
   </template>
 
 </odoo>

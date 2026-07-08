@@ -26,8 +26,10 @@
     # id="course_register_modal" trong file đó trước, nếu không sẽ bị lỗi
     # "Duplicate XML ID" do 2 nơi cùng định nghĩa 1 external id.
     'views/course_register_modal.xml',
+    'views/templates/svg_templates.xml',
     # Bật lại snippet kéo thả "Course Card" (trước đây bị comment nên chưa hề
     # hiển thị trong Website Editor dù đã có file XML/JS).
+    'views/snippets/s_block.xml',
     'views/snippets/s_course_card.xml',
     'views/snippets/s_team.xml',
     'views/snippets/s_project.xml',
@@ -46,6 +48,13 @@
     'website.assets_wysiwyg': [
       'seroto_form/static/src/js/options.js',
       'seroto_form/static/src/js/course_snippet.js',
+    ],
+    # Bundle riêng cho panel "Tùy chỉnh" (Customize) của Website Builder - nơi Odoo
+    # nạp các plugin Option (vd website/static/src/builder/**/*). Option "Căn chỉnh"
+    # của snippet "Title - Tiêu đề" phải nằm ở đây mới được panel nhận diện.
+    'website.website_builder_assets': [
+      'seroto_form/static/src/js/s_title_special_option.js',
+      'seroto_form/static/src/xml/s_title_special_option.xml',
     ],
     'web.assets_frontend': [
       'seroto_form/static/src/js/register_modal.js',
