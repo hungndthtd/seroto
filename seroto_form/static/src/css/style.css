@@ -1,0 +1,11 @@
+/*
+  Menu "Giới thiệu" có các mục con dạng liên kết neo (#anchor) trỏ về CÙNG 1 trang -
+  Odoo đánh dấu "active" theo đường dẫn trang (bỏ qua phần #anchor), nên tất cả mục con
+  bị tô màu active cùng lúc thay vì chỉ 1 mục. Bỏ màu active mặc định của dropdown-item,
+  chỉ giữ lại hiệu ứng hover để không gây hiểu lầm "đang ở đúng mục nào".
+*/
+/* #top_menu .dropdown-menu .dropdown-item.active,
+#top_menu .dropdown-menu .dropdown-item:active {
+  background-color: transparent;
+  color: #000;
+} */

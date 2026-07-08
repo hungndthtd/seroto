@@ -3,6 +3,14 @@
 import publicWidget from "@web/legacy/js/public/public_widget";
 import { rpc } from "@web/core/network/rpc";
 
+// Tạo <i class="fa {iconClass} me-1"/> - dùng lại cho các dòng icon trong card, khớp
+// với views/snippets/s_course_card.xml (bản QWeb tĩnh).
+function _makeIcon(iconClass) {
+    const icon = document.createElement('i');
+    icon.className = `fa ${iconClass} me-1`;
+    return icon;
+}
+
 // Widget này CHỈ chịu trách nhiệm nạp lại danh sách khóa học MỚI NHẤT khi trang thực sự
 // tải trên frontend (tránh nội dung "đóng băng" từ lúc kéo thả/lưu snippet vào trang).
 // Việc mở modal đăng ký khi bấm nút đã được xử lý sẵn bởi widget CourseRegister
@@ -60,11 +68,22 @@ publicWidget.registry.SerotoCourseSnippet = publicWidget.Widget.extend({
 
             const title = document.createElement('h4');
             title.textContent = course.name;
+            title.className = 'text-indigo';
             body.appendChild(title);
 
             const subtitle = document.createElement('p');
             subtitle.textContent = course.subtitle;
             body.appendChild(subtitle);
+
+            // Badge "Hình thức học" (Online Zoom/Offline), màu theo course_type -
+            // khớp với views/snippets/s_course_card.xml (bản QWeb tĩnh).
+            const badgeClass = course.course_type === 'online' ? 'success' : 'danger';
+            const badge = document.createElement('span');
+            badge.className = `py-0.5 px-2 mb-2 d-inline-block rounded-pill border border-${badgeClass} text-${badgeClass}`;
+            badge.style.fontSize = '12px';
+            badge.appendChild(_makeIcon('fa-circle'));
+            badge.appendChild(document.createTextNode(course.course_type_label));
+            body.appendChild(badge);
 
             const desc = document.createElement('p');
             desc.style.fontSize = '14px';
@@ -72,32 +91,37 @@ publicWidget.registry.SerotoCourseSnippet = publicWidget.Widget.extend({
             body.appendChild(desc);
 
             const teacher = document.createElement('p');
-            teacher.textContent = course.teacher;
+            teacher.appendChild(_makeIcon('fa-user'));
+            teacher.appendChild(document.createTextNode(course.teacher));
             body.appendChild(teacher);
 
             if (course.enrollment_label) {
                 const enrollment = document.createElement('p');
-                enrollment.textContent = `Tuyển sinh: ${course.enrollment_label}`;
+                enrollment.appendChild(_makeIcon('fa-info-circle'));
+                enrollment.appendChild(document.createTextNode(`Tuyển sinh: ${course.enrollment_label}`));
                 body.appendChild(enrollment);
             }
 
             // Luôn hiện 3 dòng này (kể cả khi chưa có lớp/ngày cụ thể) với placeholder
             // "Sắp công bố" - tránh card bị "thiếu" trông không đồng bộ với card khác.
             const nextClass = document.createElement('p');
-            nextClass.textContent = `Ngày học: ${course.next_class_date || 'Sắp công bố'}`;
+            nextClass.appendChild(_makeIcon('fa-calendar'));
+            nextClass.appendChild(document.createTextNode(`Ngày học: ${course.next_class_date || 'Sắp công bố'}`));
             body.appendChild(nextClass);
 
             const schedule = document.createElement('p');
-            schedule.textContent = `Thời gian: ${course.schedule_note || 'Sắp công bố'}`;
+            schedule.appendChild(_makeIcon('fa-clock-o'));
+            schedule.appendChild(document.createTextNode(`Thời gian: ${course.schedule_note || 'Sắp công bố'}`));
             body.appendChild(schedule);
 
             const deadline = document.createElement('p');
-            deadline.textContent = `Thời hạn đăng ký: ${course.registration_deadline || 'Sắp công bố'}`;
+            deadline.appendChild(_makeIcon('fa-hourglass-half'));
+            deadline.appendChild(document.createTextNode(`Thời hạn đăng ký: ${course.registration_deadline || 'Sắp công bố'}`));
             body.appendChild(deadline);
 
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'btn btn-primary register-course';
+            btn.className = 'btn btn-primary register-course mt-3';
             btn.dataset.course = course.name;
             btn.dataset.price = course.tuition_fee;
             if (course.registration_open) {

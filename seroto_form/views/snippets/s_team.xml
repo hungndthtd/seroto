@@ -17,7 +17,14 @@
             </div>
             <div class="col-md-6 align-self-center">
               <div class="text-center my-5 my-md-0">
-                <h1 class="text-orange">Đội ngũ</h1>
+                <div class="title__special mx-auto">
+                  <h1 class="text-orange">Đội ngũ</h1>
+                  <div class="title__special-arrow" style="height: 12px; width: 70px">
+                    <t t-call="seroto_form.svg_multi_arrow">
+                      <t t-set="svg_class" t-value="'text-green-light d-block'"/>
+                    </t>
+                  </div>
+                </div>
                 <div class="">
                   <svg xmlns="http://www.w3.org/2000/svg" class="text-yellow text-2xl" fill="currentColor" width="60px" height="60px" viewBox="0 0 32 32" version="1.1">
                   <title>quote</title>

@@ -1,18 +1,27 @@
 .custom-snippet {
+  --color-blue: #66a1ee;
+  --color-orange: #EF6723;
+  --color-green: #008080;
+  --color-green-light: #a1d6df;
+  --color-yellow: #F6C246;
+  --color-indigo: #051F4D;
   .text-blue {
-    color: #66a1ee;
+    color: var(--color-blue);
   }
   .text-orange {
-    color: #EF6723;
+    color: var(--color-orange);
   }
   .text-yellow {
-    color: #F6C246;
+    color: var(--color-yellow);
   }
   .text-green {
-    color: #008080;
+    color: var(--color-green);
+  }
+  .text-green-light {
+    color: var(--color-green-light);
   }
   .text-indigo {
-    color: #051F4D;
+    color: var(--color-indigo);
   }
   .text-xs {
     font-size: 12px;
@@ -34,6 +43,32 @@
   }
   .text-2xl {
     font-size: 24px;
+  }
+
+  .title__special {
+    --space: 12px;
+    position: relative;
+    color: var(--color-orange);
+    padding-bottom: var(--space);
+    display: inline-block;
+    z-index: 1;
+    &::before {
+      --size: 60px;
+      content: '';
+      position: absolute;
+      bottom: calc(var(--space) * 2.5);
+      left: -45px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 100%;
+      background: var(--color-yellow);
+      z-index: -1;
+    }
+    &-arrow {
+      position: absolute;
+      bottom: 0;
+      right: -25px;
+    }
   }
 
   /* Project */
@@ -108,5 +143,11 @@
         max-width: 460px;
       }
     }
+  }
+}
+
+.s_dynamic_course_card {
+  p {
+    margin-bottom: 4px;
   }
 }
