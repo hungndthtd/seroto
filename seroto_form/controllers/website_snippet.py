@@ -111,6 +111,7 @@ class WebsiteCourse(http.Controller):
                     if course.image
                     else "/web/static/img/placeholder.png"
                 ),
+                "landing_page_url": course.landing_page_url or "",
             }
             for course in courses
         ]

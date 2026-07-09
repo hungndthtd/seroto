@@ -34,6 +34,13 @@
     'views/snippets/s_team.xml',
     'views/snippets/s_project.xml',
     'views/snippets/snippets.xml',
+    # Trang MẪU (is_new_page_template=True) cho các trang landing khóa học - url=
+    # /maukhoahoc. Tạo trang khóa học thật (K19, K13...) qua Website Editor > "+New
+    # Page" > nhóm Custom > chọn mẫu này, KHÔNG viết thêm file page_*.xml nào nữa.
+    # LƯU Ý: nội dung viết TRỰC TIẾP (inline), KHÔNG t-call sang view khác bên trong
+    # #wrap - t-call kiểu đó làm Website Builder mất khả năng chỉnh sửa (kéo-thả lẫn
+    # sửa text) toàn bộ #wrap, đã kiểm chứng thực tế khi dựng bản pilot đầu tiên.
+    'views/pages/page_maukhoahoc.xml',
     'views/seroto_course_views.xml',
     'views/seroto_student_views.xml',
     # Bước 1 "Chăm sóc học viên": Điểm danh + Tiến độ học / % hoàn thành.

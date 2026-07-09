@@ -33,6 +33,12 @@
             type="object"
             string="Xem các lớp"
           />
+          <button
+            name="action_create_landing_page"
+            type="object"
+            string="Tạo trang landing"
+            invisible="landing_page_url"
+          />
           <field
             name="state"
             widget="statusbar"
@@ -82,6 +88,8 @@
               <field name="teacher_id" options="{'no_create_edit': False}"/>
               <field name="course_type"/>
               <field name="audience_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+              <field name="landing_page_url" widget="url"
+                     options="{'website_path': True}" placeholder="VD: /khoa-hoc"/>
             </group>
             <group string="Học phí &amp; Thời gian">
               <field name="tuition_fee"/>

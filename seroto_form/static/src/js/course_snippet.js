@@ -136,6 +136,17 @@ publicWidget.registry.SerotoCourseSnippet = publicWidget.Widget.extend({
             }
             body.appendChild(btn);
 
+            // Chỉ hiện khi khóa học có trang landing riêng (field
+            // seroto.course.landing_page_url, nhập tay qua form Khóa học) - link thẳng,
+            // khớp với nút "Chi tiết" trong bản QWeb tĩnh (views/snippets/s_course_card.xml).
+            if (course.landing_page_url) {
+                const detailLink = document.createElement('a');
+                detailLink.className = 'btn btn-outline-primary mt-3 ms-2';
+                detailLink.href = course.landing_page_url;
+                detailLink.textContent = 'Chi tiết';
+                body.appendChild(detailLink);
+            }
+
             card.appendChild(body);
             col.appendChild(card);
             container.appendChild(col);
