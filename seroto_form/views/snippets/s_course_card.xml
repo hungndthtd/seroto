@@ -131,6 +131,14 @@
                   Sắp mở đăng ký
                 </button>
               </t>
+              <!-- Chỉ hiện khi khóa học có trang landing riêng (field
+                   seroto.course.landing_page_url, nhập tay qua form Khóa học) - link
+                   thẳng, KHÔNG lấy/truyền thông tin gì qua JS vì trang landing đích tự
+                   chứa đầy đủ nội dung của nó rồi (xem views/pages/page_maukhoahoc.xml). -->
+              <a t-if="product.landing_page_url" t-att-href="product.landing_page_url"
+                 class="btn btn-outline-primary ms-2">
+                Chi tiết
+              </a>
             </div>
           </div>
         </div>
