@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_about" name="Giới thiệu khoá học">
+    <section class="s_thuc_hanh_eq_about custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="text-center text-green fw-bold">
+          Giới thiệu khoá học
+        </h2>
+        <div class="mb-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="about__box">
+          <div class="about__box-shape">
+            <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+              class="img-fluid" style="max-height: 120px"/>
+          </div>
+          <div class="row align-items-md-center mb-5 mb-md-0">
+            <div class="col-md-6">
+              <div class="mx-auto mb-4 mb-md-0" style="max-width: 272px;">
+                <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                  class="img-fluid mx-auto"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <p>Thực hành EQ là khóa học giúp <span class="fw-bold text-orange">cải thiện Chỉ số Cảm xúc EQ (Emotional Quotient)</span> được xây dựng bởi thầy Dương Quang Minh dựa theo cuốn sách Search Inside Yourself - giáo trình nâng cao năng lực EQ cho hơn 200.000 nhân viên của tập đoàn Google, có bổ sung một số hoạt động trong các chương trình Giáo dục Cảm xúc của Mỹ (Sanford Harmony, SEE Learning) và các bài thực tập lối sống tỉnh thức của Làng Mai.</p>
+            </div>
+          </div>
+          <div class="row align-items-md-center">
+            <div class="col-md-6 order-md-2">
+              <div class="mx-auto mb-4 mb-md-0" style="max-width: 380px;">
+                <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                  class="img-fluid mx-auto"/>
+              </div>
+            </div>
+            <div class="col-md-6 order-md-1">
+              <p>Khóa học cho bạn công thức 5N rất cụ thể và dễ thực hành để <span class="fw-bold text-orange">điều tiết cảm xúc</span>, lựa chọn giải pháp hồi đáp tích cực và xây dựng. Thực hành EQ giúp bạn vừa đạt được mục đích mình muốn, vừa xây dựng và duy trì những mối quan hệ tốt đẹp.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

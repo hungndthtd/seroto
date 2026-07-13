@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!--
+    Trang MẪU cho các trang landing khóa học - url=/maukhoahoc.
+
+    Đây KHÔNG phải trang thật của 1 khóa học cụ thể - đây là bản mẫu (is_new_page_template
+    = True bên dưới), dùng theo 2 cách:
+    (1) Cách CHÍNH: bấm nút "Tạo trang landing" trên form Khóa học (seroto.course) -
+        action_create_landing_page() trong models/seroto_course.py sẽ tự lấy arch của
+        view này, THAY CHUỖI PLACEHOLDER ("[TÊN KHÓA HỌC]", "[HÌNH THỨC HỌC]",
+        data-price="0") bằng dữ liệu thật của khóa học NGAY TRONG PYTHON (không phải
+        t-call), rồi tạo 1 ir.ui.view + website.page MỚI, HOÀN TOÀN TÁCH RỜI khỏi mẫu
+        này. Nhờ thay chuỗi 1 lần lúc tạo, cả text hiển thị LẪN attribute data-course/
+        data-price đều tự đúng luôn, KHÔNG cần ai mở DevTools sửa tay.
+    (2) Cách phụ: Website Editor > "+New Page" > nhóm "Custom" > chọn "Mẫu Khóa Học" -
+        copy khung sang trang mới, tự sửa text tay (dùng khi không muốn gắn với record
+        seroto.course nào, vd trang không phải khóa học).
+    Placeholder hiện có, điền tự động qua cách 1:
+    - "[TÊN KHÓA HỌC]" -> field "name"; "[HÌNH THỨC HỌC]" -> field "course_type";
+      data-price="0" -> field "tuition_fee".
+    - Câu "Mô tả ngắn 1-2 câu về khóa học" -> field "subtitle" (Phụ đề) NẾU có, không
+      thì giữ nguyên câu mẫu để staff biết cần tự viết.
+    - "[hh:mm - hh:mm]"/"[dd/mm - dd/mm/yyyy]"/"[dd/mm/yyyy]" (giờ/ngày học/hạn đăng
+      ký) -> LUÔN thành "Sắp công bố" vì chưa có lớp học lúc tạo trang - staff tự sửa
+      lại qua Website Editor khi đã có lịch lớp thật.
+    Placeholder CHƯA điền tự động (staff tự điền qua Website Editor): "[Ngày]"/"[Giờ]"
+    ở phần Lịch trình học, "[Giá]"/"[Đối tượng...]" ở phần Bảng giá - không map trực
+    tiếp tới field nào của seroto.course.
+    - "[URL_TRANG]" (phần Footer, link "Website") -> điền ở BƯỚC 2 trong
+      action_create_landing_page(), SAU KHI đã tạo xong record website.page (lúc đó
+      mới biết url thật của chính trang này) - ghi đè lại arch của view lần 2.
+
+    ẨN HEADER/FOOTER CHUẨN CỦA SITE: trang landing khóa học không dùng menu điều hướng
+    (Header) lẫn Footer chuẩn của site - field "header_visible"/"footer_visible" =
+    False ở record website.page bên dưới (và trong action_create_landing_page()) - xem
+    WebsitePageVisibilityOptionsMixin trong addons/website/models/mixins.py. Lý do: đây
+    là trang landing tập trung vào 1 CTA (Đăng ký), không muốn menu điều hướng làm
+    phân tán khách sang trang khác. Footer riêng viết tay ở cuối #wrap bên dưới - thông
+    tin liên hệ/công ty trong đó viết CỨNG (dùng chung mọi khóa học) - sửa trực tiếp
+    trong file này (hoặc qua Website Editor sau khi trang đã tạo) nếu thông tin công ty
+    thay đổi. Muốn hiện lại Header cho 1 trang cụ thể: staff tự bật lại qua Website
+    Editor > Trang > Tuỳ chỉnh (hoặc Page Properties).
+
+    QUAN TRỌNG - ĐÃ BỎ MÔ HÌNH "COMPONENT" (t-call sang ir.ui.view khác) BÊN TRONG
+    #wrap: đã kiểm chứng thực tế là t-call tới 1 view khác bên trong vùng editable làm
+    Website Builder mất HOÀN TOÀN khả năng chỉnh sửa của #wrap (không kéo-thả được
+    thêm block, không sửa được cả text tại chỗ) - không có cách cấu hình nào vá được,
+    đây là giới hạn cứng trong cơ chế "branding" (đánh dấu vùng editable) của Odoo.
+    Vì vậy nội dung bên dưới viết TRỰC TIẾP (inline).
+
+    LƯU Ý CHO NGƯỜI SỬA FILE NÀY SAU: nếu đổi placeholder text (vd đổi lại
+    "[TÊN KHÓA HỌC]") hoặc đổi "data-price=\"0\"", PHẢI sửa lại đúng chuỗi tương ứng
+    trong action_create_landing_page() (models/seroto_course.py) - cơ chế thay thế dựa
+    trên khớp chuỗi CHÍNH XÁC, không tự đồng bộ 2 chiều.
+  -->
+  <record id="page_maukhoahoc_view" model="ir.ui.view">
+    <field name="name">Page - Mẫu Khóa Học</field>
+    <field name="type">qweb</field>
+    <field name="key">seroto_website.page_maukhoahoc</field>
+    <field name="arch" type="xml">
+      <t t-name="seroto_website.page_maukhoahoc">
+        <t t-call="website.layout">
+          <div id="wrap" class="oe_structure">
+
+            <section class="s_course_hero custom-snippet pt64 pb64">
+              <div class="container-page">
+                <div class="row align-items-center">
+                  <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="mb-4">
+                      <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                        class="img-fluid" style="max-height: 60px;"/>
+                    </div>
+                    <h1 class="text-green fw-bold font-baloo-bhaina">[TÊN KHÓA HỌC]</h1>
+                    <p class="text-orange text-2xl fw-semibold">
+                      Mô tả ngắn 1-2 câu về khóa học
+                    </p>
+
+                    <ul class="list-unstyled mb-4 text-lg">
+                      <li class="mb-2 d-flex align-items-center">
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
+                        </span>
+                        <strong class="text-indigo">[HÌNH THỨC HỌC]</strong>
+                      </li>
+                      <li class="mb-2 d-flex align-items-center">
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
+                        </span>
+                        <span class="text-indigo fw-semibold">Thời gian học:</span>&#160;<strong>[hh:mm - hh:mm]</strong>
+                      </li>
+                      <li class="mb-2 d-flex align-items-center">
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
+                        </span>
+                        <span class="text-indigo fw-semibold">Ngày học:</span>&#160;<strong>[dd/mm - dd/mm/yyyy]</strong>
+                      </li>
+                      <li class="mb-2 d-flex align-items-center">
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
+                        </span>
+                        <span class="text-indigo fw-semibold">Hạn chót đăng ký:</span>&#160;<strong>[dd/mm/yyyy]</strong>
+                      </li>
+                    </ul>
+
+                    <button type="button"
+                            class="btn btn-primary rounded-pill px-4 py-2 fw-bold register-course"
+                            data-course="[TÊN KHÓA HỌC]" data-price="0">
+                      Đăng ký ngay
+                    </button>
+                  </div>
+
+                  <div class="col-md-6 text-center">
+                    <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                         class="img-fluid" style="max-height: 380px;"/>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+
+            <!-- Footer RIÊNG cho trang khóa học - không dùng chung Footer chuẩn của
+                 site (đã tắt qua field "footer_visible" bên dưới, xem
+                 addons/website/models/mixins.py - WebsitePageVisibilityOptionsMixin).
+                 Thông tin liên hệ/công ty là DÙNG CHUNG cho mọi khóa học nên viết cứng
+                 (không placeholder), trừ "[TÊN KHÓA HỌC]" và "[URL_TRANG]" (link Website
+                 - CHỈ được điền ở BƯỚC 2, SAU khi website.page đã tạo xong và biết được
+                 url thật - xem action_create_landing_page() trong models/seroto_course.py). -->
+            <section class="s_course_footer custom-snippet pt48 pb48"
+                     style="background: #6dbfc6; color: #fff;">
+              <div class="container-page">
+                <div class="row align-items-center">
+                  <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="bg-white d-inline-block rounded px-3 py-2 mb-3">
+                      <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                          class="img-fluid" style="max-height: 60px;"/>
+                    </div>
+                    <h2 class="text-white fw-bold">[TÊN KHÓA HỌC]</h2>
+                  </div>
+                  <div class="col-lg-6">
+                    <p class="mb-2">
+                      <i class="fa fa-phone me-2 text-yellow"/>
+                      Hotline: <strong>0981 835 555</strong> (Ms.Thuý Hằng)
+                    </p>
+                    <p class="mb-2">
+                      <i class="fa fa-youtube-play me-2 text-yellow"/>
+                      Youtube:
+                      <a class="text-white text-decoration-underline" target="_blank"
+                         href="https://www.youtube.com/@SerotoFoundation/playlists">
+                        youtube.com/@SerotoFoundation
+                      </a>
+                    </p>
+                    <p class="mb-2">
+                      <i class="fa fa-envelope me-2 text-yellow"/>
+                      Email:
+                      <a class="text-white text-decoration-underline"
+                         href="mailto:lienhe@seroto.vn">lienhe@seroto.vn</a>
+                    </p>
+                    <p class="mb-0">
+                      <i class="fa fa-globe me-2 text-yellow"/>
+                      Website:
+                      <a class="text-white text-decoration-underline" href="[URL_TRANG]">
+                        [URL_TRANG]
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                <hr class="border-white opacity-25 my-3"/>
+                <div class="row">
+                  <div class="col-md-6">
+                    <strong>CÔNG TY CỔ PHẦN DOANH NGHIỆP XÃ HỘI SEROTO</strong>
+                  </div>
+                  <div class="col-md-6 text-md-end">
+                    MST: 0109931021 do sở KH&amp;ĐT TPHN thành lập ngày 14/03/2022
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </t>
+      </t>
+    </field>
+  </record>
+
+  <record id="page_maukhoahoc" model="website.page">
+    <field name="name">Mẫu Khóa Học</field>
+    <field name="url">/maukhoahoc</field>
+    <field name="view_id" ref="page_maukhoahoc_view"/>
+    <field name="header_visible">False</field>
+    <field name="footer_visible">False</field>
+    <field name="is_published">True</field>
+    <field name="is_new_page_template">True</field>
+  </record>
+</odoo>

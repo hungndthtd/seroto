@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_quote" name="Trích dẫn">
+    <section class="s_thuc_hanh_eq_quote custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="quote__content-image"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="quote__content">
+              <div class="quote__content-text text-2xl mb-3">
+                <div class="text__shape">
+                  <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                    class="img-fluid" style="max-height: 26px"/>
+                </div>
+                <div class="text__shape">
+                  <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                    class="img-fluid" style="max-height: 26px"/>
+                </div>
+                <span class="fst-italic">Khi bạn cảm thấy cảm xúc bùng lên, chỉ việc sờ tay vào bụng và cảm nhận hơi thở. Chỉ thế thôi mà khiến trái tim bạn trở nên ấm áp hơn và đầu óc bạn quay về trạng thái minh mẫn vốn có!</span>
+              </div>
+              <div class="text-2xl fw-bold text-end">– Dương Quang Minh</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

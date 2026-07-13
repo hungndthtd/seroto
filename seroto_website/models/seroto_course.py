@@ -6,11 +6,11 @@ from odoo.exceptions import UserError
 
 
 class SerotoCourse(models.Model):
-  # _inherit = 'seroto.course'
+  _inherit = 'seroto.course'
 
-  # Tính năng "Tạo trang landing" tách riêng sang vtt_seroto_website (thay vì để
+  # Tính năng "Tạo trang landing" tách riêng sang seroto_website (thay vì để
   # trong seroto_form) vì cần env.ref tới view seroto_form đã KHÔNG THỂ phụ thuộc
-  # ngược vtt_seroto_website (seroto_form không được phép phụ thuộc module con đang
+  # ngược seroto_website (seroto_form không được phép phụ thuộc module con đang
   # phụ thuộc chính nó). Nút bấm tương ứng cũng chuyển sang view kế thừa trong
   # views/seroto_course_views.xml của module này.
 
@@ -25,7 +25,7 @@ class SerotoCourse(models.Model):
 
   def action_create_landing_page(self):
     """Tạo 1 trang landing (website.page) MỚI cho khóa học này từ mẫu
-    vtt_seroto_website.page_maukhoahoc - xem ghi chú chi tiết trong
+    seroto_website.page_maukhoahoc - xem ghi chú chi tiết trong
     views/pages/page_maukhoahoc.xml. Chỉ điền được Tên khóa học + Hình thức học lúc
     này (chưa có lớp học nào để lấy lịch/hạn đăng ký) - phần còn lại staff tự điền qua
     Website Editor sau khi trang được tạo.
@@ -39,14 +39,14 @@ class SerotoCourse(models.Model):
         name=self.name, url=self.landing_page_url,
       ))
 
-    template_view = self.env.ref('vtt_seroto_website.page_maukhoahoc_view')
+    template_view = self.env.ref('seroto_website.page_maukhoahoc_view')
     course_type_labels = dict(self._fields['course_type'].selection)
-    new_key = 'vtt_seroto_website.page_course_%s' % self.id
+    new_key = 'seroto_website.page_course_%s' % self.id
 
     # Thay chuỗi CHÍNH XÁC khớp placeholder trong page_maukhoahoc.xml - xem lưu ý ở
     # đầu file đó nếu cần đổi placeholder text.
     arch = template_view.arch
-    arch = arch.replace('t-name="vtt_seroto_website.page_maukhoahoc"', 't-name="%s"' % new_key)
+    arch = arch.replace('t-name="seroto_website.page_maukhoahoc"', 't-name="%s"' % new_key)
     arch = arch.replace('[TÊN KHÓA HỌC]', self.name or '')
     arch = arch.replace('[HÌNH THỨC HỌC]', course_type_labels.get(self.course_type, ''))
     arch = arch.replace('data-price="0"', 'data-price="%s"' % (self.tuition_fee or 0))

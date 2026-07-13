@@ -313,12 +313,24 @@
                                                         <input type="range" class="form-range" min="5" max="500" t-model="selectedLayer.scale" t-on-input="updatePreview"/>
                                                         <div class="row g-2 mt-2">
                                                             <div class="col-6">
-                                                                <label class="form-label small fw-bold text-muted">Rộng (Width px):</label>
-                                                                <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customWidth" t-on-input="updatePreview" placeholder="Auto"/>
+                                                                <label class="form-label small fw-bold text-muted">Rộng (Width):</label>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customWidth" t-on-input="updatePreview" placeholder="Auto"/>
+                                                                    <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customWidthUnit" t-on-change="updatePreview">
+                                                                        <option value="px">px</option>
+                                                                        <option value="%">%</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                             <div class="col-6">
-                                                                <label class="form-label small fw-bold text-muted">Cao (Height px):</label>
-                                                                <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customHeight" t-on-input="updatePreview" placeholder="Auto"/>
+                                                                <label class="form-label small fw-bold text-muted">Cao (Height):</label>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customHeight" t-on-input="updatePreview" placeholder="Auto"/>
+                                                                    <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customHeightUnit" t-on-change="updatePreview">
+                                                                        <option value="px">px</option>
+                                                                        <option value="%">%</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

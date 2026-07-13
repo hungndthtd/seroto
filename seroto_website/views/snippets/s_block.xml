@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<!--
+  o_snippet_drop_in_only: bắt buộc phải có class này (và KHÔNG được dùng thẻ <section>
+  làm gốc) để Website Builder xếp đây là "Nội dung bên trong" - thả được VÀO TRONG 1
+  block có sẵn. Nếu gốc là <section>, Odoo luôn coi là khối Structure (chỉ thả được như
+  1 section độc lập) bất kể đăng ký ở danh mục nào trong snippets.xml.
+-->
+<template id="s_title_special" name="Title Special">
+  <div class="s_title_special custom-snippet o_snippet_drop_in_only">
+    <div class="title__special">
+      <h1 class="text-orange">Đội ngũ</h1>
+      <div class="title__special-arrow" style="height: 12px; width: 70px">
+        <t t-call="seroto_website.svg_multi_arrow">
+          <t t-set="svg_class" t-value="'text-green-light d-block'"/>
+        </t>
+      </div>
+    </div>
+  </div>
+</template>
+</odoo>

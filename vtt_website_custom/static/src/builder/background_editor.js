@@ -425,7 +425,9 @@ export class BackgroundEditorModal extends Component {
                 angle: 0,
                 scale: 100,
                 customWidth: "",
-                customHeight: ""
+                customWidthUnit: "px",
+                customHeight: "",
+                customHeightUnit: "px"
             };
         }
 
@@ -605,8 +607,8 @@ export class BackgroundEditorModal extends Component {
                 let sizeVal = l.size || "cover";
                 if (sizeVal === "custom") {
                     if (l.customWidth || l.customHeight) {
-                        const w = l.customWidth ? `${l.customWidth}px` : "auto";
-                        const h = l.customHeight ? `${l.customHeight}px` : "auto";
+                        const w = l.customWidth ? `${l.customWidth}${l.customWidthUnit || "px"}` : "auto";
+                        const h = l.customHeight ? `${l.customHeight}${l.customHeightUnit || "px"}` : "auto";
                         sizeVal = `${w} ${h}`;
                     } else if (l.scale) {
                         sizeVal = `${l.scale}%`;
@@ -726,8 +728,8 @@ export class BackgroundEditorModal extends Component {
                 let sizeVal = l.size || "cover";
                 if (sizeVal === "custom") {
                     if (l.customWidth || l.customHeight) {
-                        const w = l.customWidth ? `${l.customWidth}px` : "auto";
-                        const h = l.customHeight ? `${l.customHeight}px` : "auto";
+                        const w = l.customWidth ? `${l.customWidth}${l.customWidthUnit || "px"}` : "auto";
+                        const h = l.customHeight ? `${l.customHeight}${l.customHeightUnit || "px"}` : "auto";
                         sizeVal = `${w} ${h}`;
                     } else if (l.scale) {
                         sizeVal = `${l.scale}%`;

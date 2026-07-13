@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Snippet kéo thả "Course Card" - hiển thị danh sách khóa học (model seroto.course)
+    và cho phép đăng ký qua modal dùng chung (seroto_form.course_register_modal).
+
+    Modal KHÔNG được t-call ở đây: nó đã được gắn sẵn trên MỌI trang qua
+    views/course_register_modal.xml (template course_register_modal_layout, inherit
+    website.layout, đặt ngoài vùng #wrapwrap). Lý do: nếu đặt modal bên trong snippet
+    này, lúc kéo thả + LƯU trang, Website Builder sẽ đóng băng HTML đã render (kèm
+    csrf_token cũ) thành nội dung tĩnh vĩnh viễn -> form đăng ký luôn báo lỗi
+    "Session expired (invalid CSRF token)" dù có F5 lại trang.
+
+    Cách hoạt động:
+    - Nội dung bên dưới chỉ là dữ liệu tĩnh ban đầu, render 1 lần bằng QWeb server-side
+      (hiển thị ngay lúc kéo thả / trước khi JS kịp chạy).
+    - Khi trang thực sự tải trên frontend, static/src/js/course_snippet.js sẽ gọi route
+      /seroto/course/list (controllers/website_snippet.py) để lấy danh sách khóa học MỚI
+      NHẤT và thay nội dung trong .js_course_container - nhờ vậy danh sách luôn cập nhật
+      dù HTML đã được lưu tĩnh vào trang sau khi kéo thả.
+    - Nút "Đăng ký ngay" dùng class "register-course" + data-course/data-price, đã được
+      xử lý sẵn bởi widget CourseRegister (static/src/js/register_modal.js, gắn trên
+      #wrap của MỌI trang frontend) - nên không cần viết lại logic mở modal ở
+      course_snippet.js.
+
+    Lọc theo đề mục (Giáo viên/Học viên/...):
+    - Model seroto.course.audience (quản lý tại menu Khoá học > Đối tượng khóa học) là
+      tag Many2many trên seroto.course (field audience_ids) - 1 khóa học có thể thuộc
+      nhiều đề mục cùng lúc (vd EQ 5 phút vừa thuộc "Giáo viên" vừa thuộc "Học viên").
+    - Mỗi đề mục có field "code" (mã kỹ thuật, admin tự đặt khi tạo tag, vd
+      "teacher"/"student") để lọc ổn định dù "Tên đề mục" hiển thị có bị đổi sau này.
+    - s_dynamic_course_card_teacher / _student bên dưới là 2 snippet RIÊNG, mỗi cái gắn
+      cứng 1 mã đề mục qua data-audience-code trên section (course_snippet.js đọc lại để
+      gọi đúng RPC). Muốn thêm đề mục mới (vd "Phụ huynh") thì: (1) tạo tag mới ở menu
+      trên với code tương ứng, (2) copy 1 trong 2 template bên dưới, đổi id + heading +
+      data-audience-code - không cần sửa model/controller/JS vì chúng đã lọc theo "code"
+      chung chung, không hardcode tên đề mục nào.
+    - Icon/tiêu đề/mô tả của từng section là text thường, sửa trực tiếp trên Website
+      Editor (contenteditable mặc định) - không cần cấu hình gì thêm.
+  -->
+
+  <!-- Nội dung dùng chung cho mọi biến thể "Course Card" (không phải snippet độc lập) -->
+  <template id="s_course_card_content" name="Course Card Content (internal)">
+    <div class="row js_course_container">
+      <t t-foreach="products" t-as="product">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header p-0">
+              <t t-if="product.image">
+                <img t-att-src="'/web/image/seroto.course/%s/image' % product.id"
+                     t-att-alt="product.name"
+                     class="img-fluid w-100"
+                     style="height:220px; object-fit:cover;"/>
+              </t>
+              <t t-else="">
+                <img src="/web/static/img/placeholder.png"
+                     class="img-fluid w-100"
+                     style="height:220px; object-fit:cover;"/>
+              </t>
+            </div>
+
+            <div class="card-body d-flex flex-column">
+              <h4><t t-esc="product.name"/></h4>
+              <p><t t-esc="product.subtitle"/></p>
+
+              <t t-set="badge_class"
+                 t-value="'success' if product.course_type == 'online' else 'danger'"/>
+              <span t-attf-class="py-1 px-2 rounded-pill border border-#{badge_class} text-#{badge_class}"
+                    style="font-size: 12px;">
+                <i class="fa fa-circle me-1"/>
+                <t t-esc="dict(product._fields['course_type'].selection).get(product.course_type)"/>
+              </span>
+
+              <div style="font-size: 14px;"><t t-out="product.description"/></div>
+
+              <p>
+                <i class="fa fa-user me-1"/>
+                <t t-esc="product.teacher_id.name"/>
+              </p>
+
+              <t t-set="state_labels" t-value="dict(product._fields['state'].selection)"/>
+              <t t-set="enrollment_label"
+                 t-value="(state_labels.get(product.state, '') + (' ' + product.next_class_id.code if product.next_class_id.code else '')).strip()"/>
+              <p t-if="enrollment_label">
+                <i class="fa fa-info-circle me-1"/>
+                Tuyển sinh: <t t-esc="enrollment_label"/>
+              </p>
+
+              <!--
+                Luôn hiện 3 dòng này (kể cả khi chưa có lớp/ngày cụ thể) với placeholder
+                "Sắp công bố" - tránh card bị "thiếu" trông không đồng bộ với card khác.
+              -->
+              <t t-if="product.next_class_id.date_start">
+                <t t-set="class_date_label"
+                   t-value="product.next_class_id.date_start.strftime('%d/%m') + (' - ' + product.next_class_id.date_end.strftime('%d/%m') if product.next_class_id.date_end else '')"/>
+              </t>
+              <t t-else="">
+                <t t-set="class_date_label" t-value="'Sắp công bố'"/>
+              </t>
+              <p>
+                <i class="fa fa-calendar me-1"/>
+                Ngày học: <t t-esc="class_date_label"/>
+              </p>
+              <p>
+                <i class="fa fa-clock-o me-1"/>
+                Thời gian: <t t-esc="product.next_class_id.schedule_note or 'Sắp công bố'"/>
+              </p>
+              <t t-if="product.next_class_id.registration_deadline">
+                <t t-set="deadline_label" t-value="product.next_class_id.registration_deadline.strftime('%d/%m')"/>
+              </t>
+              <t t-else="">
+                <t t-set="deadline_label" t-value="'Sắp công bố'"/>
+              </t>
+              <p>
+                <i class="fa fa-hourglass-half me-1"/>
+                Thời hạn đăng ký: <t t-esc="deadline_label"/>
+              </p>
+
+              <div class="d-flex justify-content-between gap-2 mt-auto pt-3">
+                <!-- mt-auto: đẩy hàng nút xuống SÁT ĐÁY thẻ dù nội dung mô tả dài/ngắn
+                     khác nhau giữa các khóa học - cần .card-body có d-flex flex-column
+                     ở trên để mt-auto phát huy tác dụng (đẩy theo trục flex dọc). -->
+                <!-- 'draft' = "Đang chờ" (chưa mở đăng ký) - disable nút, không gắn
+                     class "register-course" nên bấm cũng không mở được modal đăng ký -->
+                <t t-if="product.state != 'draft'">
+                  <button type="button" class="btn btn-primary register-course flex-fill"
+                          t-att-data-course="product.name"
+                          t-att-data-price="product.tuition_fee">
+                    Đăng ký ngay
+                  </button>
+                </t>
+                <t t-else="">
+                  <button type="button" class="btn btn-primary flex-fill" disabled="disabled">
+                    Sắp mở đăng ký
+                  </button>
+                </t>
+                <!-- Chỉ hiện khi khóa học có trang landing riêng (field
+                     seroto.course.landing_page_url, nhập tay qua form Khóa học) - link
+                     thẳng, KHÔNG lấy/truyền thông tin gì qua JS vì trang landing đích tự
+                     chứa đầy đủ nội dung của nó rồi (xem views/pages/page_maukhoahoc.xml).
+                     target="_blank": mở trang khóa học ở tab mới, không mất trang danh
+                     sách khóa học đang xem. -->
+                <a t-if="product.landing_page_url" t-att-href="product.landing_page_url"
+                   target="_blank" rel="noopener" class="btn btn-outline-primary flex-fill">
+                  Chi tiết
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </t>
+    </div>
+  </template>
+
+  <!-- Snippet mặc định: 3 khóa học mới nhất, không lọc theo đề mục -->
+  <template id="s_dynamic_course_card" name="Course Card">
+    <section class="s_dynamic_course_card o_colored_level pt48 pb48">
+      <div class="container">
+        <div class="text-center mb-4">
+          <h1>Khóa học nổi bật</h1>
+          <p>Khám phá các khóa học đang mở đăng ký</p>
+        </div>
+
+        <!-- <t t-set="products"
+           t-value="request.env['seroto.course'].sudo().search([('active', '=', True)], limit=3)"/>
+
+        <t t-call="seroto_website.s_course_card_content"/> -->
+      </div>
+    </section>
+  </template>
+
+  <!-- Snippet lọc đề mục "Giáo viên" (code = 'teacher') -->
+  <template id="s_dynamic_course_card_teacher" name="Course Card - Giáo viên">
+    <section class="s_dynamic_course_card o_colored_level pt48 pb48" data-audience-code="teacher">
+      <div class="container">
+        <div class="mb-4">
+          <h3><i class="fa fa-graduation-cap me-2"/>EQ dành cho giáo viên:</h3>
+          <p>Khóa học Trí tuệ cảm xúc (EQ) dành cho giáo viên để trở thành giáo viên thực
+             hành EQ, ứng dụng EQ trong những hoạt động nhỏ và trong tiết học Trải
+             Nghiệm, Hướng nghiệp.</p>
+        </div>
+
+        <t t-set="products"
+           t-value="request.env['seroto.course'].sudo().search([
+               ('active', '=', True),
+               ('audience_ids.code', '=', 'teacher'),
+           ], limit=3)"/>
+
+        <t t-call="seroto_website.s_course_card_content"/>
+      </div>
+    </section>
+  </template>
+
+  <!-- Snippet lọc đề mục "Học viên" (code = 'school') -->
+  <template id="s_dynamic_course_card_school" name="Course Card - Trường học">
+    <section class="s_dynamic_course_card o_colored_level pt48 pb48" data-audience-code="school">
+      <div class="container">
+        <div class="mb-4">
+          <h3><i class="fa fa-suitcase me-2"/>EQ dành cho Ban giám hiệu, chủ trường, trưởng dự án trường học hạnh phúc ở trường:</h3>
+        </div>
+
+        <t t-set="products"
+           t-value="request.env['seroto.course'].sudo().search([
+               ('active', '=', True),
+               ('audience_ids.code', '=', 'school'),
+           ], limit=3)"/>
+
+        <t t-call="seroto_website.s_course_card_content"/>
+      </div>
+    </section>
+  </template>
+
+  <!-- Snippet lọc đề mục "Học viên" (code = 'student') -->
+  <template id="s_dynamic_course_card_student" name="Course Card - Học viên">
+    <section class="s_dynamic_course_card o_colored_level pt48 pb48" data-audience-code="student">
+      <div class="container">
+        <div class="mb-4">
+          <h3><i class="fa fa-home me-2"/>EQ dành cho cá nhân, gia đình:</h3>
+          <p>Khóa học Trí tuệ cảm xúc (EQ) dành cho cá nhân, cha mẹ và Teen để tăng sự
+             thấu hiểu bản thân, thấu cảm, xây dựng mối quan hệ tốt đẹp, phát triển tư
+             duy, nhận thức. Cha mẹ đồng hành, hướng dẫn con phát triển EQ.</p>
+        </div>
+
+        <t t-set="products"
+           t-value="request.env['seroto.course'].sudo().search([
+               ('active', '=', True),
+               ('audience_ids.code', '=', 'student'),
+           ], limit=3)"/>
+
+        <t t-call="seroto_website.s_course_card_content"/>
+      </div>
+    </section>
+  </template>
+
+</odoo>
