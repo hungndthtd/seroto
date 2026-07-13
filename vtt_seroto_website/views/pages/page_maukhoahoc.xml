@@ -56,53 +56,57 @@
   <record id="page_maukhoahoc_view" model="ir.ui.view">
     <field name="name">Page - Mẫu Khóa Học</field>
     <field name="type">qweb</field>
-    <field name="key">seroto_form.page_maukhoahoc</field>
+    <field name="key">vtt_seroto_website.page_maukhoahoc</field>
     <field name="arch" type="xml">
-      <t t-name="seroto_form.page_maukhoahoc">
+      <t t-name="vtt_seroto_website.page_maukhoahoc">
         <t t-call="website.layout">
           <div id="wrap" class="oe_structure">
 
-            <section class="s_course_hero custom-snippet pt48 pb48" style="background: #eaf6fb;">
-              <div class="container">
+            <section class="s_course_hero custom-snippet pt64 pb64">
+              <div class="container-page">
                 <div class="row align-items-center">
-                  <div class="col-lg-6 mb-4 mb-lg-0">
-                    <h1 class="text-green fw-bold">[TÊN KHÓA HỌC]</h1>
-                    <p class="text-orange text-xl fw-semibold">
+                  <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="mb-4">
+                      <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                        class="img-fluid" style="max-height: 60px;"/>
+                    </div>
+                    <h1 class="text-green fw-bold font-baloo-bhaina">[TÊN KHÓA HỌC]</h1>
+                    <p class="text-orange text-2xl fw-semibold">
                       Mô tả ngắn 1-2 câu về khóa học
                     </p>
 
-                    <ul class="list-unstyled mb-4">
+                    <ul class="list-unstyled mb-4 text-lg">
                       <li class="mb-2 d-flex align-items-center">
-                        <span class="d-inline-flex align-items-center justify-content-center me-2"
-                              style="width:22px; height:22px; border-radius:6px; flex:none;
-                                     background:var(--color-green); color:#fff; font-size:12px;">
-                          <i class="fa fa-check"/>
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
                         </span>
-                        <strong>[HÌNH THỨC HỌC]</strong>
+                        <strong class="text-indigo">[HÌNH THỨC HỌC]</strong>
                       </li>
                       <li class="mb-2 d-flex align-items-center">
-                        <span class="d-inline-flex align-items-center justify-content-center me-2"
-                              style="width:22px; height:22px; border-radius:6px; flex:none;
-                                     background:var(--color-green); color:#fff; font-size:12px;">
-                          <i class="fa fa-check"/>
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
                         </span>
-                        Thời gian học:&#160;<strong>[hh:mm - hh:mm]</strong>
+                        <span class="text-indigo fw-semibold">Thời gian học:</span>&#160;<strong>[hh:mm - hh:mm]</strong>
                       </li>
                       <li class="mb-2 d-flex align-items-center">
-                        <span class="d-inline-flex align-items-center justify-content-center me-2"
-                              style="width:22px; height:22px; border-radius:6px; flex:none;
-                                     background:var(--color-green); color:#fff; font-size:12px;">
-                          <i class="fa fa-check"/>
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
                         </span>
-                        Ngày học:&#160;<strong>[dd/mm - dd/mm/yyyy]</strong>
+                        <span class="text-indigo fw-semibold">Ngày học:</span>&#160;<strong>[dd/mm - dd/mm/yyyy]</strong>
                       </li>
                       <li class="mb-2 d-flex align-items-center">
-                        <span class="d-inline-flex align-items-center justify-content-center me-2"
-                              style="width:22px; height:22px; border-radius:6px; flex:none;
-                                     background:var(--color-green); color:#fff; font-size:12px;">
-                          <i class="fa fa-check"/>
+                        <span class="text-orange me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                            <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                          </svg>
                         </span>
-                        Hạn chót đăng ký:&#160;<strong>[dd/mm/yyyy]</strong>
+                        <span class="text-indigo fw-semibold">Hạn chót đăng ký:</span>&#160;<strong>[dd/mm/yyyy]</strong>
                       </li>
                     </ul>
 
@@ -113,7 +117,7 @@
                     </button>
                   </div>
 
-                  <div class="col-lg-6 text-center">
+                  <div class="col-md-6 text-center">
                     <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
                          class="img-fluid" style="max-height: 380px;"/>
                   </div>
@@ -121,60 +125,6 @@
               </div>
             </section>
 
-            <section class="s_roadmap_steps custom-snippet pt48 pb48">
-              <div class="container">
-                <h2 class="text-center text-orange mb-4">Lịch trình học</h2>
-                <div class="row">
-                  <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm p-3">
-                      <h5 class="text-orange">Buổi 1</h5>
-                      <p class="text-muted mb-2">[Ngày] | [Giờ]</p>
-                      <p>Nội dung buổi 1.</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm p-3">
-                      <h5 class="text-orange">Buổi 2</h5>
-                      <p class="text-muted mb-2">[Ngày] | [Giờ]</p>
-                      <p>Nội dung buổi 2.</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm p-3">
-                      <h5 class="text-orange">Buổi 3</h5>
-                      <p class="text-muted mb-2">[Ngày] | [Giờ]</p>
-                      <p>Nội dung buổi 3.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section class="s_pricing custom-snippet pt48 pb48" style="background: #e1faff;">
-              <div class="container">
-                <h2 class="text-center text-orange mb-4">Bảng giá</h2>
-                <div class="row justify-content-center">
-                  <div class="col-md-4 mb-3">
-                    <div class="card h-100 shadow-sm p-3 text-center">
-                      <h5>[Đối tượng 1]</h5>
-                      <p class="text-2xl text-orange">[Giá]đ</p>
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card h-100 shadow-sm p-3 text-center">
-                      <h5>[Đối tượng 2]</h5>
-                      <p class="text-2xl text-orange">[Giá]đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center mt-3">
-                  <button type="button" class="btn btn-primary register-course"
-                          data-course="[TÊN KHÓA HỌC]" data-price="0">
-                    Đăng ký ngay
-                  </button>
-                </div>
-              </div>
-            </section>
 
             <!-- Footer RIÊNG cho trang khóa học - không dùng chung Footer chuẩn của
                  site (đã tắt qua field "footer_visible" bên dưới, xem
@@ -184,23 +134,23 @@
                  - CHỈ được điền ở BƯỚC 2, SAU khi website.page đã tạo xong và biết được
                  url thật - xem action_create_landing_page() trong models/seroto_course.py). -->
             <section class="s_course_footer custom-snippet pt48 pb48"
-                     style="background: var(--color-green); color: #fff;">
-              <div class="container">
+                     style="background: #6dbfc6; color: #fff;">
+              <div class="container-page">
                 <div class="row align-items-center">
                   <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="bg-white d-inline-block rounded px-3 py-2 mb-3">
-                      <span class="text-green fw-bold fs-4">Seroto</span>
-                      <span class="text-orange d-block text-xs">Foundation</span>
+                      <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                          class="img-fluid" style="max-height: 60px;"/>
                     </div>
-                    <h3 class="text-white fw-bold">[TÊN KHÓA HỌC]</h3>
+                    <h2 class="text-white fw-bold">[TÊN KHÓA HỌC]</h2>
                   </div>
                   <div class="col-lg-6">
                     <p class="mb-2">
-                      <i class="fa fa-phone me-2"/>
+                      <i class="fa fa-phone me-2 text-yellow"/>
                       Hotline: <strong>0981 835 555</strong> (Ms.Thuý Hằng)
                     </p>
                     <p class="mb-2">
-                      <i class="fa fa-youtube-play me-2"/>
+                      <i class="fa fa-youtube-play me-2 text-yellow"/>
                       Youtube:
                       <a class="text-white text-decoration-underline" target="_blank"
                          href="https://www.youtube.com/@SerotoFoundation/playlists">
@@ -208,13 +158,13 @@
                       </a>
                     </p>
                     <p class="mb-2">
-                      <i class="fa fa-envelope me-2"/>
+                      <i class="fa fa-envelope me-2 text-yellow"/>
                       Email:
                       <a class="text-white text-decoration-underline"
                          href="mailto:lienhe@seroto.vn">lienhe@seroto.vn</a>
                     </p>
                     <p class="mb-0">
-                      <i class="fa fa-globe me-2"/>
+                      <i class="fa fa-globe me-2 text-yellow"/>
                       Website:
                       <a class="text-white text-decoration-underline" href="[URL_TRANG]">
                         [URL_TRANG]
@@ -224,10 +174,10 @@
                 </div>
                 <hr class="border-white opacity-25 my-3"/>
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-md-6">
                     <strong>CÔNG TY CỔ PHẦN DOANH NGHIỆP XÃ HỘI SEROTO</strong>
                   </div>
-                  <div class="col-md-4 text-md-end">
+                  <div class="col-md-6 text-md-end">
                     MST: 0109931021 do sở KH&amp;ĐT TPHN thành lập ngày 14/03/2022
                   </div>
                 </div>

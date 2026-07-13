@@ -60,7 +60,7 @@
               </t>
             </div>
 
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
               <h4><t t-esc="product.name"/></h4>
               <p><t t-esc="product.subtitle"/></p>
 
@@ -117,28 +117,35 @@
                 Thời hạn đăng ký: <t t-esc="deadline_label"/>
               </p>
 
-              <!-- 'draft' = "Đang chờ" (chưa mở đăng ký) - disable nút, không gắn
-                   class "register-course" nên bấm cũng không mở được modal đăng ký -->
-              <t t-if="product.state != 'draft'">
-                <button type="button" class="btn btn-primary register-course"
-                        t-att-data-course="product.name"
-                        t-att-data-price="product.tuition_fee">
-                  Đăng ký ngay
-                </button>
-              </t>
-              <t t-else="">
-                <button type="button" class="btn btn-primary" disabled="disabled">
-                  Sắp mở đăng ký
-                </button>
-              </t>
-              <!-- Chỉ hiện khi khóa học có trang landing riêng (field
-                   seroto.course.landing_page_url, nhập tay qua form Khóa học) - link
-                   thẳng, KHÔNG lấy/truyền thông tin gì qua JS vì trang landing đích tự
-                   chứa đầy đủ nội dung của nó rồi (xem views/pages/page_maukhoahoc.xml). -->
-              <a t-if="product.landing_page_url" t-att-href="product.landing_page_url"
-                 class="btn btn-outline-primary ms-2">
-                Chi tiết
-              </a>
+              <div class="d-flex justify-content-between gap-2 mt-auto pt-3">
+                <!-- mt-auto: đẩy hàng nút xuống SÁT ĐÁY thẻ dù nội dung mô tả dài/ngắn
+                     khác nhau giữa các khóa học - cần .card-body có d-flex flex-column
+                     ở trên để mt-auto phát huy tác dụng (đẩy theo trục flex dọc). -->
+                <!-- 'draft' = "Đang chờ" (chưa mở đăng ký) - disable nút, không gắn
+                     class "register-course" nên bấm cũng không mở được modal đăng ký -->
+                <t t-if="product.state != 'draft'">
+                  <button type="button" class="btn btn-primary register-course flex-fill"
+                          t-att-data-course="product.name"
+                          t-att-data-price="product.tuition_fee">
+                    Đăng ký ngay
+                  </button>
+                </t>
+                <t t-else="">
+                  <button type="button" class="btn btn-primary flex-fill" disabled="disabled">
+                    Sắp mở đăng ký
+                  </button>
+                </t>
+                <!-- Chỉ hiện khi khóa học có trang landing riêng (field
+                     seroto.course.landing_page_url, nhập tay qua form Khóa học) - link
+                     thẳng, KHÔNG lấy/truyền thông tin gì qua JS vì trang landing đích tự
+                     chứa đầy đủ nội dung của nó rồi (xem views/pages/page_maukhoahoc.xml).
+                     target="_blank": mở trang khóa học ở tab mới, không mất trang danh
+                     sách khóa học đang xem. -->
+                <a t-if="product.landing_page_url" t-att-href="product.landing_page_url"
+                   target="_blank" rel="noopener" class="btn btn-outline-primary flex-fill">
+                  Chi tiết
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -158,7 +165,7 @@
         <!-- <t t-set="products"
            t-value="request.env['seroto.course'].sudo().search([('active', '=', True)], limit=3)"/>
 
-        <t t-call="seroto_form.s_course_card_content"/> -->
+        <t t-call="vtt_seroto_website.s_course_card_content"/> -->
       </div>
     </section>
   </template>
@@ -180,7 +187,7 @@
                ('audience_ids.code', '=', 'teacher'),
            ], limit=3)"/>
 
-        <t t-call="seroto_form.s_course_card_content"/>
+        <t t-call="vtt_seroto_website.s_course_card_content"/>
       </div>
     </section>
   </template>
@@ -199,7 +206,7 @@
                ('audience_ids.code', '=', 'school'),
            ], limit=3)"/>
 
-        <t t-call="seroto_form.s_course_card_content"/>
+        <t t-call="vtt_seroto_website.s_course_card_content"/>
       </div>
     </section>
   </template>
@@ -221,7 +228,7 @@
                ('audience_ids.code', '=', 'student'),
            ], limit=3)"/>
 
-        <t t-call="seroto_form.s_course_card_content"/>
+        <t t-call="vtt_seroto_website.s_course_card_content"/>
       </div>
     </section>
   </template>

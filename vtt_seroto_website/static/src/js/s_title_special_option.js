@@ -12,7 +12,7 @@ import { BEGIN } from "@html_builder/utils/option_sequence";
 // - vì .title__special bên trong là display:inline-block nên text-align trên khối cha
 // sẽ canh giữa/trái/phải toàn bộ tiêu đề + mũi tên.
 export class TitleSpecialOption extends BaseOptionComponent {
-    static template = "seroto_form.TitleSpecialOption";
+    static template = "vtt_seroto_website.TitleSpecialOption";
     static selector = ".s_title_special";
 }
 

@@ -33,12 +33,6 @@
             type="object"
             string="Xem các lớp"
           />
-          <button
-            name="action_create_landing_page"
-            type="object"
-            string="Tạo trang landing"
-            invisible="landing_page_url"
-          />
           <field
             name="state"
             widget="statusbar"

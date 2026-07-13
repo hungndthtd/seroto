@@ -1,10 +1,12 @@
 .custom-snippet {
+  --font-roboto: 'Roboto', Arial, sans-serif;
   --color-blue: #66a1ee;
   --color-orange: #EF6723;
   --color-green: #008080;
   --color-green-light: #a1d6df;
   --color-yellow: #F6C246;
   --color-indigo: #051F4D;
+  --color-pink: #ed678f;
   .text-blue {
     color: var(--color-blue);
   }
@@ -22,6 +24,9 @@
   }
   .text-indigo {
     color: var(--color-indigo);
+  }
+  .text-pink {
+    color: var(--color-pink);
   }
   .text-xs {
     font-size: 12px;
@@ -43,6 +48,50 @@
   }
   .text-2xl {
     font-size: 24px;
+  }
+  .text-3xl {
+    font-size: 32px;
+  }
+  .text-4xl {
+    font-size: 40px;
+  }
+  .text-5xl {
+    font-size: 48px;
+  }
+  .text-6xl {
+    font-size: 56px;
+  }
+  /* Font chữ dựng sẵn cho Option "Font chữ" (xem s_course_hero_font_option.js) - CHƯA
+     có font thương hiệu thật, đang dùng font hệ thống làm placeholder. Muốn đổi font
+     thật: thêm @font-face/import Google Fonts ở đây rồi đổi tên trong font-family. */
+
+  .font-roboto {
+    font-family: var(--font-roboto);
+  }
+  .font-baloo-bhaina {
+    font-family: 'Baloo Bhaina', cursive;
+  }
+  .font-script {
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  }
+  .font-clean {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    font-family: var(--font-roboto);
+  }
+
+  .container-page {
+    --gutter-x: 30px;
+    --gutter-y: 0;
+    font-family: var(--font-roboto);
+    width: 100%;
+    padding-right: calc(var(--gutter-x) * .5);
+    padding-left: calc(var(--gutter-x) * .5);
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1080px;
   }
 
   .title__special {
@@ -141,6 +190,63 @@
       }
       .card__content {
         max-width: 460px;
+      }
+    }
+  }
+}
+
+/* Roadmap Timeline - đường chấm nối giữa các mốc (Lịch trình học) */
+.s_roadmap_timeline {
+  .roadmap_step {
+    position: relative;
+    /* Đường chấm nối - đặt trên chính khung icon (không phải cả .roadmap_step) nên
+       luôn đúng tâm dù icon co giãn kích thước nào (top: 50% của .roadmap_step_icon). */
+    &:not(:last-child) .roadmap_step_icon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      width: 100%;
+      border-top: 2px dashed var(--color-orange, #EF6723);
+      z-index: -1;
+    }
+  }
+
+  /* Kích thước vòng tròn icon - responsive: co theo % chiều rộng cột, chặn trần bằng
+     max-width thay vì 1 số px cố định như trước. */
+  .roadmap_step_icon {
+    position: relative;
+    width: 100%;
+    max-width: 180px;
+    aspect-ratio: 1 / 1;
+    img {
+      max-width: 120px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .roadmap_step_icon::after {
+      display: none;
+    }
+  }
+}
+
+/* Trải nghiệm EQ Timeline */
+.s_trai_nghiem_eq_timeline {
+  --color-indigo: #2b3f75;
+  .timeline__step {
+    position: relative;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-radius: 40px 0;
+    padding: 24px 16px;
+    &-image {
+      margin-bottom: 30px;
+    }
+    &-content {
+      color: var(--color-indigo);
+      h4 {
+        margin-bottom: 0;
       }
     }
   }

@@ -12,28 +12,38 @@
     <!-- Thêm nhóm (tab) "Seroto" cạnh khu vực nhóm snippet của các module khác -->
     <xpath expr="//snippets[@id='snippet_groups']/t[@id='installed_snippets_hook']" position="before">
       <t snippet-group="seroto" t-snippet="website.s_snippet_group" string="Seroto"
-         t-thumbnail="/seroto_form/static/src/img/course.png"/>
+         t-thumbnail="/vtt_seroto_website/static/src/img/course.png"/>
+      <!-- Nhóm riêng cho các block chuyên dùng ở trang landing khóa học (khác Course
+           Card/Team/Project ở nhóm "Seroto" chung) - dễ tìm hơn khi số lượng tăng lên. -->
+      <t snippet-group="seroto_landing" t-snippet="website.s_snippet_group" string="Seroto - Landing"
+         t-thumbnail="/vtt_seroto_website/static/src/img/course.png"/>
     </xpath>
 
     <!-- Đăng ký các snippet Course Card vào cuối danh sách Structure -->
     <xpath expr="//snippets[@id='snippet_structure']" position="inside">
-      <t t-snippet="seroto_form.s_dynamic_course_card" string="Course Card" group="seroto">
+      <t t-snippet="vtt_seroto_website.s_dynamic_course_card" string="Course Card" group="seroto">
         <keywords>course, khóa học, crm, register, đăng ký, nổi bật</keywords>
       </t>
-      <t t-snippet="seroto_form.s_dynamic_course_card_teacher" string="Course Card - Giáo viên" group="seroto">
+      <t t-snippet="vtt_seroto_website.s_dynamic_course_card_teacher" string="Course Card - Giáo viên" group="seroto">
         <keywords>course, khóa học, giáo viên, teacher, crm, register, đăng ký</keywords>
       </t>
-      <t t-snippet="seroto_form.s_dynamic_course_card_school" string="Course Card - Trường học" group="seroto">
+      <t t-snippet="vtt_seroto_website.s_dynamic_course_card_school" string="Course Card - Trường học" group="seroto">
         <keywords>course, khóa học, học viên, student, crm, register, đăng ký</keywords>
       </t>
-      <t t-snippet="seroto_form.s_dynamic_course_card_student" string="Course Card - Học viên" group="seroto">
+      <t t-snippet="vtt_seroto_website.s_dynamic_course_card_student" string="Course Card - Học viên" group="seroto">
         <keywords>course, khóa học, học viên, student, crm, register, đăng ký</keywords>
       </t>
-      <t t-snippet="seroto_form.s_team" string="Team - Đội ngũ" group="seroto">
+      <t t-snippet="vtt_seroto_website.s_team" string="Team - Đội ngũ" group="seroto">
         <keywords>team</keywords>
       </t>
-      <t t-snippet="seroto_form.s_project" string="Project - Dự án" group="seroto">
+      <t t-snippet="vtt_seroto_website.s_project" string="Project - Dự án" group="seroto">
         <keywords>project</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_roadmap_timeline" string="Lịch trình học" group="seroto_landing">
+        <keywords>lịch trình, roadmap, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trai_nghiem_eq_timeline" string="Lịch trình học" group="seroto_landing">
+        <keywords>lịch trình, roadmap, buổi học, học phí</keywords>
       </t>
     </xpath>
 
@@ -44,7 +54,7 @@
       (xem addons/website/views/snippets/snippets.xml phần "Inner snippets").
     -->
     <xpath expr="//snippets[@id='snippet_content']" position="inside">
-      <t t-snippet="seroto_form.s_title_special" string="Title - Tiêu đề" t-thumbnail="/seroto_form/static/src/img/course.png">
+      <t t-snippet="vtt_seroto_website.s_title_special" string="Title - Tiêu đề" t-thumbnail="/vtt_seroto_website/static/src/img/course.png">
         <keywords>title, tiêu đề</keywords>
       </t>
     </xpath>

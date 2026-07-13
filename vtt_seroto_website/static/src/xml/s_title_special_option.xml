@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-<t t-name="seroto_form.TitleSpecialOption">
+<t t-name="vtt_seroto_website.TitleSpecialOption">
     <BuilderRow label.translate="Căn chỉnh">
         <BuilderButtonGroup>
             <BuilderButton className="'fa fa-fw fa-align-left'" title.translate="Trái" classAction="'text-start'"/>

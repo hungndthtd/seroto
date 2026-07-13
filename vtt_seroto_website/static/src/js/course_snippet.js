@@ -63,8 +63,11 @@ publicWidget.registry.SerotoCourseSnippet = publicWidget.Widget.extend({
             img.alt = course.name;
             card.appendChild(img);
 
+            // d-flex flex-column: cần thiết để nút mt-auto (thêm bên dưới) đẩy hàng
+            // nút xuống sát đáy thẻ dù mô tả khóa học dài/ngắn khác nhau - khớp với
+            // bản QWeb tĩnh (views/snippets/s_course_card.xml).
             const body = document.createElement('div');
-            body.className = 'card-body';
+            body.className = 'card-body d-flex flex-column';
 
             const title = document.createElement('h4');
             title.textContent = course.name;
@@ -119,9 +122,16 @@ publicWidget.registry.SerotoCourseSnippet = publicWidget.Widget.extend({
             deadline.appendChild(document.createTextNode(`Thời hạn đăng ký: ${course.registration_deadline || 'Sắp công bố'}`));
             body.appendChild(deadline);
 
+            // Bọc 2 nút trong 1 hàng flex dàn đều (justify-content-between + flex-fill
+            // trên từng nút) - khớp với bản QWeb tĩnh (views/snippets/s_course_card.xml).
+            // mt-auto (thay vì mt-3 cố định): đẩy hàng nút xuống sát đáy thẻ dù mô tả
+            // khóa học dài/ngắn khác nhau, các thẻ cùng hàng luôn thẳng hàng nút.
+            const btnRow = document.createElement('div');
+            btnRow.className = 'd-flex justify-content-between gap-2 mt-auto pt-3';
+
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'btn btn-primary register-course mt-3';
+            btn.className = 'btn btn-primary register-course flex-fill';
             btn.dataset.course = course.name;
             btn.dataset.price = course.tuition_fee;
             if (course.registration_open) {
@@ -134,18 +144,23 @@ publicWidget.registry.SerotoCourseSnippet = publicWidget.Widget.extend({
                 btn.classList.remove('register-course');
                 btn.textContent = 'Sắp mở đăng ký';
             }
-            body.appendChild(btn);
+            btnRow.appendChild(btn);
 
             // Chỉ hiện khi khóa học có trang landing riêng (field
             // seroto.course.landing_page_url, nhập tay qua form Khóa học) - link thẳng,
             // khớp với nút "Chi tiết" trong bản QWeb tĩnh (views/snippets/s_course_card.xml).
+            // target="_blank": mở trang khóa học ở tab mới, không mất trang đang xem.
             if (course.landing_page_url) {
                 const detailLink = document.createElement('a');
-                detailLink.className = 'btn btn-outline-primary mt-3 ms-2';
+                detailLink.className = 'btn btn-outline-primary flex-fill';
                 detailLink.href = course.landing_page_url;
+                detailLink.target = '_blank';
+                detailLink.rel = 'noopener';
                 detailLink.textContent = 'Chi tiết';
-                body.appendChild(detailLink);
+                btnRow.appendChild(detailLink);
             }
+
+            body.appendChild(btnRow);
 
             card.appendChild(body);
             col.appendChild(card);
