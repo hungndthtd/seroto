@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Intake Actions & Views -->
+    <record id="action_academic_intake" model="ir.actions.act_window">
+        <field name="name">Đợt học</field>
+        <field name="res_model">academic.intake</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_academic_intake_list" model="ir.ui.view">
+        <field name="name">academic.intake.list</field>
+        <field name="model">academic.intake</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Class Actions & Views -->
+    <record id="action_academic_class" model="ir.actions.act_window">
+        <field name="name">Lớp học</field>
+        <field name="res_model">academic.class</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_academic_class_list" model="ir.ui.view">
+        <field name="name">academic.class.list</field>
+        <field name="model">academic.class</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="course_id"/>
+                <field name="intake_id"/>
+                <field name="teacher_ids" widget="many2many_tags"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_academic_session_form" model="ir.ui.view">
+        <field name="name">academic.session.form</field>
+        <field name="model">academic.session</field>
+        <field name="arch" type="xml">
+            <form string="Buổi học">
+                <header>
+                    <button name="action_load_students" string="Khởi tạo danh sách điểm danh" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="class_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Điểm danh học viên">
+                            <field name="attendance_ids">
+                                <list create="0" delete="0">
+                                    <field name="student_id" readonly="1"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'present'" decoration-warning="state == 'late'" decoration-danger="state == 'absent_noperm'" decoration-info="state == 'absent_perm'"/>
+                                    <button name="action_set_present" string="Có mặt" type="object" class="btn-success" invisible="state == 'present'"/>
+                                    <button name="action_set_late" string="Đi muộn" type="object" class="btn-warning" invisible="state == 'late'"/>
+                                    <button name="action_set_absent_noperm" string="Vắng KP" type="object" class="btn-danger" invisible="state == 'absent_noperm'"/>
+                                    <button name="action_set_absent_perm" string="Vắng CP" type="object" class="btn-secondary" invisible="state == 'absent_perm'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_academic_class_form" model="ir.ui.view">
+        <field name="name">academic.class.form</field>
+        <field name="model">academic.class</field>
+        <field name="arch" type="xml">
+            <form string="Lớp học">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_attendance" type="object" class="oe_stat_button" icon="fa-calendar-check-o">
+                            <field name="attendance_count" string="Điểm danh" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Ví dụ: Lớp Thực hành EQ - K48"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="course_id"/>
+                            <field name="intake_id"/>
+                            <field name="date_start" readonly="1"/>
+                            <field name="date_end" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="teacher_ids" widget="many2many_tags" context="{'default_is_teacher': True, 'default_is_company': False}"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Danh sách Buổi học">
+                            <field name="session_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Danh sách Học viên">
+                            <field name="enrollment_ids" readonly="1">
+                                <list decoration-info="state == 'draft'" decoration-warning="state == 'suspended'" decoration-success="state == 'completed'" decoration-danger="state == 'cancel'">
+                                    <field name="student_id"/>
+                                    <field name="progress" widget="progressbar"/>
+                                    <field name="sessions_summary" string="Đã học"/>
+                                    <field name="score"/>
+                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-primary="state == 'enrolled'" decoration-warning="state == 'suspended'" decoration-success="state == 'completed'" decoration-danger="state == 'cancel'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+</odoo>

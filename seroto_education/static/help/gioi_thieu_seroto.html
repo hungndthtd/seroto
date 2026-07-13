@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu hệ thống Seroto Education</title>
+    
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #00797c;
+            --primary-light: #e6f2f2;
+            --secondary-color: #fa9f3c;
+            --secondary-light: #fff5eb;
+            --text-dark: #2c3e50;
+            --text-muted: #7f8c8d;
+            --bg-light: #f8fbfa;
+            --bg-white: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 4px rgba(0, 121, 124, 0.05);
+            --shadow-md: 0 10px 25px rgba(0, 121, 124, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        /* Layout Grid */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            background-color: var(--bg-white);
+            border-right: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            z-index: 10;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary-color), #00a8a8);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 10px rgba(0, 121, 124, 0.3);
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-style: italic;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        main {
+            padding: 3rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Header Hero */
+        header {
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .title-pre {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            /* font-family: 'Playfair Display', serif; */
+            font-size: 2.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-style: italic;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 700px;
+        }
+
+        /* Card Section Styles */
+        section {
+            background-color: var(--bg-white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0, 121, 124, 0.04);
+            transition: var(--transition);
+        }
+
+        section:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(0, 121, 124, 0.1);
+        }
+
+        h2 {
+            /* font-family: 'Playfair Display', serif; */
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 i {
+            color: var(--secondary-color);
+        }
+
+        p.section-intro {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        /* Custom Cards Layout */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .module-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .module-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .module-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Timeline Step Styles */
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-light);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-badge {
+            position: absolute;
+            left: -2.5rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--bg-white);
+            border: 4px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover .timeline-badge {
+            background-color: var(--secondary-color);
+            transform: scale(1.2);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge-tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-blue { background-color: #ebf8ff; color: #2b6cb0; }
+        .badge-orange { background-color: var(--secondary-light); color: #c05621; }
+        .badge-green { background-color: #f0fff4; color: #38a169; }
+
+        .timeline-content ul {
+            list-style: none;
+            padding-left: 0.5rem;
+        }
+
+        .timeline-content li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .timeline-content li::before {
+            content: "\f0da";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        /* Status badges inside text */
+        .status-pill {
+            display: inline-block;
+            padding: 0.15rem 0.65rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-unpaid { background-color: #f7fafc; border: 1px solid #cbd5e0; color: #4a5568; }
+        .status-paid { background-color: var(--primary-light); color: var(--primary-color); }
+        .status-done { background-color: #f0fff4; color: #38a169; }
+
+        /* Footer */
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+            aside {
+                display: none; /* simple hidden for mobile mockup */
+            }
+            main {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside>
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="logo-text">Seroto</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#tong-quan" class="nav-link active"><i class="fa-solid fa-layer-group"></i> Tổng quan</a></li>
+            <li><a href="#luong-nghiep-vu" class="nav-link"><i class="fa-solid fa-route"></i> Luồng nghiệp vụ</a></li>
+            <li><a href="#tuyen-sinh" class="nav-link"><i class="fa-solid fa-users-viewfinder"></i> Tư vấn & Bán hàng</a></li>
+            <li><a href="#ke-toan" class="nav-link"><i class="fa-solid fa-file-invoice-dollar"></i> Kế toán</a></li>
+            <li><a href="#dao-tao" class="nav-link"><i class="fa-solid fa-chalkboard-user"></i> Quản lý đào tạo</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+        <header>
+            <div class="title-pre">Tài liệu hướng dẫn vận hành</div>
+            <h1>Giới thiệu hệ thống Seroto Education</h1>
+            <p class="subtitle">Tài liệu đặc tả luồng nghiệp vụ vận hành liên thông hệ thống giáo dục tích hợp giữa các phân hệ của Odoo 19.</p>
+        </header>
+
+        <!-- SECTION 1: TỔNG QUAN -->
+        <section id="tong-quan">
+            <h2><i class="fa-solid fa-layer-group"></i> 1. Tổng quan hệ thống & vai trò</h2>
+            <p class="section-intro">Hệ thống Seroto Education được liên kết thông qua 5 phân hệ cốt lõi của Odoo giúp tối ưu hoạt động tiếp cận khách hàng, quản lý đơn hàng và ghi nhận quá trình đào tạo.</p>
+            
+            <div class="grid-cards">
+                <div class="module-card">
+                    <i class="fa-solid fa-globe"></i>
+                    <h3>Website</h3>
+                    <p>Đăng tải thông tin các khóa học, tiếp nhận thông tin ghi danh trực tuyến từ khách hàng.</p>
+                </div>
+                <div class="module-card">
+                    <i class="fa-solid fa-filter"></i>
+                    <h3>CRM</h3>
+                    <p>Tiếp nhận Lead đăng ký từ website, theo dõi trạng thái chăm sóc từ khách hàng tiềm năng đến khi đăng ký.</p>
+                </div>
+                <div class="module-card">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <h3>Bán hàng</h3>
+                    <p>Soạn thảo báo giá dịch vụ đào tạo, chốt lớp học và liên kết thông tin học viên thụ hưởng cụ thể.</p>
+                </div>
+                <div class="module-card">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <h3>Hóa đơn</h3>
+                    <p>Quản lý công nợ học phí, xuất hóa đơn và xử lý ghi nhận thanh toán tự động kích hoạt quyền học tập.</p>
+                </div>
+                <div class="module-card">
+                    <i class="fa-solid fa-book-open"></i>
+                    <h3>Seroto Education</h3>
+                    <p>Hoạt động đào tạo nội bộ: Đợt học, Lớp học, Điểm danh chuyên cần và ghi nhận Chứng chỉ tốt nghiệp.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: LUỒNG NGHIỆP VỤ TỔNG THỂ -->
+        <section id="luong-nghiep-vu">
+            <h2><i class="fa-solid fa-route"></i> 2. Luồng vận hành tổng thể</h2>
+            <p class="section-intro">Mô phỏng quy trình tự động hóa dòng thông tin học viên xuyên suốt hệ thống:</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-content">
+                        <h3>Bước 1: Tiếp nhận Đăng ký <span class="badge-tag badge-blue">Website & CRM</span></h3>
+                        <ul>
+                            <li>Khách hàng điền thông tin đăng ký tư vấn lớp học qua form đăng ký trên Website.</li>
+                            <li>Hệ thống tự động sinh một **Lead (Cơ hội)** mới trong phân hệ CRM ở giai đoạn <strong>"Mới (Chưa liên hệ)"</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-content">
+                        <h3>Bước 2: Tư vấn & Tạo Đơn hàng <span class="badge-tag badge-blue">CRM & Bán hàng</span></h3>
+                        <ul>
+                            <li>Tư vấn viên liên hệ tư vấn, chuyển Lead qua các bước: <em>Đang tư vấn -> Quan tâm -> Chờ đăng ký</em>.</li>
+                            <li>Tại bước <strong>"Chờ đăng ký"</strong>, nhân viên Sales tạo báo giá (Quotation). Trên chi tiết sản phẩm, chọn đúng thông tin <strong>Học viên</strong> và <strong>Lớp học</strong> mong muốn ghi danh.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-content">
+                        <h3>Bước 3: Xác nhận ghi danh chờ đóng phí <span class="badge-tag badge-orange">Bán hàng & Đào tạo</span></h3>
+                        <ul>
+                            <li>Khi nhân viên xác nhận (Confirm) Đơn hàng, hệ thống tự động thực hiện 2 việc:</li>
+                            <li>1. Tự động chuyển lead CRM đã liên kết trong đơn hàng sang **Đã đăng ký**.</li>
+                            <li>2. Tự động tạo hồ sơ **Ghi danh (Enrollment)** cho học viên vào lớp học ở trạng thái <span class="status-pill status-unpaid">Chờ thanh toán</span> (Học viên chưa đóng học phí sẽ chưa có quyền điểm danh vào lớp).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-content">
+                        <h3>Bước 4: Thanh toán & Xác nhận vào lớp <span class="badge-tag badge-green">Hóa đơn & Đào tạo</span></h3>
+                        <ul>
+                            <li>Kế toán xuất hóa đơn và ghi nhận thanh toán (Register Payment) khi học viên hoàn thành đóng học phí.</li>
+                            <li>Ngay sau khi hóa đơn được thanh toán (Paid), hệ thống tự động cập nhật trạng thái phiếu Ghi danh thành <span class="status-pill status-paid">Đã ghi danh</span>.</li>
+                            <li>Học viên chính thức có tên trong danh sách lớp học và hiển thị trên bảng điểm danh (loại trừ các học viên đang ở trạng thái **Bảo lưu**, **Chờ thanh toán**, Hoàn thành hoặc Đã hủy).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: HƯỚNG DẪN BỘ PHẬN TƯ VẤN -->
+        <section id="tuyen-sinh">
+            <h2><i class="fa-solid fa-users-viewfinder"></i> 3. Mô tả nghiệp vụ Tư vấn & Bán hàng</h2>
+            <p class="section-intro">Dành cho bộ phận Tuyển sinh, Tư vấn viên và Lễ tân.</p>
+            <div class="timeline-content">
+                <ul>
+                    <li><strong>Quản lý cơ hội đăng ký</strong>: Theo dõi thông tin Lead được tạo tự động từ website tại CRM. Chăm sóc khách hàng qua các giai đoạn phễu.</li>
+                    <li><strong>Xây dựng Báo giá chuẩn xác</strong>: Khi cơ hội đạt bước <strong>"Chờ đăng ký"</strong>, tạo báo giá từ CRM. Tại dòng sản phẩm (Order Line), bắt buộc phải chọn trường <strong>Học viên</strong> (để ghi nhận tên người đi học thực tế nếu là phụ huynh thanh toán) và chọn đúng <strong>Lớp học</strong> mà học viên đăng ký.</li>
+                    <li><strong>Xác nhận hợp đồng & Tự động đóng Lead</strong>: Bấm "Xác nhận" (Confirm) đơn hàng. Hệ thống sẽ tự động chuyển cơ hội CRM sang **Đã đăng ký (giai đoạn Won)** và sinh ra phiếu Ghi danh ở trạng thái <span class="status-pill status-unpaid">Chờ thanh toán</span>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION 4: HƯỚNG DẪN BỘ PHẬN KẾ TOÁN -->
+        <section id="ke-toan">
+            <h2><i class="fa-solid fa-file-invoice-dollar"></i> 4. Mô tả nghiệp vụ Kế toán</h2>
+            <p class="section-intro">Dành cho bộ phận Kế toán viên.</p>
+            <div class="timeline-content">
+                <ul>
+                    <li><strong>Theo dõi hóa đơn</strong>: Tạo hóa đơn từ các Đơn hàng (Sales Order) đã được xác nhận bởi bộ phận bán hàng.</li>
+                    <li><strong>Ghi nhận thanh toán</strong>: Sau khi đối chiếu tài khoản ngân hàng hoặc tiền mặt, nhấn "Ghi nhận thanh toán" (Register Payment) để chuyển hóa đơn sang màu xanh lá <strong>Đã thanh toán (Paid)</strong>.</li>
+                    <li><strong>Tự động kích hoạt quyền học tập</strong>: Quy trình này diễn ra tự động 100%. Kế toán không cần thao tác thủ công trên phân hệ đào tạo. Hệ thống sẽ tự tìm phiếu Ghi danh tương ứng để kích hoạt sang trạng thái <span class="status-pill status-paid">Đã ghi danh</span>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION 5: HƯỚNG DẪN BỘ PHẬN ĐÀO TẠO -->
+        <section id="dao-tao">
+            <h2><i class="fa-solid fa-chalkboard-user"></i> 5. Mô tả nghiệp vụ Quản lý đào tạo</h2>
+            <p class="section-intro">Dành cho bộ phận Đào tạo.</p>
+            <div class="timeline-content">
+                <ul>
+                    <li><strong>Thiết lập thông tin liên quan đến khóa học</strong>: Tạo khóa học, đợt học (Intakes) và Lớp học. Thiết lập thời gian học của từng Buổi học cụ thể.</li>
+                    <li><strong>Điểm danh chuyên cần</strong>:
+                        <ul>
+                            <li>Tại mỗi Buổi học click nút <strong>"Khởi tạo danh sách điểm danh"</strong>.</li>
+                            <li>Hệ thống chỉ quét và hiển thị những học viên đang ở trạng thái <span class="status-pill status-paid">Đã ghi danh</span> (không bao gồm các học viên đang Bảo lưu, Chờ thanh toán, Hoàn thành hoặc Đã hủy).</li>
+                            <li>Tích chọn trạng thái điểm danh cho từng học viên. Tiến độ học tập (%) của học viên sẽ tự động cập nhật theo tình trạng điểm danh.</li>
+                            <li>*Cảnh báo chuyên cần*: Hệ thống sẽ tự động tạo Hoạt động (Activity) nhắc nhở Chăm sóc khách hàng nếu học viên vắng không phép 2 buổi liên tiếp.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kết thúc khóa học & Cấp chứng chỉ nội bộ</strong>:
+                        <ul>
+                            <li>Khi học viên hoàn thành lớp học, mở Phiếu Ghi danh và bấm nút <strong>"Hoàn thành & Cấp chứng chỉ"</strong>.</li>
+                            <li>Trạng thái ghi danh chuyển thành <span class="status-pill status-done">Hoàn thành</span>.</li>
+                            <li>Hệ thống tự động ghi nhận Chứng chỉ nội bộ, tạo mã chứng chỉ duy nhất để theo dõi kết quả học tập của học viên trực tiếp trên phần mềm phục vụ công tác tra cứu sau này.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- <footer>
+            <p>© 2026 Seroto Education Management. Bản quyền tài liệu thuộc về Seroto.</p>
+        </footer> -->
+    </main>
+</div>
+
+<script>
+    // Smooth scrolling & active sidebar link switching
+    document.querySelectorAll('.nav-link').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            this.classList.add('active');
+            
+            const targetId = this.getAttribute('href');
+            document.querySelector(targetId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+</body>
+</html>

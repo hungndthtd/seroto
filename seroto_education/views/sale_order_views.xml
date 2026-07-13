@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit_seroto" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.seroto</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Inject student and class into Sales Order Lines list -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="after">
+                <field name="student_id" context="{'default_parent_id': parent.partner_id, 'default_is_company': False}"/>
+                <field name="class_id" optional="show"/>
+            </xpath>
+            <!-- Inject student and class into Sales Order Line Form view (popup/dialog if any) -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="after">
+                <field name="student_id" context="{'default_parent_id': parent.partner_id, 'default_is_company': False}"/>
+                <field name="class_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Also inherit Product Template Form view to show course_id link -->
+    <record id="product_template_form_view_inherit_seroto" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.seroto</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="course_id" invisible="type != 'service'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

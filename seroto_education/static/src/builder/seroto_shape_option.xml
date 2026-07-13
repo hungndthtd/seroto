@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<!-- Option for Seroto SVG Shapes -->
+<t t-name="seroto_education.SerotoShapeOption">
+    <BuilderRow label.translate="Chọn Hình dạng">
+        <select class="form-select form-select-sm" t-on-change="(ev) => this.setShape(ev.target.value)">
+            <option value="shape_eiePMKYRXp">3 Mũi tên cam</option>
+            <option value="shape_HFtBzkdBam">Vòng tròn khuyết</option>
+            <option value="shape_tqqRShitRQ">Lưới chấm nhỏ</option>
+            <option value="shape_CZrfWOpwqa">Dải đa giác ngang</option>
+            <option value="shape_JPkLIASwdN">Lưới chấm sao</option>
+            <option value="shape_ckxFpvQqtq">Họa tiết gạch chéo</option>
+            <option value="shape_jvNDPZamzV">Khung lưới thoi</option>
+            <option value="shape_uxOiyzGOic">Vòng lặp vô cực</option>
+            <option value="shape_XBatSCeGHt">Dải sóng nền</option>
+            <option value="shape_udxPFQzKPl">Ngoặc kép đôi</option>
+            <option value="shape_bmAIzvOOLQ">Nút phát Video</option>
+            <option value="shape_KyXSCNqGoZ">Mũi tên xuống</option>
+            <option value="shape_nkLGbcrUbZ">Vòng tròn nét vẽ</option>
+            <option value="shape_nawFMBXsMQ">Hình tròn đặc</option>
+            <option value="shape_JUGgAboEyV">Biểu tượng User</option>
+            <option value="shape_vEGSBcVkJd">Biểu tượng Thêm</option>
+            <option value="shape_uUDbyraXJq">Biểu tượng Đồng hồ</option>
+            <option value="shape_iSMEiQHfNL">Biểu tượng Thư mục</option>
+            <option value="shape_LBvRiBobMP">Biểu tượng Đo lường</option>
+        </select>
+    </BuilderRow>
+    
+    <BuilderRow label.translate="Chiều rộng (Width)">
+        <input type="text" class="form-control form-control-sm" placeholder="Mặc định: 100%" t-on-change="(ev) => this.setSize('width', ev.target.value)"/>
+    </BuilderRow>
+    <BuilderRow label.translate="Chiều cao (Height)">
+        <input type="text" class="form-control form-control-sm" placeholder="Mặc định: 100%" t-on-change="(ev) => this.setSize('height', ev.target.value)"/>
+    </BuilderRow>
+    
+    <BuilderRow label.translate="Độ nổi bật (z-index)">
+        <input type="text" class="form-control form-control-sm" placeholder="Ví dụ: -1, 0, 10, 999" t-on-change="(ev) => this.setSize('zIndex', ev.target.value)"/>
+    </BuilderRow>
+</t>
+
+<!-- Option for Seroto Title (Font Family Chooser) -->
+<t t-name="seroto_education.SerotoTitleOption">
+    <BuilderRow label.translate="Chọn Font chữ">
+        <select class="form-select form-select-sm" t-on-change="(ev) => this.setFontFamily(ev.target.value)">
+            <option value="Lobster, cursive">Cursive (Lobster)</option>
+            <option value="'Playfair Display', Georgia, serif">Serif (Playfair Display)</option>
+            <option value="'Outfit', sans-serif">Modern (Outfit)</option>
+            <option value="'Inter', sans-serif">Clean (Inter)</option>
+            <option value="'Montserrat', sans-serif">Geometric (Montserrat)</option>
+            <option value="'Roboto', sans-serif">Standard (Roboto)</option>
+        </select>
+    </BuilderRow>
+</t>
+
+</templates>

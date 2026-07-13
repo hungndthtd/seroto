@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_seroto_education" model="ir.module.category">
+        <field name="name">Seroto Education</field>
+        <field name="description">Manage courses, classes, enrollments, attendance, and certificates</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Odoo 19: Groups link to a Privilege (res.groups.privilege) which links to ir.module.category -->
+    <record id="privilege_seroto_education" model="res.groups.privilege">
+        <field name="name">Seroto Access Level</field>
+        <field name="category_id" ref="module_category_seroto_education"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="group_seroto_sales" model="res.groups">
+        <field name="name">Consultant / Receptionist</field>
+        <field name="privilege_id" ref="privilege_seroto_education"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_seroto_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="privilege_seroto_education"/>
+        <field name="implied_ids" eval="[(4, ref('group_seroto_sales'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>

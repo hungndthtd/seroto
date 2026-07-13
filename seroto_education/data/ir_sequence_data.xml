@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_academic_student" model="ir.sequence">
+            <field name="name">Mã học viên</field>
+            <field name="code">academic.student</field>
+            <field name="prefix">HV%(y)s</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Rule: Portal users can only read their own certificates -->
+        <record id="rule_academic_certificate_portal" model="ir.rule">
+            <field name="name">Portal Certificates: read own only</field>
+            <field name="model_id" ref="model_academic_certificate"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('student_id', '=', user.partner_id.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Rule: Portal users can only read their own enrollments -->
+        <record id="rule_academic_enrollment_portal" model="ir.rule">
+            <field name="name">Portal Enrollments: read own only</field>
+            <field name="model_id" ref="model_academic_enrollment"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('student_id', '=', user.partner_id.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+</odoo>

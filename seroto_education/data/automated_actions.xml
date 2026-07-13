@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Email Template: Welcome Student -->
+        <record id="email_template_welcome_student" model="mail.template">
+            <field name="name">Đào tạo: Chào mừng Học viên mới</field>
+            <field name="model_id" ref="seroto_education.model_academic_enrollment"/>
+            <field name="subject">Chào mừng bạn đến với khóa học ${object.course_id.name}</field>
+            <field name="email_from">${(object.class_id.teacher_id.email or 'contact@seroto.edu.vn')}</field>
+            <field name="email_to">${object.student_id.email}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Chào <strong>${object.student_id.name}</strong>,<br/><br/>
+                        Chào mừng bạn đã đăng ký thành công khóa học <strong>${object.course_id.name}</strong> tại Seroto!<br/>
+                        Dưới đây là thông tin lớp học của bạn:<br/>
+                        <ul>
+                            <li>Lớp học: ${object.class_id.name}</li>
+                            <li>Hình thức: ${object.course_id.format}</li>
+                            <li>Lịch học: ${object.course_id.schedule_date} (${object.course_id.schedule_time})</li>
+                        </ul>
+                        Chúc bạn có một trải nghiệm học tập tuyệt vời cùng Seroto!<br/><br/>
+                        Trân trọng,<br/>
+                        Đội ngũ Seroto
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Email Template: Certificate Issued -->
+        <record id="email_template_certificate_issued" model="mail.template">
+            <field name="name">Đào tạo: Cấp Chứng chỉ hoàn thành</field>
+            <field name="model_id" ref="seroto_education.model_academic_certificate"/>
+            <field name="subject">Chúc mừng! Bạn đã hoàn thành khóa học ${object.course_id.name}</field>
+            <field name="email_from">contact@seroto.edu.vn</field>
+            <field name="email_to">${object.student_id.email}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Chào <strong>${object.student_id.name}</strong>,<br/><br/>
+                        Chúc mừng bạn đã hoàn thành xuất sắc khóa học <strong>${object.course_id.name}</strong>!<br/>
+                        Seroto xin trân trọng gửi tới bạn chứng chỉ hoàn thành khóa học:<br/>
+                        <ul>
+                            <li>Mã chứng chỉ: <strong>${object.code}</strong></li>
+                            <li>Ngày cấp: ${object.date_issue}</li>
+                            <li>Xếp loại: ${object.grade}</li>
+                        </ul>
+                        Chứng chỉ này ghi nhận những nỗ lực học tập không ngừng của bạn. Chúc bạn luôn hạnh phúc và thành công trên con đường phía trước!<br/><br/>
+                        Thân ái,<br/>
+                        Ban Giám đốc Seroto
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

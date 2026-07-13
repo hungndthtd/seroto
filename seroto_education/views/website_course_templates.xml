@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template for the Course Cards Snippet -->
+    <template id="s_seroto_course_cards" name="Seroto Course Cards">
+        <section class="s_seroto_course_cards_section py-5 bg-100">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <h2 class="display-4 fw-bold text-primary">Khóa học Trí Tuệ Cảm Xúc (EQ)</h2>
+                        <p class="lead text-muted">Học tập và thực hành EQ để xây dựng môi trường hạnh phúc và kết nối vững bền.</p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Course Grid -->
+                <div class="row g-4 justify-content-center" id="seroto-course-grid">
+                    <!-- Loaded dynamically via python/js or simply pre-rendered using t-foreach -->
+                    <t t-set="courses" t-value="request.env['academic.course'].sudo().search([('active', '=', True)])"/>
+                    <t t-foreach="courses" t-as="course">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden seroto-course-card">
+                                <!-- Image Container -->
+                                <div class="position-relative card-image-wrap">
+                                    <div class="ratio ratio-4x3">
+                                        <img t-attf-src="/web/image/academic.course/#{course.id}/image_1920" 
+                                             class="card-img-top object-fit-cover" 
+                                             t-att-alt="course.name"
+                                             onerror="this.onerror=null; this.src='/web/static/img/placeholder.png';"/>
+                                    </div>
+                                    <span class="position-absolute top-0 start-0 m-3 badge rounded-pill bg-danger text-white px-3 py-2" style="z-index: 10; width: auto; height: auto;">
+                                        <i class="fa fa-video-camera me-1"/> <t t-out="course.format"/>
+                                    </span>
+                                </div>
+                                
+                                <!-- Card Body -->
+                                <div class="card-body d-flex flex-column p-4">
+                                    <h4 class="card-title fw-bold text-dark mb-1"><t t-out="course.name"/></h4>
+                                    <p class="text-primary small fw-semibold mb-3"><t t-out="course.slogan"/></p>
+                                    
+                                    <p class="card-text text-muted flex-grow-1 text-truncate-3 mb-4"><t t-out="course.description"/></p>
+                                    
+                                    <!-- Course Metadata List -->
+                                    <div class="course-meta-details mb-4">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fa fa-user-circle-o text-secondary me-3 fs-5"/>
+                                            <div>
+                                                <span class="text-muted small d-block">Giảng viên/Cố vấn</span>
+                                                <strong class="text-dark"><t t-out="course.lecturer"/></strong>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fa fa-users text-secondary me-3 fs-5"/>
+                                            <div>
+                                                <span class="text-muted small d-block">Trạng thái tuyển sinh</span>
+                                                <strong class="text-danger"><t t-out="course.batch_info"/></strong>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fa fa-calendar text-secondary me-3 fs-5"/>
+                                            <div>
+                                                <span class="text-muted small d-block">Lịch học &amp; Giờ học</span>
+                                                <strong class="text-dark"><t t-out="course.schedule_date"/> (<t t-out="course.schedule_time"/>)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-hourglass-end text-secondary me-3 fs-5"/>
+                                            <div>
+                                                <span class="text-muted small d-block">Hạn đăng ký</span>
+                                                <strong class="text-warning"><t t-out="course.deadline_register"/></strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CTA Buttons -->
+                                    <div class="row g-2 mt-auto">
+                                        <div class="col-7">
+                                            <button class="btn btn-primary w-100 py-2 rounded-3 fw-bold btn-register-now" t-att-data-course-id="course.id" t-att-data-course-name="course.name">
+                                                Đăng ký ngay
+                                            </button>
+                                        </div>
+                                        <div class="col-5">
+                                            <a t-attf-href="#" class="btn btn-outline-secondary w-100 py-2 rounded-3">Chi tiết</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        <!-- Hidden button to trigger modal declaratively -->
+        <button id="triggerSerotoRegisterModal" class="d-none" data-bs-toggle="modal" data-bs-target="#serotoRegisterModal"></button>
+
+        <!-- Hidden Bootstrap Modal for Registration Form (Moved inside section to prevent Website Builder stripping) -->
+        <div class="modal fade" id="serotoRegisterModal" tabindex="-1" aria-labelledby="serotoRegisterModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 border-0 shadow-lg">
+                    <div class="modal-header border-0 bg-primary text-white py-3 rounded-top-4">
+                        <h5 class="modal-title fw-bold" id="serotoRegisterModalLabel">Đăng ký khóa học</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <!-- Success Message Container -->
+                        <div id="seroto-register-success" class="d-none text-center py-4">
+                            <div class="mb-3">
+                                <i class="fa fa-check-circle text-success" style="font-size: 4.5rem; animation: scaleUp 0.4s ease-out;"></i>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-2">Đăng ký thành công!</h4>
+                            <p class="text-muted mb-4" id="success-message-text">Đội ngũ Seroto sẽ liên hệ với bạn sớm nhất.</p>
+                            <button type="button" class="btn btn-primary px-4 py-2 rounded-3 fw-bold" data-bs-dismiss="modal">Đồng ý</button>
+                        </div>
+
+                        <form id="seroto-register-form">
+                            <input type="hidden" id="reg-course-id" name="course_id"/>
+                            <!-- Honeypot field (hidden from normal users, autocomplete disabled) -->
+                            <input type="text" id="reg-website" name="website" class="d-none" tabindex="-1" autocomplete="off"/>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Khóa học đăng ký</label>
+                                <input type="text" class="form-control bg-light border-0 fw-bold text-dark py-2" id="reg-course-name" readonly="readonly"/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="reg-name" class="form-label fw-bold text-muted small">Họ và tên của bạn <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border-secondary-subtle py-2" id="reg-name" placeholder="Nhập họ và tên..." required="required"/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="reg-phone" class="form-label fw-bold text-muted small">Số điện thoại <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control border-secondary-subtle py-2" id="reg-phone" placeholder="Nhập số điện thoại..." required="required"/>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="reg-email" class="form-label fw-bold text-muted small">Email liên hệ</label>
+                                <input type="email" class="form-control border-secondary-subtle py-2" id="reg-email" placeholder="Nhập địa chỉ email..."/>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold fs-5 shadow-sm">
+                                Gửi đăng ký ngay
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+    </template>
+
+    <!-- Register Snippet inside Website Builder -->
+    <template id="seroto_course_cards_snippet_register" inherit_id="website.snippets" name="Register Seroto Course Cards Snippet">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="seroto_education.s_seroto_course_cards" string="Seroto Course Cards"
+               t-thumbnail="/seroto_education/static/description/thumb.png"
+               group="content"/>
+        </xpath>
+    </template>
+    <!-- Custom Slideshow with Thumbnails Snippet -->
+    <template id="s_slideshow_thumbnails" name="Slideshow với Ảnh nhỏ">
+        <section class="s_slideshow_thumbnails_section py-5 bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Custom Slideshow container -->
+                        <div id="slideshow_custom" class="carousel slide carousel-dark s_slideshow_thumbnails_carousel" data-bs-ride="carousel" data-bs-interval="3000">
+                            <!-- Main Slider Images -->
+                            <div class="carousel-inner rounded-4 overflow-hidden shadow-sm">
+                                <div class="carousel-item active">
+                                    <img class="img img-fluid d-block w-100 h-auto" src="/web/image/website.library_image_08" data-name="Image" data-index="0" alt=""/>
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="img img-fluid d-block w-100 h-auto" src="/web/image/website.library_image_03" data-name="Image" data-index="1" alt=""/>
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="img img-fluid d-block w-100 h-auto" src="/web/image/website.library_image_02" data-name="Image" data-index="2" alt=""/>
+                                </div>
+                            </div>
+                            <!-- Controls and Thumbnails -->
+                            <div class="o_carousel_controllers">
+                                <button class="carousel-control-prev o_not_editable" contenteditable="false" data-bs-slide="prev" aria-label="Previous" title="Previous" data-bs-target="#slideshow_custom">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#slideshow_custom" data-bs-slide-to="0" style="background-image: url(/web/image/website.library_image_08)" aria-label="Carousel indicator" class="active" aria-current="true"></button>
+                                    <button type="button" style="background-image: url(/web/image/website.library_image_03)" data-bs-target="#slideshow_custom" data-bs-slide-to="1" aria-label="Carousel indicator" class=""></button>
+                                    <button type="button" style="background-image: url(/web/image/website.library_image_02)" data-bs-target="#slideshow_custom" data-bs-slide-to="2" aria-label="Carousel indicator" class=""></button>
+                                </div>
+                                <button class="carousel-control-next o_not_editable" contenteditable="false" data-bs-slide="next" aria-label="Next" title="Next" data-bs-target="#slideshow_custom">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Register Custom Slideshow Snippet -->
+    <template id="s_slideshow_thumbnails_snippet_register" inherit_id="website.snippets" name="Register Slideshow Thumbnails Snippet">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="seroto_education.s_slideshow_thumbnails" string="Slideshow với Ảnh nhỏ"
+               t-thumbnail="/seroto_education/static/description/thumb.png"
+               group="content"/>
+        </xpath>
+    </template>
+    <!-- Custom Header Layout for Seroto -->
+    <template id="template_header_default_seroto" inherit_id="website.template_header_default" name="Seroto Header Layout Override">
+        <xpath expr="//t[@t-call='website.navbar']" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block py-2"/>
+                <div id="o_main_nav" class="container d-flex align-items-center justify-content-between">
+                    <!-- Brand (Left-Center) -->
+                    <div class="d-flex align-items-center flex-grow-1 justify-content-center justify-content-lg-start">
+                        <t t-call="website.placeholder_header_brand" _link_class.f="me-4"/>
+                    </div>
+                    
+                    <!-- Navigation Menu (Right-Center) -->
+                    <div class="d-flex align-items-center">
+                        <t t-call="website.navbar_nav" _nav_class.f="fw-bold text-uppercase gap-3">
+                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                <t t-call="website.submenu"
+                                   item_class.f="nav-item"
+                                   link_class.f="nav-link text-dark fw-bold px-2"/>
+                            </t>
+                        </t>
+                        
+                        <!-- Portal Sign In/Dropdown -->
+                        <ul class="navbar-nav align-items-center gap-2 flex-shrink-0 justify-content-end ps-3">
+                            <t t-call="portal.user_dropdown"
+                                _user_name="True"
+                                _item_class.f="dropdown"
+                                _link_class.f="{{_additional_btn_color or 'nav-link'}} border-0 text-dark"
+                                _dropdown_menu_class.f="dropdown-menu-end"/>
+                        </ul>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Custom Snippet: Seroto Title with SVG (Inner Content) -->
+    <template id="s_seroto_title_svg" name="Seroto Title với SVG">
+        <div class="s_seroto_title_svg o_snippet_drop_in_only d-inline-flex align-items-end position-relative py-2" data-name="Seroto Title với SVG">
+            <!-- Title 1 -->
+            <h1 class="mb-0 fw-bold" style="color: #00797c; font-style: italic; font-family: 'Playfair Display', Georgia, serif; line-height: 1;">
+                Giới thiệu tổ chức
+            </h1>
+            <!-- SVG Graphic at Bottom-Right -->
+            <div style="width: 120px; height: 58px; margin-left: 10px; margin-bottom: -5px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 233.42 113.44" fill="none">
+                    <!-- Arrow 1 (Bright Orange) -->
+                    <path d="M 40 25 L 75 55 L 40 85" stroke="rgba(250, 159, 60, 1.0)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Arrow 2 (Opacity 0.60) -->
+                    <path d="M 75 25 L 110 55 L 75 85" stroke="rgba(250, 159, 60, 0.6)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Arrow 3 (Opacity 0.25) -->
+                    <path d="M 110 25 L 145 55 L 110 85" stroke="rgba(250, 159, 60, 0.25)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Underline -->
+                    <line x1="20" y1="105" x2="213" y2="105" stroke="rgba(250, 159, 60, 1.0)" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+    </template>
+
+    <!-- Register Seroto Title SVG Snippet inside Website Builder as Inner Content -->
+    <template id="s_seroto_title_svg_snippet_register" inherit_id="website.snippets" name="Register Seroto Title SVG Snippet">
+        <xpath expr="//snippets[@id='snippet_content']" position="inside">
+            <t t-snippet="seroto_education.s_seroto_title_svg" string="Seroto Title với SVG"
+               t-thumbnail="/seroto_education/static/description/thumb.png"/>
+        </xpath>
+    </template>
+
+    <!-- Custom Snippet: Seroto Title without SVG (Inner Content) -->
+    <template id="s_seroto_title" name="Seroto Title">
+        <h1 class="s_seroto_title o_snippet_drop_in_only" data-name="Seroto Title" style="font-size: 50px; font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: bold; line-height: 1.2; color: rgb(0, 128, 128); text-align: center;">
+            Giới thiệu tổ chức
+        </h1>
+    </template>
+
+    <!-- Register Seroto Title Snippet inside Website Builder as Inner Content -->
+    <template id="s_seroto_title_snippet_register" inherit_id="website.snippets" name="Register Seroto Title Snippet">
+        <xpath expr="//snippets[@id='snippet_content']" position="inside">
+            <t t-snippet="seroto_education.s_seroto_title" string="Seroto Title"
+               t-thumbnail="/seroto_education/static/description/thumb.png"/>
+        </xpath>
+    </template>
+
+    <!-- Inject Google Fonts into Head safely (to prevent Odoo CSS compiler crash) -->
+    <template id="seroto_google_fonts" inherit_id="website.layout" name="Seroto Google Fonts">
+        <xpath expr="//head" position="inside">
+            <link rel="preconnect" href="https://fonts.googleapis.com"/>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+            <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet"/>
+        </xpath>
+    </template>
+
+    <!-- Inject Seroto SVG Shapes/Symbols into Layout so they are always loaded and accessible via #id -->
+    <template id="seroto_svg_symbols" inherit_id="website.layout" name="Seroto SVG Symbols">
+        <xpath expr="//body" position="inside">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width: 0px; height: 0px; position: absolute; overflow: hidden; display: none;">
+                <symbol id="shape_tqqRShitRQ" viewBox="0 0 150.2 150"><rect width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect y="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect y="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect y="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="24.2" y="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="24.2" y="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="24.2" y="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="48.5" y="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="48.5" y="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="48.5" y="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="72.7" y="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="72.7" y="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="72.7" y="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="97" y="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="97" y="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="97" y="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="121.2" y="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="121.2" y="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="121.2" y="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="145.5" y="24.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="145.5" y="48.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="145.5" y="72.7" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect y="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect y="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect y="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="24.2" y="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="24.2" y="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="24.2" y="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="48.5" y="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="48.5" y="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="48.5" y="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="72.7" y="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="72.7" y="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="72.7" y="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="97" y="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="97" y="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="97" y="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="121.2" y="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="121.2" y="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="121.2" y="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="145.5" y="97" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="145.5" y="121.2" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect><rect x="145.5" y="145.5" width="4.7" height="4.54" rx="2.2" ry="2.2"></rect></symbol>
+                <symbol id="shape_HFtBzkdBam" viewBox="0 0 218 218"><path d="M109,0A109,109,0,1,0,218,109,109,109,0,0,0,109,0Zm0,178.66A69.66,69.66,0,1,1,178.66,109,69.66,69.66,0,0,1,109,178.66Z"></path></symbol>
+                <symbol id="shape_eiePMKYRXp" viewBox="0 0 233.42 113.44"><path d="M0,0V113.44L98.24,56.72ZM15.25,26.41l52.5,30.31L15.25,87Z"></path><path style="opacity:0.6;" d="M67.59,0V113.44l98.24-56.72ZM82.84,26.41l52.5,30.31L82.84,87Z"></path><path style="opacity:0.3;" d="M135.18,0V113.44l98.24-56.72Zm15.24,26.41,52.51,30.31L150.42,87Z"></path></symbol>
+                <symbol id="shape_CZrfWOpwqa" viewBox="0 0 1109.84 120.34"><polygon points="927.25 0 1040.41 60.17 927.25 120.34 996.65 120.34 1109.84 60.17 996.65 0 927.25 0"></polygon><polygon points="772.7 0 885.89 60.17 772.7 120.34 842.11 120.34 955.3 60.17 842.11 0 772.7 0"></polygon><polygon points="618.16 0 731.35 60.17 618.16 120.34 687.55 120.34 800.75 60.17 687.55 0 618.16 0"></polygon><polygon points="463.62 0 576.81 60.17 463.62 120.34 533.03 120.34 646.2 60.17 533.03 0 463.62 0"></polygon><polygon points="309.08 0 422.27 60.17 309.08 120.34 378.49 120.34 491.65 60.17 378.49 0 309.08 0"></polygon><polygon points="154.54 0 267.71 60.17 154.54 120.34 223.93 120.34 337.11 60.17 223.93 0 154.54 0"></polygon><polygon points="0 0 113.18 60.17 0 120.34 69.39 120.34 182.57 60.17 69.39 0 0 0"></polygon></symbol>
+                <symbol id="shape_JPkLIASwdN" viewBox="0 0 192.5 192.64"><path d="M.06,94C0,94.75,0,95.53,0,96.32c0,.47,0,.94,0,1.41a1.85,1.85,0,0,0,1.14-.52,1.91,1.91,0,0,0,0-2.72A1.82,1.82,0,0,0,.06,94Z"></path><path d="M28.43,56.33A1.88,1.88,0,0,0,29,55a1.92,1.92,0,0,0-.57-1.36,1.93,1.93,0,0,0-2.72,0,1.92,1.92,0,0,0,2.72,2.72Z"></path><path d="M12.08,67.23a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,12.08,67.23Z"></path><path d="M25.71,67.23a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,25.71,67.23Z"></path><path d="M12.08,53.61a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,12.08,53.61Z"></path><path d="M12.08,80.86a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,12.08,80.86Z"></path><path d="M39.33,70a1.87,1.87,0,0,0,.64.42A1.94,1.94,0,0,0,42.06,70a1.87,1.87,0,0,0,.42-.64,1.95,1.95,0,0,0,0-1.45,1.74,1.74,0,0,0-.42-.63,2.06,2.06,0,0,0-.64-.43A1.93,1.93,0,0,0,39.33,70Z"></path><path d="M1.75,82.22a1.92,1.92,0,0,0-.51-1.28C1.11,81.73,1,82.51.9,83.3c0,.17,0,.34-.07.52a2.12,2.12,0,0,0,.35-.23A1.92,1.92,0,0,0,1.75,82.22Z"></path><path d="M55.68,29.08a1.92,1.92,0,0,0-2.08-3.14,1.78,1.78,0,0,0-.64.42,1.92,1.92,0,0,0,2.72,2.72Z"></path><path d="M28.43,29.08a1.91,1.91,0,0,0,.43-.63,2.05,2.05,0,0,0,.1-.95c-.71.69-1.4,1.4-2.08,2.11A1.86,1.86,0,0,0,28.43,29.08Z"></path><path d="M39.33,40a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,40Z"></path><path d="M53,40a1.93,1.93,0,1,0,2.72,0A1.94,1.94,0,0,0,53,40Z"></path><path d="M39.33,26.36a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,26.36Z"></path><path d="M39.33,53.61a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,53.61Z"></path><path d="M25.71,40a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,25.71,40Z"></path><path d="M53,56.33a2,2,0,0,0,.64.43,1.92,1.92,0,0,0,2.08-3.15,1.74,1.74,0,0,0-.63-.42A1.92,1.92,0,0,0,53,56.33Z"></path><path d="M82.93,1.83a1.91,1.91,0,0,0,.43-.63c0-.1,0-.21.06-.31-.43,0-.85.09-1.27.16-.75.11-1.48.24-2.22.37a2.29,2.29,0,0,0,.28.41A1.91,1.91,0,0,0,82.93,1.83Z"></path><path d="M66.58,12.73a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,66.58,12.73Z"></path><path d="M80.21,12.73a1.93,1.93,0,1,0,2.72,0A1.94,1.94,0,0,0,80.21,12.73Z"></path><path d="M66.58,26.36a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,66.58,26.36Z"></path><path d="M53,12.73a1.93,1.93,0,1,0,2.72,0A1.94,1.94,0,0,0,53,12.73Z"></path><path d="M68,39.42a1.91,1.91,0,1,0,1.36.56h0A2,2,0,0,0,68,39.42Z"></path><path d="M96.56,1.83A1.91,1.91,0,0,0,97,0l-.72,0c-1,0-2,.05-3,.08a1.9,1.9,0,0,0,.48,1.75A1.92,1.92,0,0,0,96.56,1.83Z"></path><path d="M12.72,97.63a1.95,1.95,0,0,0,1.45,0,1.87,1.87,0,0,0,.64-.42h0a1.94,1.94,0,0,0,.42-2.09,1.88,1.88,0,0,0-.42-.63h0a1.92,1.92,0,0,0-1.37-.57,2,2,0,0,0-.72.14,2.06,2.06,0,0,0-.64.43,1.74,1.74,0,0,0-.42.63,1.94,1.94,0,0,0,.42,2.09A1.87,1.87,0,0,0,12.72,97.63Z"></path><path d="M28.43,110.83a1.88,1.88,0,0,0,.57-1.36,1.93,1.93,0,0,0-3.29-1.36h0a2.06,2.06,0,0,0-.43.64,1.93,1.93,0,0,0,3.15,2.08Z"></path><path d="M1.18,108.11a1.92,1.92,0,0,0-.48-.32l.09.71c.1.8.19,1.6.31,2.39l.08,0a1.93,1.93,0,0,0,.43-2.09A2,2,0,0,0,1.18,108.11Z"></path><path d="M12.08,121.73a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,12.08,121.73Z"></path><path d="M25.71,121.73a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,25.71,121.73Z"></path><path d="M12.08,108.11a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,12.08,108.11Z"></path><path d="M12.08,135.36a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,12.08,135.36Z"></path><path d="M55.05,84a2,2,0,0,0,.63-.43,1.92,1.92,0,0,0-2.09-3.14,1.83,1.83,0,0,0-.63.42A1.93,1.93,0,0,0,55.05,84Z"></path><path d="M28.43,83.59a1.91,1.91,0,0,0,0-2.73,1.74,1.74,0,0,0-.63-.42,1.92,1.92,0,1,0,.63,3.15Z"></path><path d="M39.33,94.48a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,94.48Z"></path><path d="M53,94.48a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,53,94.48Z"></path><path d="M39.33,80.86a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,80.86Z"></path><path d="M39.33,108.11a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,108.11Z"></path><path d="M25.71,94.48a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,25.71,94.48Z"></path><path d="M55.05,107.69a1.92,1.92,0,1,0,.63.42A1.74,1.74,0,0,0,55.05,107.69Z"></path><path d="M82.93,56.33a1.92,1.92,0,0,0-2.08-3.14,1.78,1.78,0,0,0-.64.42,1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M66.58,67.23a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,66.58,67.23Z"></path><path d="M80.21,67.23a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,80.21,67.23Z"></path><path d="M66.58,53.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,66.58,53.61Z"></path><path d="M66.58,80.86a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,66.58,80.86Z"></path><path d="M53,67.23a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,53,67.23Z"></path><path d="M82.3,80.43a1.93,1.93,0,0,0-2.09,3.15,1.92,1.92,0,1,0,2.09-3.15Z"></path><path d="M95.92,15.88A1.88,1.88,0,0,0,97,14.82a1.81,1.81,0,0,0,.14-.72,1.92,1.92,0,0,0-2.65-1.79,2,2,0,0,0-.64.42h0a1.93,1.93,0,0,0,2.09,3.15Z"></path><path d="M110.18,29.08a1.92,1.92,0,1,0-2.72-2.72,1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M82.93,29.08a1.94,1.94,0,0,0-.63-3.15,1.93,1.93,0,0,0-2.09,3.15A1.91,1.91,0,0,0,82.93,29.08Z"></path><path d="M93.83,40a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,93.83,40Z"></path><path d="M107.46,40a1.93,1.93,0,1,0,2.72,0A1.94,1.94,0,0,0,107.46,40Z"></path><path d="M93.83,26.36a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,93.83,26.36Z"></path><path d="M93.83,53.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,93.83,53.61Z"></path><path d="M80.21,40a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,80.21,40Z"></path><path d="M93.83,67.23a1.94,1.94,0,0,0,0,2.73h0a1.93,1.93,0,0,0,2.73-2.73h0A1.94,1.94,0,0,0,93.83,67.23Z"></path><path d="M108.82,2.4a2,2,0,0,0,.73-.14,1.91,1.91,0,0,0,.63-.43,1.78,1.78,0,0,0,.45-.77c-.7-.1-1.42-.18-2.13-.27l-1.58-.2a1.87,1.87,0,0,0,.54,1.24A1.92,1.92,0,0,0,108.82,2.4Z"></path><path d="M121.08,12.73a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,121.08,12.73Z"></path><path d="M134.71,12.73a1.93,1.93,0,1,0,2.72,0A1.94,1.94,0,0,0,134.71,12.73Z"></path><path d="M121.08,26.36a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,121.08,26.36Z"></path><path d="M107.46,12.73a1.93,1.93,0,1,0,2.72,0A1.94,1.94,0,0,0,107.46,12.73Z"></path><path d="M40,124.88a1.94,1.94,0,0,0,2.09-.42,2,2,0,0,0,.42-.64,1.93,1.93,0,0,0-.42-2.08h0a1.93,1.93,0,0,0-2.09-.43,2.06,2.06,0,0,0-.64.43,1.93,1.93,0,0,0,0,2.72A1.87,1.87,0,0,0,40,124.88Z"></path><path d="M55.68,138.08a1.74,1.74,0,0,0,.42-.63,1.92,1.92,0,0,0-2.51-2.51,1.74,1.74,0,0,0-.63.42,1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M28.43,138.09a1.91,1.91,0,0,0,0-2.73,1.83,1.83,0,0,0-.63-.42,1.92,1.92,0,0,0-2.09,3.14h0A1.92,1.92,0,0,0,28.43,138.09Z"></path><path d="M39.33,149a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,149Z"></path><path d="M53,149a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,53,149Z"></path><path d="M39.33,135.36a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,135.36Z"></path><path d="M39.33,162.61a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,39.33,162.61Z"></path><path d="M25.71,149a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,25.71,149Z"></path><path d="M27.07,162.05a1.9,1.9,0,0,0-.89.25c.83.88,1.67,1.75,2.54,2.61A2,2,0,0,0,29,164a1.93,1.93,0,0,0-1.93-1.92Z"></path><path d="M67.22,97.63a1.94,1.94,0,0,0,2.09-.42h0a1.94,1.94,0,0,0,.42-2.09,2,2,0,0,0-.42-.64,2,2,0,0,0-.64-.42,1.93,1.93,0,0,0-2.09,3.15A1.87,1.87,0,0,0,67.22,97.63Z"></path><path d="M82.93,110.83a1.74,1.74,0,0,0,.42-.63,1.9,1.9,0,0,0-.42-2.09,1.93,1.93,0,0,0-2.72,0h0a2,2,0,0,0-.43.64,1.93,1.93,0,0,0,3.15,2.08Z"></path><path d="M66.58,121.73a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,66.58,121.73Z"></path><path d="M80.21,121.73a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,80.21,121.73Z"></path><path d="M66.58,108.11a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,66.58,108.11Z"></path><path d="M66.58,135.36a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,66.58,135.36Z"></path><path d="M53,121.73a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,53,121.73Z"></path><path d="M108.82,84.15a1.93,1.93,0,0,0,1.36-3.29,1.92,1.92,0,0,0-2.09-.42,1.83,1.83,0,0,0-.63.42,1.93,1.93,0,0,0,0,2.72A1.9,1.9,0,0,0,108.82,84.15Z"></path><path d="M93.83,94.48a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,93.83,94.48Z"></path><path d="M107.46,94.48a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,107.46,94.48Z"></path><path d="M93.83,80.86a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,93.83,80.86Z"></path><path d="M93.83,108.11a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,93.83,108.11Z"></path><path d="M80.21,94.48a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,80.21,94.48Z"></path><path d="M123.81,42.71h0a1.87,1.87,0,0,0,.42-.64,1.92,1.92,0,0,0-2.51-2.51,2,2,0,0,0-.64.42,1.94,1.94,0,0,0,0,2.73h0A1.94,1.94,0,0,0,123.81,42.71Z"></path><path d="M137.43,56.33a1.91,1.91,0,0,0,0-2.72,1.93,1.93,0,0,0-2.72,0h0a1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M110.18,56.33a1.92,1.92,0,1,0-2.72,0A1.91,1.91,0,0,0,110.18,56.33Z"></path><path d="M121.08,67.23a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,121.08,67.23Z"></path><path d="M134.71,67.23a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,134.71,67.23Z"></path><path d="M121.08,53.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,121.08,53.61Z"></path><path d="M121.08,80.86a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,121.08,80.86Z"></path><path d="M107.46,67.23a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,107.46,67.23Z"></path><path d="M149,15.88a1.71,1.71,0,0,0,.45.09l-1-.63-.33-.2a2.92,2.92,0,0,0,.21.32A1.87,1.87,0,0,0,149,15.88Z"></path><path d="M164.68,29.08a1.67,1.67,0,0,0,.24-.35c-.87-.88-1.76-1.73-2.65-2.58a1.69,1.69,0,0,0-.31.21,1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M135.35,29.51a1.94,1.94,0,1,0-.64-.43h0A2,2,0,0,0,135.35,29.51Z"></path><path d="M148.33,40a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,148.33,40Z"></path><path d="M162,40a1.93,1.93,0,1,0,2.72,0A1.94,1.94,0,0,0,162,40Z"></path><path d="M148.33,26.36a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,148.33,26.36Z"></path><path d="M148.33,53.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,148.33,53.61Z"></path><path d="M134.71,40a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,134.71,40Z"></path><path d="M162,56.33a2,2,0,0,0,.64.43,1.91,1.91,0,0,0,2.08-.43,2,2,0,0,0,.43-.63A1.93,1.93,0,0,0,162,53.61a1.83,1.83,0,0,0-.42.63,1.9,1.9,0,0,0,.42,2.09Z"></path><path d="M67.22,152.13a1.94,1.94,0,0,0,2.09-.42,2,2,0,0,0,.42-.64,2,2,0,0,0,.14-.72,1.93,1.93,0,1,0-3.29,1.36A1.87,1.87,0,0,0,67.22,152.13Z"></path><path d="M82.93,165.33a1.74,1.74,0,0,0,.42-.63,1.92,1.92,0,0,0-2.51-2.51,1.74,1.74,0,0,0-.63.42,1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M53.59,165.76a1.92,1.92,0,0,0,2.09-.43,1.74,1.74,0,0,0,.42-.63,1.9,1.9,0,0,0-.42-2.09,1.78,1.78,0,0,0-.64-.42,1.93,1.93,0,0,0-1.45,3.57Z"></path><path d="M66.58,176.23a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,66.58,176.23Z"></path><path d="M80.21,176.23a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,80.21,176.23Z"></path><path d="M66.58,162.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,66.58,162.61Z"></path><path d="M53,176.23a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,53,176.23Z"></path><path d="M82.29,189.43a1.93,1.93,0,0,0-2.08.43,1.86,1.86,0,0,0-.56,1.31c.56.1,1.11.21,1.67.3s1.38.18,2.07.28a1.9,1.9,0,0,0-.46-1.89A2,2,0,0,0,82.29,189.43Z"></path><path d="M94.47,124.88a1.94,1.94,0,0,0,2.09-.42,2,2,0,0,0,.42-.64,1.93,1.93,0,1,0-3.57,0,1.88,1.88,0,0,0,1.06,1.06Z"></path><path d="M110.18,138.08a1.74,1.74,0,0,0,.42-.63,1.92,1.92,0,0,0-2.51-2.51,1.74,1.74,0,0,0-.63.42,1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M82.93,138.08a1.91,1.91,0,0,0,.43-2.08,2,2,0,0,0-.43-.64,2,2,0,0,0-.63-.43,1.94,1.94,0,0,0-2.09.43,1.92,1.92,0,1,0,2.72,2.72Z"></path><path d="M93.83,149a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,93.83,149Z"></path><path d="M107.46,149a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,107.46,149Z"></path><path d="M93.83,135.36a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,93.83,135.36Z"></path><path d="M93.83,162.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,93.83,162.61Z"></path><path d="M80.21,149a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,80.21,149Z"></path><path d="M95.19,175.67a1.91,1.91,0,1,0,1.37.56h0A2,2,0,0,0,95.19,175.67Z"></path><path d="M121.72,97.63a1.94,1.94,0,0,0,2.09-.42h0a1.94,1.94,0,0,0,.42-2.09,2,2,0,0,0-.42-.64,2,2,0,0,0-1.37-.56,2,2,0,0,0-.72.14,2,2,0,0,0-.64.42h0a1.94,1.94,0,0,0-.42,2.09,1.88,1.88,0,0,0,1.06,1.06Z"></path><path d="M137.43,110.83a1.91,1.91,0,0,0,0-2.72,1.93,1.93,0,0,0-2.72,0,2,2,0,0,0-.43.64,1.93,1.93,0,0,0,3.15,2.08Z"></path><path d="M108.82,111.4a2.06,2.06,0,0,0,.73-.14,2,2,0,0,0,.63-.43,1.91,1.91,0,1,0-1.36.57Z"></path><path d="M121.08,121.73a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,121.08,121.73Z"></path><path d="M134.71,121.73a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,134.71,121.73Z"></path><path d="M121.08,108.11a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,121.08,108.11Z"></path><path d="M121.08,135.36a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,121.08,135.36Z"></path><path d="M107.46,121.73a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,107.46,121.73Z"></path><path d="M150.42,70.38a1.87,1.87,0,0,0,.64-.42,2,2,0,0,0,.56-1.36,2,2,0,0,0-.14-.73,1.87,1.87,0,0,0-.42-.64,2,2,0,0,0-1.36-.56,1.94,1.94,0,0,0-1.37.56,1.93,1.93,0,0,0,2.09,3.15Z"></path><path d="M164.05,84a2,2,0,0,0,.63-.43,1.89,1.89,0,1,0-.63.43Z"></path><path d="M136.8,84a2,2,0,0,0,.63-.43,1.89,1.89,0,1,0-.63.43Z"></path><path d="M148.33,94.48a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,148.33,94.48Z"></path><path d="M162,94.48a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,162,94.48Z"></path><path d="M148.33,80.86a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,148.33,80.86Z"></path><path d="M148.33,108.11a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,148.33,108.11Z"></path><path d="M134.71,94.48a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,134.71,94.48Z"></path><path d="M175.58,97.21a2,2,0,0,0,.64.42,1.92,1.92,0,0,0,2.65-1.78,1.94,1.94,0,0,0-.56-1.37,1.94,1.94,0,0,0-2.73,0h0a1.94,1.94,0,0,0,0,2.73Z"></path><path d="M176.22,43.13a2.24,2.24,0,0,0,.45.09l-.63-1-.94-1.31a1.89,1.89,0,0,0,.48,1.77A2,2,0,0,0,176.22,43.13Z"></path><path d="M175.58,67.23a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,175.58,67.23Z"></path><path d="M175.58,53.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,175.58,53.61Z"></path><path d="M175.58,80.86a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,175.58,80.86Z"></path><path d="M162,67.23a1.93,1.93,0,1,0,2.72,0A1.93,1.93,0,0,0,162,67.23Z"></path><path d="M189.21,83.58a1.9,1.9,0,0,0,2.57.1c-.1-.79-.19-1.58-.31-2.36-.05-.29-.11-.58-.16-.88h0a1.93,1.93,0,0,0-2.09,3.15Z"></path><path d="M93.83,189.86a1.92,1.92,0,0,0,0,2.71c.83,0,1.66.07,2.5.07h.16l.08,0a1.93,1.93,0,0,0-2.73-2.72Z"></path><path d="M123.17,152.13a1.87,1.87,0,0,0,.64-.42,2,2,0,0,0,.42-.64,2,2,0,0,0,.14-.72,1.92,1.92,0,0,0-2.65-1.79,2,2,0,0,0-.64.42h0a1.93,1.93,0,0,0,2.09,3.15Z"></path><path d="M137.43,165.33a1.92,1.92,0,1,0-2.72,0A1.9,1.9,0,0,0,137.43,165.33Z"></path><path d="M110.18,165.33a1.74,1.74,0,0,0,.42-.63,1.9,1.9,0,0,0-.42-2.09,2,2,0,0,0-.64-.43,1.93,1.93,0,1,0,.64,3.15Z"></path><path d="M121.08,176.23a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,121.08,176.23Z"></path><path d="M134.71,176.23a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,134.71,176.23Z"></path><path d="M121.08,162.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,121.08,162.61Z"></path><path d="M107.46,176.23a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,107.46,176.23Z"></path><path d="M108.09,189.44a1.74,1.74,0,0,0-.63.42,1.92,1.92,0,0,0-.38,2.16c.76-.08,1.51-.18,2.25-.28l1.35-.17a1.89,1.89,0,0,0-.5-1.71A1.92,1.92,0,0,0,108.09,189.44Z"></path><path d="M149,124.88a2,2,0,0,0,.72.14,1.83,1.83,0,0,0,.73-.14,1.88,1.88,0,0,0,1.06-1.06,2,2,0,0,0-.42-2.09h0a2,2,0,0,0-2.09-.42,2,2,0,0,0-.64.42,1.87,1.87,0,0,0-.42.64,1.94,1.94,0,0,0,.42,2.09A1.87,1.87,0,0,0,149,124.88Z"></path><path d="M164.68,138.08a1.92,1.92,0,1,0-2.72,0A1.9,1.9,0,0,0,164.68,138.08Z"></path><path d="M136.07,138.65a1.9,1.9,0,0,0,1.36-.57,1.89,1.89,0,0,0,0-2.72,2,2,0,0,0-.63-.43,1.93,1.93,0,0,0-2.09,3.15A1.9,1.9,0,0,0,136.07,138.65Z"></path><path d="M148.33,149a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,148.33,149Z"></path><path d="M162,149a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,162,149Z"></path><path d="M148.33,135.36a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,148.33,135.36Z"></path><path d="M148.33,162.61a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,148.33,162.61Z"></path><path d="M134.71,149a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,134.71,149Z"></path><path d="M149,175.81a2,2,0,0,0-.64.42,1.91,1.91,0,0,0-.54,1.48l1.23-.79c.52-.33,1-.67,1.54-1A1.89,1.89,0,0,0,149,175.81Z"></path><path d="M164.68,110.83a1.92,1.92,0,1,0-2.72,0A1.92,1.92,0,0,0,164.68,110.83Z"></path><path d="M175.58,121.73a1.93,1.93,0,1,0,2.73,0A1.94,1.94,0,0,0,175.58,121.73Z"></path><path d="M188.72,123.5l.51-1.78h0A1.92,1.92,0,0,0,188.72,123.5Z"></path><path d="M175.58,108.11a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,175.58,108.11Z"></path><path d="M175.58,135.36a1.93,1.93,0,1,0,2.73,0A1.93,1.93,0,0,0,175.58,135.36Z"></path><path d="M162,121.73a1.93,1.93,0,1,0,2.72,0A1.92,1.92,0,0,0,162,121.73Z"></path><path d="M176.22,148.56a1.87,1.87,0,0,0-.64.42,1.89,1.89,0,0,0-.23,2.37c.35-.51.72-1,1.06-1.53s.57-.89.86-1.34A1.88,1.88,0,0,0,176.22,148.56Z"></path><path d="M191.93,94.48a1.93,1.93,0,1,0,0,2.73A1.93,1.93,0,0,0,191.93,94.48Z"></path><path d="M189.21,108.11a1.92,1.92,0,0,0,0,2.72,1.89,1.89,0,0,0,2.29.29c0-.21.06-.42.09-.63.12-.8.21-1.6.31-2.41A1.93,1.93,0,0,0,189.21,108.11Z"></path><path d="M164.68,162.61a2,2,0,0,0-.64-.43,1.93,1.93,0,0,0-2.08,3.15h0a1.91,1.91,0,0,0,.63.43c.12,0,.24,0,.37.07.75-.73,1.49-1.45,2.22-2.2a1.78,1.78,0,0,0-.07-.39A1.91,1.91,0,0,0,164.68,162.61Z"></path></symbol>
+                <symbol id="shape_ckxFpvQqtq" viewBox="0 0 455.05 74.94"><rect x="-13.17" y="35.12" width="101.28" height="4.7" transform="translate(-15.52 37.47) rotate(-45)"></rect><rect x="50.18" y="35.12" width="101.28" height="4.7" transform="translate(3.03 82.27) rotate(-45)"></rect><rect x="113.53" y="35.12" width="101.28" height="4.7" transform="translate(21.59 127.06) rotate(-45)"></rect><rect x="176.89" y="35.12" width="101.28" height="4.7" transform="translate(40.15 171.86) rotate(-45)"></rect><rect x="240.24" y="35.12" width="101.28" height="4.7" transform="translate(58.7 216.65) rotate(-45)"></rect><rect x="303.59" y="35.12" width="101.28" height="4.7" transform="translate(77.26 261.45) rotate(-45)"></rect><rect x="366.94" y="35.12" width="101.28" height="4.7" transform="translate(95.81 306.25) rotate(-45)"></rect></symbol>
+                <symbol id="shape_jvNDPZamzV" viewBox="0 0 324.08 107.96"><path d="M270.09,0l54,54-54,54-54-54Zm39,54-39-39-39,39,39,39Z"></path><path d="M162.13,0l54,54-54,54-54-54Zm39,54-39-39-39,39,39,39Z"></path><path d="M54,0l54,54L54,108,0,54ZM93,54,54,15,15,54,54,93Z"></path></symbol>
+                <symbol id="shape_uxOiyzGOic" viewBox="0 0 196.71 196.77"><path d="M98.36,53.66a44.72,44.72,0,1,0,44.7,44.72,26.83,26.83,0,1,1,53.65,0A98.36,98.36,0,1,1,98.36,0a26.83,26.83,0,0,1,0,53.66Z"></path></symbol>
+                <symbol id="shape_XBatSCeGHt" viewBox="0 0 1920.1 150"><defs><style>.cls-qmNsjz{opacity:0.1;}.cls-wnnfbZ{opacity:0.3;}</style></defs><path class="cls-qmNsjz" d="M0,150S102,28.4,258,24.4c0,0,68.8-3.7,153.7,17,99.9,24.3,253.7,37.3,411,19.3S1204-4.6,1408,.4,1696,39,1920,150Z" transform="translate(0.1 0)"></path><path class="cls-wnnfbZ" d="M-.1,150S97.5,47,240,35.5c0,0,79.5-8.5,210,22.5S781.3,74,822.7,69,1168,21,1234,16s257.3-18.7,394,20.7S1920,150,1920,150Z" transform="translate(0.1 0)"></path><path class="cls-GiVVUb" d="M1655.4,51c-14.4-3.8-217.4-68.2-641.8,0C596,118.2,469,66,371.7,51,208.9,25,107.5,79,107.5,79,60,102-.1,150-.1,150H1920S1780,87.5,1655.4,51Z" transform="translate(0.1 0)"></path></symbol>
+                <symbol id="shape_udxPFQzKPl" viewBox="0 0 152.09 115.41"><path d="M58.1,0l-.05,9Q38.31,19.22,29.91,30.33a40.08,40.08,0,0,0-8.48,24.45c0,5.12.66,8.68,2.1,10.68s3,3,4.82,3A26.62,26.62,0,0,0,36,66.88a29.07,29.07,0,0,1,9-1.62A22.13,22.13,0,0,1,61.16,72.2,22.51,22.51,0,0,1,67.9,88.74a24.7,24.7,0,0,1-2.23,10.15,24.06,24.06,0,0,1-6.22,8.3,32.69,32.69,0,0,1-9.37,5.61,29.81,29.81,0,0,1-11.35,2.1,31.72,31.72,0,0,1-14.31-3.59A42.77,42.77,0,0,1,12,101.73,47.08,47.08,0,0,1,0,69.66a64.62,64.62,0,0,1,4-22A68.78,68.78,0,0,1,15.26,27.91,81.41,81.41,0,0,1,33.53,11.52,94.2,94.2,0,0,1,58.1,0Z"></path><path d="M142,1.18l-.06,8.33A156.52,156.52,0,0,0,123,21.73a59.08,59.08,0,0,0-11.23,11.1A33.66,33.66,0,0,0,106.19,44a49.26,49.26,0,0,0-1.58,12.66q0,6.66,2.44,9.68t5.15,3a23,23,0,0,0,7.51-1.79,27.81,27.81,0,0,1,9.85-1.77,22.5,22.5,0,0,1,15.63,6.6,21.16,21.16,0,0,1,6.9,16.21,23.12,23.12,0,0,1-2.4,10.15,29.75,29.75,0,0,1-6.39,8.63,29.41,29.41,0,0,1-9.37,5.95,30.67,30.67,0,0,1-11.68,2.09A32,32,0,0,1,108.1,112,39.23,39.23,0,0,1,96,102.58a49.65,49.65,0,0,1-8.58-14,45.67,45.67,0,0,1-3.23-17.69,68.52,68.52,0,0,1,4-22.65,67.76,67.76,0,0,1,11.29-20.1A76.75,76.75,0,0,1,117.55,12,90.21,90.21,0,0,1,142,1.18Z"></path></symbol>
+                <symbol id="shape_bmAIzvOOLQ" viewBox="0 0 408.7 408.7"><polygon fill="#fff" points="163.5 296.3 286.1 204.3 163.5 112.4 163.5 296.3"></polygon><path d="M204.3,0C91.5,0,0,91.5,0,204.3S91.5,408.7,204.3,408.7s204.3-91.5,204.3-204.3S316.7,0,204.3,0ZM163.5,296.3V112.4l122.6,91.9Z" transform="translate(0 0)"></path></symbol>
+                <symbol id="shape_KyXSCNqGoZ" viewBox="0 0 1055.1139 1896.0833"><path d="M1024 1088q0 26-19 45l-448 448q-19 19-45 19t-45-19L19 1133q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z"></path></symbol>
+                <symbol id="shape_nkLGbcrUbZ" viewBox="0 0 297.3 296.8"><path d="M3.7,175.7l-2.5-3.9L0,171.6ZM187.5,289.3l.2-.2-1.8.3ZM291.4,111.1l-.9.5C289.9,109.7,291.6,110.2,291.4,111.1Zm-5.9-26.7a12,12,0,0,0-.4,3.6C285.9,88.1,286.2,86.8,285.5,84.4ZM112.1,2.9h0Zm183,146.9c.4,1.6.7,3.3.7,3.3-4.6.5,1.1,9.3-3.2,10-.7,7.3,2.7-.7,2,1.8s-1.6,8.1-2.9,12.1l-.9,2.9c-.4.9-.7,1.7-.9,2.5s-.6,2.7-.3,3.4c-1.6,2.7-1.4,5.7-2.3,8.5a54.4,54.4,0,0,1-3.4,7.7l1.7,1-2.3,3.6a17.1,17.1,0,0,0-2,3.6c.3.1.7-.1,1.1-.5l-3.7,6.1c-1.2,1.9-2.1,3.9-3.4,5.6l-6.9,10.5c1.4.3,2.1.8,5-3.1-1.2,3.9-5,7.7-9,11.8l-3.1,3.1-3.4,3a61.9,61.9,0,0,0-6.3,6.4h1.3c.1.1-6,3.4-6,3.4s1.2.6,1.8,1.2l-6.6,6.1c-2.4,1.9-5,3.6-7.4,5.1-4.4,2.9-9,4.5-12.5,4.6.9.5-3.2,4.3,2.5,2.5-11.2,4.2-24.6,10.3-37.1,13.3l.2-.2-5.4.4-.3.4,3.8-.3c-2.5.5-5,.9-7.4,1.1l-3.4.2-3.2-.3a9.7,9.7,0,0,1-4.6,3.8c-.1-.6-1.1-.6-2.6-.3s-3.5.9-5.7,1.2c-4.5.7-9.8,1.5-13,.3-.8.7,2.7.3.5,1.2-4-.2-8.5-.7-13.3-1.2a56.2,56.2,0,0,1-7.2-1.3l-7.4-1.6a71.8,71.8,0,0,1-7.5-2l-7.4-2c-4.9-1.4-9.6-3.1-14.2-4.3.4-4.7-16.3-9-23.3-16.2-3.6,1,4,4,5.3,7.1-4.5-3.4-2.8,2.3-10.3-4.8,0,.4-.1.6.2.9-1.9-1.8,3.2-1.6-3.4-5.4l-1.4,1.3-2.7-5.1a102.1,102.1,0,0,1-18.5-16.4l-4-4.3L27.5,237c-2.4-3-5.1-5.7-7.5-8.8-.1-1,.9-1.2,2.4.2-1.9-2.9-3.2-6.5-4.7-10s-2.7-7.3-5.3-10.4l.2,2.2c-.9-1.3-1.6-2.5-2.2-3.6a22.4,22.4,0,0,1-1.2-3.1,29.2,29.2,0,0,1-1-5.4c-.2-1.8-.4-3.6-.6-5.9s-1.5-5.1-2.2-8.6c1,3.1,2.5,10.8,5.2,10.7.7-1.5-2.2-8.5-4-10.6l1,.2c-1.3-5.2-5.3-10.5-6-15.8l-.4-1.8c-.5-1.9.4-4.1.2-6.2a25,25,0,0,1,.2-6.7c0-.7,0-1.4,0-2,0-6.2,2.4-13.2,3.2-19.2l-1.4,3.3c2.6-12.1-2.4,1-2.5-8.1,1.4-5.1,2.4-9.3,1.9-13.1s-1.5-7.2-.4-9.9c4.3-10.4.8,4.8,4.5-1.3s-.4-3.3.5-7.1l1.8-.7,1.9-.7c3.4-5.9-.4-1.4,2.3-4.4.8-5.7-1.8,1.1-4.5,1.4,1.2-1,4.9-5.9,5-8.8-.8-.3-4.2,6.3-2.4,1.9s4.2-6.8,5.8-9.5,2.7-5.1,4-7.5,2.7-4.5,4.3-7l2.7-3.9A44.8,44.8,0,0,1,32,52.9H30c1.5-1.2,2.9-1.7,3.7-3.3H32.3c1.5-1.8,14.3-12.1,22.9-18.4l-5.5,1.9,9-4.1-2.4-1.4a8.3,8.3,0,0,0,3.8-1.3,50.4,50.4,0,0,0,5.2-2.8c3.7-2.2,8-5.1,12.3-6.6l-.8-1.4,5.4-1.5L80.2,14c5-2.5,12.2-2,17.6-5.3-3.6,1.8-5.5-.2-5.5-1.4l2.6-.5c1.6-.2,3.6.3,5.8.1l8.5-.7c.1-1.1,6-2.9,3-3.2h2.3l3.4.4-.7-1.2c6.4-1.5,12.7-2.6,19-2.2l9.3.4c3.1.4,6.1.9,9.1,1.4s6,.8,8.9,1.5,5.9,1.3,8.9,1.7,3-.6,4.5-.4l4.6.8a85.3,85.3,0,0,0,9.6,1l-.3-.6A14.8,14.8,0,0,1,192.9,7l4.6,2.7,6.6,3.9c2.7.7,4.2-.9,8.7.3-3.1,1.3,7.9,3.8,9.2,7.3,3.6,1,.7-1.4.4-2.7a62.5,62.5,0,0,1,9.5,4.8,73.2,73.2,0,0,1,8,6.2c5.3,4.2,9.8,9.4,16.4,14.1-7-4.2-10.4-6.2-13.1-8.2s-5.2-3.2-9.9-5.8c9.3,8.4,12.5,8,21.8,17.8l-.5-.8a20,20,0,0,0-1.3-1.8l-2-2.5c4,.9,7.1,5.3,10,8.9,1.4,1.9,2.8,3.5,3.8,4.8s2.2,2,3.3,1.8a48.9,48.9,0,0,1,5.1,10.9A42.2,42.2,0,0,0,279,80.4s.3-1.3.5-2.6l.4-2.6.7,1.2c.4.7,1.1,1.7,1.6,2.7l2,4-2.1,1.2c1.2,2.6,2.2,3.8,2.9,3.8a21.6,21.6,0,0,0,.9,5c.4,1.8.9,3.6,1.5,5.4,1.1,3.8,2.7,7.7,2.5,12l1.4.6a12.7,12.7,0,0,1-.4,1.9c2.5,1.1.4,7.7,2.4,7.7-.1-2.7.3-9.1-.8-8.3.3-3.6.1-1.7,1.1,1.8.5,1.7,1,3.8,1.4,5.7l.7,4.9c-1.9-4.6-1.2,1.7-1.3,4.4.4.4.4-.5.8-1,2.8,8.3-2.6,11.6,2,17l-2.2,1.5A6,6,0,0,0,295.1,149.8ZM11.7,194.5l-1.1-3.2c.3,1.5.7,3.1,1,4.5A2.2,2.2,0,0,1,11.7,194.5Zm.8-89.6-.7.4-1.3,2.1c-.1,1.3.2,1.6.7,1.4Zm6.8,107.5a132.5,132.5,0,0,1-5.9-13.1v.4c.7,2.2,1.3,4.7,2.2,7.1l-.5-1a16.7,16.7,0,0,1-1.1-2.3l-1.4-3.4c-.6,1.8.3,4.8,2,7.5s3.3,5.2,3.5,6.8A2.4,2.4,0,0,0,19.4,212.4ZM46,44c2.3-1.4,2.9-1.3,5-4.9C48.7,40.5,46.2,43,46,44ZM36.1,242.5a13.2,13.2,0,0,0-1.3-3.5,40.8,40.8,0,0,0-2.2-4.4c-.9-1.5-1.8-3.1-2.8-4.5s-2-2.8-2.8-4.2h.3l-1.9-2.9a14.3,14.3,0,0,0,.1,1.6,16.9,16.9,0,0,0,1.9,6l-1.9-1.2c2,3.1,1.8,7.1,6.6,10.3,1.2-1.1-1.4-4.4-2-6.5.8.2,1.2,1.9,2,4a15.4,15.4,0,0,0,1.5,3A7.1,7.1,0,0,0,36.1,242.5ZM41.2,46c1.2-.2,2.5-.8,4.4-3.5A9.6,9.6,0,0,1,41,44.2c-1.2.3-2.5.7-3.7,3.2C38.7,46,39.9,46.2,41.2,46Zm7.4,207.7L45,250.2l.5,3.2Zm17.6,12a19.8,19.8,0,0,1-2-2.8l-4.2-3,.5,1.5c-3.2-1.4-4.6-3.7-5.9-5.8a138.6,138.6,0,0,1-14-13.2l4,5.2c3.2,3.5,6.6,6.9,10.1,10A105.2,105.2,0,0,0,66.2,265.6Zm31.2,13-4.2-.6,2.7,1.1ZM116,17.6l6.3-1.2c-1.7-.2-2.8-.8-1.9-1.3C118.3,16.5,116.2,16.8,116,17.6Zm11.8,268.1-1.5-.7q-6.7-.9-13.2-2.4l3.4,1.8C120.6,286.2,124.7,287.1,127.8,285.7Zm25.2,3.1a3.6,3.6,0,0,0-1.9-.7,1.1,1.1,0,0,1-.4-1.4l1.5-.6h-.6a1.6,1.6,0,0,0-.9.6,33.3,33.3,0,0,1-4.3,1,56.4,56.4,0,0,1-5.6.3c-4,0-8.2.1-11-.5-1.3.4-.2,1.2,1.5,2.2s4.1,1.5,5.1,1.9c-1.4-3.3.6-3.1,3.6-2.4,1.5.4,3.3.9,5,1.2a8,8,0,0,0,4.7-.5c-1.3-.5-4.7-.2-5.6-1.3a20.7,20.7,0,0,1,6.9-.5A2.7,2.7,0,0,0,152.9,288.9Zm18.8-4.9-8.6,1.3,1.6.4C166.2,285.5,170.3,284.9,171.8,284ZM184.9,14.4l-3.3-.7c4.4.2-4.6-3.7,2-2.9,2.7.3-4-2.6-7.2-2.7.2,1.4,6.3,2.3,3.9,3.4l-2.6-.3C181.6,11.6,179.1,14.8,184.9,14.4Zm11.5-.6-.9-.6c-1.9-1.7-3.7-5.1-8.5-3.8,2.5,3.4,4.9,1.3,8.5,3.8Zm25.5,22.3v.4l1.3.9Zm-6.3,242.7-3.1.4c.2-1,2.7-3.2-2.5.3l2.5-.3C212.4,279.7,212.9,279.9,215.6,278.8Zm3.8-6.3a64.7,64.7,0,0,1-6.3,3.8,11.5,11.5,0,0,0,2.5-.7l3.2-1.7c2.1-1.3,3.9-2.7,3.8-3.5Zm6.1-8.1c-.1-.9-1.3-.8-2.9-.5l-.3.2C223,264.3,221.8,265.8,225.5,264.4Zm15-11.3-.3-.3A.4.4,0,0,0,240.5,253Zm1.7-206.4-3.2-4.1,1,.7v-2c-.7,2-2,.8-3.6-.8s-3.3-4-4.5-5C234.3,38.1,236,43.5,242.1,46.6Zm16,194.2a12.1,12.1,0,0,0,2.5-3.4c-5.1,2.7-6.6,2-12.1,6.1l.5,2.6c1.5-2.1-.5-2.6,3.6-5.1.3.8,1.4,1.4,2.9,1.1A6.2,6.2,0,0,0,258.1,240.9Zm7-7.5c-5.4,1.9-3.2,4.2-4.4,7.6l-.7,1.2-.8,1.2a5.4,5.4,0,0,0,1.6-2.4Zm4-146.2-.3-1.1c-.2-1.1-.3-2,.2-2.7-1.1-.2-1.5,0-1.6.6Zm3.7-17.6c-1.7-2.1-1,1.8-1.3,3.1a11.8,11.8,0,0,1-1.8-3.5c-2.3,2.7,3.5,3.4,4.8,8.8C276,77,273,71.7,272.9,69.5Zm5.6,35.6c.2-1.4-1.3-3-1.2-4.4s1-.9.1-3.3a5,5,0,0,0-.8-2.3l.8,2.3C277.9,100.4,275.5,101,278.5,105.2Zm4.7-17.7,1,2.2a5.2,5.2,0,0,0-1-2.2l-1.5-3.5C280.5,85,282,85.8,283.2,87.4Zm.4,35.2a2.9,2.9,0,0,0-1.3-.3c.4,1.7-.3,3.4,0,5.1A13.7,13.7,0,0,1,283.5,122.6Zm6.2,63.2a1.2,1.2,0,0,0,1.1.7l-.6-1.5Zm-5.1,20.5c-.6,1.3-1.4,2.3-2.1,3.4A6.2,6.2,0,0,0,284.6,206.3Zm-222.1,66-1.3-.9Z" transform="translate(0 0.1)"></path></symbol>
+                <symbol id="shape_nawFMBXsMQ" viewBox="0 0 29.77 29.77"><circle cx="14.89" cy="14.89" r="14.89"></circle></symbol>
+                <symbol id="shape_JUGgAboEyV" viewBox="0 0 1427.7599 1896.0833"> <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path> </symbol>
+                <symbol id="shape_vEGSBcVkJd" viewBox="0 0 1536 1896.0833"> <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path> </symbol>
+                <symbol id="shape_uUDbyraXJq" viewBox="0 0 24 24"> <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path> </symbol>
+                <symbol id="shape_iSMEiQHfNL" viewBox="0 0 1664 1896.0833"> <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path> </symbol>
+                <symbol id="shape_LBvRiBobMP" viewBox="0 0 24 24"> <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path> </symbol>
+            </svg>
+        </xpath>
+    </template>
+
+    <!-- Custom Snippet: Seroto SVG Shape Chooser (Inner Content) -->
+    <template id="s_seroto_svg_shape" name="Seroto SVG Shapes">
+        <div class="s_seroto_svg_shape o_snippet_drop_in_only d-inline-flex align-items-center py-2" data-name="Seroto SVG Shapes">
+            <!-- Customizable SVG Element -->
+            <div class="seroto-shape-item" style="width: 100%; height: 100%;">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 233.42 113.44" fill="rgba(250, 159, 60, 1.0)">
+                    <use xlink:href="#shape_eiePMKYRXp"></use>
+                </svg>
+            </div>
+        </div>
+    </template>
+
+    <!-- Register Seroto SVG Shape Chooser inside Website Builder as Inner Content -->
+    <template id="s_seroto_svg_shape_snippet_register" inherit_id="website.snippets" name="Register Seroto SVG Shape Snippet">
+        <xpath expr="//snippets[@id='snippet_content']" position="inside">
+            <t t-snippet="seroto_education.s_seroto_svg_shape" string="Seroto SVG Shapes"
+               t-thumbnail="/seroto_education/static/description/thumb.png"/>
+        </xpath>
+    </template>
+</odoo>

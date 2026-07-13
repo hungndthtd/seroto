@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_academic_root"
+              name="Đào tạo"
+              web_icon="seroto_education,static/description/icon.png"
+              sequence="10"/>
+
+    <!-- Action for Teachers -->
+    <record id="action_academic_teacher" model="ir.actions.act_window">
+        <field name="name">Giảng viên</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('is_teacher', '=', True)]</field>
+        <field name="context">{'default_is_teacher': True, 'default_is_company': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có giảng viên nào!
+            </p>
+            <p>
+                Bấm nút "Mới" để thêm giảng viên vào hệ thống.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items attached directly to Root Menu -->
+    <menuitem id="menu_academic_course"
+              name="Khóa học"
+              parent="menu_academic_root"
+              action="action_academic_course"
+              sequence="10"/>
+
+    <menuitem id="menu_academic_class"
+              name="Lớp học"
+              parent="menu_academic_root"
+              action="action_academic_class"
+              sequence="20"/>
+
+    <menuitem id="menu_academic_student"
+              name="Học viên"
+              parent="menu_academic_root"
+              action="action_academic_student"
+              sequence="25"/>
+
+    <menuitem id="menu_academic_teacher"
+              name="Giảng viên"
+              parent="menu_academic_root"
+              action="action_academic_teacher"
+              sequence="26"/>
+
+    <menuitem id="menu_academic_enrollment"
+              name="Ghi danh"
+              parent="menu_academic_root"
+              action="action_academic_enrollment"
+              sequence="30"/>
+
+    <menuitem id="menu_academic_attendance"
+              name="Điểm danh"
+              parent="menu_academic_root"
+              action="action_academic_attendance"
+              sequence="35"/>
+
+    <menuitem id="menu_academic_certificate"
+              name="Chứng chỉ"
+              parent="menu_academic_root"
+              action="action_academic_certificate"
+              sequence="40"/>
+
+    <menuitem id="menu_academic_intake"
+              name="Đợt học"
+              parent="menu_academic_root"
+              action="action_academic_intake"
+              sequence="50"/>
+</odoo>
