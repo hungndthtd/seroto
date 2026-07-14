@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_toward" name="Khóa học hướng tới">
+    <section class="s_thuc_hanh_eq_toward custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h3 class="fw-bold text-center">Khoá học dành cho ai?</h3>
+        <div class="mb-4 mb-md-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row">
+          <div class="col-md-4 mb-4 mb-md-0">
+            <div class="toward__box" style="--background: #fff1eb; --border-color: #ffa881;">
+              <div class="toward__box-content">
+                <div class="content__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+                </div>
+                <div class="content__text">Người muốn rèn luyện lối sống thực hành EQ</div>
+              </div>
+              <div class="toward__box-list">
+                <ul>
+                  <li>Người trưởng thành trên 18 tuổi</li>
+                  <li>Mong muốn rèn luyện lối sống Thực Hành EQ để hiểu mình - thương mình, hiểu người - thương người</li>
+                  <li>Mong muốn sống hòa hợp và hạnh phúc chính mình và với những người xung quanh</li>
+                  <li>Mong muốn trải nghiệm từng cung bậc cảm xúc, đón nhận trọn vẹn từng khoảnh khắc của cuộc sống</li>
+                  <li>Muốn tăng động lực sống ý nghĩa và làm việc với mục đích cao đẹp</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4 mb-md-0">
+            <div class="toward__box" style="--background: #fffbe2; --border-color: #fdd401;">
+              <div class="toward__box-content">
+                <div class="content__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+                </div>
+                <div class="content__text">Người muốn điều tiết cảm xúc, điều chỉnh hành vi</div>
+              </div>
+              <div class="toward__box-list">
+                <ul>
+                  <li>Khó kiểm soát cảm xúc, dễ nổi giận</li>
+                  <li>Không kiểm soát được ngôn ngữ và hành vi khi có cảm xúc mạnh</li>
+                  <li>Cảm xúc thay đổi với cường độ cao và nhanh: thăng hoa tột đỉnh, trầm cảm chạm đáy</li>
+                  <li>Thường căng thẳng, lo lắng, bất an về tương lai</li>
+                  <li>Có quá nhiều nỗi sợ nên không dám thực hiện điều mình mong muốn</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="toward__box" style="--background: #ebfbfd; --border-color: #90dfe8;">
+              <div class="toward__box-content">
+                <div class="content__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+                </div>
+                <div class="content__text">Người muốn hoà giải những cảm xúc tồn đọng</div>
+              </div>
+              <div class="toward__box-list">
+                <ul>
+                  <li>Có những nỗi đau, tổn thương, sang chấn tâm lý cần được chăm sóc cảm xúc</li>
+                  <li>Cảm thấy hối hận, dằn vặt bản thân hay oán trách người khác vì những hành động đã làm trong quá khứ</li>
+                  <li>Cảm thấy tiếc nuối vì đã bỏ lỡ những điều cần làm, nên làm và luôn tự trách bản thân</li>
+                  <li>Cảm thấy cuộc sống là chuỗi ngày vô vị, buồn chán, không có niềm vui</li>
+                  <li>Không cảm nhận được hạnh phúc hiện tại, không có động lực làm việc và sống</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -51,6 +51,21 @@
       <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_quote" string="Trích dẫn" group="seroto_landing">
         <keywords>trích dẫn, quote, buổi học, học phí</keywords>
       </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_count" string="Thông tin" group="seroto_landing">
+        <keywords>đếm, count, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_target" string="Mục tiêu khóa học" group="seroto_landing">
+        <keywords>mục tiêu, target, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_toward" string="Khóa học hướng tới" group="seroto_landing">
+        <keywords>hướng tới, toward, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_teacher" string="Giảng viên" group="seroto_landing">
+        <keywords>giảng viên, teacher, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_method" string="Cách thức học" group="seroto_landing">
+        <keywords>phương thức, method, buổi học, học phí</keywords>
+      </t>
     </xpath>
 
     <!--

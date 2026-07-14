@@ -1,9 +1,8 @@
 {
-  'name': 'VTT Seroto Website',
+  'name': 'Seroto Website',
   'version': '1.0',
   'author': 'Seroto',
-  'summary': 'Snippet kéo-thả và trang landing khóa học trên website - tách riêng '
-             'khỏi seroto_form (phần model/CRM/đăng ký) để dễ quản lý.',
+  'summary': '',
   'depends': [
     'website',
     # Snippet/trang landing đọc dữ liệu seroto.course + dùng chung modal đăng ký

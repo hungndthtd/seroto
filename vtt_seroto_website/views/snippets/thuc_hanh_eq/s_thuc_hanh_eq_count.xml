@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_count" name="Thông tin">
+    <section class="s_thuc_hanh_eq_count custom-snippet pt40 pb40" style="background: #59b0b9;">
+      <div class="container-page">
+        <div class="d-flex text-white">
+          <div class="flex-fill text-center fw-bold">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 70px; max-width: 70px;"/>
+            <div class="mb-2">ĐÃ TỔ CHỨC</div>
+            <div style="background: #fff; width: 60px; height: 2px; margin: 8px auto;"></div>
+            <h1 class="text-yellow fw-bold">48</h1>
+            <p class="mb-0 text-sm">KHOÁ</p>
+          </div>
+          <div style="width: 1px; height: 180px; background: rgba(255, 255, 255, 0.25);"></div>
+          <div class="flex-fill text-center fw-bold">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 70px; max-width: 70px;"/>
+            <div class="mb-2">SỐ HỌC VIÊN ĐÃ HỌC</div>
+            <div style="background: #fff; width: 60px; height: 2px; margin: 8px auto;"></div>
+            <h1 class="text-yellow fw-bold">30.000+</h1>
+            <p class="mb-0 text-sm">HỌC VIÊN</p>
+          </div>
+          <div style="width: 1px; height: 180px; background: rgba(255, 255, 255, 0.25);"></div>
+          <div class="flex-fill text-center fw-bold">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 70px; max-width: 70px;"/>
+            <div class="mb-2">HỌC VIÊN ĐẾN TỪ</div>
+            <div style="background: #fff; width: 60px; height: 2px; margin: 8px auto;"></div>
+            <h1 class="text-yellow fw-bold">15+</h1>
+            <p class="mb-0 text-sm">QUỐC GIA</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

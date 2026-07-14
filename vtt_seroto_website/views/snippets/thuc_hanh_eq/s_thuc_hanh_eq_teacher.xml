@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_teacher" name="Giảng viên">
+    <section class="s_thuc_hanh_eq_teacher custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="text-center text-green fw-bold">
+          Giảng viên khoá học là ai?
+        </h2>
+        <div class="mb-4 mb-md-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="teacher__box">
+              <div class="teacher__box-image">
+                <div class="image__shape">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid mx-auto" style="max-height: 240px; max-width: 240px;"/>
+                </div>
+              </div>
+              <div class="teacher__box-info">
+                <h3 class="text-orange fw-bold">Thầy Dương Quang Minh</h3>
+                <ul>
+                  <li>Nhà đào tạo và thực hành Trí Tuệ Cảm Xúc (EQ)</li>
+                  <li>Sáng lập Tổ chức Giáo dục phi lợi nhuận Seroto Foundation</li>
+                  <li>Sáng lập cộng đồng Dạy con trong hạnh phúc</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="teacher__box">
+              <div class="teacher__box-image">
+                <div class="image__shape">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid mx-auto" style="max-height: 240px; max-width: 240px;"/>
+                </div>
+              </div>
+              <div class="teacher__box-info">
+                <h3 class="text-orange fw-bold"><span class="text-indigo">Trợ giảng:</span> Coach Đỗ Quang</h3>
+                <ul>
+                  <li>Giảng viên lớp học Cha mẹ EQ- Con EQ</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

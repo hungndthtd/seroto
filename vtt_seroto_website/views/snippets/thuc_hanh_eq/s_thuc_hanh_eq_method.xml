@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_method" name="Cách thức học">
+    <section class="s_thuc_hanh_eq_method custom-snippet pt48 pb48" style="background: #6dbfc6;">
+      <div class="container-page">
+        <h2 class="text-center fw-bold">
+          Cách thức học
+        </h2>
+        <div class="mb-4 mb-md-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row">
+          <div class="col-12 col-md-4 mb-4 mb-md-0"></div>
+        </div>
+        <div class="mt-4 mt-md-5">
+          <div class="row">
+            <div class="col-12 col-md-8 mb-4 mb-md-5">
+              <div class="">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid" style="max-height: 46px"/>
+                <div class="text-2xl fst-italic my-3">Bạn có thể học để BIẾT về trí tuệ cảm xúc, nhưng để trở thành người CÓ trí tuệ cảm xúc bạn phải thực hành, thực hành, thực hành!</div>
+                <div class="text-lg fw-bold text-end">
+                  Chade-Meng Tan
+                  <br/>
+                  Tác giả cuốn sách Search Inside Yourself
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="d-flex align-items-end justify-content-center">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid" style="max-height: 260px"/>
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid" style="max-height: 120px"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -23,8 +23,13 @@
     'views/snippets/s_project.xml',
     'views/snippets/s_roadmap_timeline.xml',
     'views/snippets/s_trai_nghiem_eq_timeline.xml',
-    'views/snippets/s_thuc_hanh_eq_about.xml',
-    'views/snippets/s_thuc_hanh_eq_quote.xml',
+    'views/snippets/thuc_hanh_eq/s_thuc_hanh_eq_about.xml',
+    'views/snippets/thuc_hanh_eq/s_thuc_hanh_eq_quote.xml',
+    'views/snippets/thuc_hanh_eq/s_thuc_hanh_eq_count.xml',
+    'views/snippets/thuc_hanh_eq/s_thuc_hanh_eq_target.xml',
+    'views/snippets/thuc_hanh_eq/s_thuc_hanh_eq_toward.xml',
+    'views/snippets/thuc_hanh_eq/s_thuc_hanh_eq_teacher.xml',
+    'views/snippets/thuc_hanh_eq/s_thuc_hanh_eq_method.xml',
     'views/snippets/snippets.xml',
     # Trang MẪU (is_new_page_template=True) cho các trang landing khóa học - url=
     # /maukhoahoc. Tạo trang khóa học thật (K19, K13...) qua Website Editor > "+New

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_target" name="Mục tiêu khóa học">
+    <section class="s_thuc_hanh_eq_target custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-md-6">
+            <h3 class="fw-bold">Khoá học sẽ giúp gì cho bạn?</h3>
+            <div class="mb-4" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+            <div class="target__box">
+              <div class="target__box-number">01</div>
+              <div class="target__box-title">Nâng cao nhận thức về cảm xúc của bản thân</div>
+              <ul class="target__box-list">
+                <li>Nhận diện, quan sát cảm xúc của bản thân</li>
+                <li>Xác định nguyên nhân của cảm xúc</li>
+                <li>Nhận diện và đón nhận cảm xúc của người khác</li>
+              </ul>
+            </div>
+            <div class="target__box">
+              <div class="target__box-number">02</div>
+              <div class="target__box-title">Điều tiết và biểu hiện cảm xúc một cách phù hợp</div>
+              <ul class="target__box-list">
+                <li>Sử dụng kỹ năng trấn tĩnh để thư giãn và làm dịu cảm xúc</li>
+                <li>Bày tỏ cảm xúc một cách chân thật và lành mạnh</li>
+                <li>Đối diện với những cảm xúc khó chịu một cách tích cực, hướng tới giải pháp tốt đẹp</li>
+              </ul>
+            </div>
+            <div class="target__box">
+              <div class="target__box-number">03</div>
+              <div class="target__box-title">Tăng động lực của bản thân để hoàn thành mục tiêu</div>
+              <ul class="target__box-list">
+                <li>Biết cách tự ghi nhận, yêu chính mình, chế tác hạnh phúc tự thân</li>
+                <li>Tìm thấy mục tiêu cao đẹp trong công việc và cuộc sống, gia tăng động lực thực hiện</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="target__image">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid target__image-shape"/>
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mt-auto mx-auto" style="max-height: 256px; transform: rotateY(180deg);"/>
+            </div>
+            <div class="target__box">
+              <div class="target__box-number">04</div>
+              <div class="target__box-title">Nâng cao khả năng đồng cảm để thương người</div>
+              <ul class="target__box-list">
+                <li>Lắng nghe tích cực, quan tâm đến cảm xúc của người nói</li>
+                <li>Thấu hiểu suy nghĩ, cảm xúc từ góc nhìn của người khác</li>
+              </ul>
+            </div>
+            <div class="target__box">
+              <div class="target__box-number">05</div>
+              <div class="target__box-title">Tăng khả năng giao tiếp và xây dựng mối quan hệ lành mạnh</div>
+              <ul class="target__box-list">
+                <li>Giao tiếp rõ ràng và hòa ái thông qua ngôn từ và biểu cảm</li>
+                <li>Giải quyết mâu thuẫn một cách ôn hòa để xây dựng và duy trì mối quan hệ tốt đẹp</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="target__button">
+            Đăng ký ngay
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

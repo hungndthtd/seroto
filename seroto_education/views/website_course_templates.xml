@@ -204,41 +204,6 @@
                group="content"/>
         </xpath>
     </template>
-    <!-- Custom Header Layout for Seroto -->
-    <template id="template_header_default_seroto" inherit_id="website.template_header_default" name="Seroto Header Layout Override">
-        <xpath expr="//t[@t-call='website.navbar']" position="replace">
-            <t t-call="website.navbar">
-                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block py-2"/>
-                <div id="o_main_nav" class="container d-flex align-items-center justify-content-between">
-                    <!-- Brand (Left-Center) -->
-                    <div class="d-flex align-items-center flex-grow-1 justify-content-center justify-content-lg-start">
-                        <t t-call="website.placeholder_header_brand" _link_class.f="me-4"/>
-                    </div>
-                    
-                    <!-- Navigation Menu (Right-Center) -->
-                    <div class="d-flex align-items-center">
-                        <t t-call="website.navbar_nav" _nav_class.f="fw-bold text-uppercase gap-3">
-                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
-                                <t t-call="website.submenu"
-                                   item_class.f="nav-item"
-                                   link_class.f="nav-link text-dark fw-bold px-2"/>
-                            </t>
-                        </t>
-                        
-                        <!-- Portal Sign In/Dropdown -->
-                        <ul class="navbar-nav align-items-center gap-2 flex-shrink-0 justify-content-end ps-3">
-                            <t t-call="portal.user_dropdown"
-                                _user_name="True"
-                                _item_class.f="dropdown"
-                                _link_class.f="{{_additional_btn_color or 'nav-link'}} border-0 text-dark"
-                                _dropdown_menu_class.f="dropdown-menu-end"/>
-                        </ul>
-                    </div>
-                </div>
-            </t>
-        </xpath>
-    </template>
-
     <!-- Custom Snippet: Seroto Title with SVG (Inner Content) -->
     <template id="s_seroto_title_svg" name="Seroto Title với SVG">
         <div class="s_seroto_title_svg o_snippet_drop_in_only d-inline-flex align-items-end position-relative py-2" data-name="Seroto Title với SVG">
