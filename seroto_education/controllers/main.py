@@ -82,3 +82,68 @@ class SerotoCourseController(http.Controller):
             'success': True,
             'message': 'Đăng ký thành công! Đội ngũ Seroto sẽ liên hệ với bạn sớm nhất.'
         }
+
+    # =====================================================
+    # Nhận lead từ Google Apps Script (trigger onFormSubmit gắn vào Google Form) -
+    # gọi server-to-server, không qua trình duyệt nên không cần CORS, nhưng phải tự
+    # xác thực bằng api_key (system parameter) vì endpoint public trên internet.
+    # =====================================================
+    @http.route('/api/google_form/lead', type='jsonrpc', auth='public', methods=['POST'], csrf=False)
+    def google_form_lead(self, **kwargs):
+        expected_key = request.env['ir.config_parameter'].sudo().get_param(
+            'seroto_education.google_form_api_key'
+        )
+        if not expected_key or kwargs.get('api_key') != expected_key:
+            return {'success': False, 'message': 'Unauthorized'}
+
+        response_id = (kwargs.get('response_id') or '').strip()
+        name = (kwargs.get('name') or '').strip()
+        phone = (kwargs.get('phone') or '').strip()
+        email = (kwargs.get('email') or '').strip()
+        course_text = (kwargs.get('course') or '').strip()
+
+        if not name or not phone:
+            return {'success': False, 'message': 'Thiếu tên hoặc số điện thoại'}
+
+        # Idempotency: Apps Script có thể gọi lại cùng 1 response (lỗi mạng, chạy tay
+        # lại script) - tránh tạo trùng lead cho cùng 1 response_id.
+        if response_id:
+            existing = request.env['crm.lead'].sudo().search(
+                [('google_form_response_id', '=', response_id)], limit=1
+            )
+            if existing:
+                return {'success': True, 'message': 'Đã xử lý trước đó', 'lead_id': existing.id}
+
+        course = False
+        if course_text:
+            course = request.env['academic.course'].sudo().search([
+                '|', ('code', '=', course_text), ('name', '=', course_text),
+            ], limit=1)
+
+        Partner = request.env['res.partner'].sudo()
+        partner = email and Partner.search([('email', '=', email)], limit=1)
+        if not partner:
+            partner = Partner.search([('phone', '=', phone)], limit=1)
+        if not partner:
+            partner = Partner.create({'name': name, 'email': email, 'phone': phone})
+
+        source = request.env['utm.source'].sudo().search([('name', '=', 'Google Form')], limit=1)
+        if not source:
+            source = request.env['utm.source'].sudo().create({'name': 'Google Form'})
+
+        lead_vals = {
+            'name': f"[Google Form] {name} - {course.name if course else (course_text or 'Chưa rõ khóa học')}",
+            'contact_name': name,
+            'partner_id': partner.id,
+            'email_from': email,
+            'phone': phone,
+            'course_id': course.id if course else False,
+            'source_id': source.id,
+            'google_form_response_id': response_id,
+            'description': (
+                f"Đăng ký qua Google Form.\nKhóa học (nhập tay trong form): {course_text or 'Không có'}"
+            ),
+        }
+        lead = request.env['crm.lead'].sudo().create(lead_vals)
+
+        return {'success': True, 'message': 'Đã tạo lead', 'lead_id': lead.id, 'partner_id': partner.id}
