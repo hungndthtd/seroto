@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Scheduled Action đọc định kỳ các dòng MỚI trong Google Sheet và tự tạo Contact +
+        CRM Lead tương ứng - xem logic đầy đủ trong models/google_sheet_sync.py.
+
+        KIẾN TRÚC: mỗi Lớp học/đợt tuyển sinh (academic.class, vd "Thực hành EQ K34") có
+        Google Form + Spreadsheet RIÊNG - cấu hình Spreadsheet ID/tên tab ngay trong form
+        Lớp học (tab "Đồng bộ Google Sheet"), KHÔNG còn dùng System Parameters cho từng
+        sheet như trước nữa (vì giờ có nhiều sheet, không phải 1 sheet duy nhất). Cron này
+        tự lặp qua mọi Lớp học đang active có khai báo Spreadsheet ID.
+
+        MẶC ĐỊNH TẮT (active=False) vì cần cấu hình xong Service Account trước khi bật
+        (Settings > Technical > Parameters > System Parameters, CHỈ 2 key dùng chung cho
+        mọi Sheet):
+        - seroto_education.google_sa_client_email: email Service Account (Google Cloud)
+        - seroto_education.google_sa_private_key: private key PEM của Service Account đó
+        Mỗi Spreadsheet của từng Lớp học phải được share (Viewer) cho đúng email Service
+        Account ở trên thì cron mới đọc được.
+    -->
+    <!-- noupdate="1": chỉ áp dụng giá trị bên dưới ĐÚNG 1 LẦN lúc cài module lần đầu -
+         các lần update module sau đó sẽ KHÔNG ghi đè lại nữa, để mọi thay đổi chỉnh tay
+         qua giao diện (Active, Execute Every...) không bị mất khi update module. -->
+    <data noupdate="1">
+        <record id="ir_cron_google_sheet_sync" model="ir.cron">
+            <field name="name">Đồng bộ đăng ký khóa học từ Google Sheet vào CRM</field>
+            <field name="model_id" ref="model_google_sheet_sync"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_sync_google_form_leads()</field>
+            <field name="interval_number">10</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -9,7 +9,12 @@ class ResPartner(models.Model):
     is_student = fields.Boolean(string='Là học viên', compute='_compute_is_student', store=True, index=True)
     student_code = fields.Char(string='Mã học viên', readonly=True, copy=False, index=True)
     birthdate = fields.Date(string='Ngày sinh')
+    gender = fields.Selection(
+        [('male', 'Nam'), ('female', 'Nữ'), ('other', 'Khác')],
+        string='Giới tính',
+    )
     occupation = fields.Char(string='Nghề nghiệp')
+    workplace = fields.Char(string='Tên cơ sở làm việc')
     is_teacher = fields.Boolean(string='Là giảng viên', default=False)
 
     def init(self):

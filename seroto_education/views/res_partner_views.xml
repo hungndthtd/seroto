@@ -130,10 +130,12 @@
                         </group>
                         <group string="Thông tin cá nhân">
                             <field name="birthdate"/>
-                            <field name="occupation"/>
-                            <field name="street" string="Địa chỉ" placeholder="Địa chỉ chi tiết (Số nhà, Đường...)"/>                            
+                            <field name="gender"/>
+                            <field name="street" string="Địa chỉ" placeholder="Địa chỉ chi tiết (Số nhà, Đường...)"/>
                             <field name="state_id" string="Tỉnh/Thành phố" placeholder="Tỉnh/Thành phố" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="country_id" placeholder="Quốc gia" options="{'no_open': True, 'no_create': True}"/>                            
+                            <field name="country_id" placeholder="Quốc gia" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="occupation"/>
+                            <field name="workplace"/>
                         </group>
                     </group>
                     <notebook>

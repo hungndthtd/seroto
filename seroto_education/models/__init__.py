@@ -13,3 +13,4 @@ from . import academic_ip_log
 from . import account_move
 from . import res_partner
 from . import website
+from . import google_sheet_sync

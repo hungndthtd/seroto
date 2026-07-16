@@ -21,6 +21,12 @@
         'website',
         'account',
     ],
+    # "requests" và "cryptography" đã là dependency core của Odoo (requirements.txt) -
+    # khai báo lại ở đây chỉ để rõ ràng, không cần cài thêm gì. Dùng cho
+    # models/google_sheet_sync.py (đồng bộ CRM Lead từ Google Sheet qua Sheets API).
+    'external_dependencies': {
+        'python': ['requests', 'cryptography'],
+    },
     'data': [
         'security/seroto_security.xml',
         'security/ir.model.access.csv',
@@ -31,12 +37,14 @@
         'views/academic_enrollment_views.xml',
         'views/academic_attendance_views.xml',
         'views/academic_certificate_views.xml',
+        'views/crm_lead_views.xml',
         'views/sale_order_views.xml',
         'views/res_partner_views.xml',
         'views/academic_menus.xml',
         'views/website_course_templates.xml',
         'views/website_foundation_templates.xml',
         'data/automated_actions.xml',
+        'data/google_sheet_sync_cron.xml',
     ],
     'assets': {
         'web.assets_frontend': [

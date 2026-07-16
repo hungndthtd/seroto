@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form_seroto_education" model="ir.ui.view">
+        <field name="name">crm.lead.form.seroto.education</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page string="Đăng ký khóa học" name="seroto_course_registration">
+                    <group>
+                        <group string="Khóa học">
+                            <field name="course_id"/>
+                            <field name="class_id"/>
+                        </group>
+                        <group string="Cam kết">
+                            <field name="commit_read_course_info"/>
+                            <field name="commit_zoom_ontime"/>
+                            <field name="commit_practice_submit"/>
+                            <field name="commit_support_teammates"/>
+                            <field name="commit_balanced_planting"/>
+                            <field name="commit_allow_media_usage"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Giấy xác nhận">
+                            <field name="confirmation_doc_url" widget="url"/>
+                            <field name="confirmation_doc_filename" invisible="1"/>
+                            <field name="confirmation_doc_file" filename="confirmation_doc_filename"/>
+                            <field name="signer_name"/>
+                            <field name="signer_phone"/>
+                            <field name="signer_position"/>
+                        </group>
+                        <group string="Người đại diện đăng ký nhóm (bỏ trống nếu đăng ký lẻ)">
+                            <field name="group_rep_name"/>
+                            <field name="group_rep_phone"/>
+                        </group>
+                    </group>
+                    <group string="Ưu đãi &amp; Phân loại đăng ký">
+                        <field name="previously_studied"/>
+                        <field name="tuition_scholarship_category"/>
+                        <field name="early_registration"/>
+                        <field name="registration_channel"/>
+                        <field name="scholarship_reason"/>
+                        <field name="voucher_recipient"/>
+                        <field name="voucher_code"/>
+                    </group>
+                    <group string="Thanh toán">
+                        <field name="payment_proof_image" widget="image" class="oe_avatar"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -131,6 +131,23 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Đồng bộ Google Sheet">
+                            <group>
+                                <group string="Kết nối">
+                                    <field name="google_sheet_url" widget="url" placeholder="Dán nguyên link Google Sheet đăng ký"/>
+                                    <!-- <field name="google_sheet_tab" placeholder="Bỏ trống = tự lấy tab đầu tiên"/> -->
+                                    <field name="google_sheet_last_row" readonly="1"/>
+                                </group>
+                                <group string="Chỉ định cột (tùy chọn - để trống sẽ tự đoán)">
+                                    <field name="google_sheet_col_name" placeholder="vd: AO"/>
+                                    <field name="google_sheet_col_phone" placeholder="vd: AP"/>
+                                    <field name="google_sheet_col_email" placeholder="vd: C"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="google_sheet_sync_confirmed"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <chatter/>
