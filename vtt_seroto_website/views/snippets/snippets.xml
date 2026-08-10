@@ -33,17 +33,68 @@
       <t t-snippet="vtt_seroto_website.s_dynamic_course_card_student" string="Course Card - Học viên" group="seroto">
         <keywords>course, khóa học, học viên, student, crm, register, đăng ký</keywords>
       </t> -->
-      <t t-snippet="vtt_seroto_website.s_team" string="Team - Đội ngũ" group="seroto">
+      <!-- <t t-snippet="vtt_seroto_website.s_team" string="Team - Đội ngũ" group="seroto">
         <keywords>team</keywords>
       </t>
       <t t-snippet="vtt_seroto_website.s_project" string="Project - Dự án" group="seroto">
         <keywords>project</keywords>
+      </t> -->
+      <t t-snippet="vtt_seroto_website.s_trang_chu_course" string="Khóa học" group="seroto">
+        <keywords>khóa học, course</keywords>
       </t>
-      <t t-snippet="vtt_seroto_website.s_roadmap_timeline" string="Lịch trình học" group="seroto_landing">
+      <t t-snippet="vtt_seroto_website.s_trang_chu_sponsor" string="Tài trợ tổ chức" group="seroto">
+        <keywords>tài trợ, sponsor</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trang_chu_finance" string="Tài chính" group="seroto">
+        <keywords>tài chính, finance</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trang_chu_team" string="Đội ngũ" group="seroto">
+        <keywords>đội ngũ, team</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trang_chu_vision" string="Tầm nhìn" group="seroto">
+        <keywords>tầm nhìn, vision</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trang_chu_mission" string="Sứ mệnh" group="seroto">
+        <keywords>sứ mệnh, mission</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trang_chu_culture" string="Văn hóa Seroto" group="seroto">
+        <keywords>văn hóa, culture</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trang_chu_project" string="Dự án" group="seroto">
+        <keywords>dự án, project</keywords>
+      </t>
+      <!-- <t t-snippet="vtt_seroto_website.s_roadmap_timeline" string="Lịch trình học" group="seroto_landing">
         <keywords>lịch trình, roadmap, buổi học, học phí</keywords>
+      </t> -->
+      <!-- <t t-snippet="vtt_seroto_website.s_trai_nghiem_eq_timeline" string="Lịch trình học" group="seroto_landing">
+        <keywords>lịch trình, roadmap, buổi học, học phí</keywords>
+      </t> -->
+
+      <!-- EQ 5 phút -->
+      <t t-snippet="vtt_seroto_website.s_eq_5_phut_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề, hero, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_5_phut_timeline" string="Lịch trình học" group="seroto_landing">
+        <keywords>lịch trình, timeline, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_5_phut_footer" string="Đoạn kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
+      </t>
+
+      <!-- Trải nghiệm EQ -->
+      <t t-snippet="vtt_seroto_website.s_trai_nghiem_eq_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề, hero, buổi học, học phí</keywords>
       </t>
       <t t-snippet="vtt_seroto_website.s_trai_nghiem_eq_timeline" string="Lịch trình học" group="seroto_landing">
-        <keywords>lịch trình, roadmap, buổi học, học phí</keywords>
+        <keywords>lịch trình, timeline, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_trai_nghiem_eq_footer" string="Đoạn kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
+      </t>
+
+      <!-- Thực hành EQ -->
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề, hero, buổi học, học phí</keywords>
       </t>
       <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_about" string="Giới thiệu khoá học" group="seroto_landing">
         <keywords>giới thiệu, about, buổi học, học phí</keywords>
@@ -65,6 +116,232 @@
       </t>
       <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_method" string="Cách thức học" group="seroto_landing">
         <keywords>phương thức, method, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_scholarship" string="Chính sách đầu tư &amp; Học bổng" group="seroto_landing">
+        <keywords>học bổng, scholarship, chính sách, đầu tư, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_register" string="Hướng dẫn đăng ký" group="seroto_landing">
+        <keywords>đăng ký, register, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_contact" string="Liên hệ" group="seroto_landing">
+        <keywords>liên hệ, contact, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_content" string="Nội dung khóa học" group="seroto_landing">
+        <keywords>nội dung, content, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_faq" string="Câu hỏi thường gặp" group="seroto_landing">
+        <keywords>câu hỏi, faq, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_banner" string="Banner" group="seroto_landing">
+        <keywords>banner, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_thuc_hanh_eq_footer" string="Đoạn kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
+      </t>
+
+      <!-- Master EQ -->
+      <t t-snippet="vtt_seroto_website.s_eq_master_hero" string="Giới thiệu khóa học" group="seroto_landing">
+        <keywords>khóa học, hero, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_benefit" string="Lợi ích" group="seroto_landing">
+        <keywords>lợi ích, benefit, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_user" string="Khóa học dành cho ai" group="seroto_landing">
+        <keywords>dành cho ai, user, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_teacher" string="Giảng viên khóa học" group="seroto_landing">
+        <keywords>giảng viên, teacher, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_content" string="Nội dung khóa học" group="seroto_landing">
+        <keywords>nội dung, content, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_course" string="Khóa học là gì" group="seroto_landing">
+        <keywords>khóa học, course, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_method" string="Cách thức tổ chức khóa học" group="seroto_landing">
+        <keywords>cách thức, method, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_faq" string="Câu hỏi thường gặp" group="seroto_landing">
+        <keywords>câu hỏi, faq, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_master_register" string="Đăng ký khóa học" group="seroto_landing">
+        <keywords>đăng ký, register, buổi học, học phí</keywords>
+      </t>
+
+      <!-- Cha mẹ EQ con EQ -->
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề, hero, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_problem" string="Vấn đề ba mẹ gặp phải" group="seroto_landing">
+        <keywords>vấn đề, problem, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_introduce" string="Giới thiệu khóa học" group="seroto_landing">
+        <keywords>giới thiệu, introduce, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_benefit" string="Khóa học sẽ giúp gì cho bạn" group="seroto_landing">
+        <keywords>lợi ích, benefit, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_timeline" string="Lộ trình học" group="seroto_landing">
+        <keywords>lộ trình, timeline, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_teacher" string="Giảng viên khóa học" group="seroto_landing">
+        <keywords>giảng viên, teacher, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_fee" string="Chính sách học phí" group="seroto_landing">
+        <keywords>học phí, fee, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_faq" string="Câu hỏi thường gặp" group="seroto_landing">
+        <keywords>câu hỏi, faq, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_video" string="Video chia sẻ" group="seroto_landing">
+        <keywords>video chia sẻ, video, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_toward" string="Khóa học dành cho ai" group="seroto_landing">
+        <keywords>dành cho, toward, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_contact" string="Liên hệ" group="seroto_landing">
+        <keywords>liên hệ, contact, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_method" string="Cách thức học và thực hành" group="seroto_landing">
+        <keywords>cách thức, method, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_guide" string="Hướng dẫn đăng ký" group="seroto_landing">
+        <keywords>hướng dẫn, guide, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_count" string="Số liệu" group="seroto_landing">
+        <keywords>số liệu, count, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_banner" string="Banner" group="seroto_landing">
+        <keywords>banner, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_share" string="Chia sẻ của các ba mẹ về khoá học" group="seroto_landing">
+        <keywords>chia sẻ, share, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_cha_me_eq_con_eq_footer" string="Đoạn kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
+      </t>
+
+      <!-- Trí tuệ cảm xúc Tuổi Teen -->
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề chính, hero, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_reason" string="Tại sao" group="seroto_landing">
+        <keywords>tại sao, reason, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_benefit" string="Lợi ích khi tham gia khóa học" group="seroto_landing">
+        <keywords>lợi ích, benefit, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_register" string="Hướng dẫn đăng ký" group="seroto_landing">
+        <keywords>hướng dẫn, đăng ký, register, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_fee" string="Học phí khóa học" group="seroto_landing">
+        <keywords>học phí, fee, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_method" string="Cách thức tổ chức lớp học" group="seroto_landing">
+        <keywords>cách thức, method, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_faq" string="Những câu hỏi thường gặp" group="seroto_landing">
+        <keywords>câu hỏi, faq, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_feel" string="Cảm nhận của phụ huynh và học sinh" group="seroto_landing">
+        <keywords>cảm nhận, feel, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_toward" string="Khóa học dành cho ai" group="seroto_landing">
+        <keywords>dành cho, toward, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_curriculum" string="Chương trình học" group="seroto_landing">
+        <keywords>chương trình học, curriculum, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_tool" string="Thực hành các công cụ EQ" group="seroto_landing">
+        <keywords>công cụ, tool, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_policy" string="Chính sách" group="seroto_landing">
+        <keywords>chính sách, policy, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_teacher" string="Giảng viên" group="seroto_landing">
+        <keywords>giảng viên, teacher, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_banner" string="Banner" group="seroto_landing">
+        <keywords>banner, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_tri_tue_cam_xuc_footer" string="Đoạn kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
+      </t>
+      
+      <!-- Làng Live - Live Village -->
+      <t t-snippet="vtt_seroto_website.s_lang_live_header" string="Menu" group="seroto_landing">
+        <keywords>menu, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề chính, hero, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_video" string="Video" group="seroto_landing">
+        <keywords>video, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_reason" string="Vì sao chúng ta cần Live Village" group="seroto_landing">
+        <keywords>vì sao, reason, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_about" string="Live Village là gì" group="seroto_landing">
+        <keywords>là gì, about, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_activity" string="Hoạt động như thế nào" group="seroto_landing">
+        <keywords>hoạt động, activity, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_timeline" string="Lộ trình phát triển" group="seroto_landing">
+        <keywords>lộ trình, timeline, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_address" string="Live Village ở đâu" group="seroto_landing">
+        <keywords>địa chỉ, address, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_team" string="Đội ngũ" group="seroto_landing">
+        <keywords>đội ngũ, team, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_lang_live_footer" string="Đọan kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
+      </t>
+
+      <!-- Mang EQ về trường -->
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề chính, hero, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_about" string="Về dự án" group="seroto_landing">
+        <keywords>về dự án, about, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_target" string="Mục tiêu của dự án" group="seroto_landing">
+        <keywords>mục tiêu, target, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_concentrate" string="Tập trung" group="seroto_landing">
+        <keywords>tập trung, concentrate, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_reason" string="Vì sao" group="seroto_landing">
+        <keywords>vì sao, reason, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_benefit" string="Lợi ích" group="seroto_landing">
+        <keywords>lợi ích, benefit, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_map" string="Sơ đồ" group="seroto_landing">
+        <keywords>sơ đồ, map, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_video" string="Video" group="seroto_landing">
+        <keywords>video, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_data" string="Số liệu" group="seroto_landing">
+        <keywords>số liệu, data, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_rule" string="Nguyên tắc" group="seroto_landing">
+        <keywords>nguyên tắc, rule, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_activity" string="Chuỗi hoạt động" group="seroto_landing">
+        <keywords>chuỗi hoạt động, activity, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_count" string="Số liệu" group="seroto_landing">
+        <keywords>số liệu, count, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_quote" string="Trích dẫn" group="seroto_landing">
+        <keywords>trích dẫn, quote, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_footer" string="Đoạn kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
       </t>
     </xpath>
 

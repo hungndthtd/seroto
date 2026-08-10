@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_benefit" name="Lợi ích">
+    <section class="s_eq_master_benefit s_eq_master custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12">
+            <div class="position-relative">
+              <div class="d-flex mb-4">
+                <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                  class="img-fluid" style="max-height: 50px; max-width: 50px"/>
+                <h2 class="font-paytone-one fw-bolder text-indigo ms-3"><span class="text-green">Lợi ích</span> mà khoá học <br/> mang lại là gì?</h2>
+              </div>
+              <ul>
+                <li>Hình thành lối sống tỉnh thức, nâng cao chỉ số cảm xúc EQ</li>
+                <li>Xử lý các tình huống bất như ý trong cuộc sống và công việc một cách bình tĩnh, nhẹ nhàng và giàu lòng từ bi hơn</li>
+                <li>Rèn sự tập trung, làm việc và giao tiếp trong hay biết, nâng cao hiệu quả công việc</li>
+                <li>Chữa lành tổn thương nội tâm và có cuộc sống bình an, hạnh phúc hơn</li>
+                <li>Giúp bạn đủ nền tảng và tích lũy sự thực hành để trở thành giảng viên trí tuệ cảm xúc.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

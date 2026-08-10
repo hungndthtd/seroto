@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_problem" name="Vấn đề ba mẹ gặp phải">
+    <section class="s_cha_me_eq_con_eq_problem s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="problem__card">
+          <h2 class="title-custom mx-auto" style="--space: 12px; --width: 120px;">Vấn đề ba mẹ gặp phải </h2>
+          <div class="row">
+            <div class="col-12 col-md-6 mb-4 mb-md-0">
+              <div class="problem__card-box" style="--numb: '01'; --color: #ccefff;">Bối rối giữa muôn ngàn phương pháp dạy con — không biết cách nào mới thực sự đúng?</div>
+              <div class="problem__card-box" style="--numb: '02'; --color: #ffdfca;">Muốn con tự lập, hạnh phúc… nhưng mỗi ngày trong nhà lại đầy những lời nhắc nhở, căng thẳng và mệt mỏi?</div>
+              <div class="problem__card-box" style="--numb: '03'; --color: #cbecce;">Con dần ít chia sẻ, né tránh trò chuyện, không còn thoải mái khi ở cạnh cha mẹ? Mỗi cuộc nói chuyện đều dễ trở thành tranh luận?</div>
+            </div>
+            <div class="col-12 col-md-6 mb-4 mb-md-0">
+              <div class="problem__card-box" style="--numb: '04'; --color: #f9e0ff;">Muốn buông để con tự lập… nhưng lại lo lắng không biết mình đang buông đúng cách hay đang bỏ mặc?</div>
+              <div class="problem__card-box" style="--numb: '05'; --color: #f6eaac;">Muốn yêu thương con thật nhiều… nhưng lại sợ mình nuông chiều và làm hư con?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

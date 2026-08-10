@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_tri_tue_cam_xuc_fee" name="Học phí khoá học">
+    <section class="s_tri_tue_cam_xuc_fee s_tri_tue_cam_xuc custom-snippet pt48 pb48" style="background: #fffbf4;">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <div class="position-relative" style="width: 40px; height: 50px;">
+            <div class="position-absolute top-0 end-0" style="width: 25px; height: 50px; transform: rotate(180deg);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 98.92 197.33" class="" fill="rgba(255, 217, 142, 1)">
+                <path d="M0,197.33a99.17,99.17,0,0,0,37.86-7.51A99.05,99.05,0,0,0,70,168.43a98.7,98.7,0,0,0,21.44-32,98.47,98.47,0,0,0,7.53-37.76,98.45,98.45,0,0,0-7.53-37.75A98.7,98.7,0,0,0,70,28.9,99.05,99.05,0,0,0,37.86,7.51,99.17,99.17,0,0,0,0,0V197.33Z"></path>
+              </svg>
+            </div>
+            <div class="position-absolute bottom-0 start-0" style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 218 218" class="" fill="rgba(203, 242, 250, 1)">
+                <path d="M109,0A109,109,0,1,0,218,109,109,109,0,0,0,109,0Zm0,178.66A69.66,69.66,0,1,1,178.66,109,69.66,69.66,0,0,1,109,178.66Z"></path>
+              </svg>
+            </div>
+          </div>
+          <h2 class="fw-bolder font-paytone-one text-green ms-3 text-center">Học phí khoá học</h2>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-4 mb-4 mb-md-0">
+            <div class="fee__box" style="--border: #90dfe8; --background: #6cbcc9;">
+              <div class="text-lg">Mức tiêu chuẩn</div>
+              <div class="fee__box-price">2.100.000<span>VNĐ</span></div>
+              <p>🎯 Dành cho những học viên có tài chính ổn định, giúp trang trải chi phí vận hành và duy trì chất lượng khóa học.</p>
+              <div class="fee__box-button">Get started</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 mb-4 mb-md-0">
+            <div class="fee__box" style="--border: #ffd98e; --background: #f8ae33;">
+              <div class="text-lg">Mức đồng hành</div>
+              <div class="fee__box-price">1.800.000<span>VNĐ</span></div>
+              <p>🎯 Dành cho những học viên đang gặp chút trở ngại về tài chính nhưng vẫn có thể nỗ lực thu xếp được.</p>
+              <div class="fee__box-button">Get started</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 mb-4 mb-md-0">
+            <div class="fee__box" style="--border: #ffbea6; --background: #ee6230;">
+              <div class="text-lg">Mức san sẻ</div>
+              <div class="fee__box-price">1.500.000<span>VNĐ</span></div>
+              <p>🎯 Dành cho những học viên đang thực sự gặp nhiều khó khăn về tài chính và cần được hỗ trợ nhiều hơn.</p>
+              <div class="fee__box-button">Get started</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

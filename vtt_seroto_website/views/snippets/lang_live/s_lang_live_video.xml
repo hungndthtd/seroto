@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_video" name="Video">
+    <section class="s_lang_live_video s_lang_live custom-snippet pt240 pb48">
+      <div class="container-page">
+        <div class="video__box">
+          <div class="video__box-shape">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              style="width: 890px; height: 500px; top: -90px; left: -240px;"/>
+          </div>
+          <h3 class="font-yeseva-one text-blue mb-4">Chúng tôi là ai?</h3>
+          <p>
+            Chúng tôi là một nhóm nhà chuyên môn ở các chuyên ngành khác nhau cùng làm việc với trẻ đặc biệt, là những phụ huynh đã và đang đồng hành với con mắc hội chứng tự kỷ, là các thầy cô luôn tâm huyết và trăn trở với giáo dục đặc biệt.
+            <br/>
+            <br/>
+            Chúng tôi cùng nhau lên ý tưởng về một dự án cộng đồng mang tên <b class="text-blue">LIVE VILLAGE - Làng "Sống"</b> với mong muốn có thể giúp được nhiều trẻ em đặc biệt có cuộc sống vui vẻ, hạnh phúc như bao trẻ em khác.
+          </p>
+        </div>
+        <div class="video__card">
+          <img src="/web/static/img/placeholder.png" alt="Làng Live"
+            class="img-fluid mx-auto" style="max-height: 480px;"/>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_address" name="Live Village ở đâu">
+    <section class="s_lang_live_address s_lang_live custom-snippet pt64 pb64">
+      <div class="container-page">
+        <div class="text-center">
+          <img src="/web/static/img/placeholder.png" alt="Làng Live"
+            class="img-fluid mx-auto" style="max-height: 120px;"/>
+          <h3 class="text-white font-yeseva-one mt-3 mb-5">Ở đâu?</h3>
+        </div>
+        <p class="text-lg text-center text-white">
+          Thôn Lập Thành - xã Đông Xuân - Quốc Oai - Hà Nội
+          <br/>
+          không gian thiên nhiên xanh
+        </p>
+        <div class="address__box">
+          <div class="address__box-item">
+            <div class="item__image">
+              <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+            </div>
+            <p>Trung Tâm TP Hà Nội</p>
+          </div>
+          <div class="address__box-line">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              class="img-fluid" style="max-height: 104px; max-width: 104px;"/>
+            <div class="line__border"></div>
+            <p>1 giờ</p>
+          </div>
+          <div class="address__box-item">
+            <div class="item__image">
+              <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                class="img-fluid mx-auto" style="max-height: 104px; max-width: 104px;"/>
+            </div>
+            <p>Live Village Quốc Oai</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

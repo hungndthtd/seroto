@@ -1,0 +1,8 @@
+// Ẩn ảnh Custom X/Y (custom background builder) trên mobile - vị trí top/left cố định
+// được đặt cho màn hình rộng, không thể tự thu hẹp theo mobile mà không đè lên chữ
+// (xem ghi chú trong static/src/builder/background_editor.js - getPositionRoot()).
+@media (max-width: 767.98px) {
+  .vtt_custom_bg_positioned_layer {
+    display: none;
+  }
+}

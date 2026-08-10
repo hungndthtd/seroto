@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="s_trang_chu_team" name="Đội ngũ">
+    <section class="s_trang_chu_team s_trang_chu custom-snippet pt48 pb48" style="background: #e1faff;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="rounded-circle d-flex align-items-center justify-content-center m-auto" style="max-width: 400px; max-height: 400px; padding: 20px; border: 2px dashed #66a1ee;">
+              <img src="/web/static/img/placeholder.png"
+                  class="img img-fluid rounded"
+                  alt="Đội ngũ"/>
+            </div>
+          </div>
+          <div class="col-md-6 align-self-center">
+            <div class="text-center my-5 my-md-0">
+              <div class="title__special mx-auto">
+                <h2 class="text-orange font-lobster">Đội ngũ</h2>
+                <div class="title__special-arrow" style="height: 12px; width: 70px">
+                  <t t-call="vtt_seroto_website.svg_multi_arrow">
+                    <t t-set="svg_class" t-value="'text-green-light d-block'"/>
+                  </t>
+                </div>
+              </div>
+              <div class="">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-yellow text-2xl" fill="currentColor" width="60px" height="60px" viewBox="0 0 32 32" version="1.1">
+                <title>quote</title>
+                <path d="M9.563 8.469l-0.813-1.25c-5.625 3.781-8.75 8.375-8.75 12.156 0 3.656 2.688 5.375 4.969 5.375 2.875 0 4.906-2.438 4.906-5 0-2.156-1.375-4-3.219-4.688-0.531-0.188-1.031-0.344-1.031-1.25 0-1.156 0.844-2.875 3.938-5.344zM21.969 8.469l-0.813-1.25c-5.563 3.781-8.75 8.375-8.75 12.156 0 3.656 2.75 5.375 5.031 5.375 2.906 0 4.969-2.438 4.969-5 0-2.156-1.406-4-3.313-4.688-0.531-0.188-1-0.344-1-1.25 0-1.156 0.875-2.875 3.875-5.344z"/>
+                </svg>                </div>
+              <div class="text-2xl">
+                We are nobody!
+                <br/>
+                Chúng tôi không là ai cả!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

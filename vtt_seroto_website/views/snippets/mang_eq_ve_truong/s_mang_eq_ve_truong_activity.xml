@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_activity" name="Chuỗi hoạt động">
+    <section class="s_mang_eq_ve_truong_activity s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="mb-5 text-indigo text-center">
+          <h3 class="fw-bolder">Chuỗi hoạt động của dự án mang EQ về trường</h3>
+        </div>
+        <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+          class="img-fluid mx-auto" style="max-height: 450px;"/>
+      </div>
+    </section>
+  </template>
+</odoo>

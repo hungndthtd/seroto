@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_5_phut_timeline" name="Lịch trình học">
+    <section class="s_eq_5_phut_timeline s_eq_5_phut custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="text-center text-green fw-bolder mb-2">
+          Lịch trình học
+        </h2>
+        <div class="mb-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row text-center mb-5">
+          <div class="col-sm-6 col-lg-3 mb-4 timeline__step">
+            <div class="timeline__step-icon rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                 style="background: #fdf1d9;">
+              <img src="/web/static/img/placeholder.png" class="img-fluid" alt="Buổi 1"/>
+            </div>
+            <div class="text-indigo fw-bolder text-2xl">Buổi 1 - Chủ Nhật</div>
+            <p class="text-pink text-2xl mb-1 fw-bolder">26/07 | 20:00-22:00</p>
+            <p class="text-indigo mb-0 text-lg">Khai giảng</p>
+            <p class="text-indigo mb-0 text-lg">EQ 5 phút là gì?</p>
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-4 timeline__step">
+            <div class="timeline__step-icon rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                 style="background: #e3f1fc;">
+              <img src="/web/static/img/placeholder.png" class="img-fluid" alt="Buổi 2"/>
+            </div>
+            <div class="text-indigo fw-bolder text-2xl">Buổi 2 - Thứ 3</div>
+            <p class="text-pink text-2xl mb-1 fw-bolder">28/07 | 20:00-22:00</p>
+            <p class="text-indigo mb-0 text-lg">Sáng tạo hoạt động EQ 5 phút</p>
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-4 timeline__step">
+            <div class="timeline__step-icon rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                 style="background: #fce4e4;">
+              <img src="/web/static/img/placeholder.png" class="img-fluid" alt="Buổi 3"/>
+            </div>
+            <div class="text-indigo fw-bolder text-2xl">Buổi 3 - Thứ 5</div>
+            <p class="text-pink text-2xl mb-1 fw-bolder">30/07 | 20:00-22:00</p>
+            <p class="text-indigo mb-0 text-lg">Chú tâm</p>
+            <p class="text-indigo mb-0 text-lg">Hay biết</p>
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-4 timeline__step">
+            <div class="timeline__step-icon rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                 style="background: #e3f7e9;">
+              <img src="/web/static/img/placeholder.png" class="img-fluid" alt="Bế giảng"/>
+            </div>
+            <div class="text-indigo fw-bolder text-2xl">Bế giảng - Thứ 7</div>
+            <p class="text-pink text-2xl mb-1 fw-bolder">01/08 | 20:00 - 21:30</p>
+            <p class="text-indigo mb-0 text-lg">Tổng kết</p>
+            <p class="text-indigo mb-0 text-lg">Trao quà</p>
+          </div>
+        </div>
+
+        <div class="row justify-content-center g-3 g-sm-5">
+          <div class="col-md-5">
+            <div class="rounded p-4" style="background: #65d0da; box-shadow: rgba(0, 0, 0, 0.29) 0px 15px 20px -15px;">
+              <div class="text-white fw-bolder text-2xl mb-3 pb-0.5 d-inline-block" style="border-bottom: 2px solid var(--color-yellow);">Phí ghi danh</div>
+              <p class="mb-0 text-indigo fw-bolder text-xl">Ngành giáo dục: <strong style="color: #d64c75;">11.111đ</strong></p>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="rounded p-4" style="background: #65d0da;">
+              <div class="text-white fw-bolder text-2xl mb-3 pb-0.5 d-inline-block" style="border-bottom: 2px solid var(--color-yellow);">Học phí</div>
+              <p class="mb-0 text-indigo fw-bolder text-xl">Cá nhân: <strong style="color: #d64c75;">211.111đ</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

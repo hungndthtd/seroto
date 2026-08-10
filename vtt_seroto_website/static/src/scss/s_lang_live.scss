@@ -1,0 +1,533 @@
+/* Làng Live */
+.s_lang_live {
+  --color-blue: #1b1091;
+  --color-indigo: #051f4d;
+  --color-red: #fe5f55;
+  color: var(--color-indigo);
+  .container-page {
+    font-family: var(--font-open-sans);
+  }
+  .btn-default {
+    font-size: 14px;
+    padding: 8px 24px;
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+    &.outlined {
+      color: var(--color-red);
+      background: transparent;
+      border: 2px solid var(--color-red);
+    }
+  }
+}
+
+/* Menu */
+.s_lang_live_header {
+  .header__menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @media (max-width: 767px) {
+      flex-direction: column;
+      justify-content: center;
+    }
+    &-logo {
+      display: flex;
+      align-items: center;
+      img {
+        &:last-child {
+          margin-left: 40px;
+        }
+      }
+    }
+    &-list {
+      display: flex;
+      align-items: center;
+      @media (max-width: 767px) {
+        margin-top: 20px;
+      }
+      .list__item {
+        padding: 8px 24px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+/* Tiêu đề chính */
+.s_lang_live_hero {
+  .hero__image {
+    --size: 430px;
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    margin: auto;
+    border-radius: 50%;
+    border: 1px solid rgba(13, 98, 242, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      --size: 400px;
+      width: var(--size);
+      height: var(--size);
+      border: 8px solid var(--color-white);
+      border-radius: 50%;
+      box-shadow: rgba(0, 0, 0, 0.7) 0px 15px 20px -20px;
+    }
+  }
+  .hero__box {
+    &-title {
+      font-family: var(--font-yeseva-one);
+      font-size: 42px;
+      // font-weight: 700;
+      color: var(--color-blue);
+    }
+    &-subtitle {
+      font-family: var(--font-yeseva-one);
+      font-size: 22px;
+      font-style: italic;
+      color: var(--color-red);
+      margin: 32px 0 24px;
+    }
+    &-button {
+      margin-top: 64px;
+      display: flex;
+      .btn-default {
+        max-width: unset;
+        margin: unset;
+        width: auto;
+        &:last-child {
+          margin-left: 20px;
+        }
+      }
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+}
+
+/* Video */
+.s_lang_live_video {
+  .video__box {
+    position: relative;
+    padding: 40px 100px;
+    background: #fff7f3;
+    border-radius: 60px;
+    margin-bottom: 64px;
+    max-width: 800px;
+    margin-left: auto;
+    &-shape {
+      --size: 373px;
+      position: absolute;
+      top: -200px;
+      left: -290px;
+      width: var(--size);
+      height: var(--size);
+      mask: url(/vtt_seroto_website/static/src/img/mask-chat.svg) 0% 0% / 100% 100%;
+      overflow: hidden;
+      img {
+        position: absolute;
+        max-width: unset;
+        object-fit: cover;
+      }
+    }
+  }
+  .video__card {
+    padding: 20px;
+    border-radius: 15px;
+    background: #eaf2fe;
+  }
+}
+
+/* Reason */
+.s_lang_live_reason {
+  .reason__carousel {
+    font-size: 18px;
+    font-style: italic;
+    padding: 0 80px;
+    &-info {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 60px;
+      .info__image {
+        --size: 60px;
+        position: relative;
+        width: var(--size);
+        height: var(--size);
+        mask: url(/vtt_seroto_website/static/src/img/ll-reason-mask.svg) 0% 0% / 100% 100%;
+        overflow: hidden;
+      }
+      p {
+        font-weight: 700;
+        margin-right: 12px;
+      }
+    }
+  }
+  .reason__image {
+
+  }
+  .reason__content {
+    &-numb {
+      font-size: 50px;
+      font-weight: 700;
+      color: var(--color-blue);
+      margin-bottom: 12px;
+    }
+    p {
+      margin: 20px 0 12px;
+    }
+  }
+  .reason__box {
+    margin-top: 120px;
+    &-content {
+      position: relative;
+      margin-bottom: 50px;
+      max-width: 550px;
+      p {
+        margin-top: 20px;
+      }
+    }
+    &-card {
+      .card__item {
+        --size: 300px;
+        margin: auto;
+        width: var(--size);
+        height: var(--size);
+        border-radius: 50%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        p {
+          max-width: 215px;
+          margin: 20px auto;
+        }
+      }
+    }
+  }
+}
+
+/* About */
+.s_lang_live_about {
+  .about__box {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    &.right {
+      justify-content: flex-end;
+      .about__box {
+        &-image {
+          order: 2;
+        }
+        &-content {
+          order: 1;
+          text-align: right;
+          margin-right: 20px;
+          margin-left: auto;
+        }
+      }
+    }
+    &-image {
+      --size: 240px;
+      position: relative;
+      width: var(--size);
+      height: var(--size);
+      overflow: hidden;
+      box-shadow: rgb(5, 31, 77) 0px 15px 20px -15px;
+      &.mask-1 {
+        mask: url(/vtt_seroto_website/static/src/img/mask-1.svg) 0% 0% / 100% 100%;
+      }
+      &.mask-2 {
+        mask: url(/vtt_seroto_website/static/src/img/mask-2.svg) 0% 0% / 100% 100%;
+      }
+      &.mask-3 {
+        mask: url(/vtt_seroto_website/static/src/img/mask-3.svg) 0% 0% / 100% 100%;
+      }
+      img {
+        position: absolute;
+        object-fit: cover;
+        max-width: unset;
+      }
+    }
+    &-content {
+      margin-left: 20px;
+      flex: 1;
+      max-width: 445px;
+      div {
+        color: var(--color-red);
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      p {
+        font-size: 20px;
+        font-weight: 700;
+        color: #404040;
+      }
+    }
+  }
+  .about__button {
+    margin-top: 40px;
+    text-align: center;
+    .btn-default {
+      max-width: 260px;
+    }
+  }
+}
+
+/* Activity */
+.s_lang_live_activity {
+  .activity__image {
+    img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+  }
+  .activity__list {
+    ul {
+      li {
+        padding-bottom: 10px;
+        p {
+          margin-bottom: 16px;
+        }
+      }
+    }
+  }
+}
+
+/* Timeline */
+.s_lang_live_timeline {
+  .timeline__box {
+    position: relative;
+    margin: 0 auto 24px;
+    max-width: 800px;
+    display: flex;
+    &:last-child {
+      .timeline__box {
+        &-step {
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+    &-step {
+      position: relative;
+      text-align: center;
+      width: 68px;
+      &::before {
+        content: '';
+        border-left: 2px dashed rgba(13, 98, 242, 0.4);
+        height: 100%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+        z-index: -1;
+      }
+      .step__content {
+        background: var(--color-white);
+        p {
+          font-size: 14px;
+          font-weight: 700;
+          color: rgba(5, 31, 78, 0.2);
+        }
+        div {
+          font-size: 30px;
+          font-weight: 700;
+          padding: 12px 0 24px;
+        }
+      }
+    }
+    &-content {
+      flex: 1;
+      margin-left: 32px;
+      .content__title {
+        color: var(--color-red);
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      .content__info {
+        margin-top: 40px;
+        display: flex;
+        p {
+          flex: 1;
+          margin-left: 20px;
+        }
+      }
+      .content__button {
+        text-align: center;
+        margin-top: 40px;
+        .btn-default {
+          max-width: 260px;
+        }
+      }
+    }
+  }
+}
+
+/* Footer */
+.s_lang_live_footer {
+  --color-blue: #1b1091;
+  color: var(--color-blue);
+  .footer__info {
+    font-size: 14px;
+    &-item {
+      display: flex;
+      margin-bottom: 12px;
+    }
+  }
+  .footer__image {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    &-qr {
+      position: relative;
+      margin-right: 8px;
+      width: 212px;
+      height: 202px;
+      mask: url(/vtt_seroto_website/static/src/img/mask-chat.svg) 0% 0% / 100% 100%;
+      overflow: hidden;
+    }
+  }
+  .footer__copyright {
+    margin-top: 24px;
+    padding: 24px 16px;
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid var(--color-white);
+  }
+}
+
+/* Address */
+.s_lang_live_address {
+  position: relative;
+  background: url(/vtt_seroto_website/static/src/img/ll-bg.jpg) 50% 0%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgb(215, 255, 218), rgb(68, 149, 144));
+    opacity: 0.6;
+    z-index: -1;
+  }
+  .address__box {
+    margin-top: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    color: var(--color-white);
+    font-weight: 700;
+    @media (max-width: 767px) {
+      flex-direction: column;
+      align-items: unset;
+      margin-top: 40px;
+    }
+    &-item {
+      text-align: center;
+      .item__image {
+        --size: 105px;
+        width: var(--size);
+        height: var(--size);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+      }
+    }
+    &-line {
+      flex: 1;
+      text-align: center;
+      @media (max-width: 767px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      img {
+        margin: auto;
+        @media (max-width: 767px) {
+          margin: unset;
+        }
+      }
+      .line__border {
+        border-top: 4px dotted rgb(255, 255, 255);
+        margin: 8px 0;
+        @media (max-width: 767px) {
+          margin: 16px 8px;
+          height: 250px;
+          border-top: 0;
+          border-left: 4px dotted rgb(255, 255, 255);
+        }
+      }
+      p {
+        @media (max-width: 767px) {
+          width: 104px;
+        }
+      }
+    }
+  }
+}
+
+/* Team */
+.s_lang_live_team {
+  position: relative;
+  background: url(/vtt_seroto_website/static/src/img/ll-bg-2.jpg) 50% 0%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 59, 74, 0.7);
+    z-index: -1;
+  }
+  .team__box {
+    max-width: 250px;
+    margin: auto;
+    height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    &-image {
+      --size: 250px;
+      position: relative;
+      width: var(--size);
+      height: var(--size);
+      overflow: hidden;
+      border-radius: 30px;
+      filter: contrast(121%);
+      img {
+        position: absolute;
+        max-width: unset;
+        object-fit: cover;
+      }
+    }
+    &-content {
+      text-align: center;
+      color: var(--color-blue);
+      padding: 16px 12px;
+      p {
+        margin-top: 24px;
+      }
+    }
+  }
+}

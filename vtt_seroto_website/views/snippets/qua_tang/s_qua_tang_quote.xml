@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_qua_tang_quote" name="Trích dẫn">
+    <section class="s_qua_tang_quote s_qua_tang custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12">
+            <div class="quote__box">
+              <div class="quote__box-content">
+                EQ không chỉ để học, mà để sống mỗi ngày.
+                <br/>
+                Hãy mang một chút EQ về đời sống - cho bạn, cho người thân, cho thế giới nhiều yêu thương hơn.
+              </div>
+              <div class="quote__box-button">
+                <div class="btn-default">Mua ngay hôm nay</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

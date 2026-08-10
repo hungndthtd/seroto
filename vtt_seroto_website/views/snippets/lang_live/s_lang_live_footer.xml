@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_footer" name="Đoạn kết">
+    <section class="s_lang_live_footer s_lang_live custom-snippet pt48" style="background: #d1e3fa;">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-2">
+            <div class="footer__image">
+              <div class="footer__image-qr">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 238px; width: 267px; position: absolute; top: -15px; left: -25px; max-width: unset;"/>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                class="img-fluid" style="max-height: 88px;"/>
+            </div>
+            <p class="text-center fst-italic mt-3">Hãy quét mã QR để tham gia nhóm <br/> Coaching Live Village nhé!</p>
+          </div>
+          <div class="col-12 col-md-6 order-md-1">
+            <div class="footer__info">
+              <div class="fw-bolder text-lg mb-4">Live Village - Làng Live</div>
+              <div class="footer__info-item">
+                <div style="width: 22px; height: 22px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 24 24" fill="rgba(27, 16, 145, 1)"> <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"></path> </svg>
+                </div>
+                <div style="flex: 1; margin-left: 12px;">Địa chỉ Live Village: Số 09, ngách 26, ngõ 108 Trần Phú, Mỗ Lao, Hà Đông, Hà Nội</div>
+              </div>
+              <div class="footer__info-item">
+                <div style="width: 22px; height: 22px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 24 24" fill="rgba(27, 16, 145, 1)"> <path d="M20,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V8L12,13L20,8V18M20,6L12,11L4,6V6H20V6Z"></path> </svg>
+                </div>
+                <div style="flex: 1; margin-left: 12px;">Email: livevillagehanoi@gmail.com</div>
+              </div>
+              <div class="footer__info-item">
+                <div style="width: 22px; height: 22px; text-align: center;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1024 1896.0833" style="width: 13px;" fill="rgba(27, 16, 145, 1)"> <path d="M959 12v264H802q-86 0-116 36t-30 108v189h293l-39 296H656v759H350V905H95V609h255V391q0-186 104-288.5T731 0q147 0 228 12z"></path> </svg>
+                </div>
+                <div style="flex: 1; margin-left: 12px;">
+                  <a class="text-blue" href="https://www.facebook.com/groups/livevillage/" target="_blank">Group Facebook: https://www.facebook.com/groups/livevillage/</a>
+                </div>
+              </div>
+              <div class="footer__info-item">
+                <div style="width: 22px; height: 22px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" class="" fill="rgba(27, 16, 145, 1)"><path d="M776-487q-5-121-89-205t-205-89v-60q72 2 135.5 30.5T729-734q48 48 76.5 111.5T836-487h-60Zm-169 0q-5-50-40-84.5T482-611v-60q75 5 127.5 57T667-487h-60Zm188 367q-116 0-236.5-56T335-335Q232-438 176-558.5T120-795q0-19.286 12.857-32.143T165-840h140q14 0 24 10t14 25l26.929 125.641Q372-665 369.5-653.5q-2.5 11.5-10.729 19.726L259-533q26 44 55 82t64 72q37 38 78 69.5t86 55.5l95-98q10-11 23.151-15T686-369l119 26q15 4 25 16.044T840-300v135q0 19.286-12.857 32.143T795-120ZM229-588l81-82-23-110H180q2 42 13.5 88.5T229-588Zm369 363q41 19 89 31t93 14v-107l-103-21-79 83ZM229-588Zm369 363Z"></path></svg>
+                </div>
+                <div style="flex: 1; margin-left: 12px;">Liên hệ: <b>0904 685 828</b> (Minh Tường)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer__copyright">
+          ©2022 Allrights reserved Livevillage
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

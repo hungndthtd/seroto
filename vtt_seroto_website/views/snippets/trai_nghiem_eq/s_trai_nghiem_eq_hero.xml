@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_trai_nghiem_eq_hero" name="Tiêu đề chính">
+    <section class="s_trai_nghiem_eq_hero s_trai_nghiem_eq custom-snippet pt64 pb64">
+      <div class="container-page">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-4 mb-md-0">
+            <div class="mb-4">
+              <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                class="img-fluid" style="max-height: 60px;"/>
+            </div>
+            <h1 class="text-green fw-bolder font-sriracha">
+              Trải Nghiệm EQ
+              <br/>
+              THCS, THPT
+            </h1>
+            <p class="text-yellow text-2xl fw-semibold">
+              Phát triển EQ trong từng trải nghiệm
+            </p>
+
+            <ul class="list-unstyled text-lg">
+              <li class="mb-2 d-flex align-items-center">
+                <span class="me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none; color: #6dbfc6;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>Học online qua Zoom</p>
+              </li>
+              <li class="mb-2 d-flex align-items-center">
+                <span class="me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none; color: #6dbfc6;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>Giờ học: <span class="text-yellow">20:00 - 22:00</span></p>
+              </li>
+              <li class="mb-2 d-flex align-items-center">
+                <span class="me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none; color: #6dbfc6;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>
+                  6 buổi học: ngày <span class="text-green">02 &amp; 03/08/2026</span>
+                </p>
+              </li>
+              <li class="mb-2 d-flex align-items-center">
+                <span class="me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none; color: #6dbfc6;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>Hạn đăng ký: <span class="text-yellow">24h ngày 29/07</span></p>
+              </li>
+            </ul>
+            <span class="font-normal fst-italic text-indigo">(hoặc sớm hơn khi đủ số lượng tối đa)</span>
+          </div>
+
+          <div class="col-md-6 text-center">
+            <div class="hero__image">
+              <div class="hero__image-bg">                
+                <img src="/web/static/img/placeholder.png" alt="Trải nghiệm EQ"
+                      class="img-fluid" style="max-height: 415px;"/>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Trải nghiệm EQ"
+                    class="img-fluid" style="max-height: 380px;"/>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 text-center">
+          <button type="button"
+            class="hero__button btn-default register-course"
+            data-course="Trải nghiệm EQ" data-price="0">
+            Đăng ký ngay
+          </button>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

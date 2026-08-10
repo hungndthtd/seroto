@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_header" name="Menu">
+    <section class="s_lang_live_header s_lang_live custom-snippet pt8 pb8">
+      <div class="container-page">
+        <div class="header__menu">
+          <div class="header__menu-logo">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              class="img-fluid" style="max-height: 68px;"/>
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              class="img-fluid" style="max-height: 74px;"/>
+          </div>
+          <div class="header__menu-list">
+            <div class="list__item">Sự kiện</div>
+            <div class="list__item">Chi tiết dự án</div>
+            <div class="list__item">Đội ngũ</div>
+            <div class="list__item">Lộ trình</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

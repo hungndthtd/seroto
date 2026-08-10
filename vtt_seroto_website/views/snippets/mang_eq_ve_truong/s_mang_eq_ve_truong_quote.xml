@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_quote" name="Trích dẫn">
+    <section class="s_mang_eq_ve_truong_quote s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div style="border: 1px solid #bbecec; border-radius: 10px;">
+          <div id="meqvt-quote-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div style="position: relative; padding: 24px 56px;">
+                  <div style="position: absolute; top:8px; left: 4px; width: 42px; height: 36px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 129.34 107.78" fill="rgba(79, 177, 195, 1)">
+                      <polygon points="0 107.78 0 50.18 24.87 0 55.85 0 35.35 48.44 36.66 50.18 56.73 50.18 56.73 107.78 0 107.78"></polygon><polygon points="72.61 107.78 72.61 50.18 97.48 0 128.47 0 107.96 48.44 109.27 50.18 129.34 50.18 129.34 107.78 72.61 107.78"></polygon>
+                    </svg>
+                  </div>
+                  <p class="mb-4">EQ chính là mảnh đất màu mỡ để gieo trồng nhân cách, lối sống cho học sinh. Chỉ cần một giáo viên học thì bao bao nhiêu học sinh được hưởng lợi đặc biệt</p>
+                  <div class="text-end">
+                    <div class="text-green fw-bolder">Cô giáo Lê Thị Mỹ Thương</div>
+                    <p class="text-indigo text-xs fw-bolder">(Tổ trưởng tổ Lý Công nghệ Công nghiệp - THPT Bà Rịa, tỉnh Bà Rịa Vũng Tàu)</p>
+                  </div>
+                  <div style="position: absolute; bottom:8px; right: 4px; width: 42px; height: 36px; transform: rotate(180deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 129.34 107.78" fill="rgba(79, 177, 195, 1)">
+                      <polygon points="0 107.78 0 50.18 24.87 0 55.85 0 35.35 48.44 36.66 50.18 56.73 50.18 56.73 107.78 0 107.78"></polygon><polygon points="72.61 107.78 72.61 50.18 97.48 0 128.47 0 107.96 48.44 109.27 50.18 129.34 50.18 129.34 107.78 72.61 107.78"></polygon>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div style="position: relative; padding: 24px 56px;">
+                  <div style="position: absolute; top:8px; left: 4px; width: 42px; height: 36px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 129.34 107.78" fill="rgba(79, 177, 195, 1)">
+                      <polygon points="0 107.78 0 50.18 24.87 0 55.85 0 35.35 48.44 36.66 50.18 56.73 50.18 56.73 107.78 0 107.78"></polygon><polygon points="72.61 107.78 72.61 50.18 97.48 0 128.47 0 107.96 48.44 109.27 50.18 129.34 50.18 129.34 107.78 72.61 107.78"></polygon>
+                    </svg>
+                  </div>
+                  <p class="mb-4">Sau những tiết Toán, tiết Văn, tiết Anh… học trò rất vất vả, áp lực vì điểm số, từ thầy cô, từ cha mẹ…, học sinh được đón EQ giống như một làn nước mát vậy. Thực sự EQ đã cho em quá nhiều</p>
+                  <div class="text-end">
+                    <div class="text-green fw-bolder">Cô giáo Ngọc Giàu</div>
+                    <p class="text-indigo text-xs fw-bolder">(THCS Lưu Kiếm, Thủy Nguyên, Hải Phòng)</p>
+                  </div>
+                  <div style="position: absolute; bottom:8px; right: 4px; width: 42px; height: 36px; transform: rotate(180deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 129.34 107.78" fill="rgba(79, 177, 195, 1)">
+                      <polygon points="0 107.78 0 50.18 24.87 0 55.85 0 35.35 48.44 36.66 50.18 56.73 50.18 56.73 107.78 0 107.78"></polygon><polygon points="72.61 107.78 72.61 50.18 97.48 0 128.47 0 107.96 48.44 109.27 50.18 129.34 50.18 129.34 107.78 72.61 107.78"></polygon>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div style="position: relative; padding: 24px 56px;">
+                  <div style="position: absolute; top:8px; left: 4px; width: 42px; height: 36px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 129.34 107.78" fill="rgba(79, 177, 195, 1)">
+                      <polygon points="0 107.78 0 50.18 24.87 0 55.85 0 35.35 48.44 36.66 50.18 56.73 50.18 56.73 107.78 0 107.78"></polygon><polygon points="72.61 107.78 72.61 50.18 97.48 0 128.47 0 107.96 48.44 109.27 50.18 129.34 50.18 129.34 107.78 72.61 107.78"></polygon>
+                    </svg>
+                  </div>
+                  <p class="mb-4">Trước đây, phụ huynh, học sinh đều đua nhau vào lớp chọn. Nhưng từ khi có EQ về trường, nhiều học sinh từ các lớp chọn lại xin chuyển đến học ở lớp có các thầy cô giáo thực hành về EQ.</p>
+                  <div class="text-end">
+                    <div class="text-green fw-bolder">Cô giáo Trần Khuy</div>
+                    <p class="text-indigo text-xs fw-bolder">(Hiệu trưởng Tiểu học xã Phúc Lâm, Mỹ Đức, Hà Nội)</p>
+                  </div>
+                  <div style="position: absolute; bottom:8px; right: 4px; width: 42px; height: 36px; transform: rotate(180deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 129.34 107.78" fill="rgba(79, 177, 195, 1)">
+                      <polygon points="0 107.78 0 50.18 24.87 0 55.85 0 35.35 48.44 36.66 50.18 56.73 50.18 56.73 107.78 0 107.78"></polygon><polygon points="72.61 107.78 72.61 50.18 97.48 0 128.47 0 107.96 48.44 109.27 50.18 129.34 50.18 129.34 107.78 72.61 107.78"></polygon>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" style="filter: invert(1) grayscale(100); width: 5%;" type="button" data-bs-target="#meqvt-quote-carousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" style="filter: invert(1) grayscale(100); width: 5%;" type="button" data-bs-target="#meqvt-quote-carousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

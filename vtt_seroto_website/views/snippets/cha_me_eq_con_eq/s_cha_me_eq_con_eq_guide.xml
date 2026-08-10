@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_guide" name="Hướng dẫn đăng ký">
+    <section class="s_cha_me_eq_con_eq_guide s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="title-custom mb-4 mb-md-5 text-center mx-auto" style="--space: 16px; --width: 140px;">Hướng dẫn đăng ký</h2>
+        <div class="row">
+          <div class="col-12">
+            <div class="guide__box">
+              <div class="guide__box-step">Bước 1</div>
+              <div class="guide__box-content">
+                <div class="content__title">Tìm hiểu kỹ thông tin khóa học</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="guide__box">
+              <div class="guide__box-step">Bước 2</div>
+              <div class="guide__box-content">
+                <div class="content__title">Chuyển khoản cam kết</div>
+                <p>
+                  Ngân hàng: TMCP Sài Gòn Thương Tín <b>(Sacombank)</b>
+                  <br/>
+                  - Số tài khoản: <b class="text-red">0200 9902 0769</b>
+                  <br/>
+                  - Tên tài khoản: CTCP Doanh nghiệp Xã Hội Seroto
+                  <br/>
+                  - Nội dung chuyển khoản: <b class="text-green">CAMKET CMCEQ K40 SĐT HOTEN</b>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="guide__image">
+              <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                class="img-fluid mx-auto" style="max-height: 180px; max-width: 180px; border: 5px solid #2395ae;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="guide__box">
+              <div class="guide__box-step">Bước 3</div>
+              <div class="guide__box-content">
+                <div class="content__title">Chụp ảnh giao dịch tải lên form đăng ký</div>
+              </div>
+            </div>
+            <div class="guide__box">
+              <div class="guide__box-step">Bước 4</div>
+              <div class="guide__box-content">
+                <div class="content__title">Điền form đăng ký thông tin</div>
+              </div>
+              <div class="guide__box-button">
+                <a href="https://forms.gle/zzKpgKBXVmxJ7jGh7" target="_blank" class="btn-default">Form đăng ký</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="guide__quote">
+              Rất nhiều ba mẹ sau khi hoàn thành khóa học đã nói: <b>“Giá như mình biết đến khóa học này sớm hơn…”</b>
+              <br/>
+              Không phải vì tiếc tiền. Mà vì tiếc những năm tháng đã từng dạy con trong loay hoay, áp lực và hiểu lầm.
+              <br/>
+              Và có lẽ, điều đẹp nhất không phải là hoàn hảo, mà là hôm nay — mình chọn bắt đầu.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

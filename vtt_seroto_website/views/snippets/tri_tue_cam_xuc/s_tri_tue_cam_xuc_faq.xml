@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_tri_tue_cam_xuc_faq" name="Những câu hỏi thường gặp">
+    <section class="s_tri_tue_cam_xuc_faq s_tri_tue_cam_xuc custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <div class="position-relative" style="width: 40px; height: 50px;">
+            <div class="position-absolute top-0 end-0" style="width: 25px; height: 50px; transform: rotate(180deg);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 98.92 197.33" class="" fill="rgba(255, 217, 142, 1)">
+                <path d="M0,197.33a99.17,99.17,0,0,0,37.86-7.51A99.05,99.05,0,0,0,70,168.43a98.7,98.7,0,0,0,21.44-32,98.47,98.47,0,0,0,7.53-37.76,98.45,98.45,0,0,0-7.53-37.75A98.7,98.7,0,0,0,70,28.9,99.05,99.05,0,0,0,37.86,7.51,99.17,99.17,0,0,0,0,0V197.33Z"></path>
+              </svg>
+            </div>
+            <div class="position-absolute bottom-0 start-0" style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 218 218" class="" fill="rgba(203, 242, 250, 1)">
+                <path d="M109,0A109,109,0,1,0,218,109,109,109,0,0,0,109,0Zm0,178.66A69.66,69.66,0,1,1,178.66,109,69.66,69.66,0,0,1,109,178.66Z"></path>
+              </svg>
+            </div>
+          </div>
+          <h2 class="fw-bolder font-paytone-one text-green ms-3 text-center">Những câu hỏi thường gặp</h2>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="faq__box">
+              <div class="faq__box-numb">1</div>
+              <div class="faq__box-content">
+                <div class="text-indigo text-lg fw-bold">Tại sao khóa học có tên là Trí tuệ cảm xúc (EQ)</div>
+                <p>Khóa học mang tên Trí tuệ cảm xúc (EQ) vì được thiết kế riêng cho tuổi Teen, giúp các bạn nhận biết và làm chủ cảm xúc thông qua việc rèn luyện cảm xúc mỗi ngày.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">2</div>
+              <div class="faq__box-content">
+                <div class="text-indigo text-lg fw-bold">Lớp học có yêu cầu bật camera không?</div>
+                <p>Có, vì để đảm bảo sự hiện diện trọn vẹn và mang lại giá trị tốt nhất cho học viên.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">3</div>
+              <div class="faq__box-content">
+                <div class="text-indigo text-lg fw-bold">Mỗi ngày bạn phải dành bao nhiêu thời gian cho việc học này?</div>
+                <p>Ngoài thời gian học trên Zoom, bạn cần dành thêm thời gian trong ngày để rèn thân, làm bài thực hành EQ và viết lại cảm nhận.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="faq__image">
+              <img src="/web/static/img/placeholder.png" alt="Trí tuệ cảm xúc Tuổi Teen"
+                class="img-fluid mx-auto" style="max-height: 325px; max-width: 325px;"/>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">4</div>
+              <div class="faq__box-content">
+                <div class="text-indigo text-lg fw-bold">Buổi Zoom có được ghi âm, ghi hình lại không?</div>
+                <p>Bạn sẽ được BTC cung cấp video bài giảng và ghi chú tóm tắt dạng slide sau mỗi buổi học.</p>
+                <p>Với những phiên lắng nghe và gỡ rối sau buổi học, BTC sẽ không ghi âm lại.</p>
+                <p>Việc xem và nghe lại chỉ dành cho học viên của khóa học chứ không công bố rộng rãi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

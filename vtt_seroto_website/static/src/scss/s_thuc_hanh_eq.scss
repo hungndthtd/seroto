@@ -1,0 +1,601 @@
+/* Thực hành EQ */
+.s_thuc_hanh_eq {
+  --color-green: #1294a2;
+  --color-indigo: #173f64;
+}
+
+/* Thực hành EQ - Tiêu đề chính */
+.s_thuc_hanh_eq_hero {
+  --color-indigo: #042638;
+  color: var(--color-indigo);
+  .hero__button {
+    --background: #fdd401;
+    --background-hover: #ffb201;
+    border: none;
+  }
+}
+
+/* Thực hành EQ - Giới thiệu khóa học */
+.s_thuc_hanh_eq_about {
+  .about__box {
+    position: relative;
+    border-radius: 60px;
+    color: #173f64;
+    background: #fff8f1;
+    padding: 50px;
+    @media (max-width: 991px) {
+      padding: 40px;
+    }
+    @media (max-width: 767px) {
+      padding: 40px 16px;
+      border-radius: 40px;
+    }
+    @media (max-width: 575px) {
+      border-radius: 20px;
+    }
+    &-shape {
+      position: absolute;
+      bottom: 0;
+      left: -40px;
+      @media (max-width: 991px) {
+        display: none;
+      }
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* Thực hành EQ - Trích dẫn */
+.s_thuc_hanh_eq_quote {
+  .quote__content {
+    color: #173f64;
+    &-text {
+      position: relative;
+      .text__shape {
+        --space: 0;
+        position: absolute;
+        bottom: 0;
+        right: var(--space);
+        transform: rotate(180deg);
+        &:first-child {
+          --space: -50px;
+          bottom: unset;
+          right: unset;
+          top: 0;
+          left: var(--space);
+          transform: rotate(0);
+        }
+      }
+    }
+  }
+}
+
+/* Thực hành EQ - Mục tiêu khóa học */
+.s_thuc_hanh_eq_target {
+  --color-indigo: #173f64;
+  color: var(--color-indigo);
+  .target__box {
+    margin-bottom: 24px;
+    &-number {
+      color: #91e0e8b3;
+      font-size: 70px;
+      font-weight: 600;
+      line-height: 1;
+      @media (max-width: 767px) {
+        font-size: 60px;
+      }
+      @media (max-width: 575px) {
+        font-size: 50px;
+      }
+    }
+    &-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    &-list {
+      li {
+        &::marker {
+          color: var(--color-green);
+        }
+      }
+    }
+  }
+  .target__image {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    height: 265px;
+    z-index: 1;
+    @media (max-width: 767px) {
+      display: none;
+    }
+    &-shape {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+      height: 100%;
+      width: 350px;
+    }
+  }
+  .target__button {
+    --background: #fdd401;
+    --background-hover: #ffb201;
+  }
+}
+
+/* Thực hành EQ - Cách thức học */
+.s_thuc_hanh_eq_method {
+  --color-orange: #ee6230;
+  --color-indigo: #0a2e5c;
+  color: var(--color-white);
+  .method__box {
+    color: var(--color-indigo);
+    background: var(--color-white);
+    border-radius: 60px 120px 80px 100px;
+    padding: 30px;
+    height: 100%;
+    &-icon {
+      --size: 100px;
+      position: relative;
+      border: 1px dashed #fdd401;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      z-index: 1;
+      margin: 0 auto 16px;
+      &::before {
+        --size: 92px;
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        width: var(--size);
+        height: var(--size);
+        z-index: -1;
+        background: #fff8f1;
+      }
+    }
+    &-content {
+      text-align: center;
+      p {
+        margin: 0;
+      }
+      ul {
+        text-align: left;
+        margin: 0;
+        font-size: 14px;
+        li {
+          &::marker {
+            color: var(--color-green);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Thực hành EQ - Hướng dẫn đăng ký */
+.s_thuc_hanh_eq_register {
+  --color-indigo: #173f64;
+  --color-green: #1294a2;
+  --color-orange: #ee6230;
+  color: var(--color-indigo);
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      position: relative;
+      padding-left: 30px;
+      padding-bottom: 12px;
+      &::before {
+        --size: 12px;
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: var(--size);
+        height: var(--size);
+        background: url(/vtt_seroto_website/static/src/img/icon-star.svg) center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+  .register__box {
+    display: flex;
+    margin-bottom: 20px;
+    &-numb {
+      --size: 58px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      font-size: 40px;
+      font-weight: 600;
+      background: var(--background);
+    }
+    &-content {
+      flex: 1;
+      margin-left: 12px;
+    }
+  }
+  .register__card {
+    background: var(--color-white);
+    border-radius: 20px;
+    box-shadow: rgba(82, 55, 6, 0.2) 10px 15px 20px -15px;
+    padding: 8px;
+    margin-bottom: 32px;
+    &-content {
+      border: 1px dashed #ffc480;
+      border-radius: 20px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      img {
+        margin-right: 12px;
+      }
+    }
+  }
+  .register__button {
+    --background: #fdd401;
+    --background-hover: #ffb201;
+    font-size: 20px;
+    max-width: 250px;
+    @media (max-width: 767px) {
+      font-size: 20px;
+    }
+  }
+}
+
+/* Thực hành EQ - Liên hệ */
+.s_thuc_hanh_eq_contact {
+  --color-indigo: #173f64;
+  color: var(--color-indigo);
+  .contact__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .contact__button {
+    font-size: 20px;
+    @media (max-width: 767px) {
+      font-size: 20px;
+    }
+  }
+}
+
+/* Thực hành EQ - Khóa học hướng tới */
+.s_thuc_hanh_eq_toward {
+  --color-indigo: #173f64;
+  color: var(--color-indigo);
+  .toward__box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    &-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      .content__image {
+        --size: 90px;
+        position: relative;
+        border: 2px dotted var(--border-color);
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        width: var(--size);
+        height: var(--size);
+        &::before {
+          --size: 80px;
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: var(--size);
+          height: var(--size);
+          border-radius: 100%;
+          background: var(--background);
+          z-index: -1;
+        }
+      }
+      .content__text {
+        font-size: 18px;
+        font-weight: 600;
+        flex: 1;
+      }
+    }
+    &-list {
+      padding: 24px 12px;
+      padding-left: 0;
+      border-radius: 20px;
+      font-size: 14px;
+      background: var(--background);
+      height: 100%;
+      ul {
+        li {
+          &::marker {
+            color: var(--color-green);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Thực hành EQ - Chính sách đầu tư & Học bổng */
+.s_thuc_hanh_eq_scholarship {
+  --color-indigo: #173f64;
+  color: var(--color-indigo);
+
+  .scholarship__table {
+    thead th {
+      background: #6dbfc6;
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 14px;
+      padding: 16px 12px;
+      border: none;
+    }
+    tbody td {
+      padding: 14px 12px;
+      border-color: #e5f4f5;
+    }
+    tbody tr:nth-child(odd) {
+      background: #fdf6ee;
+    }
+  }
+
+  .scholarship__box {
+    height: 100%;
+    padding: 24px;
+    border-radius: 20px;
+    background: #f8fbfb;
+    &-icon {
+      --size: 60px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 100%;
+      object-fit: cover;
+      border: 2px solid var(--color-green);
+      flex: none;
+    }
+    &-list {
+      padding-left: 20px;
+      margin-bottom: 12px;
+      li {
+        margin-bottom: 8px;
+        &::marker {
+          color: var(--color-green);
+        }
+      }
+    }
+  }
+}
+
+/* Thực hành EQ - Giảng viên */
+.s_thuc_hanh_eq_teacher {
+  .teacher__box {
+    max-width: 400px;
+    margin: auto;
+    &-image {
+      --size: 250px;
+      width: var(--size);
+      height: var(--size);
+      position: relative;
+      margin: auto;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url(/vtt_seroto_website/static/src/img/shape-avatar-background.svg) 0% 0% / 100% 100%;
+      @media (max-width: 767px) {
+        margin-bottom: 20px;
+      }
+      .image__shape {
+        --size: 240px;
+        position: relative;
+        width: var(--size);
+        height: var(--size);
+        overflow: hidden;
+        mask: url(/vtt_seroto_website/static/src/img/shape-avatar.svg) 0% 0% / 100% 100%;
+        background: #e2fdff;
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: top;
+        }
+      }
+    }
+    &-info {
+      ul {
+        li {
+          &::marker {
+            color: var(--color-green);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Thực hành EQ - Nội dung khóa học */
+.s_thuc_hanh_eq_content {
+  color: var(--color-indigo);
+  .content__quote {
+    max-width: 850px;
+    margin: 0 auto 40px;
+  }
+  .content__box {
+    position: relative;
+    padding: 20px;
+    z-index: 1;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      height: 100%;
+      width: 88px;
+      background: #90dfe8;
+      border-radius: 0px 1000px 1000px;
+      z-index: -1;
+    }
+    &-item {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .item__numb {
+        --size: 48px;
+        width: var(--size);
+        height: var(--size);
+        border-radius: 50%;
+        background: var(--color-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 600;
+      }
+      .item__text {
+        flex: 1;
+        margin-left: 36px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+  }
+  .content__image {
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--color-indigo);
+  }
+}
+
+/* Thực hành EQ - Câu hỏi thường gặp */
+.s_thuc_hanh_eq_faq {
+  .faq__box {
+    color: #0a2e5c;
+    display: flex;
+    margin-bottom: 24px;
+    &-numb {
+      --size: 56px;
+      width: var(--size);
+      height: var(--size);
+      border: 2px dotted #90dfe8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-green);
+      font-size: 36px;
+      font-weight: 600;
+      background: #ebfbfd;
+      border-radius: 50%;
+    }
+    &-content {
+      flex: 1;
+      margin-left: 12px;
+      div {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      a {
+        text-decoration: underline;
+        font-weight: 600;
+        font-style: italic;
+        color: #38b6ff;
+      }
+    }
+  }
+  .faq__image {
+    margin-bottom: 40px;
+  }
+}
+
+/* Thực hành EQ - Banner */
+.s_thuc_hanh_eq_banner {
+  .banner__box {
+    display: flex;
+    align-items: center;
+    &-image {
+      --size: 104px;
+      width: var(--size);
+      height: var(--size);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url(/vtt_seroto_website/static/src/img/shape-avatar-background-white.svg) 0% 0% / 100% 100%;
+      .image__shape {
+        --size: 98px;
+        position: relative;
+        width: var(--size);
+        height: var(--size);
+        overflow: hidden;
+        mask: url(/vtt_seroto_website/static/src/img/shape-avatar.svg) 0% 0% / 100% 100%;
+        background: #e2fdff;
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: top;
+        }
+      }
+    }
+    &-content {
+      flex: 1;
+      margin-left: 40px;
+      .content__action {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 8px;
+        .btn-default {
+          --background: #fdd401;
+          --background-hover: #ffb201;
+          font-size: 18px;
+          margin: unset;
+          max-width: 200px;
+          padding: 8px 20px;
+          margin-right: 24px;
+          @media (max-width:767px) {
+            font-size: 18px;
+            margin-top: 16px;
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}

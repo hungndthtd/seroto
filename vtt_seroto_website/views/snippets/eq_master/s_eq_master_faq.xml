@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_faq" name="Câu hỏi thường gặp">
+    <section class="s_eq_master_faq s_eq_master custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+            class="img-fluid" style="max-height: 50px; max-width: 50px"/>
+          <h2 class="fw-bolder font-paytone-one text-indigo ms-3"><span class="text-green">Câu hỏi</span> thường gặp</h2>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="faq__box">
+              <div class="faq__box-numb">1</div>
+              <div class="faq__box-content">
+                <div class="text-lg fw-bold">Khi nào thì có khóa học tiếp theo?</div>
+                <div>Nếu bạn muốn nhận lịch khóa tiếp theo mời bạn <a class="text-cyan" href="https://zalo.me/g/comjxt349" target="_blank">vào nhóm Zalo</a> để giữ kết nối với BTC khóa EQ Master.</div>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">2</div>
+              <div class="faq__box-content">
+                <div class="text-lg fw-bold">Tôi có thể bảo lưu kết quả phỏng vấn sang khóa sau không?</div>
+                <p>BTC không nhận bảo lưu sang khóa sau. Nếu bạn muốn học ở khóa sau, bạn thực hiện đăng ký mới và tham gia phỏng vấn theo lịch của khóa học.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">3</div>
+              <div class="faq__box-content">
+                <div class="text-lg fw-bold">Tôi có thể hủy đăng ký khóa học không?</div>
+                <p>Nếu kế hoạch của bạn thay đổi, bạn có thể báo tin hủy trước 24:00 ngày 30/3/2026. Sau thời gian này, BTC không nhận hủy đăng ký khóa học. Nếu bạn không học, bạn sẽ không được nhận lại tiền cam kết.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">4</div>
+              <div class="faq__box-content">
+                <div class="text-lg fw-bold">Tôi có thể xem lại video bài giảng không?</div>
+                <p>Video bài giảng sẽ được lưu trên nhóm kín của khóa học. Bạn sẽ được xem lại video bài giảng.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="faq__image">
+              <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                class="img-fluid mx-auto" style="max-height: 300px;"/>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">5</div>
+              <div class="faq__box-content">
+                <div class="text-lg fw-bold">Chính sách học phí của khoá tiếp theo như thế nào?</div>
+                <div>Seroto chưa có quyết định về chính sách của khóa tiếp theo. Bạn theo dõi thông tin trong <a class="text-cyan" href="https://zalo.me/g/comjxt349" target="_blank">nhóm Zalo TÌM HIỂU EQ MASTER</a> để nhận thông tin về khóa tiếp theo.</div>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">6</div>
+              <div class="faq__box-content">
+                <div class="text-lg fw-bold">Tôi có thể đóng tiền cam kết làm nhiều đợt không?</div>
+                <p>Bạn chuyển đủ một lần trong một giao dịch và hoàn thành chuyển khoản trước thời hạn đã được công bố.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 text-center">
+          <a class="faq__button btn-default" href="https://zalo.me/g/comjxt349" target="_blank">Tham gia nhóm Zalo</a>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

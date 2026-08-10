@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_register" name="Đăng ký khóa học">
+    <section class="s_eq_master_register s_eq_master custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+            class="img-fluid" style="max-height: 50px; max-width: 50px;"/>
+          <h2 class="fw-bolder font-paytone-one text-indigo ms-3"><span class="text-green">Đăng ký</span> khóa học</h2>
+        </div>
+        <div class="my-4 my-md-5 text-center">
+          <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+            class="img-fluid mx-auto" style="max-height: 42px; max-width: 55px;"/>
+          <div class="text-lg mt-2 mx-auto" style="max-width: 700px;">
+            Đây <span class="text-pink">là món quà dành tặng đến bạn</span> nhằm hỗ trợ bạn thực hiện ước mơ, vì thế BTC cần bạn viết một Lá Thư thể hiện mong muốn tham gia khóa học theo những câu hỏi trong Form Đăng Ký. BTC sẽ duyệt thư đăng ký và mời phỏng vấn. Nếu được chọn, bạn sẽ tiến hành chuyển khoản <b>15 triệu</b> tiền cam kết.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-5">
+            <div class="register__box">
+              <div class="register__box-icon">
+                <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                  class="img-fluid" style="max-height: 50px; max-width: 50px;"/>
+              </div>
+              <div class="register__box-content">
+                <div class="text-xl fw-bolder mb-1">Tiền cam kết sẽ được hoàn lại theo 2 giai đoạn:</div>
+                <div class="">
+                  - 50% sau khi hoàn thành 210 ngày.
+                  <br/>
+                  - 50% sau khi hoàn thành 1 năm phụng sự. 
+                  <br/>
+                  <b class="text-pink">(*)</b> <span class="fst-italic">Tiền cam kết sẽ không được hoàn lại nếu bạn không hoàn thành như cam kết.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-5">
+            <div class="register__box">
+              <div class="register__box-icon">
+                <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                  class="img-fluid" style="max-height: 50px; max-width: 50px;"/>
+              </div>
+              <div class="register__box-content">
+                <div class="text-xl fw-bolder mb-1">Hồ sơ tuyển sinh:</div>
+                <div class="">
+                  <b>1.</b> Viết tâm thư theo những câu hỏi trong form đăng ký
+                  <br/>
+                  <b>2.</b> Miêu tả công việc hiện tại 
+                  <br/>
+                  <b>3.</b> Mục đích học EQ Master
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-5">
+            <div class="register__box">
+              <div class="register__box-icon">
+                <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                  class="img-fluid" style="max-height: 50px; max-width: 50px;"/>
+              </div>
+              <div class="register__box-content">
+                <div class="text-xl fw-bolder mb-1">Quy trình:</div>
+                <div class="">
+                  - BẠN GỬI THƯ ĐĂNG KÝ QUA FORM
+                  <br/>
+                  - BTC ĐỌC THƯ ĐĂNG KÝ
+                  <br/>
+                  - BTC MỜI BẠN DỰ PHỎNG VẤN
+                  <br/>
+                  - BTC THÔNG BÁO KẾT QUẢ
+                  <br />
+                  - BẠN CHUYỂN TIỀN CAM KẾT
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-5">
+            <div class="register__box">
+              <div class="register__box-icon">
+                <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                  class="img-fluid" style="max-height: 50px; max-width: 50px;"/>
+              </div>
+              <div class="register__box-content">
+                <div class="text-xl fw-bolder mb-1">Lịch đăng ký:</div>
+                <div class="">
+                - <b>17/02 - 17/03</b>: Nhận đăng ký
+                <br/>
+                - <b>23/02 - 23/03</b>: Phỏng vấn
+                <br/>
+                - <b>25/03</b>: Gửi kết quả tuyển sinh qua email
+                <br/>
+                - <b>26/03 - 28/03</b>: Hoàn tất chuyển khoản cam kết
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <a class="register__button btn-default btn-animation" href="https://forms.gle/XwrMXGJX56j7NSBn8" target="_blank">Đăng ký ngay</a>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

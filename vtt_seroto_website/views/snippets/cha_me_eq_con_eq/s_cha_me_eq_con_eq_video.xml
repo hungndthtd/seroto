@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_video" name="Video chia sẻ">
+    <section class="s_cha_me_eq_con_eq_video s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="title-custom mb-4 text-center mx-auto" style="--space: 12px; --width: 100px;">Video chia sẻ</h2>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="video__background" style="--border: #a5ebf8;">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 240px;"/>
+            </div>
+            <p class="text-sm">
+              <b class="text-lg">Mẹ Ngọc Diệp chia sẻ:</b>
+              <br/>
+              <i>"Em đọc nhiều sách nhưng khi dạy con vẫn bực bội, gán nhãn và không áp dụng được vào thực tế. Nhờ các bài thực hành trong khóa học, em dần thay đổi tâm thế và chuyển hóa được chính mình khi đồng hành cùng con."</i>
+            </p>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="video__background" style="--border: #ffe491;">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 240px;"/>
+            </div>
+            <p>
+              Các ba mẹ tham gia khóa học chia sẻ đây là <b>"Phép màu"</b> khi tham gia thực hành.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_rule" name="Nguyên tắc">
+    <section class="s_mang_eq_ve_truong_rule s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <h3 class="text-indigo fw-bolder mb-4">Kim chi nam của dự án</h3>
+            <div class="rule__title">
+              <div class="rule__title-image">
+                <div class="image__shape">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 52px; max-width: 52px;"/>
+                </div>
+              </div>
+              <div class="rule__title-content">
+                <span class="text-green">5 nguyên tắc</span>
+                <br/>
+                Seroto Foundation luôn giữ:
+              </div>
+            </div>
+            <div class="rule__box">
+              <div class="rule__box-item" style="--numb: '01'; --color: #ccefff;">Tôn trọng tiến trình tự nhiên của mỗi người</div>
+              <div class="rule__box-item" style="--numb: '02'; --color: #ffdfca;">Gieo EQ bằng yêu thương, không bằng ép buộc</div>
+              <div class="rule__box-item" style="--numb: '03'; --color: #cbecce;">Ứng dụng thực tế, không chỉ dừng ở lý thuyết</div>
+              <div class="rule__box-item" style="--numb: '04'; --color: #f9e0ff;">Xây dựng thầy cô trở thành người gieo hạt bền vững</div>
+              <div class="rule__box-item" style="--numb: '05'; --color: #f6eaac;">Phát triển từ bên trong – không chạy theo phong trào</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="rule__image">
+              <div class="rule__image-shape">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 210px; width: 275px"/>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                class="img-fluid mx-auto" style="max-height: 185px; max-width: 185px;"/>
+            </div>
+            <div class="rule__list">
+              <ul>
+                <li><b>Dự án được xác định là một mảnh ghép tử tế</b>, góp phần làm đầy bức tranh giáo dục hạnh phúc – nơi con người được nhìn thấy, được hiểu, được nuôi dưỡng bằng sự kết nối và yêu thương.</li>
+                <li>Chúng tôi không thay đổi chương trình, không thay thế cách dạy.</li>
+                <li>Chúng tôi chăm sóc điều cốt lõi: <b>cảm xúc con người trong nhà trường</b>.</li>
+                <li>Bởi <b>khi cảm xúc được nuôi dưỡng, con người thay đổi</b>.</li>
+                <li>Và khi con người thay đổi, <b>mọi chuyển động giáo dục mới thật sự bền vững</b>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <!--
+    Snippet "Chính sách đầu tư & Học bổng" - dựng theo đúng ảnh chụp trang thật
+    https://www.seroto.vn/thuchanheq: trích dẫn Warren Buffett + bảng học phí 2 mốc
+    đăng ký + 2 khối học bổng (Giáo Dục, Y Tế). Phần trích dẫn tái dùng pattern
+    ".quote__content-text" (xem s_thuc_hanh_eq_quote.xml); bảng + khối học bổng viết
+    CSS riêng trong .s_thuc_hanh_eq_scholarship (snippet.scss) vì chưa có sẵn pattern
+    tương đương trong module.
+  -->
+  <template id="s_thuc_hanh_eq_scholarship" name="Chính sách đầu tư &amp; Học bổng">
+    <section class="s_thuc_hanh_eq_scholarship custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h3 class="fw-bold text-center">Chính sách đầu tư &amp; Học bổng</h3>
+        <div class="mb-4 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+
+        <!-- Trích dẫn -->
+        <div class="scholarship__quote text-center mx-auto mb-5" style="max-width: 700px;">
+          <img src="/web/static/img/placeholder.png" alt="Seroto" class="img-fluid mb-3" style="max-height: 40px;"/>
+          <p class="text-2xl fst-italic font-philosopher">
+            Nếu bạn đầu tư vào giáo dục và học tập của bản thân, bạn nên làm điều đó càng sớm càng tốt. Khi đó, bạn sẽ có thời gian tích lũy và sử dụng kiến thức dài lâu nhất.
+          </p>
+          <div class="fw-bold text-end text-xl">– Warren Buffet</div>
+        </div>
+
+        <!-- Bảng học phí -->
+        <div class="table-responsive mb-5">
+          <table class="table scholarship__table text-center align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Thời gian đăng ký</th>
+                <th>Mức đăng ký</th>
+                <th>Học phí</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>04/07 - 13/07</td>
+                <td class="fw-bold">Đăng ký sớm</td>
+                <td class="text-green fw-bold">2.520.000đ/HV</td>
+              </tr>
+              <tr>
+                <td>14/07 - 03/08</td>
+                <td class="fw-bold">Tiêu chuẩn</td>
+                <td class="text-green fw-bold">3.150.000đ/HV</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 2 khối học bổng -->
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="scholarship__box">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <img src="/web/static/img/placeholder.png" alt="Seroto" class="scholarship__box-icon"/>
+                <h5 class="fw-bold text-orange mb-0">Học Bổng Ngành Giáo Dục</h5>
+              </div>
+              <ul class="scholarship__box-list">
+                <li>
+                  Tặng học bổng <b>100%</b> khi có sự xác nhận của Ban Giám Hiệu (xem Mẫu Giấy Xác Nhận để duyệt học bổng 100%)
+                  <a href="#" class="text-cyan text-decoration-underline">Xem tại đây</a>
+                </li>
+              </ul>
+              <p class="text-sm fst-italic text-orange mb-0">
+                <b>Lưu ý:</b> Khi đã nhận Học bổng, giáo viên cần sắp xếp tham gia khóa học trọn vẹn đầy đủ. Nếu vắng/nghỉ trong quá trình học - thầy cô sẽ không còn cơ hội nhận lại Học bổng 100% này trong các lần đăng ký học lại về sau.
+              </p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="scholarship__box">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <img src="/web/static/img/placeholder.png" alt="Seroto" class="scholarship__box-icon"/>
+                <h5 class="fw-bold text-green mb-0">Học Bổng Ngành Y Tế</h5>
+              </div>
+              <ul class="scholarship__box-list">
+                <li>Tặng học bổng <b>100%</b> khi gửi ảnh thẻ đang làm tại Bệnh viện, Cơ sở Y Tế.</li>
+              </ul>
+              <div class="fw-bold mb-1">Chính sách Bảo lưu:</div>
+              <ul class="scholarship__box-list">
+                <li>Đóng toàn bộ hoặc một phần học phí: được bảo lưu trước khi tham gia buổi học đầu tiên.</li>
+                <li>Nhận học bổng 100%, không đóng học phí: không bảo lưu.</li>
+              </ul>
+              <p class="text-sm fst-italic mb-0">
+                (Nếu bạn nhận học bổng 100% và không học được, bạn cần báo tin Hủy học bổng sau khi đóng link 1 ngày để BTC ổn định danh sách học viên. BTC lưu thông tin đăng ký học bổng, kết quả duyệt học bổng và cách bạn sử dụng học bổng: 1) Tham gia học; 2) Báo Hủy trước thời hạn; 3) Báo Hủy sau thời hạn; 4) Không học để cân nhắc việc duyệt học bổng cho bạn vào lần đăng ký sau.)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

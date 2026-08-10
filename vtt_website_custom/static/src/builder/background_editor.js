@@ -303,6 +303,19 @@ export class BackgroundEditorModal extends Component {
         }
     }
 
+    // Chế độ định vị của Custom X/Y (ảnh) - mặc định "background" cho layer cũ chưa có
+    // field này (giữ đúng hành vi trước đây: background-position/size trên full-bleed
+    // div, tận dụng được Size Cover/Contain/Custom kích thước). "box" là chế độ box
+    // thật (Width/Height riêng, background-size 100% 100%) chỉ áp dụng khi chọn.
+    getCustomPositionMode(layer) {
+        return layer.customPositionMode === "box" ? "box" : "background";
+    }
+
+    updateCustomPositionMode(layer, ev) {
+        layer.customPositionMode = ev.target.value;
+        this.updatePreview();
+    }
+
     getPositionXPercent(layer) {
         if (!layer.positionX) return 50;
         const val = parseInt(layer.positionX.replace(/[^0-9.-]/g, ""), 10);
@@ -315,6 +328,17 @@ export class BackgroundEditorModal extends Component {
         return isNaN(val) ? 50 : val;
     }
 
+    // Đơn vị được suy ra trực tiếp từ chuỗi đang lưu ("50%"/"120px") thay vì một field
+    // state riêng, để layer đã lưu từ trước khi có tính năng này (không có field đó)
+    // vẫn resolve đúng thành "%" thay vì hiển thị select trống.
+    getPositionXUnit(layer) {
+        return layer.positionX && layer.positionX.trim().endsWith("px") ? "px" : "%";
+    }
+
+    getPositionYUnit(layer) {
+        return layer.positionY && layer.positionY.trim().endsWith("px") ? "px" : "%";
+    }
+
     updatePositionXFromSlider(layer, ev) {
         layer.positionX = ev.target.value + "%";
         this.updatePreview();
@@ -322,6 +346,34 @@ export class BackgroundEditorModal extends Component {
 
     updatePositionYFromSlider(layer, ev) {
         layer.positionY = ev.target.value + "%";
+        this.updatePreview();
+    }
+
+    updatePositionXValue(layer, ev) {
+        const unit = this.getPositionXUnit(layer);
+        const val = ev.target.value;
+        layer.positionX = (val === "" ? "0" : val) + unit;
+        this.updatePreview();
+    }
+
+    updatePositionYValue(layer, ev) {
+        const unit = this.getPositionYUnit(layer);
+        const val = ev.target.value;
+        layer.positionY = (val === "" ? "0" : val) + unit;
+        this.updatePreview();
+    }
+
+    updatePositionXUnit(layer, ev) {
+        const unit = ev.target.value;
+        const val = this.getPositionXPercent(layer);
+        layer.positionX = (unit === "px" ? val : Math.min(100, Math.max(0, val))) + unit;
+        this.updatePreview();
+    }
+
+    updatePositionYUnit(layer, ev) {
+        const unit = ev.target.value;
+        const val = this.getPositionYPercent(layer);
+        layer.positionY = (unit === "px" ? val : Math.min(100, Math.max(0, val))) + unit;
         this.updatePreview();
     }
 
@@ -414,10 +466,10 @@ export class BackgroundEditorModal extends Component {
                 customSvgCode: ``
             };
         } else if (type === "image") {
-            properties = { 
-                src: "", 
-                size: "cover", 
-                repeat: "no-repeat", 
+            properties = {
+                src: "",
+                size: "cover",
+                repeat: "no-repeat",
                 positionType: "preset",
                 position: "center",
                 positionX: "50%",
@@ -651,7 +703,7 @@ export class BackgroundEditorModal extends Component {
     renderBgLayers(bgContainer, layers) {
         bgContainer.innerHTML = "";
         const activeLayers = [...layers].filter(l => l.visible).reverse();
-        
+
         activeLayers.forEach(l => {
             const opacity = l.opacity !== undefined ? l.opacity / 100 : 1;
             const rotation = l.angle || 0;
@@ -719,12 +771,37 @@ export class BackgroundEditorModal extends Component {
                 // Set transform-origin to match background-position to prevent shifting
                 layerEl.style.transformOrigin = pos;
             }
+            else if (l.type === "image" && l.src && l.positionType === "custom" && this.getCustomPositionMode(l) === "box") {
+                // Chế độ "Khối ảnh": đặt ảnh vào 1 box thật (top/left/width/height)
+                // thay vì background-position/size trên 1 div phủ kín section -
+                // Width/Height ở đây chính là kích thước hiển thị thật của ảnh, mặc
+                // định 300x200px nếu người dùng chưa nhập. Neo theo bgContainer
+                // (section, full-bleed) - từng thử neo theo .container-page nhưng ảnh
+                // set kích thước lớn (vd 150%) bị tràn/lệch vì container đó có
+                // max-width hẹp hơn section.
+                layerEl.classList.add("vtt_custom_bg_positioned_layer");
+                const w = `${l.customWidth || 300}${l.customWidthUnit || "px"}`;
+                const h = `${l.customHeight || 200}${l.customHeightUnit || "px"}`;
+                layerEl.style.top = l.positionY || "50%";
+                layerEl.style.left = l.positionX || "50%";
+                layerEl.style.right = "auto";
+                layerEl.style.bottom = "auto";
+                layerEl.style.width = w;
+                layerEl.style.height = h;
+                layerEl.style.backgroundImage = `url("${l.src}")`;
+                layerEl.style.backgroundPosition = "center";
+                layerEl.style.backgroundRepeat = "no-repeat";
+                layerEl.style.backgroundSize = "100% 100%";
+            }
             else if (l.type === "image" && l.src) {
+                // Preset, hoặc Custom X/Y ở chế độ "Nền" - full-bleed + background-
+                // position/size như trước, tận dụng được Size (Cover/Contain/Custom
+                // kích thước...).
                 layerEl.style.backgroundImage = `url("${l.src}")`;
                 const pos = (l.positionType === "custom") ? `${l.positionX || "50%"} ${l.positionY || "50%"}` : (l.position || "center");
                 layerEl.style.backgroundPosition = pos;
                 layerEl.style.backgroundRepeat = l.repeat || "no-repeat";
-                
+
                 let sizeVal = l.size || "cover";
                 if (sizeVal === "custom") {
                     if (l.customWidth || l.customHeight) {
@@ -736,7 +813,7 @@ export class BackgroundEditorModal extends Component {
                     }
                 }
                 layerEl.style.backgroundSize = sizeVal;
-                
+
                 // Set transform-origin to match background-position to prevent shifting
                 layerEl.style.transformOrigin = pos;
             }

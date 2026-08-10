@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_method" name="Cách thức học và thực hành">
+    <section class="s_cha_me_eq_con_eq_method s_cha_me_eq_con_eq custom-snippet pt48 pb48" style="background: linear-gradient(rgb(77, 165, 185), rgb(255, 255, 255));">
+      <div class="container-page">
+        <h3 class="font-sriracha fw-bolder mb-4 mb-md-5 text-center text-white">Cách thức học &amp; thực hành</h3>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="method__box" style="background: linear-gradient(rgb(221, 243, 255), rgb(255, 255, 255));">
+              <div class="method__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(182, 233, 255, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                  class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+              </div>
+              <div class="method__box-content">
+                <div class="text-lg fw-bolder text-center mb-3">Học online Zoom </div>
+                <ul>
+                  <li>Học được mọi nơi, chỉ cần có Internet</li>
+                  <li>Học trên máy tính, điện thoại, máy tính bảng</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="method__box" style="background: linear-gradient(rgb(255, 249, 220), rgb(255, 255, 255));">
+              <div class="method__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 234, 170, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                  class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+              </div>
+              <div class="method__box-content">
+                <div class="text-lg fw-bolder text-center mb-3">Thời gian học</div>
+                <div class="text-center">
+                  <div class="text-green text-xl fw-bolder">5h - 6h15</div>
+                  <p class="my-1">21 buổi học Từ ngày</p>
+                  <div class="text-green text-2xl fw-bolder">20/07 - 09/08</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="method__box" style="background: linear-gradient(rgb(246, 241, 255), rgb(255, 255, 255));">
+              <div class="method__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(224, 213, 246, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                  class="img-fluid mx-auto" style="height: 286px; width: 286px; max-width: unset;"/>
+              </div>
+              <div class="method__box-content">
+                <div class="text-lg fw-bolder text-center mb-3">Thực hành hàng ngày</div>
+                <p class="text-center">
+                  Chỉ dẫn thực hành hàng ngày để áp dụng kiến thức vào các tình huống đời sống
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="method__box" style="background: linear-gradient(rgb(236, 255, 245), rgb(255, 255, 255));">
+              <div class="method__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(206, 240, 188, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                  class="img-fluid mx-auto" style="height: 150px; width: 150px; max-width: unset;"/>
+              </div>
+              <div class="method__box-content">
+                <div class="text-lg fw-bolder text-center mb-3">Coaching gỡ rối</div>
+                <p class="text-center">
+                  Coaching gỡ rối hàng ngày trên Zoom từ <b>6h15</b> 
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

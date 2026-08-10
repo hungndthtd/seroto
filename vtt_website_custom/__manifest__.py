@@ -26,6 +26,9 @@ and reusing it on other pages or websites. It also includes a custom multi-layer
             'vtt_website_custom/static/src/builder/layered_text.xml',
             'vtt_website_custom/static/src/builder/layered_text.js',
         ],
+        'web.assets_frontend': [
+            'vtt_website_custom/static/src/scss/background_editor.scss',
+        ],
     },
     'installable': True,
     'application': False,

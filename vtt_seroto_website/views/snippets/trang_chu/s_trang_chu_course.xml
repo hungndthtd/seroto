@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_trang_chu_course" name="Khóa học">
+    <section class="s_trang_chu_course s_trang_chu custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="text-center">
+          <h2 class="font-lobster fw-bolder mb-3 text-green">Khoá học</h2>
+          <p>Các khoá học thay đổi cuộc đời</p>
+        </div>
+        <div class="course__box">
+          <div class="course__box-title">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 40px; max-width: 40px;"/>
+            <span>EQ dành cho giáo viên:</span>
+          </div>
+          <div class="course__box-text">Khóa học Trí tuệ cảm xúc (EQ) dành cho giáo viên để trở thành giáo viên thực hành EQ, ứng dụng EQ trong những hoạt động nhỏ và trong tiết học Trải Nghiệm, Hướng nghiệp.</div>
+          <div class="row">
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">EQ 5 phút</div>
+                  <div class="item__subtitle">Hoạt động nhỏ, lợi ích to</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">Những hoạt động nhỏ hỗ trợ giáo viên quản lý lớp học bình an, kích hoạt chế độ học tập trước khi giảng dạy</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Thầy Dương Quang Minh (cố vấn) + Giáo viên EQ Trường Học</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký <b>K19</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">26, 28, 30/07</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">20:00 - 22:00</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b class="text-red">25/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <a href="/eq-5-phut" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Thực hành EQ</div>
+                  <div class="item__subtitle">Sờ cái bụng, ấm cái tim, sáng cái đầu</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">Khoá học đã giúp gần 30.000 người nâng cao năng lực quản trị cảm xúc và sống hạnh phúc hơn</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Thầy Dương Quang Minh</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký <b>K19</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">26, 28, 30/07</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">20:00 - 22:00</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b class="text-red">25/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <a href="/thuc-hanh-eq" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Trải nghiệm EQ</div>
+                  <div class="item__subtitle">Phát triển EQ trong từng trải nghiệm</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">Nhúng EQ vào trong tiết học trải nghiệm để phát triển EQ, rèn luyện phẩm chất và kỹ năng xã hội.</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Thầy Dương Quang Minh (cố vấn) + Giáo viên EQ THCS, THPT</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký <b>K19</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">26, 28, 30/07</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">20:00 - 22:00</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b class="text-red">25/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <a href="/trai-nghiem-eq-thcs-thpt" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="course__box">
+          <div class="course__box-title">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 40px; max-width: 40px;"/>
+            <span>EQ dành cho Ban giám hiệu, chủ trường, trưởng dự án trường học hạnh phúc ở trường:</span>
+          </div>
+          <div class="course__box-text"></div>
+          <div class="row">
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">EQ Master</div>
+                  <div class="item__subtitle">Cảm xúc là phần tâm hồn của mỗi chúng ta</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">EQ MASTER là khóa học chuyên sâu về EQ, bạn sẽ được rèn luyện tâm thức và vun bồi để nâng cao chỉ số thông minh cảm xúc, giúp bạn có đủ kiến thức và kỹ năng để triển khai EQ tại lớp học, trường học.</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Thầy Dương Quang Minh</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký <b>K19</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">26, 28, 30/07</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">20:00 - 22:00</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b class="text-red">25/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <a href="/eq-master" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Người Xây Nền</div>
+                  <div class="item__subtitle">Kiến tạo nền móng cho trường học hạnh phúc</div>
+                  <div class="item__tag green">Offline</div>
+                  <div class="item__description">Xây dựng triết lý, phương pháp, môi trường của trường học hạnh phúc.</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Thầy Dương Quang Minh</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: theo trường, nhóm trường</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: sắp công bố</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: sắp công bố</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: sắp công bố</p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div>
+                      <p class="fw-bolder">Liên hệ:</p>
+                      <p><i class="text-red">lienhe@seroto.vn</i> để đặt lịch</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="course__box">
+          <div class="course__box-title">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 40px; max-width: 40px;"/>
+            <span>EQ dành cho cá nhân, gia đình:</span>
+          </div>
+          <div class="course__box-text">Khóa học Trí tuệ cảm xúc (EQ) dành cho cá nhân, cha mẹ và Teen để tăng sự thấu hiểu bản thân, thấu cảm, xây dựng mối quan hệ tốt đẹp, phát triển tư duy, nhận thức. Cha mẹ đồng hành, hướng dẫn con phát triển EQ</div>
+          <div class="row">
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Thực hành EQ</div>
+                  <div class="item__subtitle">Sờ cái bụng, ấm cái tim, sáng cái đầu</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">Khoá học đã giúp gần 30.000 người nâng cao năng lực quản trị cảm xúc và sống hạnh phúc hơn</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Thầy Dương Quang Minh</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký <b>K19</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">26, 28, 30/07</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">20:00 - 22:00</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b class="text-red">25/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <a href="/thuc-hanh-eq" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Cha mẹ EQ con EQ</div>
+                  <div class="item__subtitle">Cha mẹ bình an - Con hạnh phúc</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">Giúp hơn 23.000+ bố mẹ có những tri thức quý giá trong hành trình làm cha mẹ trí tuệ và yêu thương thuần khiết</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Giảng viên Seroto Làm Cha Mẹ</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký <b>K19</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">20/07 - 09/08</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">5:00 - 6:15 (Sáng)</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b>24h</b> <b class="text-red">16/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <a href="/cha-me-eq-con-eq" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Trí tuệ cảm xúc tuổi Teen</div>
+                  <div class="item__subtitle">Dành cho các bạn từ 12 tuổi đến 18 tuổi</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">Con rèn luyện trí tuệ cảm xúc, cha mẹ hạnh phúc đồng hành</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Thầy Dương Quang Minh &amp; GVCS</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký <b>K19</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">27/07 - 16/08</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">20:00 - 21:30</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b>20h</b> <b class="text-red">22/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <a href="/tri-tue-cam-xuc-tuoi-teen" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="course__box">
+          <div class="course__box-title">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 40px; max-width: 40px;"/>
+            <span>Các chương trình &amp; sự kiện khác:</span>
+          </div>
+          <div class="course__box-text"></div>
+          <div class="row">
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Đi để thấy</div>
+                  <div class="item__subtitle">Hành trình kết nối &amp; Trưởng thành</div>
+                  <div class="item__tag green">Offline</div>
+                  <div class="item__description">
+                    Dành cho cả gia đình
+                    <br/>
+                    Trọn vẹn bên nhau 2 ngày 1 đêm
+                  </div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Team Cha Mẹ EQ - Con EQ</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Từ ngày: <b class="text-red">25/07 - 26/07</b></p>
+                    </div>
+                    <!-- <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">20:00 - 22:00</b></p>
+                    </div> -->
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b>17h</b> <b class="text-red">23/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <a href="https://forms.gle/iLtfAykzoo9WGEtB6" target="_blank" class="item__button-action fill">Đăng ký ngay</a>
+                    <!-- <a href="/eq-master" target="_blank" class="item__button-action outline">Chi tiết</a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Tính khí của trẻ</div>
+                  <div class="item__subtitle">Hiểu để đồng hành cùng con</div>
+                  <div class="item__tag">Online Zoom</div>
+                  <div class="item__description">Mục tiêu không phải là thay đổi con thành một người khác, mà là hiểu con để nuôi dạy con là con tốt nhất</div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Team Cha Mẹ EQ - Con EQ</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">01, 02/08</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">05h - 6h30</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b>17h</b> <b class="text-red">29/07</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <a href="https://forms.gle/nERv6gDMMCUpknHG8" target="_blank" class="item__button-action fill">Đăng ký ngay</a>
+                    <a href="https://zalo.me/g/nwxycv095" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="course__box-item">
+                <div class="item__image">
+                  <img src="/web/static/img/placeholder.png" alt="Seroto"
+                    class="img-fluid" style="max-height: 170px; width: 100%;"/>
+                </div>
+                <div style="padding: 16px 12px; display: flex; flex-direction: column; height: 100%; flex: 1;">
+                  <div class="item__title">Cùng con lớn lên qua cảm xúc</div>
+                  <!-- <div class="item__subtitle">Hành trình kết nối &amp; Trưởng thành</div> -->
+                  <div class="item__tag">Offline</div>
+                  <div class="item__description">
+                    21 ngày đọc sách Huấn luyện cảm xúc
+                    <br/>
+                    21 ngày thực hành theo hướng dẫn của BTC
+                  </div>
+                  <div class="item__info">
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1427.76 1896.08" class="" fill="rgba(117, 117, 117, 1.0)">
+                          <path d="M1408 1405q0 120-73 189.5t-194 69.5H267q-121 0-194-69.5T0 1405q0-53 3.5-103.5t14-109T44 1084t43-97.5 62-81 85.5-53.5T346 832q9 0 42 21.5t74.5 48 108 48T704 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T704 896 432.5 783.5 320 512t112.5-271.5T704 128t271.5 112.5T1088 512z"></path>
+                        </svg>
+                      </div>
+                      <p>Team Cha Mẹ EQ - Con EQ</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1664 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M1639 478q40 57 18 129l-275 906q-19 64-76.5 107.5T1183 1664H260q-77 0-148.5-53.5T12 1479q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5T52 1179q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5T340 411q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5T556 134l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5T1025 1408H156q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1247 480l21-64q4-13-2-22.5t-20-9.5H638q-13 0-25.5 9.5T596 416zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5T1164 736l21-64q4-13-2-22.5t-20-9.5H555q-13 0-25.5 9.5T513 672z"></path>
+                        </svg>
+                      </div>
+                      <p>Tuyển sinh: Đang mở đăng ký</p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1536 1896.08" class="" fill="rgb(117, 117, 117)">
+                          <path d="M896 544v448q0 14-9 23t-23 9H544q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V544q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1561 768 1664t-385.5-103T103 1281.5 0 896t103-385.5T382.5 231 768 128t385.5 103T1433 510.5 1536 896z"></path>
+                        </svg>
+                      </div>
+                      <p>Ngày học: <b class="text-red">10 - 30/08</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.24,7.76C15.07,6.58 13.53,6 12,6V12L7.76,16.24C10.1,18.58 13.9,18.58 16.24,16.24C18.59,13.9 18.59,10.1 16.24,7.76Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời gian: <b class="text-red">05h - 6h30</b></p>
+                    </div>
+                    <div class="item__info-content">
+                      <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 24 24" class="" fill="rgba(117, 117, 117, 1)">
+                          <path d="M14,12H15.5V14.82L17.94,16.23L17.19,17.53L14,15.69V12M4,2H18A2,2 0 0,1 20,4V10.1C21.24,11.36 22,13.09 22,15A7,7 0 0,1 15,22C13.09,22 11.36,21.24 10.1,20H4A2,2 0 0,1 2,18V4A2,2 0 0,1 4,2M4,15V18H8.67C8.24,17.09 8,16.07 8,15H4M4,8H10V5H4V8M18,8V5H12V8H18M4,13H8.29C8.63,11.85 9.26,10.82 10.1,10H4V13M15,10.15A4.85,4.85 0 0,0 10.15,15C10.15,17.68 12.32,19.85 15,19.85A4.85,4.85 0 0,0 19.85,15C19.85,12.32 17.68,10.15 15,10.15Z"></path>
+                        </svg>
+                      </div>
+                      <p>Thời hạn đăng ký: <b>17h</b> <b class="text-red">07/08</b></p>
+                    </div>
+                  </div>
+                  <div class="item__button">
+                    <a href="https://forms.gle/2bv5jeRRHtwEQJdf6" target="_blank" class="item__button-action fill">Đăng ký ngay</a>
+                    <a href="https://zalo.me/g/fvytdi439" target="_blank" class="item__button-action outline">Chi tiết</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

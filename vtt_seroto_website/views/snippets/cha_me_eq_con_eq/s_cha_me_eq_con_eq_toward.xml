@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_toward" name="Khoá học dành cho ai?">
+    <section class="s_cha_me_eq_con_eq_toward s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="mx-auto text-center mb-5" style="max-width: 850px;">
+          <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+            class="img-fluid mx-auto" style="max-height: 46px;"/>
+          <p class="font-philosopher fst-italic text-2xl mt-4 mb-2">Đứa trẻ không học từ những gì bạn nói, mà từ chính con người bạn. Nếu trong bạn có giận dữ, đứa trẻ học giận dữ.  Nếu trong bạn có sợ hãi, đứa trẻ học sợ hãi. Vì vậy giáo dục bắt đầu từ chính người giáo dục</p>
+          <p class="text-end fw-bolder text-xl">– Jiddu Krishnamurti</p>
+        </div>
+        <h2 class="title-custom mb-4 text-center mx-auto" style="--space: 16px; --width: 140px;">Khoá học dành cho ai?</h2>
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="toward__box">
+              <div class="toward__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 173.989 177.982" fill="rgba(227, 248, 251, 1.0)" stroke="#00000000" stroke-width="1px"><path d="M 3.879897,69.616041 C3.879897,69.616041 14.945079,38.335925 42.105074,19.164242 C69.265068,-0.007441999999999949 99.442839,-6.061658 124.590982,11.091954 C149.739125,28.245566 174.887268,50.444357 172.875416,85.760616 C170.863565,121.076875 144.709496,170.519638 93.407285,176.573854 C42.105074,182.62807 -12.214915,120.067839 3.879897,69.616041 Z"></path></svg>
+                </div>
+                <div class="image__background">
+                  <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                    class="img-fluid mx-auto" style="max-height: 180px; max-width: 180px;"/>
+                </div>
+              </div>
+              <p>Những ai mong muốn con lớn lên trong tình yêu thương, sự thấu hiểu và một môi trường an toàn về cảm xúc.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="toward__box">
+              <div class="toward__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 177.592 176.516" fill="rgba(255, 244, 215, 1)" stroke="#00000000" stroke-width="1px"><path d="M 1.014465,82.265472 C1.014465,82.265472 2.014465,61.265472 26.014465,41.265472 C50.014465,21.265472 65.014465,-1.734528 96.014465,1.265472 C127.014465,4.265472 144.014465,28.265472 155.014465,42.265472 C166.014465,56.265472 194.014465,88.265472 161.014465,130.265472 C128.014465,172.265472 99.014465,180.265472 75.014465,173.265472 C51.014465,166.265472 0.01446499999999995,129.265472 1.014465,82.265472 Z"></path></svg>
+                </div>
+                <div class="image__background" style="width: 110px; height: 110px">
+                  <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                    class="img-fluid mx-auto" style="max-width: 335px; max-height: 335px; position: absolute; top: -45px; left: -5px;"/>
+                </div>
+              </div>
+              <p>Những cha mẹ cảm thấy mệt mỏi, bối rối và thấy mình đang loay hoay giữa hành trình nuôi dạy con.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="toward__box">
+              <div class="toward__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 169.775 181.878" fill="rgba(255, 236, 248, 1)" stroke="#00000000" stroke-width="1px"><path d="M 3.836548,107.807983 C3.836548,107.807983 -12.163452,40.807983 31.836548,11.807983 C75.836548,-17.192017 111.836548,19.807983 130.836548,33.807983 C149.836548,47.807983 173.836548,73.807983 167.836548,106.807983 C161.836548,139.807983 132.836548,178.807983 81.836548,180.807983 C30.836548,182.807983 13.836548,141.807983 3.836548,107.807983 Z"></path></svg>
+                </div>
+                <div class="image__background" style="width: 180px; height: 180px;">
+                  <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                    class="img-fluid mx-auto" style="max-width: 224px; max-height: 224px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"/>
+                </div>
+              </div>
+              <p>Dành cho những ai đang và sẽ làm việc nuôi dưỡng, đồng hành cùng trẻ (0-18 tuổi)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

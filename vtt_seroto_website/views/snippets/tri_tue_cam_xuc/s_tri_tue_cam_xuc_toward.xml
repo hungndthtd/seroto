@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_tri_tue_cam_xuc_toward" name="Khóa học dành cho ai">
+    <section class="s_tri_tue_cam_xuc_toward s_tri_tue_cam_xuc custom-snippet pt48 pb48" style="background: #fffaf1;">
+      <div class="container-page">
+        <div class="d-flex mb-4">
+          <div class="position-relative" style="width: 40px; height: 50px;">
+            <div class="position-absolute top-0 end-0" style="width: 25px; height: 50px; transform: rotate(180deg);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 98.92 197.33" class="" fill="rgba(255, 217, 142, 1)">
+                <path d="M0,197.33a99.17,99.17,0,0,0,37.86-7.51A99.05,99.05,0,0,0,70,168.43a98.7,98.7,0,0,0,21.44-32,98.47,98.47,0,0,0,7.53-37.76,98.45,98.45,0,0,0-7.53-37.75A98.7,98.7,0,0,0,70,28.9,99.05,99.05,0,0,0,37.86,7.51,99.17,99.17,0,0,0,0,0V197.33Z"></path>
+              </svg>
+            </div>
+            <div class="position-absolute bottom-0 start-0" style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 218 218" class="" fill="rgba(203, 242, 250, 1)">
+                <path d="M109,0A109,109,0,1,0,218,109,109,109,0,0,0,109,0Zm0,178.66A69.66,69.66,0,1,1,178.66,109,69.66,69.66,0,0,1,109,178.66Z"></path>
+              </svg>
+            </div>
+          </div>
+          <h2 class="fw-bolder font-paytone-one text-green ms-3 text-center">Khóa học dành cho ai?</h2>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 order-md-2">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid mx-auto" style="max-height: 286px;"/>
+          </div>
+          <div class="col-12 col-md-6 order-md-1 mt-4 mt-md-0">
+            <div class="d-flex">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 24px;"/>
+              <div class="text-lg" style="flex: 1; margin-left: 12px;">
+                Dành cho tất cả các em học sinh lứa tuổi thanh thiếu niên (tuổi Teen) từ 12-18 tuổi.
+                <br/>
+                Đặc biệt cần thiết với những em đang gặp khó khăn kết nối với người thân, xây dựng các mối quan hệ lành mạnh, khả năng vượt qua cám dỗ, không làm chủ được cảm xúc, mất định hướng và thiếu động lực học tập.
+              </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+              <a href="https://forms.gle/SHKwHbUm4akeLAoi6" target="_blank" class="toward__button btn-default" style="--background: #f8ae33; --background-hover: #f99b00; box-shadow: rgb(174, 126, 46) 0px 15px 20px -15px;">
+                Đăng ký Teen Cute
+                <br/>
+                <span class="text-sm">(2013 - 2015)</span>
+              </a>
+              <a href="https://forms.gle/ks3Qy3TfSsAKuzwD6" target="_blank" class="toward__button btn-default ms-3" style="--background: #2fa67b; --background-hover: #f99b00; box-shadow: rgb(36, 121, 90) 0px 15px 20px -15px;">
+                Đăng ký Teen Pro
+                <br/>
+                <span class="text-sm">(2008 - 2012)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

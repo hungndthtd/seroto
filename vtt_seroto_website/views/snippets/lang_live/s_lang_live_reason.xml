@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_reason" name="Vì sao chúng ta cần Live Village">
+    <section class="s_lang_live_reason s_lang_live custom-snippet pt48 pb48" style="background: #eaf2fe;">
+      <div class="container-page">
+        <div class="mb120">
+          <h2 class="text-blue font-yeseva-one text-center mb-5">
+            Vì sao chúng ta cần
+            <br/>
+            <span class="text-red">Live Village</span>
+          </h2>
+          <div id="ll-reason-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="reason__carousel">
+                  <p>
+                    "Tôi có một cô con gái 12 tuổi mắc chứng tự kỷ. Hiện nay gia đình tôi và con đang gặp khó khăn trong việc tìm môi trường hòa nhập phù hợp, đây cũng là khó khăn chung của trẻ tự kỷ trưởng thành.
+                    <br/>
+                    <br/>
+                    Theo tôi biết, ở Việt Nam, phần lớn các Trung tâm cho trẻ đặc biệt mới chỉ đáp ứng một phần nhu cầu của trẻ tự kỷ ở lứa tuổi nhỏ, rất ít Trung tâm dành cho trẻ tự kỷ
+                    ở tuổi trưởng thành. Điều này sẽ làm chậm lại, thậm chí gây đứt đoạn mạch hòa nhập mà các con đã có được từ trước. Nhiều con phải chấp nhận ở nhà, hoặc học nghề theo mong muốn của gia đình, song lại thiếu chuyên gia trong lĩnh vực hướng dẫn nghề cho trẻ tự kỷ trưởng thành.
+                    <br/>
+                    <br/>
+                    Vì thế, tôi luôn mong muốn có một môi trường, một không gian dành riêng cho các trẻ tự kỷ. Ở đó, các con không chỉ được hòa nhập, được học những kỹ năng sống, được học nghề…, mà trên hết có thể sống hạnh phúc, là chính mình. Tôi sẵn sàng cùng với các cha mẹ khác, đem hết nguồn lực, tình yêu thương, tri thức mà mình có để xây dựng một môi trường như thế cho các con."
+                  </p>
+                  <div class="reason__carousel-info">
+                    <p>Trăn trở của mẹ Hiếu</p>
+                    <div class="info__image">
+                      <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                        class="img-fluid" style="max-height: 60px; max-width: 60px;"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="reason__carousel">
+                  <p>
+                    Con tôi khi lên 7 tuổi tôi mới cho đi học tiểu học.
+                    <br/>
+                    <br/>
+                    Sau khi đưa con đi xin học hơn 10 trường cả tư thục và công lập, dù nhận được nhiều cảm thông, chia sẻ của Hiệu trưởng, chủ trường, tôi thấm thía một điều: không ai muốn nhận trẻ đặc biệt. Tôi cảm nhận họ có những khó khăn, bất lực khi đón các cháu đặc biệt. Trẻ đặc biệt trở thành gánh nặng cho các nhà trường.
+                    <br/>
+                    <br/>
+                    Rồi tôi lại chứng kiến thêm cảnh các gia đình có trẻ đặc biệt trong độ tuổi đi học lao đao tìm trường, tìm lớp, tìm cô cho con. Giấc mơ nhỏ nhoi chỉ là con được ngồi trong một ngôi trường nào đó yên ổn, học được gì không quan trọng nhiều lúc lại thành xa xỉ.
+                    <br/>
+                    <br/>
+                    Rồi viễn cảnh xa hơn, khi đến tuổi trưởng thành, nếu không thể học kiến thức
+                    nhà trường thì con sẽ góp sức gì được cho xã hội? Xã hội sẽ đón nhận con như
+                    thế nào? Hay những đứa trẻ này sẽ trở thành gánh nặng cho xã hội?
+                    <br/>
+                    <br/>
+                    Mỗi ngày con đến trường là tôi lại ngổn ngang bao suy nghĩ:
+                    <br/>
+                    - Con có học được theo chương trình của Bộ Giáo dục không?
+                    <br/>
+                    - Trường có đồng ý cho con học tiếp hay không? 
+                    <br/>
+                    - Nếu đến một lúc nào đó con không học tiếp được thì sẽ làm gì?
+                    <br/>
+                    - Bố mẹ khi về già sức yếu không hỗ trợ được con thì con sẽ đi đâu về đâu, làm gì để tự kiếm sống được cho bản thân?
+                  </p>
+                  <div class="reason__carousel-info">
+                    <p>Trăn trở của mẹ Tường</p>
+                    <div class="info__image">
+                      <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                        class="img-fluid" style="height: 105px; width: 130px; position: absolute; top: -35px; left: -30px; max-width: unset;"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" style="filter: invert(1) grayscale(100); width: 5%;" type="button" data-bs-target="#ll-reason-carousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" style="filter: invert(1) grayscale(100); width: 5%;" type="button" data-bs-target="#ll-reason-carousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="reason__image">
+              <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                class="img-fluid mx-auto" style="max-height: 300px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="reason__content">
+              <div class="reason__content-numb">80% - 90%</div>
+              <div class="text-blue fw-bolder">người tự kỷ trong độ tuổi lao động <span class="text-red"></span></div>
+              <p>Theo thống kê năm 2017, tỉ lệ trẻ rối loạn phổ tự kỷ ở Việt Nam dao động trong khoảng 0.5 đến 1%. Trong đó có tới 80 - 90% người tự kỷ trong độ tuổi lao động không thể tìm được việc làm.</p>
+              <span class="text-xs">(dẫn theo “Tạp chí khoa học” trường ĐH Sư phạm Hà Nội ISSN 2354 - 1075, Volume 62, Issue 9AB, 2017, trang 328)</span>
+            </div>
+          </div>
+        </div>
+        <div class="reason__box">
+          <div class="reason__box-content">
+            <h3 class="text-blue font-yeseva-one">Môi trường sống, học tập và hoà nhập</h3>
+            <p>Hiện tại, trẻ tự kỷ gặp nhiều khó khăn trong việc học tập, hoà nhập cũng như thiếu môi trường sống phù hợp. Nhiều trẻ tự kỷ chưa được học tập theo đúng năng lực, chưa được là chính mình khi phải chịu sự áp đặt của nhiều định kiến trong xã hội.</p>
+          </div>
+          <div class="reason__box-card">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card__item" style="background: #d1e3fa;">
+                  <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                    class="img-fluid mx-auto" style="max-height: 110px;"/>
+                  <p>Cộng đồng chưa nhận thức đầy đủ, đúng đắn về trẻ tự kỷ.</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card__item" style="background: #faddd1;">
+                  <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                    class="img-fluid mx-auto" style="max-height: 110px;"/>
+                  <p>Trẻ tự kỷ thiếu không gian sống xanh và cộng đồng hạnh phúc của riêng mình.</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card__item" style="background: #e5d1fa;">
+                  <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                    class="img-fluid mx-auto" style="max-height: 110px;"/>
+                  <p>Cộng đồng phụ huynh và nhà chuyên môn khát khao xây dựng mô hình dành riêng cho người tự kỷ.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

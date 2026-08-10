@@ -10,7 +10,7 @@
 <template id="s_title_special" name="Title Special">
   <div class="s_title_special custom-snippet o_snippet_drop_in_only">
     <div class="title__special">
-      <h1 class="text-orange">Đội ngũ</h1>
+      <h3 class="text-orange font-lobster">Đội ngũ</h3>
       <div class="title__special-arrow" style="height: 12px; width: 70px">
         <t t-call="vtt_seroto_website.svg_multi_arrow">
           <t t-set="svg_class" t-value="'text-green-light d-block'"/>

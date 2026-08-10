@@ -1,9 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-  <template id="s_thuc_hanh_eq_teacher" name="Giảng viên">
-    <section class="s_thuc_hanh_eq_teacher custom-snippet pt48 pb48">
+  <template id="s_thuc_hanh_eq_content" name="Nội dung khóa học">
+    <section class="s_thuc_hanh_eq_content s_thuc_hanh_eq custom-snippet pt48 pb48" style="background: #fff8f1;">
       <div class="container-page">
+        <div class="content__quote">
+          <img src="/web/static/img/placeholder.png" alt="Seroto"
+            class="img-fluid mx-auto" style="max-height: 45px"/>
+          <div class="text-2xl fst-italic font-philosopher my-2 text-center">
+            Khi giao tiếp với mọi người, hãy nhớ rằng bạn không phải đang nói chuyện và làm việc với một sinh vật của <span class="text-green">logic</span>, mà với sinh vật của <span class="text-green">cảm xúc.</span>
+          </div>
+          <div class="text-end text-xl">
+            <b>– Dale Carnegie</b>
+            <br/>
+            <i>Tác giả sách, nhà thuyết trình</i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <h3 class="fw-bold">Nội dung khóa học</h3>
+            <div class="mb-4" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+            <div class="content__box">
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #ee6230;">1</div>
+                <div class="item__text">Hiểu trí tuệ cảm xúc</div>
+              </div>
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #1294a2;">2</div>
+                <div class="item__text">Cơ chế vận hành của cảm xúc</div>
+              </div>
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #7c48e2;">3</div>
+                <div class="item__text">Thực hành chú tâm, nhận biết cảm xúc</div>
+              </div>
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #278ed3;">4</div>
+                <div class="item__text">Hiểu biết chính mình</div>
+              </div>
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #ffb201;">5</div>
+                <div class="item__text">Yêu thương chính mình</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="content__image">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 315px;"/>
+            </div>
+            <div class="content__box">
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #ee6230;">6</div>
+                <div class="item__text">Nuôi dưỡng lòng trắc ẩn</div>
+              </div>
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #1294a2;">7</div>
+                <div class="item__text">Nuôi dưỡng mối quan hệ</div>
+              </div>
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #7c48e2;">8</div>
+                <div class="item__text">Đi tìm chân ngã</div>
+              </div>
+              <div class="content__box-item">
+                <div class="item__numb" style="color: #ffb201;">9</div>
+                <div class="item__text">Nở hoa kết trái</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </template>

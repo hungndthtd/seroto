@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_count" name="Số liệu">
+    <section class="s_cha_me_eq_con_eq_count s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="text-center text-white mb-4 mb-md-5">
+          <h2 class="text-center mx-auto font-sriracha">Cha mẹ EQ - Con EQ</h2>
+          <p class="fst-italic fw-bolder mt-2">Ở đây ai cũng được thương! </p>
+        </div>
+        <div style="background: #2395ae; border-radius: 10px; padding: 24px;">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-0">
+              <div class="count__box">
+                <div class="count__box-image">
+                  <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                    class="img-fluid mx-auto" style="max-height: 64px; width: 64px;"/>
+                </div>
+                <div class="count__box-title">
+                  ĐÃ TỔ CHỨC
+                </div>
+                <div class="count__box-line"></div>
+                <div class="count__box-number">37</div>
+                <div class="count__box-type">KHOÁ HỌC</div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-0">
+              <div class="count__box">
+                <div class="count__box-image">
+                  <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                    class="img-fluid mx-auto" style="max-height: 64px; width: 64px;"/>
+                </div>
+                <div class="count__box-title">
+                  ĐÃ THAM GIA HỌC &amp; <br/> THỰC HÀNH
+                </div>
+                <div class="count__box-line"></div>
+                <div class="count__box-number">+2.000</div>
+                <div class="count__box-type">HỌC VIÊN</div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-0">
+              <div class="count__box">
+                <div class="count__box-image">
+                  <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                    class="img-fluid mx-auto" style="max-height: 64px; width: 64px;"/>
+                </div>
+                <div class="count__box-title">
+                  HỌC VIÊN TỪ CÁC NƯỚC <br/> KHÁC NHAU
+                </div>
+                <div class="count__box-line"></div>
+                <div class="count__box-number">14</div>
+                <div class="count__box-type">NƯỚC</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

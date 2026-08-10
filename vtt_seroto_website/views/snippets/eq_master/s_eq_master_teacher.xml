@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_teacher" name="Giảng viên khóa học">
+    <section class="s_eq_master_teacher s_eq_master custom-snippet pt48 pb48" style="background: #eeffff;">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="d-flex mb-4">
+              <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                class="img-fluid" style="max-height: 50px; max-width: 50px"/>
+              <h2 class="fw-bolder font-paytone-one text-indigo ms-3"><span class="text-green">Giảng viên</span> <br/> của khoá học là ai?</h2>
+            </div>
+            <h3 class="text-pink mb-3">Thầy Dương Quang Minh</h3>
+            <ul>
+              <li>Nhà đào tạo Trí tuệ Cảm xúc</li>
+              <li>Sáng lập Tổ chức Giáo dục Phi lợi nhuận Seroto Foundation</li>
+              <li>Sáng lập Cộng đồng Dạy Con Trong Hạnh Phúc</li>
+            </ul>
+            <div class="teacher__button btn-default mt-4 mt-md-5">Tham gia nhóm Zalo</div>
+          </div>
+          <div class="col-12 col-md-6 align-self-end">
+            <div class="teacher__image">
+              <div class="teacher__image-shape"></div>
+              <div class="teacher__image-box">
+                <img src="/web/static/img/placeholder.png" alt="EQ MASTER"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

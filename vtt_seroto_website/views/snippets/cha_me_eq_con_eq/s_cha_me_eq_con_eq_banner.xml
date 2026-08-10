@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_banner" name="Banner">
+    <section class="s_cha_me_eq_con_eq_banner s_cha_me_eq_con_eq custom-snippet py-2" style="background-position: center top;">
+      <div class="container-page">
+        <div class="banner__box">
+          <div class="banner__box-image">
+            <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+              class="img-fluid" style="max-height: 108px;"/>
+          </div>
+          <div class="banner__box-content">
+            <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+              class="img-fluid" style="max-height: 46px;"/>
+            <div class="content__action">
+              <div class="btn-default">Đăng ký ngay</div>
+              <div class="text-lg fw-bolder fst-italic">Hạn chót đăng ký K40: 24h ngày 19/07</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

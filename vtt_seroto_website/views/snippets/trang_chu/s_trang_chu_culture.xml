@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_trang_chu_culture" name="Văn hóa Seroto">
+    <section class="s_trang_chu_culture s_trang_chu custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12">
+            <div class="title__special mb-4 mb-md-5">
+              <h3 class="text-orange font-lobster">Văn hóa Seroto</h3>
+              <div class="title__special-arrow" style="height: 12px; width: 70px">
+                <t t-call="vtt_seroto_website.svg_multi_arrow">
+                  <t t-set="svg_class" t-value="'text-green-light d-block'"/>
+                </t>
+              </div>
+            </div>
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid mx-auto" style="max-height: 360px;"/>
+            <div class="mt-4 mb-4 mb-md-5 mx-auto text-center" style="max-width: 500px">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid" style="max-height: 50px; max-width: 65px;"/>
+              <p class="text-lg mt-1">
+                Không gian Seroto là nơi bạn và tôi <b class="text-green">thực hành lối sống</b>
+                <br/>
+                “3 Không - 3 Đủ” để <b class="text-green">thuần hóa cái tôi</b>
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 mb-4 mb-md-0">
+                <div class="text-lg text-green fw-bolder">3 Không:</div>
+                <ul>
+                  <li><b class="text-green">Không chức danh:</b> Ở đây chỉ có vai trò phụng sự, chỉ có sự hỗ trợ mà không có chức danh. Quyền lực không nằm ở chức danh mà ở tình yêu thương.</li>
+                  <li><b class="text-green">Không sở hữu:</b> Chúng ta đến với thế giới này với hai bàn tay trắng và sẽ ra đi như thế, nên mọi sản phẩm mà Seroto tạo ra không thuộc sở hữu của ai cả để ai cũng có thể chạm đến.</li>
+                  <li><b class="text-green">Không mong cầu:</b> Chúng tôi chỉ có mục tiêu (đích đến). Mỗi giây phút là hành trình đến mục tiêu một cách thư giãn, hạnh phúc trên từng bước chân mà không có sự mong cầu nào trên hành trình. Không mong cầu là cách thực hành “đi như một dòng sông”.</li>
+                </ul>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="text-lg text-green fw-bolder">3 Đủ:</div>
+                <ul>
+                  <li><b class="text-green">Yêu thương:</b> thực hành lòng biết ơn và “ai cũng như mình mà thôi” để có thể yêu thương thuần khiết tất cả mọi người</li>
+                  <li><b class="text-green">Khiêm hạ:</b> sẵn sàng đặt mình bên dưới người khác để thực hành phụng sự trọn vẹn</li>
+                  <li><b class="text-green">Vị tha:</b> khắc ghi và thực hành quan sát tâm mỗi ngày theo câu nói “căn nguyên của khổ đau là vị kỷ, căn nguyên của hạnh phúc là vị tha”</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <!--
+    Nạp font Google Fonts THẬT cho các class .font-* trong snippet.scss (vd
+    .font-philosopher, .font-baloo-bhaina) - dùng thẻ <link> trong <head>, KHÔNG dùng
+    @import trong file .scss (đã thử và làm hỏng toàn bộ CSS của trang, xem ghi chú
+    trong static/src/scss/snippet.scss) vì Odoo gộp nhiều file SCSS từ nhiều module
+    thành 1 bundle lớn, @import bắt buộc phải là rule đầu tiên tuyệt đối nên không an
+    toàn để đặt trong 1 file bị gộp chung như vậy. <link> thì không bị ràng buộc vị trí
+    này, an toàn tuyệt đối dù đặt bất kỳ đâu trong <head>.
+
+    Thêm font mới: thêm đúng family vào href bên dưới (giữ 1 request duy nhất), rồi
+    khai báo class .font-xxx tương ứng trong snippet.scss.
+  -->
+  <template id="website_layout_fonts" inherit_id="website.layout" name="Google Fonts - Seroto">
+    <xpath expr="//head/*[1]" position="before">
+      <link rel="preconnect" href="https://fonts.googleapis.com"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+      <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;500;600;700;800&amp;family=Baloo+Bhaina:wght@400;700&amp;family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&amp;family=Paytone+One&amp;family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&amp;family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300;1,400;1,500;1,600;1,700;1,900&amp;family=Sriracha&amp;family=Lobster&amp;family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&amp;family=Yeseva+One&amp;family=Pattaya&amp;display=swap"/>
+    </xpath>
+  </template>
+</odoo>

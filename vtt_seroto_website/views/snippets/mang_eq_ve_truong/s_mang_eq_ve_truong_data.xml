@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_data" name="Số liệu">
+    <section class="s_mang_eq_ve_truong_data s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="mb-5 text-indigo text-center">
+          <h3 class="fw-bolder mb-2">Số liệu Giáo viên &amp; Học sinh được học EQ</h3>
+          <p class="fst-italic">Số liệu thống kê tới hết 26/05/2025</p>
+        </div>
+        <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+          class="img-fluid mx-auto" style="max-height: 450px;"/>
+      </div>
+    </section>
+  </template>
+</odoo>
