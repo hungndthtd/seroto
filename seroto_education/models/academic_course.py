@@ -48,8 +48,15 @@ class AcademicCourse(models.Model):
                 domain = [('name', operator, name)] + domain
         return super(AcademicCourse, self)._name_search(name, domain=domain, operator=operator, limit=limit, order=order)
 
-    product_id = fields.Many2one('product.template', string='Sản phẩm liên kết', 
+    product_id = fields.Many2one('product.template', string='Sản phẩm liên kết',
         domain=[('type', '=', 'service')], required=True)
+
+    # Mỗi khóa học 1 bộ câu hỏi riêng - website (vtt_seroto_website, wizard đăng ký
+    # nhiều bước) đọc lại đúng bộ câu hỏi của khóa học đang đăng ký ở bước "Thông tin
+    # chuyên sâu" để khách điền câu trả lời.
+    question_ids = fields.One2many(
+        'academic.course.question', 'course_id', string='Câu hỏi chuyên sâu',
+    )
 
 
 class ProductTemplate(models.Model):

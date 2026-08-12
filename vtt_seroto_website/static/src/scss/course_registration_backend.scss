@@ -1,0 +1,11 @@
+/* Form backend "Phiếu đăng ký khóa học" (views/course_registration_views.xml,
+   class="o_seroto_registration_form") - CHỈ áp dụng trong đúng form này. */
+
+.o_seroto_registration_form {
+  /* CopyClipboardURL mặc định canh giữa text trong ô (xem
+     web/static/src/views/fields/copy_clipboard/copy_clipboard_field.scss,
+     "text-align: center") - override lại thành căn trái cho field "Link phiếu". */
+  .o_seroto_slip_url > div > a {
+    text-align: left !important;
+  }
+}

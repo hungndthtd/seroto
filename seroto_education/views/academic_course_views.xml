@@ -64,6 +64,18 @@
                         <page string="Mô tả chi tiết">
                             <field name="description" placeholder="Nhập nội dung giới thiệu khóa học..."/>
                         </page>
+                        <page string="Câu hỏi chuyên sâu">
+                            <field name="question_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question" placeholder="Nhập câu hỏi..."/>
+                                    <field name="question_type"/>
+                                    <field name="options"
+                                           placeholder="Mỗi lựa chọn 1 dòng..."
+                                           invisible="question_type == 'text'"/>
+                                </list>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
             </form>

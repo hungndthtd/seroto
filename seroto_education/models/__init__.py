@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import academic_course
+from . import academic_course_question
 from . import academic_intake
 from . import academic_class
 from . import academic_session

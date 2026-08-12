@@ -1,2 +1,1 @@
-from . import seroto_course
 from . import course_registration

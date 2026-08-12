@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Modal đăng ký khóa học DẠNG NHIỀU BƯỚC (wizard):
+    - Tab 1 "Thông tin cơ bản": Khóa học (readonly) + Họ tên/Email/SĐT (bắt buộc). Submit
+      tab này gọi RPC tạo bản ghi seroto.course.registration thật (model/controller
+      course_registration.py) + tạo giao dịch thanh toán giả lập (vtt_bank_mock) + gửi
+      email kèm link phiếu.
+    - Tab 2 "Thanh toán": nút mở trang "ngân hàng" giả lập (checkout_url) ở tab/popup
+      mới - JS polling trạng thái trong lúc chờ, TỰ chuyển sang "Thành công" khi webhook
+      (bank_notify_webhook) báo về, KHÔNG còn nút tự khai "Tôi đã thanh toán" như bản mô
+      phỏng trước đó (client không thể tự set trạng thái đã thanh toán được nữa).
+    - Tab 3 "Thông tin chuyên sâu": thu thập thêm thông tin sau khi đã thanh toán, lưu
+      vào cùng bản ghi.
+    Việc khoá/mở tab, disable nút "Tiếp tục" và gọi RPC xử lý ở
+    static/src/js/course_register_wizard.js.
+  -->
+  <template id="course_register_wizard_modal">
+    <div class="modal fade" id="courseRegisterWizardModal" tabindex="-1"
+         aria-labelledby="courseRegisterWizardModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="courseRegisterWizardModalLabel">Đăng ký khóa học</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"/>
+          </div>
+
+          <div class="modal-body">
+            <!--
+              3 nút bước - mặc định chỉ "basic" là bấm được (2 nút còn lại có "disabled"
+              sẵn trong HTML để phòng trường hợp JS lỗi/chưa kịp chạy thì tab sau vẫn
+              không click được - JS chỉ gỡ "disabled" khi bước trước đã hoàn tất).
+            -->
+            <div class="course_wizard_steps">
+              <button type="button" class="course_wizard_step active" data-step="basic">
+                <span class="course_wizard_step_index">1</span>
+                <span class="course_wizard_step_label">Thông tin cơ bản</span>
+              </button>
+              <button type="button" class="course_wizard_step" data-step="payment" disabled="disabled">
+                <span class="course_wizard_step_index">2</span>
+                <span class="course_wizard_step_label">Thanh toán</span>
+              </button>
+              <button type="button" class="course_wizard_step" data-step="detail" disabled="disabled">
+                <span class="course_wizard_step_index">3</span>
+                <span class="course_wizard_step_label">Thông tin chuyên sâu</span>
+              </button>
+            </div>
+
+            <!-- Tab 1: Thông tin cơ bản -->
+            <div class="course_wizard_pane" data-pane="basic">
+              <form id="course_wizard_basic_form" novalidate="novalidate">
+                <div class="mb-3">
+                  <label>Khóa học</label>
+                  <input class="form-control" id="wizard_course_name" readonly="readonly"/>
+                </div>
+                <div class="mb-3">
+                  <label>Họ tên</label>
+                  <input class="form-control" name="name" required="required"/>
+                </div>
+                <div class="mb-3">
+                  <label>Email</label>
+                  <input type="email" class="form-control" name="email" required="required"/>
+                </div>
+                <div class="mb-3">
+                  <label>Số điện thoại</label>
+                  <input class="form-control" name="phone" required="required"/>
+                </div>
+                <button type="submit" class="btn btn-success w-100" id="wizard_basic_continue" disabled="disabled">
+                  Tiếp tục
+                </button>
+              </form>
+            </div>
+
+            <!-- Tab 2: Thanh toán -->
+            <div class="course_wizard_pane d-none" data-pane="payment">
+              <div id="wizard_payment_pending">
+                <div class="text-center mb-3">
+                  <img id="wizard_payment_qr" class="course_wizard_qr_image" alt="Mã QR thanh toán"/>
+                  <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ (demo)</p>
+                </div>
+                <p class="mb-1">Khóa học: <strong id="wizard_payment_course"/></p>
+                <p class="mb-1">Nội dung chuyển khoản: <strong id="wizard_payment_note"/></p>
+                <p class="text-muted small mb-3" id="wizard_email_sent_note"/>
+                <a href="#" target="_blank" rel="noopener" class="btn btn-success w-100 mb-2"
+                   id="wizard_open_bank">
+                  Mở trang thanh toán ngân hàng
+                </a>
+                <p class="text-muted small text-center mb-0">
+                  <span class="spinner-border spinner-border-sm me-1" role="status"/>
+                  Đang chờ xác nhận thanh toán...
+                </p>
+              </div>
+
+              <div id="wizard_payment_success" class="d-none text-center">
+                <p class="text-success fw-bold mb-3">
+                  Thành công
+                  <br/>
+                  Thanh toán hoàn tất
+                </p>
+                <button type="button" class="btn btn-success w-100" id="wizard_payment_continue">
+                  Tiếp tục
+                </button>
+              </div>
+
+              <button type="button" class="btn btn-link w-100" id="wizard_open_slip_unpaid">
+                Xem phiếu đăng ký
+              </button>
+            </div>
+
+            <!--
+              Tab 3: Thông tin chuyên sâu - danh sách câu hỏi KHÁC NHAU theo từng khóa
+              học (tab "Câu hỏi chuyên sâu" trên form Khóa học, module seroto_education).
+              #course_wizard_questions_container rỗng lúc render server-side - JS
+              (course_register_wizard.js, _renderQuestions) tự bơm 1 input/câu hỏi vào
+              đây ngay sau khi tab "Thông tin cơ bản" hoàn tất (đã biết course + đã có
+              danh sách câu hỏi trả về từ RPC create).
+            -->
+            <div class="course_wizard_pane d-none" data-pane="detail">
+              <form id="course_wizard_detail_form">
+                <div id="course_wizard_questions_container"/>
+                <button type="submit" class="btn btn-success w-100">
+                  Hoàn tất đăng ký
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!--
+    "Phiếu đăng ký khóa học" - modal RIÊNG, xem lại/tiếp tục 1 lượt đăng ký đang dựng dở:
+    - Chưa thanh toán: hiện lại khung Thanh toán (mở trang ngân hàng giả lập + polling)
+      để hoàn tất thanh toán ngay trên phiếu.
+    - Đã thanh toán: chỉ hiện Thông tin cơ bản + Thông tin chuyên sâu + trạng thái
+      "Đã thanh toán" (ẩn khung thanh toán). JS tự polling khi phiếu đang mở và chưa
+      thanh toán - xem static/src/js/course_register_wizard.js.
+  -->
+  <template id="course_registration_slip_modal">
+    <div class="modal fade" id="courseRegistrationSlipModal" tabindex="-1"
+         aria-labelledby="courseRegistrationSlipModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="courseRegistrationSlipModalLabel">Phiếu đăng ký khóa học</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"/>
+          </div>
+
+          <div class="modal-body">
+            <p class="mb-1">Khóa học: <strong id="slip_course"/></p>
+            <p class="mb-1">Họ tên: <strong id="slip_name"/></p>
+            <p class="mb-1">Email: <strong id="slip_email"/></p>
+            <p class="mb-1">Số điện thoại: <strong id="slip_phone"/></p>
+            <div id="slip_answers" class="mb-1"/>
+            <p class="mb-3">
+              Trạng thái thanh toán:
+              <span id="slip_payment_status" class="badge"/>
+            </p>
+
+            <div id="slip_payment_section" class="d-none">
+              <hr/>
+              <div class="text-center mb-3">
+                <img id="slip_payment_qr" class="course_wizard_qr_image" alt="Mã QR thanh toán"/>
+                <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ (demo)</p>
+              </div>
+              <a href="#" target="_blank" rel="noopener" class="btn btn-success w-100 mb-2" id="slip_open_bank">
+                Mở trang thanh toán ngân hàng
+              </a>
+              <p class="text-muted small text-center mb-0">
+                <span class="spinner-border spinner-border-sm me-1" role="status"/>
+                Đang chờ xác nhận thanh toán...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!--
+    Gắn 2 modal trên vào website.layout (con của #wrapwrap, NGOÀI #wrap) - lý do giống
+    hệt seroto_form.course_register_modal_layout: nếu đặt trong 1 snippet có thể kéo
+    thả/lưu (như s_trang_chu_course.xml), Website Builder sẽ đóng băng HTML lúc lưu
+    trang, modal sẽ không còn tươi mới. Đặt "inside" #wrapwrap (không phải "before") để
+    public widget (selector mặc định "#wrapwrap") tìm thấy được.
+  -->
+  <template id="course_register_wizard_layout" inherit_id="website.layout">
+    <xpath expr="//div[@id='wrapwrap']" position="inside">
+      <t t-call="vtt_seroto_website.course_register_wizard_modal"/>
+      <t t-call="vtt_seroto_website.course_registration_slip_modal"/>
+    </xpath>
+  </template>
+
+</odoo>

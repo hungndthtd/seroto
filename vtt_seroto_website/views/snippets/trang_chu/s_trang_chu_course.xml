@@ -70,7 +70,7 @@
                     </div>
                   </div>
                   <div class="item__button">
-                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <div class="item__button-action fill js_register_course_wizard" data-course="EQ 5 phút">Đăng ký ngay</div>
                     <a href="/eq-5-phut" target="_blank" class="item__button-action outline">Chi tiết</a>
                   </div>
                 </div>
@@ -130,7 +130,7 @@
                     </div>
                   </div>
                   <div class="item__button">
-                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <div class="item__button-action fill js_register_course_wizard" data-course="Thực hành EQ">Đăng ký ngay</div>
                     <a href="/thuc-hanh-eq" target="_blank" class="item__button-action outline">Chi tiết</a>
                   </div>
                 </div>
@@ -190,7 +190,7 @@
                     </div>
                   </div>
                   <div class="item__button">
-                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <div class="item__button-action fill js_register_course_wizard" data-course="Trải nghiệm EQ">Đăng ký ngay</div>
                     <a href="/trai-nghiem-eq-thcs-thpt" target="_blank" class="item__button-action outline">Chi tiết</a>
                   </div>
                 </div>
@@ -260,7 +260,7 @@
                     </div>
                   </div>
                   <div class="item__button">
-                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <div class="item__button-action fill js_register_course_wizard" data-course="EQ Master">Đăng ký ngay</div>
                     <a href="/eq-master" target="_blank" class="item__button-action outline">Chi tiết</a>
                   </div>
                 </div>
@@ -392,7 +392,7 @@
                     </div>
                   </div>
                   <div class="item__button">
-                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <div class="item__button-action fill js_register_course_wizard" data-course="Thực hành EQ">Đăng ký ngay</div>
                     <a href="/thuc-hanh-eq" target="_blank" class="item__button-action outline">Chi tiết</a>
                   </div>
                 </div>
@@ -452,7 +452,7 @@
                     </div>
                   </div>
                   <div class="item__button">
-                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <div class="item__button-action fill js_register_course_wizard" data-course="Cha mẹ EQ con EQ">Đăng ký ngay</div>
                     <a href="/cha-me-eq-con-eq" target="_blank" class="item__button-action outline">Chi tiết</a>
                   </div>
                 </div>
@@ -512,7 +512,7 @@
                     </div>
                   </div>
                   <div class="item__button">
-                    <div class="item__button-action fill">Đăng ký ngay</div>
+                    <div class="item__button-action fill js_register_course_wizard" data-course="Trí tuệ cảm xúc tuổi Teen">Đăng ký ngay</div>
                     <a href="/tri-tue-cam-xuc-tuoi-teen" target="_blank" class="item__button-action outline">Chi tiết</a>
                   </div>
                 </div>

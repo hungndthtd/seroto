@@ -5,17 +5,42 @@
   'summary': 'Snippet kéo-thả và trang landing khóa học trên website',
   'depends': [
     'website',
+    # Gửi email xác nhận đăng ký (models/course_registration.py dùng mail.mail trực
+    # tiếp) - vốn đã có sẵn qua phụ thuộc bắc cầu website -> portal -> mail, khai báo
+    # thẳng ở đây cho rõ ràng thay vì ngầm định.
+    'mail',
+    # Giả lập cổng thanh toán ngân hàng (dev/test, CHƯA có API ngân hàng thật) - xem
+    # controllers/course_registration.py, chỗ tạo bank.mock.transaction. Khi có API
+    # ngân hàng/cổng thanh toán thật, gỡ phụ thuộc này (xem comment "THAY KHI CÓ API
+    # NGÂN HÀNG THẬT" trong controller).
+    'vtt_bank_mock',
+    # Đọc academic.course (models/course_registration.py, _get_course_questions) +
+    # đặt menu "Phiếu đăng ký" cạnh "Đợt học" trong app Đào tạo (views/
+    # course_registration_views.xml, parent="seroto_education.menu_academic_root") -
+    # khai depends thật (không còn phụ thuộc ngầm) vì menuitem BẮT BUỘC module chứa
+    # menu cha phải nạp trước, không giống việc tra model qua self.env lúc runtime.
+    'seroto_education',
     # Snippet/trang landing đọc dữ liệu seroto.course + dùng chung modal đăng ký
     # (course_register_modal, register_modal.js) định nghĩa trong seroto_form.
     # 'seroto_form',
   ],
   'data': [
+    'security/ir.model.access.csv',
     # Thêm nút "Tạo trang landing" vào form Khóa học (kế thừa view của seroto_form) -
     # xem models/seroto_course.py trong module này để biết lý do action này KHÔNG thể
     # nằm ở seroto_form (tránh phụ thuộc vòng tròn).
     # 'views/seroto_course_views.xml',
     'views/templates/svg_templates.xml',
     'views/website_layout_fonts.xml',
+    # Modal đăng ký khóa học nhiều bước ("Đăng ký ngay" trong s_trang_chu_course.xml) +
+    # "Phiếu đăng ký khóa học" - gắn vào website.layout nên nạp trước các snippet.
+    'views/course_register_wizard.xml',
+    # Email xác nhận đăng ký + trang xem phiếu qua link email (models/controllers
+    # course_registration.py).
+    'views/course_registration_slip_page.xml',
+    # Backend: menu "Phiếu đăng ký" (cạnh "Đợt học" trong app Đào tạo) để xem/quản lý
+    # các phiếu đăng ký khóa học từ website.
+    'views/course_registration_views.xml',
     # Bật snippet kéo thả.
     'views/snippets/s_block.xml',
     'views/snippets/s_course_card.xml',
@@ -140,7 +165,9 @@
     ],
     'web.assets_frontend': [
       'vtt_seroto_website/static/src/js/course_snippet.js',
+      'vtt_seroto_website/static/src/js/course_register_wizard.js',
       'vtt_seroto_website/static/src/scss/snippet.scss',
+      'vtt_seroto_website/static/src/scss/course_register_wizard.scss',
       'vtt_seroto_website/static/src/scss/s_trang_chu.scss',
       'vtt_seroto_website/static/src/scss/s_cha_me_eq_con_eq.scss',
       'vtt_seroto_website/static/src/scss/s_eq_5_phut.scss',
@@ -148,7 +175,13 @@
       'vtt_seroto_website/static/src/scss/s_tri_tue_cam_xuc.scss',
       'vtt_seroto_website/static/src/scss/s_lang_live.scss',
       'vtt_seroto_website/static/src/scss/s_mang_eq_ve_truong.scss',
-    ]
+    ],
+    # Style riêng cho form backend "Phiếu đăng ký khóa học" (views/
+    # course_registration_views.xml) - web.assets_backend (không phải assets_frontend)
+    # vì đây là view quản trị, không phải trang website.
+    'web.assets_backend': [
+      'vtt_seroto_website/static/src/scss/course_registration_backend.scss',
+    ],
   },
   'installable': True,
   'application': False,

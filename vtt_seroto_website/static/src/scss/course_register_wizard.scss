@@ -1,0 +1,69 @@
+/* Modal đăng ký khóa học (wizard) + Phiếu đăng ký khóa học - views/course_register_wizard.xml.
+   KHÔNG lồng trong ".custom-snippet" (khác với snippet.scss): 2 modal này được gắn vào
+   website.layout (ngoài mọi section snippet), nên biến --color-* của .custom-snippet sẽ
+   không "chảy" tới được - style ở đây phải tự đứng độc lập. */
+
+.course_wizard_steps {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.course_wizard_step {
+  flex: 1;
+  border: none;
+  background: #f0f0f0;
+  color: #9a9a9a;
+  border-radius: 6px;
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.3;
+  cursor: pointer;
+
+  .course_wizard_step_index {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  &.active {
+    background: #03b3bb;
+    color: #fff;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+/* Trang "cổng thanh toán" giả lập (vtt_bank_mock) - đó là ĐÍCH đến, không cần hiện QR
+   của chính nó nên vẫn dùng khung chữ placeholder này, không phải ảnh. */
+.course_wizard_qr_placeholder {
+  border: 1px dashed #b5b5b5;
+  border-radius: 8px;
+  padding: 32px 16px;
+  text-align: center;
+  color: #6a6a6a;
+
+  span {
+    display: block;
+    font-weight: 700;
+  }
+
+  small {
+    display: block;
+    margin-top: 4px;
+  }
+}
+
+/* Ảnh QR thật (route /report/barcode/) - modal wizard, modal "Phiếu đăng ký" và trang
+   xem phiếu qua email, xem static/src/js/course_register_wizard.js qrImageUrl(). */
+.course_wizard_qr_image {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 8px;
+}

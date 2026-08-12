@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_seroto_course_registration_system,seroto.course.registration.system,model_seroto_course_registration,base.group_system,1,1,1,1
+access_seroto_course_registration_answer_system,seroto.course.registration.answer.system,model_seroto_course_registration_answer,base.group_system,1,1,1,1
