@@ -25,6 +25,7 @@
                 <field name="batch_info"/>
                 <field name="schedule_date"/>
                 <field name="product_id"/>
+                <field name="is_published" widget="boolean_toggle" string="Hiển thị trên Website"/>
             </list>
         </field>
     </record>
@@ -45,6 +46,8 @@
                         <h1>
                             <field name="name" placeholder="Tên khóa học..."/>
                         </h1>
+                        <field name="is_published" widget="boolean_toggle"/>
+                        <label for="is_published"/>
                     </div>
                     <group>
                         <group string="Thông tin chung">

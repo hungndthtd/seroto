@@ -17,6 +17,12 @@ class AcademicCourse(models.Model):
             self.env.cr.commit()
     name = fields.Char(string='Tên khóa học', required=True)
     active = fields.Boolean(string='Kích hoạt', default=True)
+    # Cờ RIÊNG cho việc hiển thị công khai trên website - tách biệt với "active" (cơ chế
+    # lưu trữ/ẩn chung của Odoo). Mặc định False: khóa học mới tạo (có thể chưa điền
+    # xong thông tin) sẽ KHÔNG tự xuất hiện trên bất kỳ snippet nào cho tới khi staff
+    # chủ động bật - xem controllers/academic_course_snippet.py (module
+    # vtt_seroto_website), route lọc field này BẮT BUỘC dù có/không có Mã đối tượng.
+    is_published = fields.Boolean(string='Hiển thị trên Website', default=False)
     slogan = fields.Char(string='Slogan/Mô tả ngắn')
     description = fields.Text(string='Mô tả chi tiết')
     format = fields.Char(string='Hình thức học', default='Online Zoom')

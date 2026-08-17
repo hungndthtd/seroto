@@ -17,10 +17,14 @@ class AcademicCourseSnippetController(http.Controller):
         type="jsonrpc", auth="public", website=True,
     )
     def academic_course_list(self, audience_code=None, **kwargs):
-        domain = [("active", "=", True)]
+        # is_published LUÔN lọc, kể cả khi audience_code trống - "active" chỉ là cơ chế
+        # lưu trữ/ẩn chung của Odoo, KHÔNG đồng nghĩa "đã sẵn sàng công khai trên
+        # website" (khóa học mới tạo mặc định is_published=False, xem academic_course.py).
+        domain = [("active", "=", True), ("is_published", "=", True)]
         # audience_code: mã kỹ thuật của academic.course.audience (vd 'teacher',
         # 'school'), nhập ở panel Tùy chỉnh của snippet (data-audience-code, xem
-        # s_course_group_option.xml) - không truyền (None) = không lọc.
+        # s_course_group_option.xml) - không truyền (None) = không lọc theo đối tượng
+        # (nhưng vẫn lọc is_published ở trên).
         if audience_code:
             domain.append(("audience_ids.code", "=", audience_code))
 
