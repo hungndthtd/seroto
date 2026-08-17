@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_faq" name="Câu hỏi thường gặp">
+    <section class="s_cha_me_eq_con_eq_faq s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="title-custom mb-4 mb-md-5 text-center mx-auto" style="--space: 14px; --width: 120px;">Câu hỏi thường gặp</h2>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="faq__box">
+              <div class="faq__box-numb">1</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Tại sao các khóa học của Seroto Làm cha mẹ lại có phí 0 đồng?</div>
+                <p>
+                  Seroto tin rằng làm cha mẹ cũng là một “nghề” cần được học.
+                  <br/>
+                  Thế nhưng trong khi nhiều người sẵn sàng đầu tư rất nhiều để học cho sự nghiệp, thì việc học cách nuôi dạy con – điều ảnh hưởng sâu sắc nhất đến hạnh phúc gia đình – lại thường bị bỏ qua vì rào cản thời gian và chi phí.
+                  <br/>
+                  Dương Quang Minh – người sáng lập Seroto Foundation từng chia sẻ:
+                  <br/>
+                  “Kiến thức này là của vũ trụ. Tôi chỉ lan tỏa để mọi người cùng nhận được lợi ích như tôi đã nhận.”
+                  <br/>
+                  Vì vậy, các khóa học tại Seroto được tổ chức với phí 0 đồng, để bất kỳ cha mẹ nào cũng có cơ hội tiếp cận và học hỏi.
+                  <br/>
+                  Khóa học được duy trì nhờ sự đóng góp tự nguyện của những cha mẹ đã từng tham gia và nhận được giá trị. Không có nhà tài trợ lớn hay tổ chức nào đứng sau — chỉ là những gia đình mong muốn tiếp tục lan tỏa điều tốt đẹp đến các gia đình khác.
+                  <br/>
+                  Đó cũng là cách một cộng đồng cùng nhau nuôi dưỡng những gia đình hạnh phúc hơn
+                </p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">2</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Tại sao khóa học 0 ĐỒNG mà lại phải đóng phí cam kết?</div>
+                <p>
+                  Để tham gia khóa học, bạn cần phải đóng phí cam kết <b>1,260,000đ</b>. Sau khi kết thúc khóa học, bạn sẽ được hoàn trả 100% nếu bạn học trọn vẹn và làm bài thực hành đầy đủ.
+                  <br/>
+                  <br/>
+                  Phí cam kết là để giúp bạn:
+                  <br/>
+                  + Đảm bảo QUYỀN LỢI cho bạn nhận đủ kiến thức
+                  <br/>
+                  + Đảm bảo TRÁCH NHIỆM của những “bố mẹ hiện tại &amp; tương lai”
+                  <br/>
+                  + Đảm bảo TÔN TRỌNG với giảng viên và những người bỏ công sức tạo nên khóa học này.
+                </p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">3</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Con tôi đã lớn rồi, còn thay đổi được không?</div>
+                <p>
+                  <b>Có.</b>
+                  <br/>
+                  Sự thay đổi không bắt đầu từ việc “sửa con”, mà bắt đầu từ việc cha mẹ thay đổi cách nhìn, cách hiểu và cách tương tác với con.
+                  <br/>
+                  Khi cha mẹ điều chỉnh nhận thức, cảm xúc và cách giao tiếp, môi trường gia đình thay đổi - và con cũng sẽ dần thay đổi theo.
+                  <br/>
+                  Bởi ở bất kỳ độ tuổi nào, điều con cần nhất vẫn là một mối quan hệ đủ an toàn để được lắng nghe và thấu hiểu
+                </p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">4</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Tôi rất bận, không có nhiều thời gian và khó theo học đều đặn?</div>
+                <p>
+                  Chúng ta luôn bận: bận công việc, bận thăng tiến, bận lo toan hai bên nội ngoại, bận các mối quan hệ xã hội.
+                  <br/>
+                  Và với những điều đó, ta luôn có kế hoạch rất rõ ràng.
+                  <br/>
+                  Nhưng có một việc quan trọng không kém — thậm chí quan trọng hơn — là dạy con và đồng hành cùng con để con có năng lực sống hạnh phúc. Điều này lại thường bị trì hoãn vì “chưa có thời gian”.
+                  <br/>
+                  Điều quan trọng không phải bạn có bao nhiêu thời gian, mà là bạn đặt ưu tiên ở đâu.
+                  <br/>
+                  Vì nếu hôm nay con không được chuẩn bị để tự lập và tự giải quyết vấn đề, liệu chúng ta có thể đi cùng con suốt cả đời?
+                  <br/>
+                  <b>Khóa học này không lấy thêm thời gian của bạn.</b>
+                  <br/>
+                  Nó giúp bạn sử dụng chính những tương tác mỗi ngày với con một cách có ý thức hơn.
+                  <br/>
+                  Chỉ cần bạn chọn dành sự ưu tiên đúng chỗ — để một ngày nào đó, bạn có thể yên tâm buông tay và nhìn con tự tin bay xa.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="faq__box">
+              <div class="faq__box-numb">5</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Tôi đã thử nhiều cách rồi nhưng vẫn không hiệu quả?</div>
+                <p>
+                  Rất nhiều cha mẹ cũng từng như vậy — đọc sách, nghe chia sẻ, áp dụng phương pháp này đến phương pháp khác… nhưng kết quả chỉ được một thời gian rồi lại quay về như cũ.
+                  <br/>
+                  Vì vấn đề thường không nằm ở việc thiếu “cách”, mà là thiếu một hệ thống nhận thức xuyên suốt và môi trường thực hành đủ sâu.
+                  <br/>
+                  Khi cha mẹ thay đổi từ góc nhìn — hiểu nguyên nhân phía sau hành vi của con và điều chỉnh cách tương tác của mình — sự thay đổi sẽ diễn ra tự nhiên và bền vững hơn, thay vì chỉ xử lý tình huống trước mắt.
+                  <br/>
+                  Quan trọng hơn, khóa học không chỉ dừng ở lý thuyết.
+                  <br/>
+                  Bạn được thực hành liên tục, được đồng hành và gỡ rối trực tiếp từ ban tổ chức, để mỗi thay đổi đều được soi chiếu và điều chỉnh kịp thời.
+                </p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">6</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Nếu chồng/vợ tôi không đồng hành thì sao?</div>
+                <p>
+                  Chỉ cần một người bắt đầu, những mối quan hệ xung quanh đã bắt đầu thay đổi.
+                  <br/>
+                  Khi một người điều chỉnh cách nhìn, cách nói và cách phản ứng, năng lượng trong gia đình sẽ khác đi.
+                  <br/>
+                  Con cảm nhận được sự an toàn đó trước tiên. Và rất nhiều trường hợp, người còn lại sẽ dần thay đổi khi nhìn thấy kết quả thực tế.
+                  <br/>
+                  Bạn không cần chờ đủ hai người mới bắt đầu.
+                  <br/>
+                  Hành trình trưởng thành của gia đình bắt đầu từ chính bạn.
+                </p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">7</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Tôi chưa có con, có tham gia khóa học được không?</div>
+                <p>
+                  Hoàn toàn có thể.
+                  <br/>
+                  Làm cha mẹ không bắt đầu khi con ra đời, mà bắt đầu từ nhận thức và sự chuẩn bị bên trong mỗi người.
+                  <br/>
+                  Khóa học giúp bạn hiểu chính mình, hiểu cơ chế cảm xúc, hiểu nền tảng giáo dục và cách xây dựng một môi trường gia đình lành mạnh. Đây là hành trang vô cùng giá trị cho những ai đang chuẩn bị bước vào vai trò cha mẹ trong tương lai.
+                  <br/>
+                  Chuẩn bị sớm bao giờ cũng nhẹ nhàng hơn sửa chữa khi mọi thứ đã xảy ra.
+                </p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">8</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Khóa học có dành cho con không?</div>
+                <p>
+                  Khóa học Cha mẹ EQ – Con EQ không dạy trực tiếp cho trẻ, mà dành cho ba mẹ học và thực hành.
+                  <br/>
+                  Trong khóa học, ba mẹ sẽ học cách:
+                  <br/>
+                  Nhận diện và hiểu rõ cảm xúc, suy nghĩ, mong cầu của chính mình
+                  <br/>
+                  Quan sát cách những điều đó ảnh hưởng đến cách mình phản ứng với con
+                  <br/>
+                  Thực hành thay đổi cách giao tiếp và đồng hành với con trong đời sống hằng ngày
+                  <br/>
+                  Khi cha mẹ hiểu mình hơn và thay đổi cách ứng xử, môi trường cảm xúc trong gia đình cũng thay đổi. Và khi môi trường thay đổi, con sẽ thay đổi theo một cách tự nhiên.
+                  <br/>
+                  Vì vậy, khóa học tập trung hỗ trợ cha mẹ, không dành cho trẻ tham gia trực tiếp
+                </p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">9</div>
+              <div class="faq__box-content">
+                <div class="fw-bold">Bao lâu tôi sẽ được hoàn phí cam kết?</div>
+                <p>Sau khi khóa học kết thúc BTC sẽ gửi form khảo sát khóa học, bạn điền form khảo sát và chậm nhất 15 ngày sau khi kết thúc điền form khảo sát bạn sẽ nhận được tiền hoàn cam kết.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

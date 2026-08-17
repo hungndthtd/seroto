@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_5_phut_hero" name="Tiêu đề chính">
+    <section class="s_eq_5_phut_hero s_eq_5_phut custom-snippet pt64 pb64">
+      <div class="container-page">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-4 mb-md-0">
+            <div class="mb-4">
+              <img src="/web/static/img/placeholder.png" alt="EQ 5 phút"
+                class="img-fluid" style="max-height: 60px;"/>
+            </div>
+            <h1 class="text-green fw-bolder font-baloo-bhaina">EQ 5 PHÚT</h1>
+            <p class="text-pink text-2xl fw-semibold">
+              Khoá học Cho giáo viên - Của giáo viên - Vì giáo viên
+            </p>
+
+            <ul class="list-unstyled text-lg">
+              <li class="mb-2 d-flex align-items-center">
+                <span class="text-yellow me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>Học online qua Zoom</p>
+              </li>
+              <li class="mb-2 d-flex align-items-center">
+                <span class="text-yellow me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>3 buổi học: <span class="text-pink">26, 28, 30/07/2026</span></p>
+              </li>
+              <li class="mb-2 d-flex align-items-center">
+                <span class="text-yellow me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>Giờ học: <span class="text-pink">20:00 - 22:00 Tối</span></p>
+              </li>
+              <li class="mb-2 d-flex align-items-center">
+                <span class="text-yellow me-2 d-inline-flex" style="width: 24px; height: 24px; flex: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" preserveAspectRatio="none" fill="currentColor">
+                    <path d="M180-120q-24.75 0-42.375-17.625T120-180v-600q0-24.75 17.625-42.375T180-840h600q14 0 25.5 6t18.5 14l-44 44v-4H180v600h600v-343l60-60v403q0 24.75-17.625 42.375T780-120H180Zm281-168L239-510l42-42 180 180 382-382 42 42-424 424Z"></path>
+                  </svg>
+                </span>
+                <p>Hạn đăng ký: <span class="text-pink">24h ngày 25/07</span></p>
+              </li>
+            </ul>
+            <span class="font-normal fst-italic text-indigo">(hoặc sớm hơn khi đủ số lượng tối đa)</span>
+          </div>
+
+          <div class="col-md-6 text-center">
+            <img src="/web/static/img/placeholder.png" alt="EQ 5 phút"
+                  class="img-fluid" style="max-height: 380px;"/>
+          </div>
+        </div>
+        <div class="mt-4 text-center">
+          <button type="button"
+            class="hero__button btn-default btn-animation register-course"
+            data-course="EQ 5 phút" data-price="0">
+            Đăng ký ngay
+          </button>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

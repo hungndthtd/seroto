@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_share" name="Chia sẻ của các ba mẹ về khoá học">
+    <section class="s_cha_me_eq_con_eq_share s_cha_me_eq_con_eq custom-snippet pt48 pb48" style="background: linear-gradient(rgb(255, 255, 255), rgb(77, 165, 185));">
+      <div class="container-page">
+        <h2 class="title-custom mb-5 text-center mx-auto" style="--space: 14px; --width: 120px;">Chia sẻ của các ba mẹ về khoá học</h2>
+        <div id="cmeq-share-carousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="d-flex justify-content-between" style="padding: 0 32px;">
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="d-flex justify-content-between" style="padding: 0 32px;">
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="d-flex justify-content-between" style="padding: 0 32px;">
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="d-flex justify-content-between" style="padding: 0 32px;">
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid" style="max-height: 600px;"/>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" style="filter: invert(1) grayscale(100); width: 5%;" type="button" data-bs-target="#cmeq-share-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" style="filter: invert(1) grayscale(100); width: 5%;" type="button" data-bs-target="#cmeq-share-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

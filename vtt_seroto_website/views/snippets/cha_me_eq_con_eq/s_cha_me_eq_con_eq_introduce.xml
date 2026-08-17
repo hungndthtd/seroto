@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_introduce" name="Giới thiệu khóa học">
+    <section class="s_cha_me_eq_con_eq_introduce s_cha_me_eq_con_eq custom-snippet pt48 pb48" style="background: #4da5b9;">
+      <div class="container-page">
+        <h2 class="text-center text-white fw-bold mb-4 mb-md-5 font-sriracha">Giới thiệu khoá học</h2>
+        <div class="mx-auto text-white" style="max-width: 810px;">
+          Chúng ta học rất nhiều để làm tốt một nghề. Nhưng có một “nghề” quan trọng nhất cuộc đời – làm cha mẹ – lại gần như không có trường lớp nào dạy ta .
+          <br/>
+          Ta bước vào hành trình nuôi dạy con bằng tình yêu thương, nhưng cũng mang theo lo lắng, kỳ vọng, nỗi sợ và cả những vết hằn vô thức từ chính tuổi thơ mình. Vì thế, có lúc yêu con rất nhiều mà vẫn chưa thể hiểu con trọn vẹn.
+          <br/>
+          <span class="fw-bold text-yellow">Cha Mẹ EQ – Con EQ</span> ra đời từ chính những trăn trở ấy.
+          <br/>
+          <br/>
+          Khóa học không dạy bạn cách kiểm soát hay “sửa” con.
+          <br/>
+          Khóa học giúp bạn quay về hiểu chính mình — hiểu cảm xúc, mong cầu và nỗi sợ đang âm thầm chi phối cách bạn dạy con mỗi ngày. Khi cha mẹ thay đổi nhận thức và cách tương tác, môi trường gia đình đổi khác. Và con cũng dần lớn lên trong sự an toàn và thấu hiểu.
+          <br/>
+          Thông qua nền tảng trí tuệ cảm xúc và công cụ thực hành 5N cha mẹ từng bước trả lời rõ ràng câu hỏi Why – What – How trong hành trình 18 năm: nuôi dưỡng một đứa trẻ tự lập, biết yêu thương và sống hạnh phúc.
+          <br/>
+          Đây không chỉ là một khóa học. Đó là hành trình trưởng thành cùng con — trong kết nối, bình an và thấu hiểu.
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

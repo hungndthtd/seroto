@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_trang_chu_project" name="Dự án">
+    <section class="s_trang_chu_project s_trang_chu custom-snippet pt48 pb48" style="background: #fff8ee;">
+      <div class="container-page">
+        <div class="text-center mb-5">
+          <h2 class="font-lobster fw-bolder mb-3 text-green">Dự án</h2>
+          <p>Các dự án vì hạnh phúc của cộng đồng</p>
+        </div>
+        <div class="project__box">
+          <div class="project__box-image">
+            <div class="image__border">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 200px;"/>
+            </div>
+            <div class="image__tag">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto"/>
+            </div>
+          </div>
+          <div class="project__box-content">
+            <div class="content__title">Live Village</div>
+            <p>Làng dành cho trẻ đặc biệt được <br/> sống là chính mình</p>
+            <div class="content__button">
+              <a href="/live-village" target="_blank" class="btn-default">Tìm hiểu thêm</a>
+            </div>
+          </div>
+        </div>
+        <div class="project__box reverse">
+          <div class="project__box-image">
+            <div class="image__border">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 200px;"/>
+            </div>
+            <div class="image__tag">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto"/>
+            </div>
+          </div>
+          <div class="project__box-content">
+            <div class="content__title">Mang EQ về trường</div>
+            <p>Vì trường học hạnh phúc là nơi cảm xúc được lắng nghe <br/> và các mối quan hệ được kết nối một cách tốt đẹp</p>
+            <div class="content__button">
+              <a href="/mang-eq-ve-truong" target="_blank" class="btn-default">Sắp mở</a>
+            </div>
+          </div>
+        </div>
+        <div class="project__box">
+          <div class="project__box-image">
+            <div class="image__border">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 200px;"/>
+            </div>
+            <div class="image__tag">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto"/>
+            </div>
+          </div>
+          <div class="project__box-content">
+            <div class="content__title">Dạy con trong hạnh phúc</div>
+            <p>Cộng đồng online uy tín, tin cậy về <br/> nuôi dạy con</p>
+            <div class="content__button">
+              <a href="https://www.facebook.com/groups/daycontronghanhphuc" target="_blank" class="btn-default">Tìm hiểu thêm</a>
+            </div>
+          </div>
+        </div>
+        <div class="project__box reverse">
+          <div class="project__box-image">
+            <div class="image__border">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-height: 200px;"/>
+            </div>
+            <div class="image__tag">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto"/>
+            </div>
+          </div>
+          <div class="project__box-content">
+            <div class="content__title">Seroto Shop</div>
+            <p>Quà tặng EQ từ Seroto, những món quà <br/> chạm tới cảm xúc và nuôi dưỡng sự bình an</p>
+            <div class="content__button">
+              <div class="btn-default">Sắp mở</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

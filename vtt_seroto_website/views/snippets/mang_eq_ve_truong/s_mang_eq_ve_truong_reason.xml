@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_reason" name="Vì sao">
+    <section class="s_mang_eq_ve_truong_reason s_mang_eq_ve_truong custom-snippet pt48 pb48" style="background: #fff9f3;">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <h3 class="text-indigo fw-bolder mb-4">
+              Vì sao là
+              <br/>
+              <span class="text-yellow">“Trường học hạnh phúc”?</span>
+            </h3>
+            <p>
+              Trên thế giới, trường học hạnh phúc đã trở thành xu hướng tất yếu trong giáo dục phổ thông. Trường học không chỉ là nơi truyền đạt tri thức, mà là không gian nuôi dưỡng nhân cách và cảm xúc cho cả thầy và trò.
+              <br/>
+              <br/>
+              Một đứa trẻ không thể học tốt nếu sống trong căng thẳng, sợ hãi hoặc bị đánh giá.
+              <br/>
+              Một người thầy không thể truyền cảm hứng nếu chính mình đang kiệt sức, mệt mỏi.
+            </p>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <p>Các nghiên cứu trên thế giới cũng đã chỉ ra rằng:</p>
+            <div class="reason__box">
+              <div class="reason__box-item">
+                <div class="item__image">
+                  <div class="item__image-shape">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="rgba(255, 181, 69, 1)">
+                      <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                    </svg>
+                  </div>
+                  <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                    class="img-fluid mx-auto" style="max-height: 38px; max-width: 38px;"/>
+                </div>
+                <div class="item__content">Học sinh có cảm xúc tích cực có khả năng học tập tốt hơn rõ rệt so với học sinh thường xuyên chịu áp lực.</div>
+              </div>
+              <div class="reason__box-item">
+                <div class="item__image">
+                  <div class="item__image-shape">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="rgba(255, 181, 69, 1)">
+                      <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                    </svg>
+                  </div>
+                  <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                    class="img-fluid mx-auto" style="max-height: 38px; max-width: 38px;"/>
+                </div>
+                <div class="item__content">Giáo viên được hỗ trợ về cảm xúc và tâm lý có xu hướng gắn bó lâu dài hơn với nghề.</div>
+              </div>
+              <div class="reason__box-item">
+                <div class="item__image">
+                  <div class="item__image-shape">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="rgba(255, 181, 69, 1)">
+                      <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                    </svg>
+                  </div>
+                  <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                    class="img-fluid mx-auto" style="max-height: 38px; max-width: 38px;"/>
+                </div>
+                <div class="item__content">Môi trường học đường an toàn về mặt tâm lý giúp giảm xung đột và cải thiện hành vi học sinh đáng kể.</div>
+              </div>
+            </div>
+            <p>Vì vậy, xây dựng trường học hạnh phúc không còn là khẩu hiệu, mà đang trở thành tiêu chuẩn toàn cầu – nơi cảm xúc được tôn trọng, sự tử tế được lan tỏa, và việc học tập trở nên hào hứng, vui vẻ và hiệu quả.</p>
+          </div>
+        </div>
+        <div class="mx-auto text-center fst-italic fw-bolder mt80 mb80" style="max-width: 765px; color: #fff; background: #347a87; padding: 24px 40px; border-radius: 10px">
+          "Trường học hạnh phúc không chỉ là nơi truyền đạt kiến thức, mà là không gian nuôi dưỡng cảm xúc và nhân cách. Học sinh chỉ có thể học tốt khi cảm nhận được sự yêu thương và kết nối từ thầy cô. Người thầy chỉ có thể truyền cảm hứng khi chính mình hạnh phúc."
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="reason__image">
+              <div class="reason__image-shape">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 400px; width: 530px;"/>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                class="img-fluid mx-auto" style="max-height: 400px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <h3 class="text-indigo fw-bolder">
+              Tại sao lại là <span class="text-yellow">EQ?</span>
+            </h3>
+            <div class="my-4">
+              <b>EQ – Trí tuệ cảm xúc</b> – là nền tảng của học tập bền vững và cuộc sống hạnh phúc.
+            </div>
+            <div class="mb-4">
+              <p class="mb-2">Trong môi trường giáo dục, EQ giúp:</p>
+              <ul>
+                <li>Giáo viên quản lý lớp học bằng sự thấu cảm, thay vì kiểm soát.</li>
+                <li>Học sinh biết điều tiết, làm chủ cảm xúc, tự tin và chủ động trong học tập.</li>
+                <li>Phụ huynh đồng hành cùng con bằng sự lắng nghe và tôn trọng.</li>
+              </ul>
+            </div>
+            <div class="mx-auto text-center fst-italic fw-bolder my-5" style="max-width: 765px; color: #5e3d01; background: #ffd673; padding: 20px 32px; border-radius: 10px">
+              Khi mọi thành viên đều biết kết nối bằng sự tôn trọng và yêu thương, trường học sẽ trở thành nơi gieo mầm những mối quan hệ tốt đẹp và bầu không khí hạnh phúc mỗi ngày.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

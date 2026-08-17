@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_team" name="Đội ngũ">
+    <section class="s_lang_live_team s_lang_live custom-snippet pt64 pb64">
+      <div class="container-page">
+        <div class="text-center text-white mb-5">
+          <img src="/web/static/img/placeholder.png" alt="Làng Live"
+            class="img-fluid mx-auto" style="max-height: 120px;"/>
+          <h3 class="font-yeseva-one mt-3 mb-4">Đội ngũ của Live Village</h3>
+          <p>
+            Cộng đồng phụ huynh và nhà chuyên môn khao khát xây dựng mô hình
+            <br/>
+            dành riêng cho người tự kỷ
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #e5d1fa;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 320px; width: 498px; top: 0; left: -145px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">PGS.TS Đặng Quốc Bảo</div>
+                <span class="text-xs fst-italic">Cố Vấn</span>
+                <p>
+                  Đang công tác tại Viện Trí Việt, nguyên giám đốc
+                  <br/>
+                  Học viện Quản lý Giáo dục
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #d1e3fa;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 250px; width: 250px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Thầy Dương Quang Minh</div>
+                <span class="text-xs fst-italic">Cố Vấn</span>
+                <p>
+                  Chủ nhiệm dự án, cố vấn
+                  chuyên môn hệ thống
+                  Xanh Tuệ Đức, người sáng lập câu lạc bộ “Dạy con trong
+                  hạnh phúc”
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #d2faf6;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 574px; width: 574px; top: -200px; left: -170px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Th.S Phạm Thị Thơm</div>
+                <span class="text-xs fst-italic">Chuyên Môn</span>
+                <p>Chuyên môn giáo dục đặc biệt, chuyên viên âm ngữ trị liệu</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #fae4d3;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 250px; max-width: 374px; top: 0; left: -120px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Th.S Trần Thu Hường</div>
+                <span class="text-xs fst-italic">Chuyên Môn</span>
+                <p>
+                  Chuyên ngành tâm lý học
+                  trường học, chuyên viên
+                  âm ngữ trị liệu
+                  <br/>
+                  <br/>
+                  Phụ huynh có con tự kỷ
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #f8fad2;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 375px; width: 265px; top: -85px; left: -15px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Th.S Giản Thị Xuyến</div>
+                <span class="text-xs fst-italic">Chuyên Môn</span>
+                <p>
+                  Chuyên ngành tâm lý học
+                  lâm sàng, chuyên viên âm ngữ
+                  trị liệu
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #d1e3fa;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 467px; width: 580px; top: -210px; left: -140px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Phạm Thị Minh Tường</div>
+                <span class="text-xs fst-italic">Tài Chính</span>
+                <p>
+                  Công tác tại trường Đại học Ngoại Ngữ - ĐHQG - HN
+                  <br/>
+                  <br/>
+                  Phụ huynh có con tự kỷ
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #d2faf6;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 530px; width: 250px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Nguyễn Khánh Toàn</div>
+                <span class="text-xs fst-italic">Hành Chính &amp; Nhân Sự</span>
+                <p>Người hỗ trợ</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #e5d1fa;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 250px; width: 250px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Trần Minh Hiếu</div>
+                <span class="text-xs fst-italic">Hành Chính &amp; Nhân Sự</span>
+                <p>
+                  Th.S, giảng viên khoa Triết học, ĐH Khoa học Xã hội và Nhân văn Hà Nội
+                  <br/>
+                  <br/>
+                  Phụ huynh có con tự kỷ
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4 mb-lg-5">
+            <div class="team__box" style="background: #fae4d3;">
+              <div class="team__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                  class="img-fluid" style="height: 286px; width: 286px; top: -5px; left: -15px;"/>
+              </div>
+              <div class="team__box-content">
+                <div class="text-lg fw-bolder">Lê Kim Toàn</div>
+                <span class="text-xs fst-italic">Thiết Kế, Marketing</span>
+                <p>
+                  Đồng sáng lập Luca Education,
+                  phần mềm dành cho
+                  PH, GV và TT giáo dục đặc biệt
+                  <br/>
+                  <br/>
+                  Phụ huynh có con tự kỷ
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

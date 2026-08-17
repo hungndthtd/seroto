@@ -1,5 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_academic_course_mgr,academic.course.mgr,model_academic_course,seroto_education.group_seroto_manager,1,1,1,1
+access_academic_course_question_mgr,academic.course.question.mgr,model_academic_course_question,seroto_education.group_seroto_manager,1,1,1,1
+access_academic_course_audience_mgr,academic.course.audience.mgr,model_academic_course_audience,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_intake_mgr,academic.intake.mgr,model_academic_intake,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_class_mgr,academic.class.mgr,model_academic_class,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_session_mgr,academic.session.mgr,model_academic_session,seroto_education.group_seroto_manager,1,1,1,1
@@ -7,6 +9,7 @@ access_academic_enrollment_mgr,academic.enrollment.mgr,model_academic_enrollment
 access_academic_attendance_mgr,academic.attendance.mgr,model_academic_attendance,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_certificate_mgr,academic.certificate.mgr,model_academic_certificate,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_ip_log_mgr,academic.ip.log.mgr,model_academic_ip_log,seroto_education.group_seroto_manager,1,1,1,1
+access_academic_batch_wizard_mgr,academic.batch.wizard.mgr,model_academic_batch_wizard,seroto_education.group_seroto_manager,1,1,1,1
 
 access_academic_course_sales,academic.course.sales,model_academic_course,seroto_education.group_seroto_sales,1,0,0,0
 access_academic_intake_sales,academic.intake.sales,model_academic_intake,seroto_education.group_seroto_sales,1,0,0,0

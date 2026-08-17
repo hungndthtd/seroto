@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_target" name="Mục tiêu của dự án">
+    <section class="s_mang_eq_ve_truong_target s_mang_eq_ve_truong custom-snippet pt48 pb48" style="background: #3a8b9a;">
+      <div class="container-page">
+        <h3 class="text-white fw-bolder text-center mb-5">Mục tiêu của dự án</h3>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="target__box">
+              <div class="target__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 255, 255, 1)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>
+              </div>
+              <div class="target__box-content">
+                <b>Ứng dụng Trí tuệ Cảm xúc (EQ)</b> vào các hoạt động của trường học, bao gồm quản lý, sinh hoạt và giảng dạy, nhằm xây dựng mô hình <b>Trường học Hạnh phúc</b>.
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="target__box">
+              <div class="target__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 255, 255, 1)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>
+              </div>
+              <div class="target__box-content">
+                <b>Giúp giáo viên và học sinh điều tiết cảm xúc</b>, giải phóng mình khỏi những cảm xúc tiêu cực để nuôi dưỡng và lan tỏa năng lượng tích cực trong mọi hoạt động học tập và giao tiếp.
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="target__box">
+              <div class="target__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 255, 255, 1)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>
+              </div>
+              <div class="target__box-content">
+                <b>Tạo môi trường học tập an toàn và yêu thương</b>, nơi mọi người - từ giáo viên, học sinh đến phụ huynh - đều được <b>hiểu, được thương</b> và <b>sống hạnh phúc</b> mỗi ngày.
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="target__box">
+              <div class="target__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 255, 255, 1)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>
+              </div>
+              <div class="target__box-content">
+                <b>Xây dựng các mối quan hệ tốt đẹp</b> giữa thầy cô, học sinh và phụ huynh, tạo nền tảng vững chắc cho sự phát triển bền vững của mỗi cá nhân và cộng đồng.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

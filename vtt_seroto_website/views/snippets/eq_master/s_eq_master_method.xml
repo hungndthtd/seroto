@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_method" name="Cách thức tổ chức khóa học">
+    <section class="s_eq_master_method s_eq_master custom-snippet pt48 pb48" style="background: #eeffff;">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex mb-4">
+              <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                class="img-fluid" style="max-height: 50px; max-width: 50px"/>
+              <h2 class="fw-bolder font-paytone-one text-indigo ms-3"><span class="text-green">Cách thức tổ chức</span> khoá học</h2>
+            </div>
+            <ul>
+              <li>Khóa học được tổ chức thành 3 vòng, kéo dài trong 210 ngày</li>
+              <li>Khóa học được tổ chức Online qua Zoom và 2 đợt đào tạo Offline</li>
+              <li>Học viên sẽ sinh hoạt và đồng hành cùng nhau theo tổ. Mỗi tổ từ 6 đến 8 thành viên gần vị trí địa lý.</li>
+              <li>Mỗi tổ sẽ được chăm sóc bởi 1 thành viên trong đội ngũ Phụng Sự (Angelina)</li>
+              <li>Cam kết 1 năm phụng sự để lan tỏa Trí tuệ Cảm Xúc đến những người xung quanh như: gia đình, trường học, doanh nghiệp - nơi bạn đang sống và làm việc.</li>
+              <li>Học viên đạt tiêu chuẩn: học &amp; thực hành đầy đủ 210 ngày, tham dự đủ 2 đợt đào tạo offline, có báo cáo kết quả phụng sự mới được ghi nhận hoàn thành khóa học.</li>
+            </ul>
+            <div class="fst-italic text-sm my-3" style="max-width: 850px;"><b>(*)</b> Khuyến khích tham gia một khóa Thiền Vipassana 10 ngày và thực hiện ở độc cư - ở một mình yên lặng - trong 7 ngày. Thời gian thực hiện tốt nhất là trong khi diễn ra khóa học hoặc trong thời gian phụng sự sau khóa học.</div>
+            <div style="color: #e83867;"><b>Lưu ý:</b> Khóa học không cấp giấy chứng nhận mà chỉ dựa vào sự ghi nhận của bạn về chính chính bản thân mình.</div>
+          </div>
+        </div>
+        <div class="method__box">
+          <div class="method__box-title">
+            <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+              class="img-fluid" style="max-height: 28px; max-width: 58px;"/>
+            <p>Lịch học <span class="text-green">Online</span></p>
+          </div>
+          <div class="row mt64">
+            <div class="col-12 col-md-4 mb-5 mb-md-0">
+              <div class="method__box-card" style="--border: #419521;">
+                <div class="card__title right text-2xl">
+                  VÒNG 1
+                  <br/>
+                  Thực Hành EQ
+                </div>
+                <div class="card__content">
+                  <p>3 tuần - 21 ngày</p>
+                  <div class="text-pink">06/04 - 26/04</div>
+                  <p>Học Zoom: <span style="color: #419521;">5h - 6h</span> mỗi ngày</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-5 mb-md-0">
+              <div class="method__box-card" style="--border: #95ca3a;">
+                <div class="card__title right text-xl">
+                  VÒNG 2
+                  <br/>
+                  EQ Chuyên Sâu &amp;
+                  <br/>
+                  Tự Chữa Lành
+                </div>
+                <div class="card__content">
+                  <p>12 tuần - 84 ngày</p>
+                  <div class="text-pink">27/04 - 20/07</div>
+                  <p>Học Zoom: <span style="color: #95ca3a;">20h - 22h</span> <span class="text-pink">mỗi Thứ 3</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="method__box-card" style="--border: #95ca3a;">
+                <div class="card__title right text-lg">
+                  VÒNG 3
+                  <br/>
+                  EQ Chuyên Sâu hoặc
+                  <br/>
+                  Nghiên cứu EQ &amp; Mài rìu EQ
+                </div>
+                <div class="card__content">
+                  <p>15 tuần - 105 ngày</p>
+                  <div class="text-pink">21/07 - 31/10</div>
+                  <p>Học Zoom: <span style="color: #95ca3a;">20h - 22h</span> <span class="text-pink">mỗi Thứ 3</span></p>
+                  <p class="text-md fst-italic fw-bold">(*) chọn 1 trong 2 hướng</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="method__box">
+          <div class="method__box-title">
+            <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+              class="img-fluid" style="max-height: 28px; max-width: 58px;"/>
+            <p>Lịch thực hành <span class="text-green">EQ Master</span></p>
+          </div>
+          <div class="text-lg">
+            Bạn sẽ thực hành trí tuệ cảm xúc theo hướng dẫn cụ thể của từng nội dung.
+            <br/>
+            Số ngày thực hành: <b class="text-pink">210 ngày</b>
+            <br/>
+            Gửi kết quả thực hành: trước <b class="text-indigo">23:00</b> mỗi ngày
+          </div>
+        </div>
+        <div class="method__box">
+          <div class="method__box-title">
+            <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+              class="img-fluid" style="max-height: 28px; max-width: 58px;"/>
+            <p>Lịch học <span class="text-green">Offline</span></p>
+          </div>
+          <div class="row mt64">
+            <div class="col-12 col-md-4 mb-5 mb-md-0">
+              <div class="text-lg">Khóa học có 2 đợt đào tạo offline. Học viên cần tham gia trọn vẹn cả 2 đợt đào tạo offline. Chi phí học phần offline sẽ được tính theo chi phí thực tế. Chi phí không bao gồm chi phí đi lại của học viên.</div>
+            </div>
+            <div class="col-12 col-md-4 mb-5 mb-md-0">
+              <div class="method__box-card" style="--border: #6592e2;">
+                <div class="card__title text-2xl">
+                  ĐỢT 1
+                </div>
+                <div class="card__content">
+                  <p>Đào Tạo Offline lần 1</p>
+                  <div class="text-pink">09/05 - 10/05</div>
+                  <p>2 ngày 1 đêm</p>
+                  <p class="text-lg fw-normal">(Hà Nội &amp; Bắc Giang)</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="method__box-card" style="--border: #45c3c0;">
+                <div class="card__title text-2xl">
+                  ĐỢT 2
+                </div>
+                <div class="card__content">
+                  <p>Đào Tạo Offline lần 2</p>
+                  <div class="text-pink">19/09 - 20/09</div>
+                  <p>2 ngày 1 đêm</p>
+                  <p class="text-lg fw-normal">(Đăk Lăk)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="method__box">
+          <div class="method__box-title">
+            <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+              class="img-fluid" style="max-height: 28px; max-width: 58px;"/>
+            <p>Lịch <span class="text-green">phụng sự</span></p>
+          </div>
+          <div class="row justify-content-end">
+            <div class="col-12 col-md-6 mb-4 mb-md-0">
+              <div class="text-lg">
+                Bạn tiến hành lan tỏa kiến thức và phương pháp thực hành trí tuệ cảm xúc (EQ) đến những người xung quanh như dự tính bạn đã ghi trong tâm thư lúc đăng ký. Nếu bạn không lan tỏa EQ, bạn chỉ cần đơn giản là tiếp tục duy trì thực hành cho chính bạn trong vòng 1 năm.
+                <br/>
+                <br/>
+                Thời gian phụng sự: <b class="text-pink">1 năm</b> <b>(01/11/2026 - 31/10/2027)</b>
+                <br/>
+                Zoom báo cáo tiến độ: 1 tháng / lần vào 20:00 - 22:00 (ngày sẽ thông báo cụ thể khi đến giai đoạn phụng sự)
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                class="img-fluid mx-auto" style="max-height: 300px;"/>
+            </div>
+          </div>
+        </div>
+        <div class="method__button btn-default btn-animation mt-4 mt-md-5">Đăng ký ngay</div>
+      </div>
+    </section>
+  </template>
+</odoo>

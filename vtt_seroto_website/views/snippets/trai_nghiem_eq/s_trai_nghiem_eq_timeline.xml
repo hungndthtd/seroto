@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_trai_nghiem_eq_timeline" name="Lịch trình học">
+    <section class="s_trai_nghiem_eq_timeline s_trai_nghiem_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="text-center text-green fw-bolder font-sriracha">
+          Lịch trình học
+        </h2>
+        <div class="mb-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row text-center">
+          <div class="col-12 col-sm-6 col-lg-4 mb-4">
+            <div class="timeline__step" style="background: linear-gradient(rgb(221, 243, 255), rgb(255, 255, 255)); border-color: #c9ecff;">
+              <div class="timeline__step-image">
+                <div>
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(188, 232, 255, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                  class="img-fluid" style="max-height: 80px;"/>
+              </div>
+              <div class="timeline__step-content">
+                <h4 class="fw-bolder mb-1">Chủ đề 1</h4>
+                <p class="text-lg mb-2">Bạo lực học đường</p>
+                <div class="text-2xl fw-bolder text-green">02 &amp; 03/08</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4">
+            <div class="timeline__step" style="background: linear-gradient(rgb(255, 251, 229), rgb(255, 255, 255)); border-color: #ffee9e;">
+              <div class="timeline__step-image">
+                <div>
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 242, 183, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="[TÊN KHÓA HỌC]"
+                  class="img-fluid" style="max-height: 80px;"/>
+              </div>
+              <div class="timeline__step-content">
+                <h4 class="fw-bolder mb-1">Chủ đề 2</h4>
+                <p class="text-lg mb-2">Xây dựng lớp học hoà hợp</p>
+                <div class="text-2xl fw-bolder text-green">09 &amp; 10/08</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4">
+            <div class="timeline__step" style="background: linear-gradient(rgb(236, 255, 245), rgb(255, 255, 255)); border-color: #b6e09e;">
+              <div class="timeline__step-image">
+                <div>
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(206, 240, 188, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid" style="max-height: 80px;"/>
+              </div>
+              <div class="timeline__step-content">
+                <h4 class="fw-bolder mb-1">Chủ đề 3</h4>
+                <p class="text-lg mb-2">Kỹ năng tự học</p>
+                <div class="text-2xl fw-bolder text-green">16 &amp; 17/08</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

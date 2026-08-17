@@ -9,7 +9,55 @@
         </h2>
         <div class="mb-4 mb-md-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
         <div class="row">
-          <div class="col-12 col-md-4 mb-4 mb-md-0"></div>
+          <div class="col-12 col-md-4 mb-4 mb-md-0">
+            <div class="method__box">
+              <div class="method__box-icon">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid mx-auto" style="max-width: 58px"/>
+              </div>
+              <div class="method__box-content">
+                <div class="text-xl fw-bold">Học Online qua</div>
+                <div class="text-3xl fw-bold text-orange">Zoom</div>
+                <ul>
+                  <li>Học được mọi nơi, chỉ cần có Internet</li>
+                  <li>Học trên máy tính, điện thoại, máy tính bảng</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 mb-4 mb-md-0">
+            <div class="method__box">
+              <div class="method__box-icon">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid mx-auto" style="max-width: 58px"/>
+              </div>
+              <div class="method__box-content">
+                <div class="text-xl fw-bold">Thời gian học:</div>
+                <div class="text-3xl fw-bold text-orange">5:00 - 6:00</div>
+                <ul>
+                  <li>Thời gian hỏi đáp 6:00 - 7:00 (tặng thêm)</li>
+                  <li>Giải đáp thắc mắc khi thực hành EQ</li>
+                  <li>Khai vấn giải quyết tình huống thực tế</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="method__box">
+              <div class="method__box-icon">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid mx-auto" style="max-width: 58px"/>
+              </div>
+              <div class="method__box-content">
+                <div class="text-xl fw-bold">Học 21 buổi (3 tuần)</div>
+                <div class="text-3xl fw-bold text-orange">10/08 - 30/08</div>
+                <p class="text-lg fw-bold">Từ Thứ 2 - Chủ Nhật</p>
+                <ul>
+                  <li>Có để video xem lại toàn bộ bài giảng</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="mt-4 mt-md-5">
           <div class="row">
@@ -30,7 +78,7 @@
                 <img src="/web/static/img/placeholder.png" alt="Seroto"
                   class="img-fluid" style="max-height: 260px"/>
                 <img src="/web/static/img/placeholder.png" alt="Seroto"
-                  class="img-fluid" style="max-height: 120px"/>
+                  class="img-fluid" style="max-height: 120px; margin-left: -60px;"/>
               </div>
             </div>
           </div>

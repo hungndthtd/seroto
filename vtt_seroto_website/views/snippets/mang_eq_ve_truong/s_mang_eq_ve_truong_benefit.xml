@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_benefit" name="Lợi ích">
+    <section class="s_mang_eq_ve_truong_benefit s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="mb-4">
+              <h3 class="text-indigo fw-bolder mb-3">Dự án Mang EQ về trường có gì?</h3>
+              <p>Dự án "Mang EQ về trường" xây dựng hệ sinh thái gồm chuỗi các hoạt động:</p>
+            </div>
+            <div class="benefit__box" style="--background: #ddf3ff; --shape: #5bb9e4;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>1</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Đào tạo:</b> Các khóa học về trí tuệ cảm xúc cho giáo viên, học sinh, phụ huynh
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #ffecf8; --shape: #f089c8;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>2</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Chia sẻ:</b> Các buổi chia sẻ chuyên đề Mang EQ về trường, Mang EQ vào lớp
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #fff4d7; --shape: #f6c246;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>3</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Chuyển giao:</b> Kho tài nguyên, bộ giáo án tích hợp EQ dành cho giáo viên, phù hợp với từng cấp học
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="benefit__image">
+              <div class="benefit__image-shape">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 210px; width: 275px"/>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                class="img-fluid mx-auto" style="max-height: 190px;"/>
+            </div>
+            <div class="benefit__box" style="--background: #f5f0ff; --shape: #9f7fde;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>4</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Sự kiện, hoạt động trải nghiệm:</b> Thực hành lồng ghép EQ vào môn học, tiết sinh hoạt lớp, chào cờ…
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #e8fdff; --shape: #4fb1c3;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>5</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Cộng đồng Mang EQ Về Trường:</b> Group Facebook dành cho giáo viên và lãnh đạo
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #f4fbd5; --shape: #adbd5e;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>6</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Đồng hành:</b> Đội ngũ chuyên gia của Seroto cố vấn, hỗ trợ sát sao các giáo viên trong quá trình triển khai
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

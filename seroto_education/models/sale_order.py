@@ -31,6 +31,12 @@ class SaleOrderLine(models.Model):
         if self.product_id:
             course = self.env['academic.course'].search([('product_id', '=', self.product_id.product_tmpl_id.id)], limit=1)
             if course:
+                if not self.class_id:
+                    lead = self.order_id.opportunity_id
+                    if lead and lead.class_id and lead.class_id.course_id == course:
+                        self.class_id = lead.class_id
+                    elif course.default_class_id:
+                        self.class_id = course.default_class_id
                 return {'domain': {'class_id': [('course_id', '=', course.id)]}}
         return {'domain': {'class_id': []}}
 

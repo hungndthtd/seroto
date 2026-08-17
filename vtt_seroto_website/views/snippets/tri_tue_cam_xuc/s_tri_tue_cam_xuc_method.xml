@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_tri_tue_cam_xuc_method" name="Cách thức tổ chức lớp học">
+    <section class="s_tri_tue_cam_xuc_method s_tri_tue_cam_xuc custom-snippet pt48 pb48" style="background: #fffbf4;">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <div class="position-relative" style="width: 40px; height: 50px;">
+            <div class="position-absolute top-0 end-0" style="width: 25px; height: 50px; transform: rotate(180deg);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 98.92 197.33" class="" fill="rgba(255, 217, 142, 1)">
+                <path d="M0,197.33a99.17,99.17,0,0,0,37.86-7.51A99.05,99.05,0,0,0,70,168.43a98.7,98.7,0,0,0,21.44-32,98.47,98.47,0,0,0,7.53-37.76,98.45,98.45,0,0,0-7.53-37.75A98.7,98.7,0,0,0,70,28.9,99.05,99.05,0,0,0,37.86,7.51,99.17,99.17,0,0,0,0,0V197.33Z"></path>
+              </svg>
+            </div>
+            <div class="position-absolute bottom-0 start-0" style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 218 218" class="" fill="rgba(203, 242, 250, 1)">
+                <path d="M109,0A109,109,0,1,0,218,109,109,109,0,0,0,109,0Zm0,178.66A69.66,69.66,0,1,1,178.66,109,69.66,69.66,0,0,1,109,178.66Z"></path>
+              </svg>
+            </div>
+          </div>
+          <h2 class="fw-bolder font-paytone-one text-green ms-3 text-center">Cách thức tổ chức lớp học</h2>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-4 mb-4">
+            <div class="method__box">
+              <div class="method__box-shape">
+                <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 296.253 378.475" fill="rgba(255, 255, 255, 1)" stroke="7AD1D8" stroke-width="1px">
+                  <path d="M 1.80836,174.805992 C1.80836,174.805992 4.254372,84.536685 24.637802,53.983997 C45.021232,23.431309 71.112023,-1.566345 133.077651,1.211172 C195.04328,3.988689 205.642663,9.543723 221.13407,15.098757 C236.625478,20.653792 292.068408,35.930136 293.699083,137.309511 C295.329757,238.688886 299.672028,285.664001 279.672028,322.664001 C259.672028,359.664001 232.672025,365.655976 193.672025,371.655976 C154.672025,377.655976 78.677515,387.640998 43.67859,349.632994 C8.679665,311.62499 -2.268326,283.12916 1.80836,174.805992 Z"></path>
+                </svg>
+              </div>
+              <div class="method__box-item">
+                <div class="item__image">
+                  <div class="item__image-shape">
+                    <img src="/web/static/img/placeholder.png" alt="Trí tuệ cảm xúc"
+                      class="img-fluid" style="max-height: 54px; max-width: 54px;"/>
+                  </div>
+                </div>
+                <div class="item__content">
+                  <div class="text-xl fw-bolder">Học Online qua</div>
+                  <div class="text-3xl fw-bolder text-orange">Zoom</div>
+                  <ul>
+                    <li>Học được mọi nơi, chỉ cần có Internet</li>
+                    <li>Học trên máy tính, điện thoại, máy tính bảng</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4">
+            <div class="method__box">
+              <div class="method__box-shape">
+                <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 296.253 378.475" fill="rgba(255, 255, 255, 1)" stroke="7AD1D8" stroke-width="1px">
+                  <path d="M 1.80836,174.805992 C1.80836,174.805992 4.254372,84.536685 24.637802,53.983997 C45.021232,23.431309 71.112023,-1.566345 133.077651,1.211172 C195.04328,3.988689 205.642663,9.543723 221.13407,15.098757 C236.625478,20.653792 292.068408,35.930136 293.699083,137.309511 C295.329757,238.688886 299.672028,285.664001 279.672028,322.664001 C259.672028,359.664001 232.672025,365.655976 193.672025,371.655976 C154.672025,377.655976 78.677515,387.640998 43.67859,349.632994 C8.679665,311.62499 -2.268326,283.12916 1.80836,174.805992 Z"></path>
+                </svg>
+              </div>
+              <div class="method__box-item">
+                <div class="item__image">
+                  <div class="item__image-shape">
+                    <img src="/web/static/img/placeholder.png" alt="Trí tuệ cảm xúc"
+                      class="img-fluid" style="max-height: 54px; max-width: 54px;"/>
+                  </div>
+                </div>
+                <div class="item__content">
+                  <div class="text-xl fw-bolder">Thời gian học</div>
+                  <div class="text-3xl fw-bolder text-orange">20:00 - 21:30</div>
+                  <p class="fw-bolder">
+                    Thời gian hỏi đáp:
+                    <br/>
+                    21:30 - 22:00 (Tặng thêm)
+                  </p>
+                  <ul>
+                    <li>Hỏi đáp, khai vấn giải quyết tình huống thực tế</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mb-4">
+            <div class="method__box">
+              <div class="method__box-shape">
+                <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 296.253 378.475" fill="rgba(255, 255, 255, 1)" stroke="7AD1D8" stroke-width="1px">
+                  <path d="M 1.80836,174.805992 C1.80836,174.805992 4.254372,84.536685 24.637802,53.983997 C45.021232,23.431309 71.112023,-1.566345 133.077651,1.211172 C195.04328,3.988689 205.642663,9.543723 221.13407,15.098757 C236.625478,20.653792 292.068408,35.930136 293.699083,137.309511 C295.329757,238.688886 299.672028,285.664001 279.672028,322.664001 C259.672028,359.664001 232.672025,365.655976 193.672025,371.655976 C154.672025,377.655976 78.677515,387.640998 43.67859,349.632994 C8.679665,311.62499 -2.268326,283.12916 1.80836,174.805992 Z"></path>
+                </svg>
+              </div>
+              <div class="method__box-item">
+                <div class="item__image">
+                  <div class="item__image-shape">
+                    <img src="/web/static/img/placeholder.png" alt="Trí tuệ cảm xúc"
+                      class="img-fluid" style="max-height: 54px; max-width: 54px;"/>
+                  </div>
+                </div>
+                <div class="item__content">
+                  <div class="text-xl fw-bolder">Học 21 buổi (3 tuần)</div>
+                  <div class="text-3xl fw-bolder text-orange">27/07 - 16/08</div>
+                  <p class="fw-bolder">Từ Thứ 2 - Chủ Nhật</p>
+                  <ul>
+                    <li>Có video để xem lại toàn bộ buổi học (phần khai vấn sẽ được cắt bỏ để bảo mật thông tin)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

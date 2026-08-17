@@ -66,7 +66,7 @@
 
               <t t-set="badge_class"
                  t-value="'success' if product.course_type == 'online' else 'danger'"/>
-              <span t-attf-class="py-1 px-2 rounded-pill border border-#{badge_class} text-#{badge_class}"
+              <span t-attf-class="py-1 px-2 rounded-pill border border-#{badge_class} text-#{badge_class} align-self-start"
                     style="font-size: 12px;">
                 <i class="fa fa-circle me-1"/>
                 <t t-esc="dict(product._fields['course_type'].selection).get(product.course_type)"/>

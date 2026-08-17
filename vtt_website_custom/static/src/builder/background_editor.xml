@@ -260,17 +260,29 @@
                                                 <t t-if="selectedLayer.positionType === 'custom'">
                                                     <div class="row g-2 mb-3">
                                                         <div class="col-6">
-                                                            <label class="form-label small fw-bold text-muted">X: <span t-out="this.getPositionXPercent(selectedLayer)"/>%</label>
-                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionX" t-on-input="updatePreview" placeholder="50%"/>
-                                                            <input type="range" class="form-range" min="0" max="100" 
-                                                                   t-att-value="this.getPositionXPercent(selectedLayer)" 
+                                                            <label class="form-label small fw-bold text-muted">X:</label>
+                                                            <div class="input-group input-group-sm mb-1">
+                                                                <input type="number" class="form-control form-control-sm" t-att-value="this.getPositionXPercent(selectedLayer)" t-on-input="(ev) => this.updatePositionXValue(selectedLayer, ev)" placeholder="50"/>
+                                                                <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-att-value="this.getPositionXUnit(selectedLayer)" t-on-change="(ev) => this.updatePositionXUnit(selectedLayer, ev)">
+                                                                    <option value="%">%</option>
+                                                                    <option value="px">px</option>
+                                                                </select>
+                                                            </div>
+                                                            <input t-if="this.getPositionXUnit(selectedLayer) === '%'" type="range" class="form-range" min="0" max="100"
+                                                                   t-att-value="this.getPositionXPercent(selectedLayer)"
                                                                    t-on-input="(ev) => this.updatePositionXFromSlider(selectedLayer, ev)"/>
                                                         </div>
                                                         <div class="col-6">
-                                                            <label class="form-label small fw-bold text-muted">Y: <span t-out="this.getPositionYPercent(selectedLayer)"/>%</label>
-                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionY" t-on-input="updatePreview" placeholder="50%"/>
-                                                            <input type="range" class="form-range" min="0" max="100" 
-                                                                   t-att-value="this.getPositionYPercent(selectedLayer)" 
+                                                            <label class="form-label small fw-bold text-muted">Y:</label>
+                                                            <div class="input-group input-group-sm mb-1">
+                                                                <input type="number" class="form-control form-control-sm" t-att-value="this.getPositionYPercent(selectedLayer)" t-on-input="(ev) => this.updatePositionYValue(selectedLayer, ev)" placeholder="50"/>
+                                                                <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-att-value="this.getPositionYUnit(selectedLayer)" t-on-change="(ev) => this.updatePositionYUnit(selectedLayer, ev)">
+                                                                    <option value="%">%</option>
+                                                                    <option value="px">px</option>
+                                                                </select>
+                                                            </div>
+                                                            <input t-if="this.getPositionYUnit(selectedLayer) === '%'" type="range" class="form-range" min="0" max="100"
+                                                                   t-att-value="this.getPositionYPercent(selectedLayer)"
                                                                    t-on-input="(ev) => this.updatePositionYFromSlider(selectedLayer, ev)"/>
                                                         </div>
                                                     </div>
@@ -293,48 +305,6 @@
                                                     </div>
                                                     <input type="range" class="form-range" min="0" max="360" t-model="selectedLayer.angle" t-on-input="updatePreview"/>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-bold text-muted">Size:</label>
-                                                    <select class="form-select" t-model="selectedLayer.size" t-on-change="updatePreview">
-                                                        <option value="cover">Cover</option>
-                                                        <option value="contain">Contain</option>
-                                                        <option value="auto">Auto</option>
-                                                        <option value="50%">50%</option>
-                                                        <option value="25%">25%</option>
-                                                        <option value="custom">Custom kích thước</option>
-                                                    </select>
-                                                </div>
-                                                <t t-if="selectedLayer.size === 'custom'">
-                                                    <div class="mb-3 border p-2 rounded bg-light">
-                                                        <div class="d-flex justify-content-between align-items-center mb-1">
-                                                            <label class="form-label small fw-bold text-muted mb-0">Tỉ lệ Scale (%):</label>
-                                                            <input type="number" class="form-control form-control-sm text-end" style="width: 70px;" t-model="selectedLayer.scale" t-on-input="updatePreview" min="5" max="500"/>
-                                                        </div>
-                                                        <input type="range" class="form-range" min="5" max="500" t-model="selectedLayer.scale" t-on-input="updatePreview"/>
-                                                        <div class="row g-2 mt-2">
-                                                            <div class="col-6">
-                                                                <label class="form-label small fw-bold text-muted">Rộng (Width):</label>
-                                                                <div class="input-group input-group-sm">
-                                                                    <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customWidth" t-on-input="updatePreview" placeholder="Auto"/>
-                                                                    <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customWidthUnit" t-on-change="updatePreview">
-                                                                        <option value="px">px</option>
-                                                                        <option value="%">%</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <label class="form-label small fw-bold text-muted">Cao (Height):</label>
-                                                                <div class="input-group input-group-sm">
-                                                                    <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customHeight" t-on-input="updatePreview" placeholder="Auto"/>
-                                                                    <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customHeightUnit" t-on-change="updatePreview">
-                                                                        <option value="px">px</option>
-                                                                        <option value="%">%</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </t>
                                                 <div class="row g-2 mb-3">
                                                     <div class="col-6">
                                                         <label class="form-label small fw-bold text-muted">Repeat:</label>
@@ -365,19 +335,112 @@
                                                     </div>
                                                 </t>
                                                 <t t-if="selectedLayer.positionType === 'custom'">
+                                                    <div class="mb-3">
+                                                        <label class="form-label small fw-bold text-muted">Cách định vị:</label>
+                                                        <select class="form-select" t-att-value="this.getCustomPositionMode(selectedLayer)" t-on-change="(ev) => this.updateCustomPositionMode(selectedLayer, ev)">
+                                                            <option value="background">Nền (giữ Size - Cover/Contain...)</option>
+                                                            <option value="box">Khối ảnh (Width/Height riêng)</option>
+                                                        </select>
+                                                    </div>
+                                                </t>
+                                                <!-- Size (Cover/Contain/...) dùng cho Preset, hoặc Custom X/Y ở chế độ "Nền" -
+                                                     giữ nguyên background-position/size trên full-bleed div như trước. -->
+                                                <t t-if="selectedLayer.positionType === 'preset' || this.getCustomPositionMode(selectedLayer) === 'background'">
+                                                    <div class="mb-3">
+                                                        <label class="form-label small fw-bold text-muted">Size:</label>
+                                                        <select class="form-select" t-model="selectedLayer.size" t-on-change="updatePreview">
+                                                            <option value="cover">Cover</option>
+                                                            <option value="contain">Contain</option>
+                                                            <option value="auto">Auto</option>
+                                                            <option value="50%">50%</option>
+                                                            <option value="25%">25%</option>
+                                                            <option value="custom">Custom kích thước</option>
+                                                        </select>
+                                                    </div>
+                                                    <t t-if="selectedLayer.size === 'custom'">
+                                                        <div class="mb-3 border p-2 rounded bg-light">
+                                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                                <label class="form-label small fw-bold text-muted mb-0">Tỉ lệ Scale (%):</label>
+                                                                <input type="number" class="form-control form-control-sm text-end" style="width: 70px;" t-model="selectedLayer.scale" t-on-input="updatePreview" min="5" max="500"/>
+                                                            </div>
+                                                            <input type="range" class="form-range" min="5" max="500" t-model="selectedLayer.scale" t-on-input="updatePreview"/>
+                                                            <div class="row g-2 mt-2">
+                                                                <div class="col-6">
+                                                                    <label class="form-label small fw-bold text-muted">Rộng (Width):</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customWidth" t-on-input="updatePreview" placeholder="Auto"/>
+                                                                        <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customWidthUnit" t-on-change="updatePreview">
+                                                                            <option value="px">px</option>
+                                                                            <option value="%">%</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label class="form-label small fw-bold text-muted">Cao (Height):</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customHeight" t-on-input="updatePreview" placeholder="Auto"/>
+                                                                        <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customHeightUnit" t-on-change="updatePreview">
+                                                                            <option value="px">px</option>
+                                                                            <option value="%">%</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                                <!-- Width/Height bắt buộc riêng cho chế độ "Khối ảnh" (box thật, không dùng
+                                                     Size Cover/Contain...) -->
+                                                <t t-if="selectedLayer.positionType === 'custom' &amp;&amp; this.getCustomPositionMode(selectedLayer) === 'box'">
+                                                    <div class="row g-2 mb-2">
+                                                        <div class="col-6">
+                                                            <label class="form-label small fw-bold text-muted">Rộng (Width):</label>
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customWidth" t-on-input="updatePreview" placeholder="300"/>
+                                                                <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customWidthUnit" t-on-change="updatePreview">
+                                                                    <option value="px">px</option>
+                                                                    <option value="%">%</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label class="form-label small fw-bold text-muted">Cao (Height):</label>
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="number" class="form-control form-control-sm" t-model="selectedLayer.customHeight" t-on-input="updatePreview" placeholder="200"/>
+                                                                <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-model="selectedLayer.customHeightUnit" t-on-change="updatePreview">
+                                                                    <option value="px">px</option>
+                                                                    <option value="%">%</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                                <t t-if="selectedLayer.positionType === 'custom'">
                                                     <div class="row g-2 mb-3">
                                                         <div class="col-6">
-                                                            <label class="form-label small fw-bold text-muted">X: <span t-out="this.getPositionXPercent(selectedLayer)"/>%</label>
-                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionX" t-on-input="updatePreview" placeholder="50%"/>
-                                                            <input type="range" class="form-range" min="0" max="100" 
-                                                                   t-att-value="this.getPositionXPercent(selectedLayer)" 
+                                                            <label class="form-label small fw-bold text-muted">X (left):</label>
+                                                            <div class="input-group input-group-sm mb-1">
+                                                                <input type="number" class="form-control form-control-sm" t-att-value="this.getPositionXPercent(selectedLayer)" t-on-input="(ev) => this.updatePositionXValue(selectedLayer, ev)" placeholder="50"/>
+                                                                <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-att-value="this.getPositionXUnit(selectedLayer)" t-on-change="(ev) => this.updatePositionXUnit(selectedLayer, ev)">
+                                                                    <option value="%">%</option>
+                                                                    <option value="px">px</option>
+                                                                </select>
+                                                            </div>
+                                                            <input t-if="this.getPositionXUnit(selectedLayer) === '%'" type="range" class="form-range" min="0" max="100"
+                                                                   t-att-value="this.getPositionXPercent(selectedLayer)"
                                                                    t-on-input="(ev) => this.updatePositionXFromSlider(selectedLayer, ev)"/>
                                                         </div>
                                                         <div class="col-6">
-                                                            <label class="form-label small fw-bold text-muted">Y: <span t-out="this.getPositionYPercent(selectedLayer)"/>%</label>
-                                                            <input type="text" class="form-control mb-1" t-model="selectedLayer.positionY" t-on-input="updatePreview" placeholder="50%"/>
-                                                            <input type="range" class="form-range" min="0" max="100" 
-                                                                   t-att-value="this.getPositionYPercent(selectedLayer)" 
+                                                            <label class="form-label small fw-bold text-muted">Y (top):</label>
+                                                            <div class="input-group input-group-sm mb-1">
+                                                                <input type="number" class="form-control form-control-sm" t-att-value="this.getPositionYPercent(selectedLayer)" t-on-input="(ev) => this.updatePositionYValue(selectedLayer, ev)" placeholder="50"/>
+                                                                <select class="form-select form-select-sm" style="max-width: 62px; flex: 0 0 auto;" t-att-value="this.getPositionYUnit(selectedLayer)" t-on-change="(ev) => this.updatePositionYUnit(selectedLayer, ev)">
+                                                                    <option value="%">%</option>
+                                                                    <option value="px">px</option>
+                                                                </select>
+                                                            </div>
+                                                            <input t-if="this.getPositionYUnit(selectedLayer) === '%'" type="range" class="form-range" min="0" max="100"
+                                                                   t-att-value="this.getPositionYPercent(selectedLayer)"
                                                                    t-on-input="(ev) => this.updatePositionYFromSlider(selectedLayer, ev)"/>
                                                         </div>
                                                     </div>

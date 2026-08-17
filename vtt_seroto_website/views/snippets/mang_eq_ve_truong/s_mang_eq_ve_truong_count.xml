@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_count" name="Số liệu">
+    <section class="s_mang_eq_ve_truong_count s_mang_eq_ve_truong custom-snippet pt48 pb48" style="background: #3a8b9a;">
+      <div class="container-page">
+        <h3 class="fw-bolder mb-5 text-center" style="color: #ffd673;">Những con số biết nói (*)</h3>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="count__box">
+              <div class="count__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 64px; width: 64px;"/>
+              </div>
+              <div class="count__box-title">
+                ĐÃ THAM GIA <br/> ĐÀO TẠO EQ
+              </div>
+              <div class="count__box-line"></div>
+              <div class="count__box-number">1.558</div>
+              <div class="count__box-type">GIÁO VIÊN</div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="count__box">
+              <div class="count__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 64px; width: 64px;"/>
+              </div>
+              <div class="count__box-title">
+                TRƯỜNG ĐANG TRIỂN KHAI <br/> ỨNG DỤNG EQ VÀO LỚP
+              </div>
+              <div class="count__box-line"></div>
+              <div class="count__box-number">+500</div>
+              <div class="count__box-type">TRƯỜNG HỌC</div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="count__box">
+              <div class="count__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 64px; width: 64px;"/>
+              </div>
+              <div class="count__box-title">
+                ĐÃ HỌC <br/> EQ
+              </div>
+              <div class="count__box-line"></div>
+              <div class="count__box-number">70.590</div>
+              <div class="count__box-type">HỌC SINH</div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+            <div class="count__box">
+              <div class="count__box-image">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 64px; width: 64px;"/>
+              </div>
+              <div class="count__box-title">
+                THAY ĐỔI TRONG CÁCH <br/> KẾT NỐI VỚI HỌC SINH
+              </div>
+              <div class="count__box-line"></div>
+              <div class="count__box-number">100%</div>
+              <div class="count__box-type">GIÁO VIÊN</div>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4 mt-md-5 fst-italic text-center">(*) Số liệu thống kê tới tháng 26/05/2025</p>
+      </div>
+    </section>
+  </template>
+</odoo>

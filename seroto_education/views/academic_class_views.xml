@@ -13,9 +13,9 @@
         <field name="arch" type="xml">
             <list editable="bottom">
                 <field name="name"/>
+                <field name="course_id"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
-                <field name="active"/>
             </list>
         </field>
     </record>
@@ -36,9 +36,10 @@
                 <field name="course_id"/>
                 <field name="intake_id"/>
                 <field name="teacher_ids" widget="many2many_tags"/>
-                <field name="date_start"/>
-                <field name="date_end"/>
-                <field name="active"/>
+                <field name="organizer_ids" widget="many2many_tags" optional="show"/>
+                <field name="date_start_planned" string="BĐ dự kiến"/>
+                <field name="date_end_planned" string="KT dự kiến"/>
+                <field name="state" widget="badge" decoration-success="state == 'open'" decoration-muted="state in ('closed', 'done')"/>
             </list>
         </field>
     </record>
@@ -49,13 +50,14 @@
         <field name="arch" type="xml">
             <form string="Buổi học">
                 <header>
-                    <button name="action_load_students" string="Khởi tạo danh sách điểm danh" type="object" class="oe_highlight"/>
+                    <button name="action_load_students" string="Khởi tạo danh sách điểm danh" type="object" class="oe_highlight" invisible="not id"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="name"/>
                             <field name="class_id"/>
+                            <field name="session_type"/>
                         </group>
                         <group>
                             <field name="date_start"/>
@@ -86,6 +88,14 @@
         <field name="model">academic.class</field>
         <field name="arch" type="xml">
             <form string="Lớp học">
+                <header>
+                    <button name="action_open_registration" string="Mở đăng ký" type="object" class="oe_highlight" invisible="state not in ('draft', 'closed')"/>
+                    <button name="action_start_class" string="Bắt đầu học" type="object" class="oe_highlight" invisible="state not in ('open', 'closed')"/>
+                    <button name="action_close_registration" string="Đóng đăng ký" type="object" invisible="state != 'open'"/>
+                    <button name="action_complete_class" string="Hoàn thành" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_reset_draft" string="Đặt lại Sắp mở" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" clickable="0"/>
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_attendance" type="object" class="oe_stat_button" icon="fa-calendar-check-o">
@@ -100,14 +110,16 @@
                     </div>
                     <group>
                         <group>
-                            <field name="course_id"/>
                             <field name="intake_id"/>
-                            <field name="date_start" readonly="1"/>
-                            <field name="date_end" readonly="1"/>
+                            <field name="course_id" readonly="1"/>
+                            <field name="date_start_planned"/>
+                            <field name="date_end_planned"/>
                         </group>
                         <group>
+                            <field name="date_start" readonly="1"/>
+                            <field name="date_end" readonly="1"/>
                             <field name="teacher_ids" widget="many2many_tags" context="{'default_is_teacher': True, 'default_is_company': False}"/>
-                            <field name="active"/>
+                            <field name="organizer_ids" widget="many2many_tags"/>
                         </group>
                     </group>
                     <notebook>
@@ -115,6 +127,7 @@
                             <field name="session_ids">
                                 <list>
                                     <field name="name"/>
+                                    <field name="session_type" widget="badge"/>
                                     <field name="date_start"/>
                                     <field name="date_end"/>
                                 </list>

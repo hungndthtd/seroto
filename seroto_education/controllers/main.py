@@ -66,6 +66,7 @@ class SerotoCourseController(http.Controller):
             'email_from': email,
             'phone': phone,
             'course_id': course.id,
+            'class_id': course.default_class_id.id,
             'description': f"Học viên đăng ký qua form Website.\nKhóa học: {course.name}\nHọ tên: {name}\nSĐT: {phone}\nEmail: {email or 'Không cung cấp'}",
             'user_id': False, # Assign manually or via CRM rules
         }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_faq" name="Câu hỏi thường gặp">
+    <section class="s_thuc_hanh_eq_faq s_thuc_hanh_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h3 class="text-center fw-bold text-indigo">
+          Câu hỏi thường gặp
+        </h3>
+        <div class="mb-4 mb-md-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="faq__box">
+              <div class="faq__box-numb">1</div>
+              <div class="faq__box-content">
+                <div>Mỗi ngày tôi phải dành bao nhiêu thời gian cho việc học này?</div>
+                <p>Ngoài thời gian học trên Zoom, bạn cần dành thêm một ít thời gian trong ngày để làm bài thực hành và viết lại cảm nhận.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">2</div>
+              <div class="faq__box-content">
+                <div>Tôi có việc bận nên phải vắng, trễ một số buổi học trên Zoom và không nộp bài thu hoạch có được không?</div>
+                <p>Bạn sẽ học lại qua video, nộp bù bài thu hoạch sau đó.</p>
+                <p>Nếu số lần vắng, trễ vượt quy định cho phép, bạn sẽ dừng khóa học. Đây là khóa học giúp học viên học và ứng dụng ngay vào thực tế nên cần theo học và thực hành đầy đủ. Những nội quy của khóa học đặt ra không có mục đích nào khác ngoài việc giúp cho bạn có một tinh thần học và thực hành nghiêm túc, từ đó bạn mới có thể nhận được đầy đủ những giá trị mà khóa học mang lại.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">3</div>
+              <div class="faq__box-content">
+                <div>Lớp học có yêu cầu bật camera không?</div>
+                <p>Lớp học không bắt buộc bật camera trong giờ học. Chỉ khi bạn trao đổi, hỏi đáp với giảng viên trên Zoom, bạn cần bật camera để tương tác.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">4</div>
+              <div class="faq__box-content">
+                <div>Buổi Zoom có được ghi âm, ghi hình lại không?</div>
+                <p>BTC có ghi hình lại để học viên xem lại khi cần. Việc xem lại chỉ dành cho học viên của khóa học.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">5</div>
+              <div class="faq__box-content">
+                <div>Tôi đăng ký khóa học nhưng không học trên Zoom được. Tôi có thể nghe lại video bài giảng và tự thực hành mỗi ngày không?</div>
+                <p>Đây là khóa THỰC HÀNH và thời gian thực hành trên Zoom là rất quan trọng. Bạn cần có mặt trên Zoom để thực hành cùng nhau. Bạn chỉ có thể vắng mặt trên Zoom với số lần giới hạn theo Nội quy của lớp học.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">6</div>
+              <div class="faq__box-content">
+                <div>Tôi có cần mua sách Search Inside Yourself không?</div>
+                <p>Bạn nên có sách Search Inside Yourself để đọc thêm. Nếu chưa có sách, BTC sẽ gửi bạn đoạn trích cần đọc.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="faq__image">
+              <img src="/web/static/img/placeholder.png" alt="Seroto"
+                class="img-fluid mx-auto" style="max-width: 325px; max-height: 325px;"/>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">7</div>
+              <div class="faq__box-content">
+                <div>Tôi không có thói quen dậy lúc 5 giờ, làm thế nào để duy trì 21 ngày vào học đúng giờ?</div>
+                <p>Seroto thấu hiểu việc dậy sớm liên tục 21 này là một thử thách khó khăn nếu bạn chưa quen dậy sớm. Hiểu được điều đó, khóa học được tổ chức theo mô hình tổ 10 người, mỗi tổ có 1 <b>người phụng sự (Angelina)</b> để chăm sóc học viên, sẵn sàng gọi bạn dậy sớm nếu cần. Việc Thực hành EQ sẽ giúp bạn thư giãn vì thế bạn sẽ ngủ ngon và sâu hơn, ít bị thiếu ngủ. Hơn nữa, khi dậy sớm có mục đích thì bạn sẽ đủ động lực để dậy sớm và đặc biệt là đêm trước bạn không thức khuya.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">8</div>
+              <div class="faq__box-content">
+                <div>Có chính sách ưu đãi cho học viên học lại không?</div>
+                <p>Mỗi lần bạn đăng ký học, bạn sẽ luôn được chăm sóc như một học viên mới với mục đích giúp cho sự thực hành của bạn được trọn vẹn nhất. Do vậy, khóa học chỉ có một chính sách học phí cho tất cả học viên dù học lần đầu hay đã từng học.</p>
+              </div>
+            </div>
+            <div class="faq__box">
+              <div class="faq__box-numb">9</div>
+              <div class="faq__box-content">
+                <div>Khi nào có khóa học mới?</div>
+                Mời bạn tham gia nhóm Zalo để nhận thông tin khóa tiếp theo: <a href="https://zalo.me/g/npxlnm346" target="_blank">Vào nhóm Zalo tìm hiểu</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_timeline" name="Khoá học sẽ giúp gì cho bạn?">
+    <section class="s_cha_me_eq_con_eq_timeline s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="title-custom mb-4 text-center mx-auto" style="--space: 15px; --width: 125px;">Lộ trình khoá học</h2>
+        <div class="mx-auto text-indigo mb-5" style="max-width: 500px;">
+          <div class="text-lg fst-italic text-center">
+            Con cái không đến để hoàn thành ước mơ của cha mẹ.
+            <br/>
+            Chúng đến để giúp cha mẹ trưởng thành
+          </div>
+          <div class="text-end fw-bold mt-2">Dr. Shefali Tsabary</div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="text-center mx-auto" style="max-width: 240px;">
+              <div class="position-relative d-flex align-items-center justify-content-center" style="z-index: 1;">
+                <div class="position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(222, 245, 255, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+              </div>
+              <p class="text-lg fw-bolder mt-4">Xây dựng nền tảng/ nhận thức đúng đắn</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="text-center mx-auto" style="max-width: 240px;">
+              <div class="position-relative d-flex align-items-center justify-content-center order-md-2" style="z-index: 1;">
+                <div class="position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 234, 219, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                  class="img-fluid mx-auto" style="max-height: 80px; max-width: 80px;"/>
+              </div>
+              <p class="text-lg fw-bolder mt-4 order-md-1">Hiểu mình, hiểu con - Kết nối - xây dựng mục tiêu</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="text-center mx-auto" style="max-width: 240px;">
+              <div class="position-relative d-flex align-items-center justify-content-center" style="z-index: 1;">
+                <div class="position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(222, 255, 225, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <div style="width: 80px; height: 80px; overflow: hidden;">
+                  <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                    class="img-fluid mx-auto" style="max-height: 310px; max-width: 310px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"/>
+                </div>
+              </div>
+              <p class="text-lg fw-bolder mt-4">Thực hành phương pháp dạy con cùng EQ</p>
+            </div>
+          </div>
+        </div>
+        <div class="text-center my-5">
+          <div class="timeline__button btn-default" style="--background: #4da5b9; --background-hover: #ffb201;">Đăng ký tham gia</div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-5">
+            <div class="timeline__box">
+              <div class="timeline__box-numb" style="color: #ccefff;">01</div>
+              <div class="timeline__box-title">Xây dựng nền tảng/ nhận thức đúng đắn </div>
+              <ul>
+                <li>Triết lý kim chỉ nam của hành trình làm cha mẹ</li>
+                <li>Tiến trình nguyên nhân - kết quả trong dạy con và những yếu tố ảnh hưởng</li>
+                <li>Hiểu đúng về giáo dục và các phương pháp phù hợp</li>
+                <li>Trở về yêu thương thuần khiết</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-5">
+            <div class="timeline__image">
+              <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                class="img-fluid mx-auto"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-5 order-md-2">
+            <div class="timeline__box">
+              <div class="timeline__box-numb" style="color: #ffdfca;">02</div>
+              <div class="timeline__box-title">Hiểu mình, hiểu con - Kết nối - Xây dựng mục tiêu</div>
+              <ul>
+                <li>Nhận diện và quan sát nguyên nhân tạo nên cảm xúc, hành vi của chính mình và con</li>
+                <li>Vun bồi năng lực quan sát để hiểu con</li>
+                <li>Hiểu con thông qua các yếu tố cơ bản (tính khí, tâm lý lứa tuổi…)</li>
+                <li>Tăng cường các hoạt động kết nối cùng con</li>
+                <li>Dạy con chủ động</li>
+                <li>Dạy con theo mục tiêu dài hạn</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-5 order-md-1">
+            <div class="timeline__image">
+              <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                class="img-fluid mx-auto" style="position: absolute; top: -115px; height: auto;"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="timeline__box">
+              <div class="timeline__box-numb" style="color: #cbecce;">03</div>
+              <div class="timeline__box-title">Thực hành phương pháp dạy con cùng EQ</div>
+              <ul>
+                <li>Nguyên tắc 5N</li>
+                <li>Huấn luyện cảm xúc dành cho con</li>
+                <li>Tạo động lực dành cho con</li>
+                <li>Nói sao cho trẻ chịu nghe</li>
+                <li>Tự do trong trách nhiệm</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="timeline__image">
+              <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                class="img-fluid mx-auto"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

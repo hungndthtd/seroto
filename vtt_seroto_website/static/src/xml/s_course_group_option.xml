@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="vtt_seroto_website.CourseGroupOption">
+    <BuilderRow label.translate="Mã đối tượng" tooltip.translate="Mã kỹ thuật của Đối tượng khóa học (vd: teacher, school) - xem menu Đào tạo > Đối tượng khóa học">
+        <BuilderTextInput dataAttributeAction="'audienceCode'" default="''"/>
+    </BuilderRow>
+</t>
+</templates>

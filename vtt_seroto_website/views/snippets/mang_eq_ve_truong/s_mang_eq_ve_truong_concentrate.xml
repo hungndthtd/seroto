@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_concentrate" name="Tập trung">
+    <section class="s_mang_eq_ve_truong_concentrate s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 order-md-2 mb-4 mb-md-0">
+            <div class="concentrate__image">
+              <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                class="img-fluid mx-auto" style="max-height: 400px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 order-md-1">
+            <h3 class="text-green fw-bolder">Dự án tập trung vào 3 trục chính:</h3>
+            <ul>
+              <li>Đào tạo, hướng dẫn ứng dụng EQ cho nhà quản lý giáo dục, giáo viên, học sinh và phụ huynh</li>
+              <li>Chuyển giao giáo án EQ, tích hợp mềm vào các tiết học</li>
+              <li>Đồng hành cố vấn, giúp trường học ứng dụng EQ vào thực tiễn bền vững</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

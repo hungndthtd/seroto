@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_trang_chu_sponsor" name="Tài trợ tổ chức">
+    <section class="s_trang_chu_sponsor s_trang_chu custom-snippet pt48 pb48" style="background: #e7fcff;">
+      <div class="container-page">
+        <h2 class="font-lobster fw-bolder mb-3 text-green text-center mb-5">Tài trợ tổ chức</h2>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <ul>
+              <li>Là tổ chức giáo dục hoạt động <b class="text-green">không vì lợi nhuận</b>, Seroto Foundation cam kết <b class="text-green">100%</b> nguồn thu được sử dụng vì mục đích phát triển lợi ích cộng đồng.</li>
+              <li>Nếu bạn thấy những giá trị Seroto đã trao mang lại hữu ích cho cộng đồng, mời bạn đóng góp, gieo hạt vào quỹ “Yêu thương thuần khiết” của Seroto. Bạn có thể lựa chọn gieo hạt <b class="text-green"></b> hoặc <b class="text-green">hàng tháng</b>. Một sự chung tay nhỏ bé nhưng sẽ góp phần thay đổi cuộc đời ai đó ở hiện tại và tương lai.</li>
+              <li>Sự đóng góp, gieo hạt của bạn sẽ giúp Seroto đi xa và lan tỏa nhiều hơn</li>
+            </ul>
+          </div>
+          <div class="col-12 col-md-6">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid mx-auto" style="max-height: 360px;"/>
+          </div>
+        </div>
+        <div class="sponsor__card">
+          <div class="sponsor__card-image">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid mx-auto" style="max-height: 180px; max-width: 180px;"/>
+          </div>
+          <div class="sponsor__card-content">
+            <div class="text-xl fw-bolder mb-1">Địa chỉ gieo hạt:</div>
+            <p>
+              - Ngân hàng: TMCP Sài Gòn Thương Tín (Sacombank)
+              <br/>
+              - Số tài khoản: <b class="text-green">0200 9902 0769</b>
+              <br/>
+              - Tên tài khoản: CTCP Doanh nghiệp Xã Hội Seroto
+              <br/>
+              - Nội dung chuyển khoản:
+              <br/>
+              GIEOHAT + TÊN DỰ ÁN/KHÓA HỌC + SĐT + TÊN CÁ NHÂN/TỔ CHỨC
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

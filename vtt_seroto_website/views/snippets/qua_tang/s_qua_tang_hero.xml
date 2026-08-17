@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_qua_tang_hero" name="Tiêu đề chính">
+    <section class="s_qua_tang_hero s_qua_tang custom-snippet pt64 pb64">
+      <div class="container-page">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 order-md-2 mb-4 mb-md-0">
+            <img src="/web/static/img/placeholder.png" alt="Quà tặng"
+              class="img-fluid mx-auto" style="max-height: 290px;"/>
+          </div>
+          <div class="col-12 col-md-6 order-md-1">
+            <h1 class="text-green fw-bolder font-paytone-one">Mang EQ vào <br/> đời sống mỗi ngày</h1>
+            <p class="fst-italic fw-bolder my-4">Quà tặng EQ từ Seroto, những món quà chạm tới cảm xúc và nuôi dưỡng sự bình an</p>
+            <div class="d-flex">
+              <div class="btn-default">Khám phá ngay</div>
+              <div class="btn-default ms-3 ms-md-4">Đặt hàng nhanh</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

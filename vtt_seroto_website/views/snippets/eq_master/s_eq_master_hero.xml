@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_hero" name="Giới thiệu khoá học">
+    <section class="s_eq_master_hero s_eq_master custom-snippet pt64 pb64">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12">
+            <div class="hero__box text-center mx-auto" style="max-width: 600px;">
+              <div class="mb-4">
+                <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                  class="img-fluid mx-auto" style="max-height: 100px;"/>
+              </div>
+              <h1 class="fw-bolder mb-3 font-paytone-one">EQ MASTER</h1>
+              <p class="fw-bolder mb-1">Cảm xúc là phần tâm hồn của mỗi chúng ta.</p>
+              <p>Khi làm chủ và sử dụng cảm xúc một cách thông minh, bạn không chỉ nâng tầm cuộc sống của chính mình mà còn lan tỏa giá trị tích cực đến những người xung quanh. EQ giúp bạn sẵn sàng chịu trách nhiệm với mọi quyết định, từ đó kiến tạo một cuộc đời trọn vẹn và ý nghĩa!</p>
+              <div class="hero__button btn-default btn-animation mt-5">Đăng ký ngay</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

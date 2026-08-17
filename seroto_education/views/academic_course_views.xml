@@ -25,7 +25,6 @@
                 <field name="batch_info"/>
                 <field name="schedule_date"/>
                 <field name="product_id"/>
-                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
@@ -36,6 +35,9 @@
         <field name="model">academic.course</field>
         <field name="arch" type="xml">
             <form string="Khóa học">
+                <header>
+                    <button name="action_open_new_batch" string="Mở đợt học mới" type="object" class="oe_highlight"/>
+                </header>
                 <sheet>
                     <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                     <div class="oe_title">
@@ -51,18 +53,50 @@
                             <field name="lecturer"/>
                             <field name="format"/>
                             <field name="product_id"/>
-                            <field name="active"/>
+                            <field name="detail_url" widget="url" placeholder="VD: /khoa-hoc-eq-5-phut"/>
+                            <field name="audience_ids" widget="many2many_tags"/>
                         </group>
                         <group string="Thông tin tuyển sinh (Website)">
                             <field name="batch_info"/>
                             <field name="schedule_date"/>
                             <field name="schedule_time"/>
                             <field name="deadline_register"/>
+                            <field name="registration_open_date"/>
+                            <field name="registration_close_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Lớp đang nhận đăng ký">
+                            <field name="default_class_id"/>
                         </group>
                     </group>
                     <notebook>
+                        <page string="Đợt học &amp; Lớp học">
+                            <field name="class_ids" readonly="1">
+                                <list decoration-success="state == 'open'" decoration-muted="state in ('closed', 'done')">
+                                    <field name="name"/>
+                                    <field name="intake_id"/>
+                                    <field name="teacher_ids" widget="many2many_tags"/>
+                                    <field name="date_start_planned" string="BĐ dự kiến"/>
+                                    <field name="date_end_planned" string="KT dự kiến"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Mô tả chi tiết">
                             <field name="description" placeholder="Nhập nội dung giới thiệu khóa học..."/>
+                        </page>
+                        <page string="Câu hỏi chuyên sâu">
+                            <field name="question_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question" placeholder="Nhập câu hỏi..."/>
+                                    <field name="question_type"/>
+                                    <field name="options"
+                                           placeholder="Mỗi lựa chọn 1 dòng..."
+                                           invisible="question_type == 'text'"/>
+                                </list>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -106,6 +140,51 @@
                     </t>
                 </templates>
             </kanban>
+        </field>
+    </record>
+
+    <!-- === Đối tượng khóa học (tag) === -->
+
+    <record id="view_academic_course_audience_list" model="ir.ui.view">
+        <field name="name">academic.course.audience.list</field>
+        <field name="model">academic.course.audience</field>
+        <field name="arch" type="xml">
+            <list string="Đối tượng khóa học" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_academic_course_audience_form" model="ir.ui.view">
+        <field name="name">academic.course.audience.form</field>
+        <field name="model">academic.course.audience</field>
+        <field name="arch" type="xml">
+            <form string="Đối tượng khóa học">
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="VD: Giáo viên"/>
+                        <field name="code" placeholder="VD: teacher"/>
+                        <field name="sequence"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_academic_course_audience" model="ir.actions.act_window">
+        <field name="name">Đối tượng khóa học</field>
+        <field name="res_model">academic.course.audience</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có đề mục nào!
+            </p>
+            <p>
+                Mỗi đề mục có 1 Mã kỹ thuật (vd "teacher") - dùng để lọc khóa học ở
+                snippet "Khóa học - Nhóm đối tượng" trên website.
+            </p>
         </field>
     </record>
 </odoo>

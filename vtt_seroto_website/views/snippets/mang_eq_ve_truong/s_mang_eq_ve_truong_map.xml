@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_map" name="Sơ đồ">
+    <section class="s_mang_eq_ve_truong_map s_mang_eq_ve_truong custom-snippet pt48 pb48" style="background: #fff9f3;">
+      <div class="container-page">
+        <h3 class="text-indigo fw-bolder text-center mb-5">Sơ đồ hành trình giáo viên tham gia dự án</h3>
+        <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+          class="img-fluid mx-auto" style="max-height: 312px;"/>
+      </div>
+    </section>
+  </template>
+</odoo>

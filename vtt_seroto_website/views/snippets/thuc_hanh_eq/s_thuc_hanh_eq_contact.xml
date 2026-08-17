@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_contact" name="Liên hệ">
+    <section class="s_thuc_hanh_eq_contact custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h3 class="fw-bold">
+          Liên hệ
+        </h3>
+        <div class="mb-4 mb-md-5" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="contact__box">
+              <div class="d-flex mb-4 mb-md-5">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid mx-auto" style="max-height: 30px; max-width: 30px;"/>
+                <div class="ms-3 text-lg" style="flex: 1;">Nếu có câu hỏi, bạn đừng ngần ngại liên hệ BTC khóa Thực Hành EQ <b> - 091 102 4499 - 0987 077 588 </b> (Ms. Hiền)  qua ĐT/Zalo để được hỗ trợ giải đáp.</div>
+              </div>
+              <div class="text-center">
+                <a href="https://forms.gle/QjxgXu3Q4JH7o7g97" target="_blank" class="contact__button btn-default text-xl" style="--background: #fdd401; --background-hover: #ffb201;">Đăng ký ngay</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="contact__box">
+              <div class="d-flex mb-4 mb-md-5">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid mx-auto" style="max-height: 30px; max-width: 30px;"/>
+                <div class="ms-3 text-lg" style="flex: 1;">Nếu bạn muốn được gợi nhắc thời hạn đăng ký, nhận lịch khóa sau, thông tin hỏi đáp và những chia sẻ giá trị của Thực Hành EQ, mời bạn tham gia nhóm Zalo <b class="fst-italic">“TÌM HIỂU THỰC HÀNH EQ”</b></div>
+              </div>
+              <div class="text-center">
+                <a href="https://zalo.me/g/oiwago497" target="_blank" class="contact__button btn-default text-xl" style="--background: #38b6ff; --background-hover: #278ed3;">Zalo Nhận thông tin</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

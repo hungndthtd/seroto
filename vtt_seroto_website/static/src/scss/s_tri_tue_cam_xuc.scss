@@ -1,0 +1,494 @@
+/* Trí tuệ cảm xúc */
+.s_tri_tue_cam_xuc {
+  --color-green: #157281;
+  --color-yellow: #f99b00;
+  --color-orange: #ff5c2f;
+  --color-indigo: #051f4d;
+  .container-page {
+    font-family: var(--font-montserrat);
+  }
+}
+
+/* Trí tuệ cảm xúc - Tiêu đề chính */
+.s_tri_tue_cam_xuc_hero {
+  --color-indigo: #042638;
+  color: var(--color-indigo);
+  .hero__box {
+    text-align: center;
+    max-width: 620px;
+    margin: auto;
+    &-subtitle {
+      position: relative;
+      font-size: 42px;
+      font-weight: 700;
+      z-index: 1;
+      width: fit-content;
+      margin: auto;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -20px;
+        height: 32px;
+        width: 165px;
+        border-radius: 50px;
+        background: #ffb293;
+        z-index: -1;
+      }
+    }
+    &-title {
+      position: relative;
+      font-family: var(--font-paytone-one);
+      font-size: 62px;
+      font-weight: 700;
+      text-transform: uppercase;
+      z-index: 1;
+      width: fit-content;
+      margin: auto;
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: -50px;
+        height: 38px;
+        width: 252px;
+        border-radius: 50px;
+        background: #ffd98e;
+        z-index: -1;
+      }
+    }
+    &-button {
+      padding: 8px 24px;
+      font-size: 18px;
+      max-width: 260px;
+      line-height: 1.2;
+    }
+  }
+  
+}
+
+/* Trí tuệ cảm xúc - Lợi ích khi tham gia khóa học */
+.s_tri_tue_cam_xuc_benefit {
+  --color-indigo: #042638;
+  color: var(--color-indigo);
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      position: relative;
+      padding-left: 40px;
+      padding-bottom: 12px;
+      font-size: 18px;
+      &::before {
+        --size: 24px;
+        content: '';
+        position: absolute;
+        left: 0;
+        width: var(--size);
+        height: var(--size);
+        background: url(/vtt_seroto_website/static/src/img/icon-sun.png) center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Hướng dẫn đăng ký */
+.s_tri_tue_cam_xuc_register {
+  --color-indigo: #173f64;
+  color: var(--color-indigo);
+  .register__box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    &-numb {
+      --size: 58px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--color-white);
+    }
+    &-content {
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1;
+      margin-left: 12px;
+    }
+  }
+  .register__card {
+    margin-bottom: 40px;
+    border-radius: 20px;
+    padding: 8px;
+    background: #fffbf4;
+    box-shadow: rgba(82, 55, 6, 0.2) 10px 15px 20px -15px;
+    &-content {
+      border-radius: 20px;
+      border: 1px dashed #ffc480;
+      display: flex;
+      align-items: center;
+      padding: 16px 32px;
+    }
+  }
+  .register__button {
+    max-width: 260px;
+    font-size: 18px;
+    line-height: 1.25;
+    box-shadow: var(--shadow);
+    padding: 6px 24px;
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Học phí khóa học */
+.s_tri_tue_cam_xuc_fee {
+  .fee__box {
+    padding: 32px 24px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 32px -8px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    &-price {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--color-orange);
+      margin: 8px 0 20px;
+      span {
+        opacity: 0.7;
+        font-size: 14px;
+      }
+    }
+    p {
+      margin-bottom: 40px;
+      @media (max-width: 767px) {
+        margin-bottom: 32px;
+      }
+    }
+    &-button {
+      margin-top: auto;
+      width: 100%;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-white);
+      background: var(--background);
+      border-radius: 8px;
+      box-shadow: rgba(209, 57, 15, 0.2) 0px 4px 4px -2px;
+      cursor: pointer;
+      transition: all 150ms linear 0s;
+      padding: 8px 16px;
+      &:hover {
+        opacity: 0.85;
+      }
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Những câu hỏi thường gặp */
+.s_tri_tue_cam_xuc_faq {
+  .faq__box {
+    display: flex;
+    margin-bottom: 24px;
+    &-numb {
+      --size: 50px;
+      border-radius: 50% 50% 0 50%;
+      width: var(--size);
+      height: var(--size);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      background: #6dbdca;
+      font-size: 30px;
+      font-weight: 600;
+    }
+    &-content {
+      margin-left: 12px;
+      flex: 1;
+      div {
+        margin-bottom: 4px;
+      }
+    }
+  }
+  .faq__image {
+    margin-bottom: 20px;
+  }
+}
+
+/* Trí tuệ cảm xúc - Cảm nhận của phụ huynh và học sinh */
+.s_tri_tue_cam_xuc_feel {
+  .feel__box {
+    border-radius: 10px;
+    padding: 12px;
+  }
+}
+
+/* Trí tuệ cảm xúc - Chương trình học */
+.s_tri_tue_cam_xuc_curriculum {
+  color: var(--color-indigo);
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      position: relative;
+      padding-left: 20px;
+      padding-bottom: 8px;
+      font-weight: 700;
+      &::before {
+        --size: 10px;
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: 0;
+        width: var(--size);
+        height: var(--size);
+        background: url(/vtt_seroto_website/static/src/img/icon-diamond.svg) center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Thực hành các công cụ EQ */
+.s_tri_tue_cam_xuc_tool {
+  .tool__box {
+    position: relative;
+    padding: 16px;
+    z-index: 1;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      height: 100%;
+      width: 68px;
+      background: #dffbff;
+      border-radius: 0px 1000px 1000px;
+      z-index: -1;
+    }
+    &-item {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      color: var(--color-indigo);
+      font-weight: 700;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .item__icon {
+        --size: 36px;
+        position: relative;
+        width: var(--size);
+        height: var(--size);
+        border-radius: 50%;
+        background: var(--color-white);
+        z-index: 1;
+        &::before {
+          --size: 22px;
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: var(--size);
+          height: var(--size);
+          background: url(/vtt_seroto_website/static/src/img/icon-flower-2.png) center center;
+          background-repeat: no-repeat;
+          background-size: contain;
+        }
+      }
+      p {
+        margin-left: 32px;
+      }
+    }
+  }
+  .tool__image {
+    margin-bottom: 20px;
+  }
+}
+
+/* Trí tuệ cảm xúc - Chính sách */
+.s_tri_tue_cam_xuc_policy {
+  --color-indigo: #0a2e5c;
+  color: var(--color-indigo);
+  .policy__box {
+    --color-green: #2fa67b;
+    --color-orange: #ff5c2f;
+    border-radius: 30px;
+    border: 1px solid #e5f9ff;
+    background: var(--color-white);
+    padding: 20px 32px;
+    ul {
+      li {
+        padding-bottom: 16px;
+        &::marker {
+          color: var(--color-green);
+        }
+      }
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Khóa học dành cho ai */
+.s_tri_tue_cam_xuc_toward {
+  .toward__button {
+    max-width: 260px;
+    font-size: 18px;
+    line-height: 1.2;
+    padding: 8px 20px;
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Giảng viên */
+.s_tri_tue_cam_xuc_teacher {
+  .teacher__box {
+    margin-bottom: 40px;
+    &-image {
+      --size: 170px;
+      width: var(--size);
+      height: var(--size);
+      position: relative;
+      margin: auto;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url(/vtt_seroto_website/static/src/img/shape-avatar-background.svg) 0% 0% / 100% 100%;
+      .image__shape {
+        --size: 165px;
+        position: relative;
+        width: var(--size);
+        height: var(--size);
+        overflow: hidden;
+        mask: url(/vtt_seroto_website/static/src/img/shape-avatar.svg) 0% 0% / 100% 100%;
+        background: #e2fdff;
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: top;
+        }
+      }
+    }
+    &-info {
+      text-align: center;
+      .info__position {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .info__name {
+        font-family: var(--font-lobster);
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--color-green);
+      }
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Cách thức tổ chức lớp học */
+.s_tri_tue_cam_xuc_method {
+  .method__box {
+    --color-indigo: #173f64;
+    --color-orange: #ee6230;
+    --color-green: #59b0b9;
+    position: relative;
+    z-index: 1;
+    color: var(--color-indigo);
+    padding: 24px;
+    text-align: center;
+    &-shape {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    }
+    &-item {
+      .item__image {
+        padding: 5px;
+        border: 2px dotted #fdd401;
+        border-radius: 50%;
+        margin: auto;
+        width: fit-content;
+        &-shape {
+          --size: 92px;
+          width: var(--size);
+          height: var(--size);
+          border-radius: 50%;
+          background: #fff8f1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      .item__content {
+        margin-top: 16px;
+        ul {
+          text-align: left;
+          font-size: 14px;
+          margin-top: 4px;
+          li {
+            &::marker {
+              color: var(--color-green);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Trí tuệ cảm xúc - Banner */
+.s_tri_tue_cam_xuc_banner {
+  .banner__box {
+    display: flex;
+    &-content {
+      margin-left: 24px;
+      flex: 1;
+      p {
+        margin: 2px 0 4px;
+      }
+      .content__action {
+        display: flex;
+        flex-wrap: wrap;
+        .btn-default {
+          --background: #2fa67b;
+          --background-hover: #2fa67b;
+          font-size: 14px;
+          padding: 4px 16px;
+          max-width: 160px;
+          margin: unset;
+          margin-right: 12px;
+        }
+        &-warning {
+          font-weight: 700;
+          padding: 4px 16px;
+          border-radius: 40px;
+          border: 1px solid var(--color-orange);
+        }
+      }
+    }
+  }
+}

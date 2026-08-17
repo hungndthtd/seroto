@@ -11,6 +11,11 @@ class ResPartner(models.Model):
     birthdate = fields.Date(string='Ngày sinh')
     occupation = fields.Char(string='Nghề nghiệp')
     is_teacher = fields.Boolean(string='Là giảng viên', default=False)
+    taught_class_ids = fields.Many2many('academic.class', string='Lớp giảng dạy', compute='_compute_taught_class_ids')
+
+    def _compute_taught_class_ids(self):
+        for partner in self:
+            partner.taught_class_ids = self.env['academic.class'].search([('teacher_ids', '=', partner.id)])
 
     def init(self):
         super(ResPartner, self).init()

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Backend: xem lại các giao dịch giả lập đã tạo (kiểm tra webhook có gọi được không) -->
+  <record id="bank_mock_transaction_view_list" model="ir.ui.view">
+    <field name="name">bank.mock.transaction.list</field>
+    <field name="model">bank.mock.transaction</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="reference"/>
+        <field name="description"/>
+        <field name="amount"/>
+        <field name="status"/>
+        <field name="notified"/>
+        <field name="create_date"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="bank_mock_transaction_view_form" model="ir.ui.view">
+    <field name="name">bank.mock.transaction.form</field>
+    <field name="model">bank.mock.transaction</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <!--
+            related_res_model/related_res_id do BÊN GỌI tự truyền lúc tạo giao dịch
+            (không hard-code tên model cụ thể nào ở đây, giữ đúng thiết kế module độc
+            lập) - chỉ hiện nút khi có đủ cả 2, mở thẳng bản ghi đó (vd "Phiếu đăng ký
+            khóa học" bên vtt_seroto_website).
+          -->
+          <div class="oe_button_box" name="button_box">
+            <button name="action_view_related_record" type="object"
+                    class="oe_stat_button" icon="fa-link"
+                    invisible="not related_res_id">
+              <div class="o_stat_info">
+                <span class="o_stat_text">Xem bản ghi liên quan</span>
+              </div>
+            </button>
+          </div>
+          <group>
+            <field name="reference"/>
+            <field name="amount"/>
+            <field name="description"/>
+            <field name="status"/>
+            <field name="notify_url"/>
+            <field name="notified"/>
+            <field name="confirmed_at"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="bank_mock_transaction_action" model="ir.actions.act_window">
+    <field name="name">Giao dịch ngân hàng giả lập</field>
+    <field name="res_model">bank.mock.transaction</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="bank_mock_menu_root" name="Giao dịch ngân hàng" sequence="100" groups="base.group_system"/>
+  <menuitem id="bank_mock_menu_transaction" name="Giao dịch giả lập"
+            parent="bank_mock_menu_root" action="bank_mock_transaction_action"/>
+
+  <!--
+    Trang "cổng thanh toán ngân hàng" giả lập - public, khách mở qua checkout_url. KHÔNG
+    có ý nghĩa gì ngoài dev/test: nút "Xác nhận"/"Hủy" gọi thẳng route trong
+    controllers/bank_mock.py, tự đóng vai ngân hàng thật xác nhận rồi gọi webhook (xem
+    models/bank_transaction.py, _notify()).
+  -->
+  <template id="checkout_page" name="Giao dịch ngân hàng - Trang thanh toán giả lập">
+    <t t-call="website.layout">
+      <div id="wrap">
+        <div class="container py-5" style="max-width: 420px;">
+          <div class="card">
+            <div class="card-body text-center">
+              <h4 class="card-title mb-1">Cổng thanh toán ngân hàng</h4>
+              <p class="text-muted small mb-3">(demo - chưa nối ngân hàng thật)</p>
+
+              <!--
+                CHỈ 2 nhánh (pending/paid) - giống 1 mã QR chuyển khoản thật: chưa thanh
+                toán thì trang này (giống mã QR) LUÔN mở lại được để thanh toán tiếp,
+                không có nút "Hủy" nào làm chết hẳn giao dịch từ phía người bán.
+              -->
+              <t t-if="transaction.status == 'pending'">
+                <p class="mb-1">Số tiền: <strong t-esc="'{:,.0f}'.format(transaction.amount)"/> đ</p>
+                <p class="mb-3">Nội dung: <strong t-esc="transaction.description"/></p>
+
+                <div id="bank_mock_checkout_root" t-att-data-tx-id="transaction.id"
+                     t-att-data-tx-token="transaction.checkout_token">
+                  <button type="button" class="btn btn-success w-100" id="bank_mock_confirm_btn">
+                    Xác nhận thanh toán
+                  </button>
+                </div>
+                <p class="text-muted small mt-3 mb-0">
+                  Chưa muốn thanh toán? Cứ đóng tab này - có thể quay lại thanh toán sau.
+                </p>
+              </t>
+              <t t-else="">
+                <p class="text-success fw-bold mb-1">Thanh toán thành công.</p>
+                <p class="text-muted small mb-0">Bạn có thể đóng tab này và quay lại trang đăng ký.</p>
+              </t>
+            </div>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+
+</odoo>

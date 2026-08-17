@@ -11,6 +11,10 @@ class AcademicSession(models.Model):
     class_id = fields.Many2one('academic.class', string='Lớp học', required=True, ondelete='cascade')
     date_start = fields.Datetime(string='Thời gian bắt đầu', required=True)
     date_end = fields.Datetime(string='Thời gian kết thúc')
+    session_type = fields.Selection([
+        ('zoom', 'Zoom'),
+        ('bth', 'BTH'),
+    ], string='Phân loại buổi học', default='zoom', required=True)
     
     attendance_ids = fields.One2many('academic.attendance', 'session_id', string='Điểm danh')
 

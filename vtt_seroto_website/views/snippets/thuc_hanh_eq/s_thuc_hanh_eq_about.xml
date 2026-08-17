@@ -2,7 +2,7 @@
 
 <odoo>
   <template id="s_thuc_hanh_eq_about" name="Giới thiệu khoá học">
-    <section class="s_thuc_hanh_eq_about custom-snippet pt48 pb48">
+    <section class="s_thuc_hanh_eq_about s_thuc_hanh_eq custom-snippet pt48 pb48">
       <div class="container-page">
         <h2 class="text-center text-green fw-bold">
           Giới thiệu khoá học

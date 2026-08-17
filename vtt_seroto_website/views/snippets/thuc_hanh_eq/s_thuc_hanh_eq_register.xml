@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_thuc_hanh_eq_register" name="Giảng viên">
+    <section class="s_thuc_hanh_eq_register custom-snippet pt48 pb48" style="background: #fff8f1;">
+      <div class="container-page">
+        <h3 class="text-center fw-bold">
+          Hướng dẫn đăng ký
+        </h3>
+        <div class="mb-4 mb-md-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="register__box align-items-center">
+              <div class="register__box-numb" style="--background: #90dfe8;">1</div>
+              <div class="register__box-content">
+                <div class="fw-bold text-lg">Tìm hiểu kỹ khoá học</div>
+              </div>
+            </div>
+            <div class="register__box">
+              <div class="register__box-numb" style="--background: #f7ce50;">2</div>
+              <div class="register__box-content">
+                <div class="fw-bold text-lg mb-2">Hoàn thành đóng phí / Hồ sơ duyệt học bổng</div>
+                <ul>
+                  <li>Đóng phí: Hoàn thành chuyển khoản 100% học phí</li>
+                  <li>Học bổng 100% cho Ngành Giáo dục: Ban giám hiệu trường ký thư duyệt học bổng</li>
+                  <li>Học bổng 100% cho Ngành Y tế: Bạn đang làm việc trong bệnh viện, cơ sở y tế.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="register__box">
+              <div class="register__box-numb" style="--background: #98d1ff;">3</div>
+              <div class="register__box-content">
+                <div class="fw-bold text-lg mb-2">Ảnh chụp Chuyển khoản / Giấy Xác Nhận / Thẻ Giáo Viên / Thẻ Ngành Y tế</div>
+                <ul>
+                  <li>Đóng phí: Ảnh chụp giao dịch chuyển khoản</li>
+                  <li>Học bổng 100% cho Ngành Giáo dục: Ảnh chụp Thư đăng ký học bổng đã ký tên</li>
+                  <li>Học bổng 100% cho Ngành Y tế: Ảnh chụp thẻ hoạt động trong bệnh viện, cơ sở y tế</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="register__card">
+              <div class="register__card-content">
+                <img src="/web/static/img/placeholder.png" alt="Seroto"
+                  class="img-fluid" style="max-height: 120px; max-width: 120px;"/>
+                <div style="flex: 1;">
+                  <span class="text-green">*</span> <i>Ngân hàng:</i>
+                  <br/>
+                  <b>TMCP Sài Gòn Thương Tín (Sacombank)</b>
+                  <br/>
+                  <span class="text-green">*</span> <i>Số tài khoản:</i>
+                  <br/>
+                  <b class="text-orange">0200 9902 0769</b>
+                  <br/>
+                  <span class="text-green">*</span> <i>Tên tài khoản:</i>
+                  <br/>
+                  <b>CTCP Doanh nghiệp Xã Hội Seroto</b>
+                  <br/>
+                  <span class="text-green">*</span> <i>Nội dung chuyển khoản:</i>
+                  <br/>
+                  <b class="text-orange">THEQ K49 SĐT HOTEN</b>
+                </div>
+              </div>
+            </div>
+            <div class="register__box">
+              <div class="register__box-numb" style="--background: #c9adff;">4</div>
+              <div class="register__box-content">
+                <div class="fw-bold text-lg mb-2">Điền form đăng ký thông tin và tải ảnh đã chuẩn bị</div>
+                <a href="https://forms.gle/QjxgXu3Q4JH7o7g97" class="btn-default register__button">Form đăng ký</a>
+              </div>
+            </div>
+            <div class="register__box">
+              <div class="register__box-numb" style="--background: #ffa881;">5</div>
+              <div class="register__box-content">
+                <div class="fw-bold text-lg mb-2">Kiểm tra email từ Seroto sau 3 ngày</div>
+                <ul>
+                  <li>BTC gửi kết quả duyệt học bổng (được duyệt /không được duyệt)</li>
+                  <li>BTC gửi kết quả đăng ký và mời vào lớp học</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="register__card" style="padding: 12px;">
+          <div class="register__card-content" style="padding: 32px;">
+            <div style="flex: 1;">
+              <h3 class="text-center fw-bold">
+                Ai đã từng tham gia khóa học này?
+              </h3>
+              <div class="mb-4 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+              <ul class="mb-5 mx-auto" style="max-width: 800px;">
+                <li>Hơn <b class="text-orange">24.000</b> học viên gồm cá nhân; ban giám hiệu, giáo viên, cán bộ quản lý, nhân viên ngành giáo dục, bác sĩ, điều dưỡng, quản lý và nhân viên doanh nghiệp đã tham gia khóa học. </li>
+                <li>Hơn <b class="text-orange">600</b> đơn vị trường học, bệnh viện, doanh nghiệp đã áp dụng Thực Hành EQ.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

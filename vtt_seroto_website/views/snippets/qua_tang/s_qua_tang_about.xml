@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_qua_tang_about" name="Giới thiệu">
+    <section class="s_qua_tang_about s_qua_tang custom-snippet pt48 pb48" style="background: #ffefc0;">
+      <div class="container-page">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <img src="/web/static/img/placeholder.png" alt="Quà tặng"
+              class="img-fluid mx-auto" style="max-height: 235px;"/>
+          </div>
+          <div class="col-12 col-md-6">
+            <h3 class="fw-bolder">Giới thiệu về Seroto Shop</h3>
+            <p style="margin-top: 12px;">Seroto Shop là nơi bạn tìm thấy những sản phẩm vừa đẹp, vừa mang ý nghĩa nuôi dưỡng tâm hồn. Mỗi cuốn sách, chiếc áo hay món quà EQ đều được tạo ra để nhắc bạn sống sâu, biết ơn, yêu thương và kết nối trọn vẹn hơn với chính mình và những người quanh mình.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

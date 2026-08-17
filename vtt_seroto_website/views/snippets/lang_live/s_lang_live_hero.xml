@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_hero" name="Tiêu đề chính">
+    <section class="s_lang_live_hero s_lang_live custom-snippet pt64 pb64">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-2">
+            <div class="hero__image">
+              <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                class="img-fluid mx-auto" style="max-height: 400px; max-width: 400px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 order-md-1">
+            <div class="hero__box">
+              <h1 class="hero__box-title">Dự án phi lợi nhuận hướng đến cộng đồng trẻ tự kỷ</h1>
+              <div class="hero__box-subtitle">Nơi trẻ tự kỷ được sống và là chính mình</div>
+              <p>
+                <b class="text-blue">Live Village</b> là ngôi làng dành cho trẻ tự kỷ từ 7 -18 tuổi, nơi trẻ tự kỷ <span class="text-blue">được cùng nhau học tập, sống vui vẻ và hạnh phúc với thiên nhiên, nơi giúp trẻ tự kỷ có thể hòa nhập xã hội, tham gia lao động với một nghề phù hợp sau 18 tuổi.</span>
+              </p>
+              <div class="hero__box-button">
+                <div class="btn-default" style="--background: var(--color-red); --background-hover: var(--color-red);">Tìm hiểu thêm</div>
+                <a href="https://zalo.me/g/bqhfxn193" target="_blank" class="btn-default outlined">Tham gia nhóm Zalo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

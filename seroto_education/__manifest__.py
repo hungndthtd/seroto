@@ -28,6 +28,7 @@
         'data/ir_sequence_data.xml',
         'views/academic_course_views.xml',
         'views/academic_class_views.xml',
+        'wizard/academic_batch_wizard_views.xml',
         'views/academic_enrollment_views.xml',
         'views/academic_attendance_views.xml',
         'views/academic_certificate_views.xml',

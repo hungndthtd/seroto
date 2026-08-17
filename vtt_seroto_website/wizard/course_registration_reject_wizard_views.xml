@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_course_registration_reject_wizard_form" model="ir.ui.view">
+        <field name="name">seroto.course.registration.reject.wizard.form</field>
+        <field name="model">seroto.course.registration.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Từ chối phiếu đăng ký">
+                <group>
+                    <field name="registration_id" readonly="1"/>
+                    <field name="reason" placeholder="Nhập lý do từ chối phiếu đăng ký..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Từ chối phiếu" type="object" class="btn-danger"/>
+                    <button string="Hủy" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

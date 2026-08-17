@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_trang_chu_vision" name="Tầm nhìn">
+    <section class="s_trang_chu_vision s_trang_chu custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 mb-4 mb-md-0 order-md-2">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid mx-auto" style="max-height: 330px;"/>
+          </div>
+          <div class="col-12 col-md-6 order-md-1">
+            <div style="max-width: 435px;">
+              <div class="title__special">
+                <h3 class="text-orange font-lobster">Tầm nhìn</h3>
+                <div class="title__special-arrow" style="height: 12px; width: 70px">
+                  <t t-call="vtt_seroto_website.svg_multi_arrow">
+                    <t t-set="svg_class" t-value="'text-green-light d-block'"/>
+                  </t>
+                </div>
+              </div>
+              <p class="mt-3">
+                <b class="text-green">Seroto Foundation</b> định hướng trở thành một tổ chức giáo dục tiên phong gieo quan niệm về Giáo dục Hạnh phúc đến cộng đồng, với các hoạt động đào tạo, khai vấn &amp; thực thi các dự án giáo dục tập trung vào 3 nhóm chính: gia đình, nhà trường và doanh nghiệp.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

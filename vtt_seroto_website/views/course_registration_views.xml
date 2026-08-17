@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Backend: quản lý "Phiếu đăng ký khóa học" - phiếu từ website tự tạo ở trạng thái
+    "Mới đăng ký" (xem controllers/course_registration.py, create_registration). NV
+    cũng có thể tự tạo phiếu (trạng thái "Nháp") cho khách đăng ký qua điện thoại/Zalo
+    ngoài luồng CRM thông thường. Thông tin khách đã điền qua web (họ tên/email/sđt/câu
+    trả lời) chỉ sửa được khi phiếu còn "Nháp" - tránh làm lệch dữ liệu thật khách đã
+    gửi (xem readonly trên form bên dưới).
+  -->
+  <record id="view_seroto_course_registration_list" model="ir.ui.view">
+    <field name="name">seroto.course.registration.list</field>
+    <field name="model">seroto.course.registration</field>
+    <field name="arch" type="xml">
+      <list string="Phiếu đăng ký khóa học">
+        <field name="course_name"/>
+        <field name="class_id" optional="show"/>
+        <field name="partner_name"/>
+        <field name="phone"/>
+        <field name="email"/>
+        <field name="is_complete" optional="show"/>
+        <field name="payment_status" widget="badge"
+               decoration-success="payment_status == 'paid'"
+               decoration-danger="payment_status == 'unpaid'"/>
+        <field name="state" widget="badge"
+               decoration-info="state in ('draft', 'new')"
+               decoration-warning="state == 'confirmed'"
+               decoration-success="state == 'completed'"
+               decoration-danger="state in ('rejected', 'cancelled')"/>
+        <field name="create_date" string="Ngày đăng ký"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_seroto_course_registration_search" model="ir.ui.view">
+    <field name="name">seroto.course.registration.search</field>
+    <field name="model">seroto.course.registration</field>
+    <field name="arch" type="xml">
+      <search string="Phiếu đăng ký khóa học">
+        <field name="course_name"/>
+        <field name="course_id"/>
+        <field name="partner_name"/>
+        <field name="phone"/>
+        <field name="email"/>
+        <field name="payment_status"/>
+        <filter string="Đã thanh toán" name="filter_paid"
+                domain="[('payment_status', '=', 'paid')]"/>
+        <filter string="Chưa thanh toán" name="filter_unpaid"
+                domain="[('payment_status', '=', 'unpaid')]"/>
+        <separator/>
+        <filter string="Cần xử lý (Mới/Nháp)" name="filter_todo"
+                domain="[('state', 'in', ('draft', 'new'))]"/>
+        <filter string="Đã xác nhận" name="filter_confirmed"
+                domain="[('state', '=', 'confirmed')]"/>
+        <filter string="Hoàn tất" name="filter_completed"
+                domain="[('state', '=', 'completed')]"/>
+        <separator/>
+        <filter string="Chưa đầy đủ thông tin" name="filter_incomplete"
+                domain="[('is_complete', '=', False)]"/>
+        <!--
+          <group> trong search view KHÔNG hỗ trợ string/expand (khác form view - 2 view
+          type này dùng chung định nghĩa <group> trong common.rng nhưng chỉ search mới
+          bị validate theo schema RNG, "form" không nằm trong danh sách @validate() nên
+          không bị chặn - đã kiểm chứng qua odoo/tools/view_validation.py +
+          odoo/addons/base/rng/common.rng). Nhãn "Group By" tự hiện, không cần string.
+        -->
+        <group>
+          <filter string="Khóa học" name="group_course" context="{'group_by': 'course_name'}"/>
+          <filter string="Trạng thái phiếu" name="group_state" context="{'group_by': 'state'}"/>
+          <filter string="Trạng thái thanh toán" name="group_payment_status"
+                   context="{'group_by': 'payment_status'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="view_seroto_course_registration_form" model="ir.ui.view">
+    <field name="name">seroto.course.registration.form</field>
+    <field name="model">seroto.course.registration</field>
+    <field name="arch" type="xml">
+      <form string="Phiếu đăng ký khóa học" class="o_seroto_registration_form">
+        <header>
+          <button name="action_confirm" string="Xác nhận" type="object"
+                  class="oe_highlight" invisible="state not in ('draft', 'new')"/>
+          <button name="action_reject" string="Từ chối" type="object"
+                  invisible="state not in ('draft', 'new')"/>
+          <button name="action_create_sale_order" string="Tạo đơn hàng" type="object"
+                  class="oe_highlight" invisible="state != 'confirmed' or sale_order_id"/>
+          <button name="action_cancel" string="Hủy phiếu" type="object"
+                  invisible="state in ('completed', 'cancelled', 'rejected')"/>
+          <field name="state" widget="statusbar" clickable="0"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_view_sale_order" type="object" class="oe_stat_button"
+                    icon="fa-file-text-o" invisible="not sale_order_id">
+              <div class="o_stat_info">
+                <span class="o_stat_text">Đơn hàng</span>
+              </div>
+            </button>
+          </div>
+          <div class="oe_title">
+            <label for="course_name" string="Khóa học"/>
+            <h1>
+              <field name="course_name"/>
+            </h1>
+          </div>
+          <group>
+            <group string="Thông tin cơ bản">
+              <field name="partner_name" readonly="state != 'draft'"/>
+              <field name="email" widget="email" readonly="state != 'draft'"/>
+              <field name="phone" widget="phone" readonly="state != 'draft'"/>
+              <field name="partner_id" invisible="not partner_id"/>
+              <field name="slip_url" widget="CopyClipboardURL" string="Link phiếu"
+                     class="o_seroto_slip_url"/>
+            </group>
+            <group string="Khóa học / Lớp học">
+              <field name="course_id"/>
+              <field name="class_id"/>
+              <field name="is_complete"/>
+            </group>
+          </group>
+          <group>
+            <group string="Thanh toán">
+              <field name="payment_status"
+                     widget="badge"
+                     decoration-success="payment_status == 'paid'"
+                     decoration-danger="payment_status == 'unpaid'"/>
+              <field name="bank_transaction_id"/>
+            </group>
+            <group string="Lý do từ chối" invisible="state != 'rejected'">
+              <field name="reject_reason" readonly="1" nolabel="1"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Câu hỏi chuyên sâu">
+              <field name="answer_ids" create="false" delete="false">
+                <list editable="bottom">
+                  <field name="question" readonly="1"/>
+                  <field name="answer" readonly="parent.state != 'draft'"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_seroto_course_registration" model="ir.actions.act_window">
+    <field name="name">Phiếu đăng ký khóa học</field>
+    <field name="res_model">seroto.course.registration</field>
+    <field name="view_mode">list,form</field>
+    <field name="search_view_id" ref="view_seroto_course_registration_search"/>
+    <field name="context">{'search_default_filter_todo': 1}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Chưa có phiếu đăng ký nào!
+      </p>
+      <p>
+        Phiếu đăng ký được tạo tự động khi khách hoàn tất bước "Thông tin cơ bản" ở nút
+        "Đăng ký ngay" trên website. NV cũng có thể bấm "Mới" để tự tạo phiếu cho khách
+        đăng ký qua điện thoại/Zalo.
+      </p>
+    </field>
+  </record>
+
+  <!--
+    Đặt cạnh "Đợt học" (menu_academic_intake) trong app "Đào tạo" (seroto_education) -
+    vtt_seroto_website đã khai seroto_education vào depends (xem __manifest__.py) để
+    tham chiếu được menu cha này.
+  -->
+  <menuitem id="menu_seroto_course_registration"
+            name="Phiếu đăng ký"
+            parent="seroto_education.menu_academic_root"
+            action="action_seroto_course_registration"
+            sequence="55"/>
+
+</odoo>

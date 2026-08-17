@@ -1,0 +1,55 @@
+/* Quà tặng */
+.s_qua_tang {
+  --color-black: #0b090f;
+  --color-yellow: #f9cf3c;
+  color: var(--color-black);
+}
+
+/* Quà tặng - Tại sao */
+.s_qua_tang_reason {
+  .reason__item {
+    display: flex;
+    align-items: center;
+    &-image {
+      --size: 64px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &-content {
+      margin-left: 16px;
+      flex: 1;
+    }
+  }
+}
+
+/* Quà tặng - Trích dẫn */
+.s_qua_tang_quote {
+  .quote__box {
+    background: #ffefc0;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    &-content {
+      font-size: 18px;
+      font-weight: 700;
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+    &-button {
+      .btn-default {
+        --background: var(--color-green);
+        --background-hover: var(--color-green);
+        font-size: 18px;
+        max-width: 240px;
+        border-radius: 16px;
+        @media (max-width: 767px) {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}

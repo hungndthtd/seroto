@@ -30,6 +30,17 @@
                         </list>
                     </field>
                 </page>
+                <page string="Lớp giảng dạy" name="teaching_history" invisible="not is_teacher">
+                    <field name="taught_class_ids" readonly="1">
+                        <list>
+                            <field name="course_id"/>
+                            <field name="intake_id" string="Khóa/Đợt"/>
+                            <field name="date_start_planned" string="Ngày bắt đầu"/>
+                            <field name="date_end_planned" string="Ngày kết thúc"/>
+                            <field name="state" widget="badge" decoration-success="state == 'open'" decoration-muted="state in ('closed', 'done')"/>
+                        </list>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>

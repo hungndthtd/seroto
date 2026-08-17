@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_academic_batch_wizard_form" model="ir.ui.view">
+        <field name="name">academic.batch.wizard.form</field>
+        <field name="model">academic.batch.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Mở đợt học mới">
+                <group>
+                    <field name="course_id" readonly="1"/>
+                    <field name="intake_name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="teacher_ids" widget="many2many_tags" context="{'default_is_teacher': True, 'default_is_company': False}"/>
+                    <field name="set_as_default"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Mở đợt học" type="object" class="btn-primary"/>
+                    <button string="Hủy" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -82,7 +82,7 @@ publicWidget.registry.SerotoCourseSnippet = publicWidget.Widget.extend({
             // khớp với views/snippets/s_course_card.xml (bản QWeb tĩnh).
             const badgeClass = course.course_type === 'online' ? 'success' : 'danger';
             const badge = document.createElement('span');
-            badge.className = `py-0.5 px-2 mb-2 d-inline-block rounded-pill border border-${badgeClass} text-${badgeClass}`;
+            badge.className = `py-0.5 px-2 mb-2 d-inline-block align-self-start rounded-pill border border-${badgeClass} text-${badgeClass}`;
             badge.style.fontSize = '12px';
             badge.appendChild(_makeIcon('fa-circle'));
             badge.appendChild(document.createTextNode(course.course_type_label));

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_benefit" name="Khoá học sẽ giúp gì cho bạn?">
+    <section class="s_cha_me_eq_con_eq_benefit s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="mb-5">
+              <h2 class="title-custom mb-3" style="--space: 16px; --width: 140px;">Khoá học sẽ giúp gì cho bạn?</h2>
+              <p>Bởi làm cha mẹ không chỉ là nuôi dạy con, mà là hành trình trưởng thành, kết nối và hạnh phúc bên con mỗi ngày.</p>
+            </div>
+            <div class="benefit__box" style="--background: #ddf3ff; --shape: #5bb9e4;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>1</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Vun bồi nhận thức và định hình triết lý nuôi dạy con:</b>
+                <p>Hướng tới mục tiêu con tự lập và tự chịu trách nhiệm, không dừng lại ở việc xử lý hành vi tức thời.</p>
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #ffecf8; --shape: #f089c8;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>2</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Nâng cao nhận thức về bản thân và biết cách điều chỉnh hành vi phù hợp:</b>
+                <p>Nhận diện suy nghĩ, cảm xúc, hành vi của bản thân và biết tự điều chỉnh trước khi phản ứng với con.</p>
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #fff4d7; --shape: #f6c246;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>3</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Thấu hiểu con và biết cách kết nối để thiết lập tâm thái dạy con theo mục tiêu dài hạn:</b>
+                <p>Nhìn thấy nguyên nhân phía sau hành vi, thay vì chỉ nhìn phần nổi.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="benefit__image">
+              <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ con EQ"
+                class="img-fluid mx-auto" style="max-height: 270px;"/>
+            </div>
+            <div class="benefit__box" style="--background: #f5f0ff; --shape: #9f7fde;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>4</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Biết cách xây dựng mối quan hệ hoà hợp và thực hành phương pháp dạy con chủ động:</b>
+                <p>Dạy con theo mục tiêu dài hạn, chuẩn bị cho con khả năng tự giải quyết vấn đề của cuộc đời mình.</p>
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #e8fdff; --shape: #4fb1c3;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>5</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Điều chỉnh cảm xúc và lựa chọn cách tương tác phù hợp:</b>
+                <p>Biết khi nào cần lắng nghe, khi nào cần hướng dẫn, khi nào cần buông.</p>
+              </div>
+            </div>
+            <div class="benefit__box" style="--background: #f4fbd5; --shape: #adbd5e;">
+              <div class="benefit__box-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="currentColor">
+                  <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                </svg>
+                <span>6</span>
+              </div>
+              <div class="benefit__box-content">
+                <b>Xây dựng mối quan hệ hòa hợp:</b>
+                <p>Nơi con được tôn trọng, cha mẹ được thấu hiểu và gia đình trở thành nơi an toàn để trở về.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="benefit__button btn-default mt-5">Đăng ký tham gia</div>
+      </div>
+    </section>
+  </template>
+</odoo>

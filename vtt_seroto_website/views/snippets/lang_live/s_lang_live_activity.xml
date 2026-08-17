@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_activity" name="Hoạt động như thế nào">
+    <section class="s_lang_live_activity s_lang_live custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="text-center mb-5">
+          <img src="/web/static/img/placeholder.png" alt="Làng Live"
+            class="img-fluid mx-auto" style="max-height: 120px;"/>
+          <h3 class="text-blue font-yeseva-one mt-3" style="margin-bottom: 32px;">Hoạt động như thế nào?</h3>
+          <p class="mx-auto text-lg fw-bolder" style="max-width: 615px;">
+            Live village gồm những con người điều hành theo tôn chỉ 
+            <span class="text-red"></span> (Transparent) và <span class="text-red">“Tức thì"</span> (Real time), tức là đảm bảo tính minh bạch, rõ ràng, nhanh chóng mọi nơi mọi lúc.
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4">
+            <div class="activity__image">
+              <img src="/web/static/img/placeholder.png" alt="Làng Live"
+                class="img-fluid mx-auto" style="max-height: 600px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4">
+            <div class="activity__list">
+              <ul>
+                <li>
+                  <p class="mb-3 fw-bolder text-lg">Doanh nghiệp xã hội</p>
+                  <p>Live Village là doanh nghiệp xã hội nên nguồn vốn đầu tư và quản lý có sự tham gia của cộng đồng các nhà hảo tâm và chính phụ huynh có con tự kỷ học tại Làng.</p>
+                </li>
+                <li>
+                  <p class="mb-3 fw-bolder text-lg">Bán trú &amp; Nội trú</p>
+                  <p>Trẻ tự kỷ tham gia các hoạt động học tập, có thể trở về với gia đình sau giờ học hoặc ở nội trú. Phụ huynh có thể ở nội trú cùng trẻ.</p>
+                </li>
+                <li>
+                  <p class="mb-3 fw-bolder text-lg">Ban vận hành dự án gồm:</p>
+                  <p>• Ban tài chính: nhân sự gồm phụ huynh có trẻ tự kỷ</p>
+                  <p>• Ban chuyên môn: các nhà chuyên môn có nhiều năm kinh nghiệm trong can thiệp, hỗ trợ trẻ tự kỷ</p>
+                  <p>• Ban vận hành: gồm các nhà giáo dục tâm huyết, có kinh nghiệm về nuôi dạy trẻ tự kỷ</p>
+                  <p>• Ban phát triển nhân sự: gồm những người có kỹ năng, kinh nghiệm phù hợp để đồng hành dài hạn cùng dự án</p>
+                  <p>Ban vận hành sẽ định kỳ tổ chức các chương trình đào tạo để hướng dẫn bố mẹ đồng hành cùng con, dần dần chính bố mẹ là giáo viên của con mình.</p>
+                  <div class="text-center mt-5">
+                    <a href="https://zalo.me/g/bqhfxn193" target="_blank" class="btn-default outlined" style="max-width: 260px;">Tham gia nhóm Zalo</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_cha_me_eq_con_eq_fee" name="Chính sách học phí">
+    <section class="s_cha_me_eq_con_eq_fee s_cha_me_eq_con_eq custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="title-custom mb-4 mb-md-5 text-center mx-auto" style="--space: 16px; --width: 140px;">Chính sách học phí</h2>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-5 order-2 order-md-1">
+            <div class="">
+              <div class="fw-bold fst-italic text-lg text-green">Chúng tôi có một ước mơ</div>
+              <p class="text-sm mb-0">Mỗi đứa trẻ đều có được sự đồng hành hướng dẫn, chăm sóc bởi người lớn trưởng thành, an ổn về nội tâm, để con biết cách biểu hiện cảm xúc trong hòa bình, biết lựa chọn và thể hiện hành vi phù hợp, nuôi dưỡng một tâm hồn đẹp và thiện lành. Đó chính là nền tảng tâm lý và nhận thức vững chắc để con phát triển cá tính một cách lành mạnh khi đến giai đoạn tuổi Teen. Và rồi, con sẽ trở thành một người trưởng thành hạnh phúc, sống đời an vui, ý nghĩa!</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-5 order-1 order-md-2">
+            <div class="fee__image">
+              <div class="fee__image-shape" style="height: 270px; width: 330px;">
+                <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 314.487 315.689" fill="rgba(255, 238, 202, 1.0)" stroke="#00000000" stroke-width="1px">
+                  <path d="M 211.372986,274.417901 C162.370972,291.405809 172.372986,297.417901 147.372986,306.417901 C122.372986,315.417901 76.372986,328.417901 45.372986,275.417901 C14.372986,222.417901 -18.627014,147.417901 15.372986,106.417901 C49.372986,65.417901 120.372986,31.417901 154.372986,17.417901 C188.372986,3.417901 230.372986,-14.582099 254.372986,25.417901 C278.372986,65.417901 302.372986,100.417901 301.372986,122.417901 C300.372986,144.417901 288.372986,141.417901 293.372986,154.417901 C298.372986,167.417901 326.372986,197.417901 306.372986,216.417901 C286.372986,235.417901 260.375,257.429993 211.372986,274.417901 Z"></path>
+                </svg>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                class="img-fluid mx-auto" style="max-height: 270px;"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="fee__image">
+              <div class="fee__image-shape" style="height: 280px; width: 350px;">
+                <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 314.487 315.689" fill="rgba(251, 212, 236, 1.0)" stroke="#00000000" stroke-width="1px">
+                  <path d="M 211.372986,274.417901 C162.370972,291.405809 172.372986,297.417901 147.372986,306.417901 C122.372986,315.417901 76.372986,328.417901 45.372986,275.417901 C14.372986,222.417901 -18.627014,147.417901 15.372986,106.417901 C49.372986,65.417901 120.372986,31.417901 154.372986,17.417901 C188.372986,3.417901 230.372986,-14.582099 254.372986,25.417901 C278.372986,65.417901 302.372986,100.417901 301.372986,122.417901 C300.372986,144.417901 288.372986,141.417901 293.372986,154.417901 C298.372986,167.417901 326.372986,197.417901 306.372986,216.417901 C286.372986,235.417901 260.375,257.429993 211.372986,274.417901 Z"></path>
+                </svg>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
+                class="img-fluid mx-auto" style="max-height: 300px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="fee__content">
+              <div class="text-lg fw-bold">Học phí: <span class="text-red">0 đồng</span></div>
+              <p>Bạn cần đóng cam kết trước khi tham gia khóa học để đảm bảo bạn sẽ đón nhận đầy đủ giá trị và chuyển kiến thức thành kỹ năng của bạn và trẻ.</p>
+              <br/>
+              <div class="text-lg fw-bold">Số tiền cam kết: <span class="text-green">1.260.000đ/ suất học</span> (*)</div>
+              <p><b>(*)</b> <i>Tiền cam kết sẽ được hoàn lại vào cuối khoá học. Số tiền bạn nhận lại phụ thuộc vào mức độ thực hiện cam kết của bạn.</i></p>
+              <i>Xem chi tiết CAM KẾT trong form đăng ký.</i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_tri_tue_cam_xuc_banner" name="Banner">
+    <section class="s_tri_tue_cam_xuc_banner s_tri_tue_cam_xuc custom-snippet py-1" style="background: #e5f9ff;">
+      <div class="container-page">
+        <div class="banner__box">
+          <img src="/web/static/img/placeholder.png" alt="Trí tuệ cảm xúc"
+            class="img-fluid" style="max-height: 122px;"/>
+          <div class="banner__box-content">
+            <h3 class="font-paytone-one text-indigo">Trí tuệ cảm xúc tuổi Teen</h3>
+            <p class="text-lg text-orange fw-bolder">Thực hành EQ và rèn thân 21 ngày liên tục</p>
+            <div class="content__action">
+              <div class="btn-default">Đăng ký ngay</div>
+              <div class="content__action-warning">Đóng link đăng ký K25 20h ngày 22/07</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

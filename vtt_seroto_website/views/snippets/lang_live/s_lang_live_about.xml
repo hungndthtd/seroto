@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_lang_live_about" name="Live Village là gì">
+    <section class="s_lang_live_about s_lang_live custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="text-center">
+          <img src="/web/static/img/placeholder.png" alt="Làng Live"
+            class="img-fluid mx-auto" style="max-height: 120px;"/>
+          <h3 class="text-blue font-yeseva-one mt-3 mb-5">Là gì?</h3>
+          <p class="mx-auto text-lg fw-bolder" style="max-width: 615px;">Dự án phi lợi nhuận hoạt động dưới hình thức doanh nghiệp xã hội, cam kết 100% lợi nhuận được tái sử dụng đầu tư cho Làng.</p>
+        </div>
+        <div class="about__box">
+          <div class="about__box-image mask-1">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              style="height: 265px; width: 398px; left: 0; top: -25px;"/>
+          </div>
+          <div class="about__box-content">
+            <div>01</div>
+            <p>
+              Là nơi trẻ tự kỷ được chấp nhận,
+              <br/>
+              là chính mình, học các chương trình
+              <br/>
+              và kỹ năng phù hợp để hòa nhập xã hội.
+            </p>
+          </div>
+        </div>
+        <div class="about__box right">
+          <div class="about__box-image mask-2" style="transform: scaleX(-1);">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              style="width: 398px; height: 265px; top: 0; left: -50px;"/>
+          </div>
+          <div class="about__box-content">
+            <div>02</div>
+            <p>Là nơi trẻ tự kỷ được sống và học tập trong môi trường thiên nhiên tràn đầy tình yêu thương.</p>
+          </div>
+        </div>
+        <div class="about__box">
+          <div class="about__box-image mask-3">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              style="height: 238px; width: 357px; right: 0; top: 0;"/>
+          </div>
+          <div class="about__box-content">
+            <div>03</div>
+            <p>
+              Lộ trình can thiệp
+              <br/>
+              rõ ràng và hướng nghiệp
+              <br/>
+              cho trẻ từ 6 – 18 tuổi.
+            </p>
+          </div>
+        </div>
+        <div class="about__box right">
+          <div class="about__box-image mask-1" style="transform: scaleX(-1);">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              style="width: 398px; height: 265px;"/>
+          </div>
+          <div class="about__box-content">
+            <div>04</div>
+            <p>Có khu nội trú cho trẻ và phụ huynh.</p>
+          </div>
+        </div>
+        <div class="about__box">
+          <div class="about__box-image mask-2">
+            <img src="/web/static/img/placeholder.png" alt="Làng Live"
+              style="height: 238px; width: 357px; left: -10px; top: 0;"/>
+          </div>
+          <div class="about__box-content">
+            <div>05</div>
+            <p>
+              Đào tạo phụ huynh trở thành chuyên gia – thầy cô giáo đồng hành bền vững cùng con.
+            </p>
+          </div>
+        </div>
+        <div class="about__button">
+          <div class="btn-default outlined">Tìm hiểu thêm</div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

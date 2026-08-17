@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_hero" name="Tiêu đề chính">
+    <section class="s_mang_eq_ve_truong_hero s_mang_eq_ve_truong custom-snippet pt64 pb64" style="background: #e8fdff;">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-2 mb-4 mb-md-0">
+            <div class="hero__image">
+              <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                class="img-fluid mx-auto" style="max-height: 410px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 order-md-1">
+            <div class="hero__content">
+              <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                class="img-fluid" style="max-height: 50px;"/>
+              <h1 class="text-indigo font-pattaya mt-5">Mang EQ</h1>
+              <div class="font-paytone-one fw-bolder" >
+                <span style="color: #ee3f44;">v</span>
+                <span style="color: #4cb1ff;">ề</span>
+                <span>&#160;</span>
+                <span style="color: #aed85a;">t</span>
+                <span style="color: #6e4df6;">r</span>
+                <span style="color: #ffbc41;">ư</span>
+                <span style="color: #ff7979;">ờ</span>
+                <span style="color: #33abb5;">n</span>
+                <span style="color: #50b3ff;">g</span>
+              </div>
+              <p class="text-lg fst-italic">Vì trường học hạnh phúc là nơi cảm xúc được lắng nghe và các mối quan hệ được kết nối một cách tốt đẹp</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

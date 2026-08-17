@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_video" name="Video">
+    <section class="s_mang_eq_ve_truong_video s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="video__box">
+              <div class="video__box-background" style="background: #fff2df;">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 250px;"/>
+              </div>
+              <div class="video__box-content">Cô NGỌC GIÀU (GV Hải Phòng): Thực sự EQ đã cho tôi quá nhiều!</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="video__box">
+              <div class="video__box-background" style="background: #cbf2fa;">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 250px;"/>
+              </div>
+              <div class="video__box-content">Thầy ĐỖ MINH (GV Hà Nội): Chúng tôi đã được cầm tay chỉ việc cụ thể để ứng dụng vào dạy học EQ</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="video__box">
+              <div class="video__box-background" style="background: #cbfad5;">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 250px;"/>
+              </div>
+              <div class="video__box-content">Cô MỸ THƯƠNG (GV Vũng Tàu): Giáo viên học EQ thì bao bao nhiêu học sinh được hưởng lợi đặc biệt</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="video__box">
+              <div class="video__box-background" style="background: #facbcb;">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 250px;"/>
+              </div>
+              <div class="video__box-content">Tâm huyết mang EQ về trường cô Hiệu trưởng đã tạo nên những thay đổi diệu kỳ</div>
+            </div>
+          </div>
+        </div>
+        <div class="mx-auto mt-5" style="max-width: 720px; color: #fff; background: #347a87; padding: 24px 40px; border-radius: 10px">
+          <div class="text-lg fw-bolder fst-italic mx-auto" style="max-width: 600px;">
+            “Trường học là nơi diễn ra cuộc sống thực của trẻ. Hãy để trẻ đi học là sống, và sống là hạnh phúc.”
+          </div>
+          <div class="text-end">
+            <b>- John Dewey</b>
+            <br/>
+            - Nhà triết học, Nhà tâm lý học, Nhà cải cách giáo dục
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

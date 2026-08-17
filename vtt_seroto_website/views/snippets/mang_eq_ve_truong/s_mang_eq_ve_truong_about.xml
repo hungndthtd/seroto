@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_mang_eq_ve_truong_about" name="Về dự án">
+    <section class="s_mang_eq_ve_truong_about s_mang_eq_ve_truong custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="mx-auto text-center fst-italic fw-bolder mb80" style="max-width: 765px; color: #5e3d01; background: #ffd673; padding: 24px 40px; border-radius: 10px">
+          Giáo dục hạnh phúc bắt đầu từ chính mỗi người thầy, người biết thương mình và thương trò, từ đó lan tỏa niềm vui và tình yêu thương trong lớp học và trong nhà trường.
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="about__image">
+              <div class="about__image-shape">
+                <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                  class="img-fluid mx-auto" style="max-height: 365px; width: 410px;"/>
+              </div>
+              <img src="/web/static/img/placeholder.png" alt="Mang EQ về trường"
+                class="img-fluid mx-auto" style="max-height: 360px; max-width: 360px;"/>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="hero__content">
+              <h3 class="text-indigo fw-bolder mb-4">Về dự án "Mang EQ về trường"</h3>
+              <p>
+                <b>“Trường học Hạnh phúc”</b> là xu hướng tất yếu của giáo dục hiện đại. Mang EQ về trường ra đời để giúp nhà trường xây dựng môi trường học tập an toàn, nhân ái và truyền cảm hứng – nơi mọi mối quan hệ đều được nuôi dưỡng bằng sự thấu cảm và hiểu mình, hiểu người.
+                <br/>
+                <br/>
+                Seroto tin rằng: Một ngôi trường hạnh phúc không chỉ dạy kiến thức, mà còn nuôi dưỡng nhân cách và cảm xúc.
+                <br/>
+                <br/>
+                Khi Ban giám hiệu – giáo viên – học sinh – phụ huynh biết kết nối bằng EQ, trường học sẽ thật sự là nơi mỗi người được hiểu, được thương và được lớn lên mỗi ngày.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

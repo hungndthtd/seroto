@@ -1,14 +1,36 @@
+/* Font Google Fonts THẬT cho các class .font-* bên dưới (vd .font-philosopher,
+   .font-baloo-bhaina) được nạp qua thẻ <link> trong <head> (xem
+   views/website_layout_fonts.xml), KHÔNG dùng @import trong file SCSS này - Odoo gộp
+   nhiều file SCSS từ nhiều module thành 1 bundle lớn trước khi biên dịch, nên @import
+   (bắt buộc phải là rule ĐẦU TIÊN tuyệt đối của cả file CSS theo chuẩn) gần như chắc
+   chắn không nằm ở vị trí đầu bundle -> làm hỏng toàn bộ CSS của TOÀN TRANG (đã xảy ra
+   thật, không phải giả định) chứ không chỉ riêng phần font. */
+
 .custom-snippet {
   --font-roboto: 'Roboto', Arial, sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
+  --font-paytone-one: 'Paytone One', sans-serif;
+  --font-sriracha: 'Sriracha', cursive;
+  --font-lobster: 'Lobster', cursive;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-yeseva-one: 'Yeseva One', cursive;
+  --font-pattaya: 'Pattaya', sans-serif;
   --color-blue: #66a1ee;
+  --color-cyan: #44d9f8;
   --color-orange: #EF6723;
   --color-green: #008080;
   --color-green-light: #a1d6df;
   --color-yellow: #F6C246;
   --color-indigo: #051F4D;
   --color-pink: #ed678f;
+  --color-white: #fff;
+  --color-back: #000;
+  --color-red: #f44025;
   .text-blue {
     color: var(--color-blue);
+  }
+  .text-cyan {
+    color: var(--color-cyan);
   }
   .text-orange {
     color: var(--color-orange);
@@ -29,7 +51,13 @@
     color: var(--color-pink);
   }
   .text-white {
-    color: #fff;
+    color: var(--color-white);
+  }
+  .text-black {
+    color: var(--color-black);
+  }
+  .text-red {
+    color: var(--color-red);
   }
   .text-xs {
     font-size: 12px;
@@ -64,6 +92,15 @@
   .text-6xl {
     font-size: 56px;
   }
+  .text-7xl {
+    font-size: 64px;
+  }
+  .text-8xl {
+    font-size: 72px;
+  }
+  .text-9xl {
+    font-size: 80px;
+  }
   /* Font chữ dựng sẵn cho Option "Font chữ" (xem s_course_hero_font_option.js) - CHƯA
      có font thương hiệu thật, đang dùng font hệ thống làm placeholder. Muốn đổi font
      thật: thêm @font-face/import Google Fonts ở đây rồi đổi tên trong font-family. */
@@ -71,8 +108,35 @@
   .font-roboto {
     font-family: var(--font-roboto);
   }
+  .font-baloo-bhaina-2 {
+    font-family: 'Baloo Bhaina 2', cursive;
+  }
   .font-baloo-bhaina {
     font-family: 'Baloo Bhaina', cursive;
+  }
+  .font-sriracha {
+    font-family: var(--font-sriracha);
+  }
+  .font-lobster {
+    font-family: var(--font-lobster);
+  }
+  .font-montserrat {
+    font-family: var(--font-montserrat);
+  }
+  .font-yeseva-one {
+    font-family: var(--font-yeseva-one);
+  }
+  .font-pattaya {
+    font-family: var(--font-pattaya);
+  }
+  .font-philosopher {
+    font-family: 'Philosopher', sans-serif;
+  }
+  .font-paytone-one {
+    font-family: var(--font-paytone-one);
+  }
+  .font-open-sans {
+    font-family: var(--font-open-sans);
   }
   .font-script {
     font-family: 'Brush Script MT', 'Segoe Script', cursive;
@@ -81,8 +145,26 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 
+  a {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     font-family: var(--font-roboto);
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  button {
+    border: none;
   }
 
   .container-page {
@@ -95,6 +177,30 @@
     margin-right: auto;
     margin-left: auto;
     max-width: 1080px;
+  }
+
+  .btn-default {
+    --color: var(--color-white);
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+    padding: 10px 40px;
+    border-radius: 40px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color);
+    cursor: pointer;
+    background: var(--background);
+    text-align: center;
+    &:hover {
+      background: var(--background-hover);
+    }
+    @media (max-width: 767px) {
+      font-size: 20px;
+    }
+  }
+  .btn-animation {
+    animation: pulse 1s 1s infinite;
   }
 
   .title__special {
@@ -198,6 +304,91 @@
   }
 }
 
+/* Trải nghiệm EQ */
+.s_trai_nghiem_eq {
+  --color-yellow: #f6ab38;
+  --color-green: #298496;
+  --color-indigo: #2b3e75;
+}
+
+/* Trải nghiệm EQ - Tiêu đề chính */
+.s_trai_nghiem_eq_hero {
+  .hero__image {
+    position: relative;
+    z-index: 1;
+    &-bg {
+      position: absolute;
+      bottom: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+      width: 395px;
+      height: 415px;
+      img {
+        width: 100%;
+      }
+    }
+  }
+  .hero__button {
+    --background: #f6ab38;
+    --background-hover: #ffa110;
+  }
+  ul {
+    margin-bottom: 0;
+    margin-top: 16px;
+    li {
+      color: var(--color-indigo);
+      font-weight: 700;
+    }
+  }
+}
+
+/* Trải nghiệm EQ - Lịch trình học */
+.s_trai_nghiem_eq_timeline {
+    --color-green: #1294a2;
+  .timeline__step {
+    position: relative;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-radius: 40px 0;
+    padding: 32px 16px;
+    &-image {
+      --size: 100px;
+      margin: auto;
+      margin-bottom: 36px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+    }
+    &-content {
+      color: var(--color-indigo);
+      h4 {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+/* Trải nghiệm EQ - Đoạn kết */
+.s_trai_nghiem_eq_footer {
+  --color-yellow: #ffbd59;
+}
+
+
 /* Roadmap Timeline - đường chấm nối giữa các mốc (Lịch trình học) */
 .s_roadmap_timeline {
   .roadmap_step {
@@ -234,264 +425,327 @@
   }
 }
 
-/* Trải nghiệm EQ Timeline */
-.s_trai_nghiem_eq_timeline {
-  --color-indigo: #2b3f75;
-  .timeline__step {
-    position: relative;
-    border-bottom-width: 5px;
-    border-bottom-style: solid;
-    border-radius: 40px 0;
-    padding: 24px 16px;
-    &-image {
-      margin-bottom: 30px;
-    }
-    &-content {
-      color: var(--color-indigo);
-      h4 {
-        margin-bottom: 0;
-      }
-    }
-  }
+
+/* EQ Master */
+.s_eq_master {
+  --color-indigo: #0a2e5c;
+  --color-green: #74e2df;
+  --color-pink: #f95b85;
+  --color-cyan: #44d9f8;
 }
 
-/* Thực hành EQ - Giới thiệu khóa học */
-.s_thuc_hanh_eq_about {
-  .about__box {
-    position: relative;
-    border-radius: 60px;
-    color: #173f64;
-    background: #fff8f1;
-    padding: 50px;
-    @media (max-width: 991px) {
-      padding: 40px;
-    }
-    @media (max-width: 767px) {
-      padding: 40px 16px;
-      border-radius: 40px;
-    }
-    @media (max-width: 575px) {
-      border-radius: 20px;
-    }
-    &-shape {
-      position: absolute;
-      bottom: 0;
-      left: -40px;
-      @media (max-width: 991px) {
-        display: none;
-      }
-    }
-    p {
-      margin-bottom: 0;
-    }
-  }
-}
-
-/* Thực hành EQ - Trích dẫn */
-.s_thuc_hanh_eq_quote {
-  .quote__content {
-    color: #173f64;
-    &-text {
-      position: relative;
-      .text__shape {
-        --space: -50px;
-        position: absolute;
-        bottom: 0;
-        right: var(--space);
-        transform: rotate(180deg);
-        &:first-child {
-          bottom: unset;
-          right: unset;
-          top: 0;
-          left: var(--space);
-          transform: rotate(0);
-        }
-      }
-    }
-  }
-}
-
-/* Thực hành EQ - Mục tiêu khóa học */
-.s_thuc_hanh_eq_target {
-  --color-indigo: #173f64;
+/* EQ Master - Hero */
+.s_eq_master_hero {
   color: var(--color-indigo);
-  .target__box {
-    margin-bottom: 24px;
-    &-number {
-      color: #91e0e8b3;
-      font-size: 70px;
-      font-weight: 600;
-      line-height: 1;
-      @media (max-width: 767px) {
-        font-size: 60px;
-      }
-      @media (max-width: 575px) {
-        font-size: 50px;
-      }
-    }
-    &-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    &-list {
-      li {
-        &::marker {
-          color: var(--color-green);
-        }
+  p {
+    font-family: var(--font-open-sans);
+  }
+  .hero__button {
+    --background: #f95b85;
+    --background-hover: #e83867;
+    font-size: 18px;
+  }
+}
+
+/* EQ Master - Khóa học EQ Master là gì */
+.s_eq_master_course {
+  --color-green: #016581;
+  color: var(--color-indigo);
+}
+
+/* EQ Master - Lợi ích */
+.s_eq_master_benefit {
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      position: relative;
+      padding-left: 30px;
+      padding-bottom: 12px;
+      &::before {
+        --size: 20px;
+        content: '';
+        position: absolute;
+        left: 0;
+        width: var(--size);
+        height: var(--size);
+        background: url(/vtt_seroto_website/static/src/img/icon-flower.png) center center;
+        background-repeat: no-repeat;
+        background-size: contain;
       }
     }
   }
-  .target__image {
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    height: 265px;
-    z-index: 1;
+}
+
+/* EQ Master - Khóa học dành cho ai */
+.s_eq_master_user {
+
+}
+
+/* EQ Master - Giảng viên khóa học */
+.s_eq_master_teacher {
+  --color-pink: #f95b85;
+  .teacher__button {
+    --background: #11d6ff;
+    --background-hover: #11d6ff;
+    font-size: 18px;
+    margin: unset;
     @media (max-width: 767px) {
-      display: none;
+      font-size: 18px;
     }
+  }
+  .teacher__image {
+    position: relative;
+    z-index: 1;
     &-shape {
+      --size: 310px;
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      z-index: -1;
-      height: 100%;
-      width: 350px;
-    }
-  }
-  .target__button {
-    width: 100%;
-    max-width: 300px;
-    margin: auto;
-    padding: 10px 40px;
-    border-radius: 40px;
-    font-size: 24px;
-    font-weight: 600;
-    color: #fff;
-    animation: pulse 1s 1s infinite;
-    cursor: pointer;
-    background: #fdd401;
-    text-align: center;
-    &:hover {
-      background: #ffb201;
-    }
-    @media (max-width: 767px) {
-      font-size: 20px;
-    }
-  }
-}
-
-/* Thực hành EQ - Khóa học hướng tới */
-.s_thuc_hanh_eq_toward {
-  --color-indigo: #173f64;
-  color: var(--color-indigo);
-  .toward__box {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    &-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      .content__image {
-        --size: 90px;
-        position: relative;
-        border: 2px dotted var(--border-color);
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 100%;
-        width: var(--size);
-        height: var(--size);
-        &::before {
-          --size: 80px;
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: var(--size);
-          height: var(--size);
-          border-radius: 100%;
-          background: var(--background);
-          z-index: -1;
-        }
-      }
-      .content__text {
-        font-size: 18px;
-        font-weight: 600;
-        flex: 1;
-      }
-    }
-    &-list {
-      padding: 24px 12px;
-      padding-left: 0;
-      border-radius: 20px;
-      font-size: 14px;
-      background: var(--background);
-      height: 100%;
-      ul {
-        li {
-          &::marker {
-            color: var(--color-green);
-          }
-        }
-      }
-    }
-  }
-}
-
-/* Thực hành EQ - Giảng viên */
-.s_thuc_hanh_eq_teacher {
-  .teacher__box {
-    max-width: 400px;
-    margin: auto;
-    &-image {
-      --size: 250px;
       width: var(--size);
       height: var(--size);
+      border-radius: 0 70px;
+      background: #ffdfd1;
+      z-index: -1;
+    }
+    &-box {
       position: relative;
-      margin: auto;
-      margin-bottom: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: url(/vtt_seroto_website/static/src/img/shape-avatar-background.svg) 0% 0% / 100% 100%;
-      @media (max-width: 767px) {
-        margin-bottom: 20px;
+      height: 360px;
+      overflow: hidden;
+      img {
+        position: absolute;
+        top: 11px;
+        left: -41px;
+        height: 400px;
+        max-width: unset;
+        // @media (max-width: 767px) {
+        //   height: 360px;
+        // }
       }
-      .image__shape {
-        --size: 240px;
+    }
+  }
+  ul {
+    li {
+      &::marker {
+        color: #57d3d0;
+      }
+    }
+  }
+}
+
+/* EQ Master - Nội dung khóa học */
+.s_eq_master_content {
+  .content__box {
+    border-radius: 20px;
+    background: #fff9f3;
+    box-shadow: rgba(11, 47, 93, 0.2) 10px 15px 20px -15px;
+    padding: 24px 20px;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
         position: relative;
-        width: var(--size);
-        height: var(--size);
-        overflow: hidden;
-        mask: url(/vtt_seroto_website/static/src/img/shape-avatar.svg) 0% 0% / 100% 100%;
-        background: #e2fdff;
-        img {
+        padding: 0 0 12px 50px;
+        font-size: 17px;
+        line-height: 1.35;
+        max-width: 410px;
+        &::before {
+          --size: 32px;
+          content: var(--numb);
           position: absolute;
           top: 0;
           left: 0;
-          right: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: top;
+          width: var(--size);
+          height: var(--size);
+          border-radius: 50% 50% 0 50%;
+          background: var(--color-green);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          font-weight: 600;
+          color: #fff;
         }
       }
     }
-    &-info {
-      ul {
-        li {
-          &::marker {
-            color: var(--color-green);
+  }
+}
+
+/* EQ Master - Cách thức tổ chức khóa học */
+.s_eq_master_method {
+  color: var(--color-indigo);
+  .method__box {
+    margin-top: 48px;
+    &-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      p {
+        margin-bottom: 0;
+        margin-left: 12px;
+        font-size: 30px;
+        font-weight: 700;
+        font-family: var(--font-paytone-one);
+      }
+    }
+    &-card {
+      padding: 60px 20px 20px;
+      position: relative;
+      border: 10px solid var(--border);
+      border-radius: 35px;
+      background: var(--color-white);
+      height: 100%;
+      .card__title {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--border);
+        color: var(--color-white);
+        text-align: center;
+        border-radius: 25px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        max-width: 260px;
+        width: 100%;
+        height: 85px;
+        font-weight: 600;
+        line-height: 1.2;
+        
+        &.right {
+          @media (min-width: 768px) {
+            right: -30px;
+            left: auto;
+            transform: unset;
           }
         }
       }
+      .card__content {
+        font-size: 20px;
+        font-weight: 600;
+        div {
+          font-size: 30px;
+          margin: 4px 0;
+        }
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+  .method__button {
+    --background: #f95b85;
+    --background-hover: #e83867;
+    font-size: 18px;
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      position: relative;
+      padding-left: 30px;
+      padding-bottom: 12px;
+      &::before {
+        --size: 20px;
+        content: '';
+        position: absolute;
+        left: 0;
+        width: var(--size);
+        height: var(--size);
+        background: url(/vtt_seroto_website/static/src/img/icon-flower.png) center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+}
+
+/* EQ Master - Câu hỏi thường gặp */
+.s_eq_master_faq {
+  .faq__box {
+    margin-bottom: 24px;
+    display: flex;
+    &-numb {
+      --size: 66px;
+      position: relative;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      border: 1px dashed #ffcae1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1;
+      color: #57d3d0;
+      font-size: 40px;
+      font-weight: 600;
+      &::before {
+        --size: 58px;
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        width: var(--size);
+        height: var(--size);
+        background: #fff1f0;
+        z-index: -1;
+      }
+    }
+    &-content {
+      margin-top: 16px;
+      flex: 1;
+      margin-left: 12px;
+      p, div:last-child {
+        margin-bottom: 0;
+        margin-top: 8px;
+      }
+      a {
+        display: inline;
+        text-decoration: underline;
+      }
+    }
+  }
+  .faq__button {
+    --background: #11d6ff;
+    --background-hover: #11d6ff;
+    display: inline-block;
+    font-size: 18px;
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+  .faq__image {
+    margin-bottom: 40px;
+  }
+}
+
+/* EQ Master - Đăng ký khóa học */
+.s_eq_master_register {
+  color: var(--color-indigo);
+  .register__box {
+    display: flex;
+    &-content {
+      flex: 1;
+      margin-left: 12px;
+    }
+  }
+  .register__button {
+    --background: var(--color-pink);
+    --background-hover: #e83867;
+    font-size: 18px;
+    @media (max-width: 767px) {
+      font-size: 18px;
     }
   }
 }

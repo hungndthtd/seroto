@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_tri_tue_cam_xuc_reason" name="Tại sao">
+    <section class="s_tri_tue_cam_xuc_reason s_tri_tue_cam_xuc custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-5">
+          <div class="position-relative" style="width: 40px; height: 50px;">
+            <div class="position-absolute top-0 end-0" style="width: 25px; height: 50px; transform: rotate(180deg);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 98.92 197.33" class="" fill="rgba(255, 217, 142, 1)">
+                <path d="M0,197.33a99.17,99.17,0,0,0,37.86-7.51A99.05,99.05,0,0,0,70,168.43a98.7,98.7,0,0,0,21.44-32,98.47,98.47,0,0,0,7.53-37.76,98.45,98.45,0,0,0-7.53-37.75A98.7,98.7,0,0,0,70,28.9,99.05,99.05,0,0,0,37.86,7.51,99.17,99.17,0,0,0,0,0V197.33Z"></path>
+              </svg>
+            </div>
+            <div class="position-absolute bottom-0 start-0" style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 218 218" class="" fill="rgba(203, 242, 250, 1)">
+                <path d="M109,0A109,109,0,1,0,218,109,109,109,0,0,0,109,0Zm0,178.66A69.66,69.66,0,1,1,178.66,109,69.66,69.66,0,0,1,109,178.66Z"></path>
+              </svg>
+            </div>
+          </div>
+          <h2 class="fw-bolder font-paytone-one text-green ms-3 text-center">Tại sao <span class="text-yellow">trí tuệ cảm xúc (EQ)</span> <br/> lại quan trọng với Teen?</h2>
+        </div>
+        <div class="text-indigo fst-italic mx-auto" style="max-width: 950px;">
+          <p>Ở lứa tuổi 12-18 tuổi, các bạn Teen đang ở giai đoạn phát triển nhanh về thể chất và có sự biến đổi mạnh mẽ về tâm sinh lý. Đây cũng là giai đoạn mà Teen <b class="text-orange">có nhiều sự xáo trộn về cảm xúc nhất</b>: mâu thuẫn nội tâm, khó chia sẻ cảm xúc, khó kiểm soát cảm xúc cũng như không làm chủ được lời nói, hành vi... Ở giai đoạn này, các bạn cũng dễ bị mất kết nối với người thân do cảm giác "không có ai hiểu mình", "không ai lắng nghe và tôn trọng ý kiến, cảm xúc của mình". Các bạn dễ <b>bị mắc kẹt cảm xúc, hoặc thu mình lại, hoặc bùng nổ...</b> mà chưa được dạy cách phải xử lý làm sao với khối cảm xúc đó.</p>
+          <br/>
+          <p>Chính vì vậy, <b class="text-orange">Trí tuệ cảm xúc (EQ) đặc biệt quan trọng</b> đối với các bạn tuổi Teen 12-18 tuổi. Có EQ, không chỉ giúp bạn tự biết <b>cân bằng cảm xúc</b>, biết cách phản ứng phù hợp với các tình huống không mong muốn diễn ra trong cuộc sống, mà còn giúp các bạn giữ được những mối quan hệ tốt đẹp với bạn bè, người thân, có năng lực sống vui vẻ hứng khởi mỗi ngày!</p>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

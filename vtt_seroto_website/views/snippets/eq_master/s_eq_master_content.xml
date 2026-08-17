@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_content" name="Nội dung khóa học">
+    <section class="s_eq_master_content s_eq_master custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+            class="img-fluid" style="max-height: 50px; max-width: 50px"/>
+          <h2 class="fw-bolder font-paytone-one text-indigo ms-3"><span class="text-green">Nội dung</span> của khoá học</h2>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="content__box">
+              <ul>
+                <li style="--numb: '1';">Thực hành trí tuệ cảm xúc theo nội dung của khóa học Thực hành EQ</li>
+                <li style="--numb: '2';">Thực hành sự hay biết và yêu thương chính mình trong mọi hoạt động</li>
+                <li style="--numb: '3';">Thực hành vượt qua giới hạn của bản thân, nâng cao sức chịu đựng </li>
+                <li style="--numb: '4';">Thực hành quan sát dòng suy nghĩ và cảm xúc đi kèm</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="content__box">
+              <ul>
+                <li style="--numb: '5';">Thực hành lắng nghe thấu cảm trong mọi tương tác</li>
+                <li style="--numb: '6';">Thực hành quan sát bản ngã trong từng lời nói, hành động</li>
+                <li style="--numb: '7';">Thực hành tư duy nguyên nhân - kết quả trong mọi hành vi, lời nói, suy nghĩ</li>
+                <li style="--numb: '8';">Thực tập soạn giáo án và bài giảng trí tuệ cảm xúc <b>(*)</b> đây là phần tùy chọn</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,255 @@
+/* Trang chủ */
+.s_trang_chu {
+
+}
+
+/* Trang chủ - Khóa học (+ snippet "Khóa học - Nhóm đối tượng" tách riêng, dùng lại
+   đúng class course__box/item__* - xem views/snippets/trang_chu/s_trang_chu_course_group.xml) */
+.s_trang_chu_course, .s_trang_chu_course_group {
+  --color-indigo: #013552;
+  color: var(--color-indigo);
+  font-family: var(--font-roboto);
+  .course__box {
+    &-title {
+      display: flex;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      span {
+        margin-left: 12px;
+      }
+    }
+    &-text {
+      margin-bottom: 24px;
+      font-size: 18px;
+    }
+    &-item {
+      box-shadow: rgb(199, 199, 199) 0px 0px 15px -2px;
+      border-radius: 10px;
+      background: #f8f8f8;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      .item__image {
+        border-radius: 10px;
+        height: 170px;
+      }
+      .item__title {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .item__subtitle {
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .item__tag {
+        width: fit-content;
+        margin: 8px 0;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 16px;
+        border: 1px solid var(--color-red);
+        // background: var(--color-white);
+        &.green {
+          border-color: var(--color-green);
+        }
+      }
+      .item__description {
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+      .item__info {
+        margin-bottom: 12px;
+        margin-top: auto;
+        &-content {
+          display: flex;
+          margin-bottom: 6px;
+          div {
+            --size: 24px;
+            // width: var(--size);
+            height: var(--size);
+            color: #757575;
+          }
+          p {
+            margin-left: 8px;
+            flex: 1;
+          }
+        }
+      }
+      .item__button {
+        margin-top: auto;
+        display: flex;
+        &-action {
+          width: 100%;
+          border-radius: 8px;
+          padding: 4px 10px;
+          text-align: center;
+          cursor: pointer;
+          font-weight: 700;
+          &.fill {
+            color: var(--color-white);
+            background: #03b3bb;
+          }
+          &.outline {
+            border: 1px solid #4a4a4a;
+            background: var(--color-white);
+            color: #4a4a4a;
+            margin-left: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.s_trang_chu_sponsor {
+  --color-indigo: #191e4a;
+  color: var(--color-indigo);
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      position: relative;
+      padding-left: 45px;
+      padding-bottom: 20px;
+      &::before {
+        --size: 35px;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: var(--size);
+        height: var(--size);
+        background: url(/vtt_seroto_website/static/src/img/icon-hand-heart.png) center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+  .sponsor__card {
+    margin-top: 24px;
+    border-radius: 30px;
+    box-shadow: rgb(0, 123, 123) 0px 0px 20px -10px;
+    background: #fff8ee;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &-content {
+      margin-left: 24px;
+    }
+  }
+}
+
+/* Trang chủ - Văn hóa Seroto */
+.s_trang_chu_culture {
+  ul {
+    li {
+      padding-bottom: 12px;
+      &::marker {
+        color: var(--color-yellow);
+      }
+    }
+  }
+}
+
+/* Trang chủ - Dự án */
+.s_trang_chu_project {
+  .project__box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    &.reverse {
+      justify-content: flex-end;
+      text-align: right;
+      .project__box {
+        &-image {
+          order: 2;
+          .image__tag {
+            right: 0;
+            left: -10px;
+          }
+        }
+        &-content {
+          margin-left: 0;
+          margin-right: 24px;
+          .content__button {
+            .btn-default {
+              margin-left: auto;
+            }
+          }
+        }
+      }
+    }
+    &-image {
+      --size: 240px;
+      position: relative;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(13, 98, 242, 0.4);
+      .image__border {
+        --size: 220px;
+        width: var(--size);
+        height: var(--size);
+        border-radius: 50%;
+        border: 10px solid var(--color-white);
+        box-shadow: rgba(0, 0, 0, 0.7) 0px 15px 20px -20px;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .image__tag {
+        --size: 115px;
+        width: var(--size);
+        height: var(--size);
+        position: absolute;
+        right: -10px;
+        bottom: -25px;
+        border-radius: 100%;
+        border: 1px solid rgb(84, 163, 227);
+        background: #fff;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          max-width: 90px;
+        }
+      }
+    }
+    &-content {
+      flex: 1;
+      margin-left: 24px;
+      .content__title {
+        color: var(--color-orange);
+        font-family: var(--font-lobster);
+        font-size: 32px;
+        margin-bottom: 4px;
+      }
+      .content__button {
+        margin-top: 24px;
+        .btn-default {
+          margin: 0;
+          max-width: 150px;
+          font-size: 14px;
+          border: 1px solid var(--color-green);
+          background: transparent;
+          color: var(--color-green);
+          padding: 8px 16px;
+          @media (max-width: 767px) {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_course" name="Khóa học là gì">
+    <section class="s_eq_master_course s_eq_master custom-snippet pt48 pb48" style="background: #8be6e4;">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+            class="img-fluid" style="max-height: 50px; max-width: 50px"/>
+          <h2 class="fw-bolder text-white font-paytone-one ms-3">Khóa học <span class="text-green">EQ Master</span> là gì?</h2>
+        </div>
+        <div class="mx-auto text-lg" style="max-width: 840px;">
+          <p>EQ MASTER là khóa học chuyên sâu về thông minh cảm xúc (EQ). Bạn sẽ được rèn luyện để nâng cao chỉ số thông minh cảm xúc.</p>
+          <br/>
+          <p>Không chỉ thực hành cho chính bản thân mình, bạn còn có được kiến thức và kỹ năng để chia sẻ, hướng dẫn EQ cho cá nhân, gia đình, trường học, công ty để nhiều người được tiếp cận và thực hành EQ.</p>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_master_user" name="Khóa học dành cho ai">
+    <section class="s_eq_master_user s_eq_master custom-snippet pt48 pb48">
+      <div class="container-page">
+        <div class="d-flex justify-content-center mb-4 mb-md-5">
+          <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+            class="img-fluid" style="max-height: 50px; max-width: 50px"/>
+          <h2 class="fw-bolder font-paytone-one text-indigo ms-3">Khóa học <span class="text-green">dành cho ai?</span></h2>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="text-center">
+              <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                class="img-fluid mx-auto mb-4" style="max-height: 200px;"/>
+              <div class="text-lg mx-auto" style="max-width: 375px;">Người muốn rèn luyện chuyên sâu về EQ và đưa EQ trở thành lối sống của bản thân.</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="text-center">
+              <img src="/web/static/img/placeholder.png" alt="EQ MASTER"
+                class="img-fluid mx-auto mb-4" style="max-height: 200px;"/>
+              <div class="text-lg mx-auto" style="max-width: 375px;">Người muốn thực hành sâu về EQ và có thể chia sẻ phương pháp thực hành EQ đến gia đình, trường học, doanh nghiệp.</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 mt-md-5 fst-italic text-sm">
+          <span class="fw-bold">(*)</span> Bạn cần tham gia và hoàn thành khóa Thực hành EQ (tên cũ là Sờ Cái Bụng) trước khi đăng ký EQ Master.
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>
