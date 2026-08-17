@@ -27,6 +27,27 @@ class AcademicCourse(models.Model):
     schedule_time = fields.Char(string='Giờ học/Thời gian', placeholder='5:00 - 6:00')
     deadline_register = fields.Char(string='Thời hạn đăng ký', placeholder='17h 29/06')
 
+    registration_open_date = fields.Date(string='Ngày mở đăng ký')
+    registration_close_date = fields.Date(string='Ngày đóng đăng ký')
+
+    default_class_id = fields.Many2one(
+        'academic.class', string='Lớp nhận đăng ký',
+        domain="[('course_id', '=', id), ('state', 'in', ['draft', 'open'])]",
+        help='Lớp học mà hệ thống sẽ tự động gắn vào phiếu đăng ký khi khách đăng ký khóa học này từ website.',
+    )
+    intake_ids = fields.One2many('academic.intake', 'course_id', string='Các đợt học')
+    class_ids = fields.One2many('academic.class', 'course_id', string='Các lớp học')
+
+    is_registration_open = fields.Boolean(string='Đang mở đăng ký', compute='_compute_is_registration_open')
+
+    @api.depends('registration_open_date', 'registration_close_date')
+    def _compute_is_registration_open(self):
+        today = fields.Date.context_today(self)
+        for course in self:
+            open_ok = not course.registration_open_date or course.registration_open_date <= today
+            close_ok = not course.registration_close_date or course.registration_close_date >= today
+            course.is_registration_open = open_ok and close_ok
+
     @api.depends('code', 'name')
     def _compute_display_name(self):
         self.env.cr.execute("SELECT column_name FROM information_schema.columns WHERE table_name='academic_course' AND column_name='code'")
@@ -57,6 +78,17 @@ class AcademicCourse(models.Model):
     question_ids = fields.One2many(
         'academic.course.question', 'course_id', string='Câu hỏi chuyên sâu',
     )
+
+    def action_open_new_batch(self):
+        self.ensure_one()
+        return {
+            'name': 'Mở đợt học mới',
+            'type': 'ir.actions.act_window',
+            'res_model': 'academic.batch.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_course_id': self.id},
+        }
 
 
 class ProductTemplate(models.Model):

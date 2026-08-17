@@ -41,6 +41,7 @@
     # Backend: menu "Phiếu đăng ký" (cạnh "Đợt học" trong app Đào tạo) để xem/quản lý
     # các phiếu đăng ký khóa học từ website.
     'views/course_registration_views.xml',
+    'wizard/course_registration_reject_wizard_views.xml',
     # Bật snippet kéo thả.
     'views/snippets/s_block.xml',
     'views/snippets/s_course_card.xml',

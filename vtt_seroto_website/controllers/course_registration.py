@@ -53,6 +53,7 @@ class CourseRegistrationController(http.Controller):
             'partner_name': name,
             'email': email,
             'phone': phone,
+            'state': 'new',
         })
 
         registration._create_bank_transaction()

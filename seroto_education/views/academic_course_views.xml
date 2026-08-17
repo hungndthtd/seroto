@@ -25,7 +25,6 @@
                 <field name="batch_info"/>
                 <field name="schedule_date"/>
                 <field name="product_id"/>
-                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
@@ -36,6 +35,9 @@
         <field name="model">academic.course</field>
         <field name="arch" type="xml">
             <form string="Khóa học">
+                <header>
+                    <button name="action_open_new_batch" string="Mở đợt học mới" type="object" class="oe_highlight"/>
+                </header>
                 <sheet>
                     <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                     <div class="oe_title">
@@ -51,16 +53,34 @@
                             <field name="lecturer"/>
                             <field name="format"/>
                             <field name="product_id"/>
-                            <field name="active"/>
                         </group>
                         <group string="Thông tin tuyển sinh (Website)">
                             <field name="batch_info"/>
                             <field name="schedule_date"/>
                             <field name="schedule_time"/>
                             <field name="deadline_register"/>
+                            <field name="registration_open_date"/>
+                            <field name="registration_close_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Lớp đang nhận đăng ký">
+                            <field name="default_class_id"/>
                         </group>
                     </group>
                     <notebook>
+                        <page string="Đợt học &amp; Lớp học">
+                            <field name="class_ids" readonly="1">
+                                <list decoration-success="state == 'open'" decoration-muted="state in ('closed', 'done')">
+                                    <field name="name"/>
+                                    <field name="intake_id"/>
+                                    <field name="teacher_ids" widget="many2many_tags"/>
+                                    <field name="date_start_planned" string="BĐ dự kiến"/>
+                                    <field name="date_end_planned" string="KT dự kiến"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Mô tả chi tiết">
                             <field name="description" placeholder="Nhập nội dung giới thiệu khóa học..."/>
                         </page>

@@ -73,8 +73,11 @@
                                     <!-- CTA Buttons -->
                                     <div class="row g-2 mt-auto">
                                         <div class="col-7">
-                                            <button class="btn btn-primary w-100 py-2 rounded-3 fw-bold btn-register-now" t-att-data-course-id="course.id" t-att-data-course-name="course.name">
+                                            <button t-if="course.is_registration_open" class="btn btn-primary w-100 py-2 rounded-3 fw-bold btn-register-now" t-att-data-course-id="course.id" t-att-data-course-name="course.name">
                                                 Đăng ký ngay
+                                            </button>
+                                            <button t-else="" class="btn btn-secondary w-100 py-2 rounded-3 fw-bold" disabled="disabled">
+                                                Đã đóng đăng ký
                                             </button>
                                         </div>
                                         <div class="col-5">

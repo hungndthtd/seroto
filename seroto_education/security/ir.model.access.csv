@@ -8,6 +8,7 @@ access_academic_enrollment_mgr,academic.enrollment.mgr,model_academic_enrollment
 access_academic_attendance_mgr,academic.attendance.mgr,model_academic_attendance,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_certificate_mgr,academic.certificate.mgr,model_academic_certificate,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_ip_log_mgr,academic.ip.log.mgr,model_academic_ip_log,seroto_education.group_seroto_manager,1,1,1,1
+access_academic_batch_wizard_mgr,academic.batch.wizard.mgr,model_academic_batch_wizard,seroto_education.group_seroto_manager,1,1,1,1
 
 access_academic_course_sales,academic.course.sales,model_academic_course,seroto_education.group_seroto_sales,1,0,0,0
 access_academic_intake_sales,academic.intake.sales,model_academic_intake,seroto_education.group_seroto_sales,1,0,0,0
