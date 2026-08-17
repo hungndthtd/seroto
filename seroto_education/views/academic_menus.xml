@@ -71,4 +71,10 @@
               parent="menu_academic_root"
               action="action_academic_intake"
               sequence="50"/>
+
+    <menuitem id="menu_academic_course_audience"
+              name="Đối tượng khóa học"
+              parent="menu_academic_root"
+              action="action_academic_course_audience"
+              sequence="90"/>
 </odoo>

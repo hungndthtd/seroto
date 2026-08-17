@@ -49,7 +49,8 @@
     'views/snippets/s_project.xml',
     # 'views/snippets/s_roadmap_timeline.xml',
     # 'views/snippets/s_trai_nghiem_eq_timeline.xml',
-    'views/snippets/trang_chu/s_trang_chu_course.xml',
+    # 'views/snippets/trang_chu/s_trang_chu_course.xml',
+    'views/snippets/trang_chu/s_trang_chu_course_group.xml',
     'views/snippets/trang_chu/s_trang_chu_sponsor.xml',
     'views/snippets/trang_chu/s_trang_chu_finance.xml',
     'views/snippets/trang_chu/s_trang_chu_team.xml',
@@ -163,9 +164,13 @@
     'website.website_builder_assets': [
       'vtt_seroto_website/static/src/js/s_title_special_option.js',
       'vtt_seroto_website/static/src/xml/s_title_special_option.xml',
+      # Ô nhập "Mã đối tượng" cho snippet "Khóa học - Nhóm đối tượng" (panel Tùy chỉnh).
+      'vtt_seroto_website/static/src/js/s_course_group_option.js',
+      'vtt_seroto_website/static/src/xml/s_course_group_option.xml',
     ],
     'web.assets_frontend': [
       'vtt_seroto_website/static/src/js/course_snippet.js',
+      'vtt_seroto_website/static/src/js/course_group_snippet.js',
       'vtt_seroto_website/static/src/js/course_register_wizard.js',
       'vtt_seroto_website/static/src/scss/snippet.scss',
       'vtt_seroto_website/static/src/scss/course_register_wizard.scss',

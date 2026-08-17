@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Snippet "Khóa học - Nhóm đối tượng" - kéo thả ĐƯỢC NHIỀU LẦN trên 1 trang, mỗi lần
+    tự cấu hình 1 "Mã đối tượng" riêng (panel Tùy chỉnh > Mã đối tượng, xem
+    static/src/js/s_course_group_option.xml) - khác với snippet "Khóa học"
+    (s_trang_chu_course.xml) cũ gộp cứng cả 3 nhóm đối tượng + toàn bộ khóa học viết
+    tay vào 1 khối duy nhất.
+
+    Chỉ phần khung (tiêu đề/mô tả nhóm) là tĩnh, sửa trực tiếp qua Website Editor như
+    bình thường - phần danh sách khóa học (.js_course_container) do
+    static/src/js/course_group_snippet.js tự dựng lúc tải trang, đọc từ
+    academic.course (lọc theo audience_ids.code khớp Mã đối tượng đã nhập) - đổi dữ
+    liệu Khóa học trong backend hoặc nâng cấp module là web tự cập nhật, KHÔNG cần xóa
+    kéo lại snippet.
+
+    CỐ TÌNH dùng lại đúng class "s_trang_chu_course"-style (course__box, item__title,
+    item__tag...) như s_trang_chu_course.xml để không cần viết CSS mới - xem
+    static/src/scss/s_trang_chu.scss, selector đã mở rộng thêm ".s_trang_chu_course_group".
+  -->
+  <template id="s_trang_chu_course_group" name="Khóa học - Nhóm đối tượng">
+    <section class="s_trang_chu_course_group s_trang_chu custom-snippet pt48 pb48" data-audience-code="">
+      <div class="container-page">
+        <div class="course__box">
+          <div class="course__box-title">
+            <img src="/web/static/img/placeholder.png" alt="Seroto"
+              class="img-fluid" style="max-height: 40px; max-width: 40px;"/>
+            <span>Tiêu đề nhóm khóa học:</span>
+          </div>
+          <div class="course__box-text">Mô tả ngắn cho nhóm khóa học này...</div>
+          <div class="row js_course_container"/>
+        </div>
+      </div>
+    </section>
+  </template>
+
+</odoo>

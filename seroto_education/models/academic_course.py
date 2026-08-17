@@ -21,7 +21,11 @@ class AcademicCourse(models.Model):
     description = fields.Text(string='Mô tả chi tiết')
     format = fields.Char(string='Hình thức học', default='Online Zoom')
     lecturer = fields.Char(string='Giảng viên/Cố vấn')
-    
+    # Có điền thì website hiện thêm nút "Chi tiết" cạnh "Đăng ký ngay" (mở tab mới) -
+    # xem controllers/academic_course_snippet.py (module vtt_seroto_website) +
+    # static/src/js/course_group_snippet.js, để trống thì chỉ hiện "Đăng ký ngay".
+    detail_url = fields.Char(string='Link chi tiết', help='VD: /khoa-hoc-eq-5-phut hoặc URL đầy đủ.')
+
     batch_info = fields.Char(string='Đợt tuyển sinh', placeholder='Đang mở đăng ký K48')
     schedule_date = fields.Char(string='Ngày học', placeholder='06/07 - 26/07')
     schedule_time = fields.Char(string='Giờ học/Thời gian', placeholder='5:00 - 6:00')
@@ -77,6 +81,15 @@ class AcademicCourse(models.Model):
     # chuyên sâu" để khách điền câu trả lời.
     question_ids = fields.One2many(
         'academic.course.question', 'course_id', string='Câu hỏi chuyên sâu',
+    )
+
+    # Đề mục (Giáo viên/Trường học/...) - website (vtt_seroto_website, snippet "Khóa
+    # học - Nhóm đối tượng") lọc khóa học hiển thị theo audience_ids.code, khớp với mã
+    # nhập ở panel Tùy chỉnh của snippet đó.
+    audience_ids = fields.Many2many(
+        'academic.course.audience', string='Đối tượng',
+        help='Đề mục hiển thị trên website (vd Giáo viên, Trường học). Một khóa học '
+             'có thể thuộc nhiều đối tượng cùng lúc.',
     )
 
     def action_open_new_batch(self):
