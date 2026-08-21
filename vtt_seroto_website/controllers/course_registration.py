@@ -39,22 +39,32 @@ class CourseRegistrationController(http.Controller):
         '/seroto/course-registration/create',
         type='jsonrpc', auth='public', website=True,
     )
-    def create_registration(self, course=None, name=None, email=None, phone=None, **post):
+    def create_registration(self, course=None, name=None, email=None, phone=None,
+                             student_relation=None, student_name=None, **post):
         course = (course or '').strip()
         name = (name or '').strip()
         email = (email or '').strip()
         phone = (phone or '').strip()
+        student_relation = (student_relation or 'self').strip()
+        student_name = (student_name or '').strip()
 
         if not (course and name and email and phone):
             raise UserError(_('Vui lòng điền đầy đủ thông tin cơ bản.'))
+        if student_relation != 'self' and not student_name:
+            raise UserError(_('Vui lòng nhập họ tên học viên.'))
 
-        registration = request.env['seroto.course.registration'].sudo().create({
+        vals = {
             'course_name': course,
             'partner_name': name,
             'email': email,
             'phone': phone,
             'state': 'new',
-        })
+        }
+        if student_relation != 'self':
+            vals['student_relation'] = student_relation
+            vals['student_name'] = student_name
+
+        registration = request.env['seroto.course.registration'].sudo().create(vals)
 
         registration._create_bank_transaction()
         registration.action_send_confirmation_email()
@@ -155,6 +165,12 @@ class CourseRegistrationController(http.Controller):
 
         if payload.get('status') == 'paid':
             registration.payment_status = 'paid'
+            # Tự động tạo Đơn hàng -> Hóa đơn -> Đăng ký thanh toán -> Ghi danh (xem
+            # models/course_registration.py, _auto_process_payment). Lỗi bên trong hàm
+            # này tự log và KHÔNG raise ra ngoài - webhook vẫn phải trả "success" cho
+            # ngân hàng/cổng thanh toán vì việc "ghi nhận đã thanh toán" (dòng ngay
+            # trên) đã thành công, dù bước tự động hóa tiếp theo có lỗi hay không.
+            registration._auto_process_payment()
 
         return request.make_json_response({'success': True})
 

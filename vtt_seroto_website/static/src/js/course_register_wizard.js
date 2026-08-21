@@ -33,6 +33,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         "click .js_register_course_wizard": "_onOpenWizard",
         "click .course_wizard_step": "_onStepClick",
         "input #course_wizard_basic_form": "_onBasicInput",
+        "change input[name='student_relation']": "_onRelationChange",
         "submit #course_wizard_basic_form": "_onBasicSubmit",
         "click #wizard_payment_continue": "_onWizardPaymentContinue",
         "click #wizard_open_slip_unpaid": "_onOpenSlipFromWizard",
@@ -68,6 +69,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             accessToken: null,
             checkoutUrl: null,
             course: "", name: "", email: "", phone: "",
+            studentRelation: "self", studentName: "",
             questions: [], // [{id, question}, ...] - riêng theo từng khóa học, xem _renderQuestions()
             answers: [], // [{question, answer}, ...] - đã lưu ở Tab 3
             paid: false,
@@ -88,6 +90,11 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         modalEl.querySelector("#course_wizard_detail_form").reset();
         modalEl.querySelector("#course_wizard_questions_container").replaceChildren();
         modalEl.querySelector("#wizard_course_name").value = this._state.course;
+        // form.reset() đưa radio "Đăng ký cho" về lại "Bản thân" (mặc định checked
+        // trong HTML), nhưng không tự ẩn khối field học viên (chỉ là class CSS, không
+        // phải state của form) - phải tự ẩn lại tay ở đây.
+        modalEl.querySelector("#wizard_student_fields").classList.add("d-none");
+        modalEl.querySelector("[name='student_name']").required = false;
         modalEl.querySelector("#wizard_email_sent_note").textContent = "";
         modalEl.querySelector("#wizard_payment_pending").classList.remove("d-none");
         modalEl.querySelector("#wizard_payment_success").classList.add("d-none");
@@ -121,6 +128,22 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         modalEl.querySelector("#wizard_basic_continue").disabled = !form.checkValidity();
     },
 
+    // "Đăng ký cho": Bản thân -> ẩn khối chọn mối quan hệ/họ tên học viên, không bắt
+    // buộc. Người thân -> hiện khối đó, bắt buộc phải điền họ tên học viên.
+    _onRelationChange(ev) {
+        const modalEl = ev.currentTarget.closest(".modal");
+        const fieldsEl = modalEl.querySelector("#wizard_student_fields");
+        const studentNameInput = modalEl.querySelector("[name='student_name']");
+        const isOther = ev.currentTarget.value === "other";
+
+        fieldsEl.classList.toggle("d-none", !isOther);
+        studentNameInput.required = isOther;
+        if (!isOther) {
+            studentNameInput.value = "";
+        }
+        this._updateBasicContinueState(modalEl);
+    },
+
     async _onBasicSubmit(ev) {
         ev.preventDefault();
 
@@ -135,6 +158,8 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         const name = (data.get("name") || "").trim();
         const email = (data.get("email") || "").trim();
         const phone = (data.get("phone") || "").trim();
+        const studentRelation = data.get("student_relation") || "self";
+        const studentName = studentRelation === "other" ? (data.get("student_name") || "").trim() : "";
 
         const continueBtn = modalEl.querySelector("#wizard_basic_continue");
         continueBtn.disabled = true;
@@ -147,6 +172,8 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
                 name,
                 email,
                 phone,
+                student_relation: studentRelation,
+                student_name: studentName,
             });
         } catch (error) {
             console.error("Tạo phiếu đăng ký thất bại:", error);
@@ -163,6 +190,8 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._state.name = name;
         this._state.email = email;
         this._state.phone = phone;
+        this._state.studentRelation = studentRelation;
+        this._state.studentName = studentName;
 
         this._renderQuestions(modalEl);
 
@@ -375,6 +404,15 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         slipEl.querySelector("#slip_name").textContent = this._state.name;
         slipEl.querySelector("#slip_email").textContent = this._state.email;
         slipEl.querySelector("#slip_phone").textContent = this._state.phone;
+
+        // Chỉ hiện dòng "Học viên" khi đăng ký hộ người khác - đăng ký cho bản thân thì
+        // Người đăng ký ở trên đã chính là học viên, hiện thêm dòng này sẽ thừa/gây rối.
+        const studentRowEl = slipEl.querySelector("#slip_student_row");
+        const isForOther = this._state.studentRelation === "other";
+        studentRowEl.classList.toggle("d-none", !isForOther);
+        if (isForOther) {
+            slipEl.querySelector("#slip_student").textContent = this._state.studentName;
+        }
 
         const answersEl = slipEl.querySelector("#slip_answers");
         answersEl.replaceChildren();

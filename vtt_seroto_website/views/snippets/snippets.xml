@@ -42,11 +42,11 @@
       <!-- <t t-snippet="vtt_seroto_website.s_trang_chu_course" string="Khóa học" group="seroto">
         <keywords>khóa học, course</keywords>
       </t> -->
-      <!-- Bản tách riêng, dữ liệu động (đọc academic.course, lọc theo Mã đối tượng
-           nhập ở panel Tùy chỉnh) - kéo được nhiều lần, mỗi lần 1 nhóm đối tượng
+      <!-- Bản tách riêng, dữ liệu động (đọc academic.course, lọc theo Mã khu vực hiển
+           thị nhập ở panel Tùy chỉnh) - kéo được nhiều lần, mỗi lần 1 khu vực hiển thị
            riêng, KHÔNG cần xóa kéo lại khi đổi/thêm khóa học - xem
            s_trang_chu_course_group.xml. -->
-      <t t-snippet="vtt_seroto_website.s_trang_chu_course_group" string="Khóa học - Nhóm đối tượng" group="seroto">
+      <t t-snippet="vtt_seroto_website.s_trang_chu_course_group" string="Khóa học - Khu vực hiển thị" group="seroto">
         <keywords>khóa học, course, giáo viên, học viên, đăng ký, động, dynamic</keywords>
       </t>
       <t t-snippet="vtt_seroto_website.s_trang_chu_sponsor" string="Tài trợ tổ chức" group="seroto">

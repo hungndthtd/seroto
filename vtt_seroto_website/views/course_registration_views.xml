@@ -16,7 +16,8 @@
       <list string="Phiếu đăng ký khóa học">
         <field name="course_name"/>
         <field name="class_id" optional="show"/>
-        <field name="partner_name"/>
+        <field name="student_name" string="Học viên (nếu đăng ký hộ)" optional="show"/>
+        <field name="partner_name" string="Người đăng ký"/>
         <field name="phone"/>
         <field name="email"/>
         <field name="is_complete" optional="show"/>
@@ -108,7 +109,9 @@
           </div>
           <group>
             <group string="Thông tin cơ bản">
-              <field name="partner_name" readonly="state != 'draft'"/>
+              <field name="student_relation" readonly="state != 'draft'"/>
+              <field name="student_name" readonly="state != 'draft'" invisible="student_relation == 'self'"/>
+              <field name="partner_name" string="Họ tên người đăng ký" readonly="state != 'draft'"/>
               <field name="email" widget="email" readonly="state != 'draft'"/>
               <field name="phone" widget="phone" readonly="state != 'draft'"/>
               <field name="partner_id" invisible="not partner_id"/>
@@ -128,6 +131,7 @@
                      decoration-success="payment_status == 'paid'"
                      decoration-danger="payment_status == 'unpaid'"/>
               <field name="bank_transaction_id"/>
+              <field name="payment_id"/>
             </group>
             <group string="Lý do từ chối" invisible="state != 'rejected'">
               <field name="reject_reason" readonly="1" nolabel="1"/>
@@ -168,14 +172,16 @@
   </record>
 
   <!--
-    Đặt cạnh "Đợt học" (menu_academic_intake) trong app "Đào tạo" (seroto_education) -
-    vtt_seroto_website đã khai seroto_education vào depends (xem __manifest__.py) để
-    tham chiếu được menu cha này.
+    Đặt trong nhóm "Tuyển sinh & Vận hành" (menu_academic_group_operation) của app
+    "Đào tạo" (seroto_education) - vtt_seroto_website đã khai seroto_education vào
+    depends (xem __manifest__.py) để tham chiếu được menu cha này. Sequence=10, đứng
+    TRƯỚC "Ghi danh" (20) vì đúng thứ tự vòng đời: đăng ký -> ghi danh -> điểm danh ->
+    chứng chỉ.
   -->
   <menuitem id="menu_seroto_course_registration"
             name="Phiếu đăng ký"
-            parent="seroto_education.menu_academic_root"
+            parent="seroto_education.menu_academic_group_operation"
             action="action_seroto_course_registration"
-            sequence="55"/>
+            sequence="10"/>
 
 </odoo>

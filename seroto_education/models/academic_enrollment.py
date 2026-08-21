@@ -29,6 +29,13 @@ class AcademicEnrollment(models.Model):
     sessions_attended = fields.Integer(string='Số buổi đã học', compute='_compute_progress', store=True)
     sessions_total = fields.Integer(string='Tổng số buổi học', compute='_compute_progress', store=True)
     sessions_summary = fields.Char(string='Tóm tắt buổi học', compute='_compute_progress', store=True)
+    sessions_zoom_summary = fields.Char(string='Điểm danh Zoom', compute='_compute_progress', store=True)
+    sessions_bth_summary = fields.Char(string='Điểm danh BTH', compute='_compute_progress', store=True)
+
+    # Inverse của academic.certificate.enrollment_id - về lý thuyết chỉ 0 hoặc 1 bản ghi
+    # (action_complete() chặn tạo trùng, xem bên dưới), dùng One2many thay vì Many2one
+    # tính toán cho đơn giản, không cần thêm compute.
+    certificate_ids = fields.One2many('academic.certificate', 'enrollment_id', string='Chứng chỉ')
 
     def init(self):
         super(AcademicEnrollment, self).init()
@@ -64,48 +71,74 @@ class AcademicEnrollment(models.Model):
                 rec.sessions_attended = 0
                 rec.sessions_total = 0
                 rec.sessions_summary = "0 / 0"
+                rec.sessions_zoom_summary = "0 / 0"
+                rec.sessions_bth_summary = "0 / 0"
                 continue
-                
-            total_held = self.env['academic.session'].search_count([
+
+            held_sessions = self.env['academic.session'].search([
                 ('class_id', '=', rec.class_id.id),
                 ('date_start', '<=', fields.Datetime.now())
             ])
+            total_held = len(held_sessions)
             if not total_held:
                 rec.progress = 0.0
                 rec.sessions_attended = 0
                 rec.sessions_total = 0
                 rec.sessions_summary = "0 / 0"
+                rec.sessions_zoom_summary = "0 / 0"
+                rec.sessions_bth_summary = "0 / 0"
                 continue
-                
+
             attendances = self.env['academic.attendance'].search([
                 ('student_id', '=', rec.student_id.id),
-                ('session_id.class_id', '=', rec.class_id.id),
-                ('session_id.date_start', '<=', fields.Datetime.now())
+                ('session_id', 'in', held_sessions.ids),
             ])
-            present_or_late = len(attendances.filtered(lambda a: a.state in ('present', 'late')))
-            
+            present_or_late = attendances.filtered(lambda a: a.state in ('present', 'late'))
+
             # Write directly to bypass compute cache triggers in write method if called
-            rec.sessions_attended = present_or_late
+            rec.sessions_attended = len(present_or_late)
             rec.sessions_total = total_held
-            rec.sessions_summary = f"{present_or_late}/{total_held}"
-            
+            rec.sessions_summary = f"{len(present_or_late)}/{total_held}"
+
+            # Tách riêng theo phân loại buổi học (Zoom/BTH) - cùng dữ liệu điểm danh trên,
+            # chỉ lọc lại theo session_type để báo cáo 2 con số tách biệt.
+            zoom_sessions = held_sessions.filtered(lambda s: s.session_type == 'zoom')
+            bth_sessions = held_sessions.filtered(lambda s: s.session_type == 'bth')
+            zoom_present = present_or_late.filtered(lambda a: a.session_id.session_type == 'zoom')
+            bth_present = present_or_late.filtered(lambda a: a.session_id.session_type == 'bth')
+            rec.sessions_zoom_summary = f"{len(zoom_present)}/{len(zoom_sessions)}"
+            rec.sessions_bth_summary = f"{len(bth_present)}/{len(bth_sessions)}"
+
             # Safeguard progress calculation
             if total_held <= 0:
                 rec.progress = 0.0
                 continue
-                
-            rec.progress = (present_or_late / total_held) * 100.0
+
+            rec.progress = (len(present_or_late) / total_held) * 100.0
             
     def action_complete(self):
         for rec in self:
             rec.state = 'completed'
-            # Trigger certificate generation automatically
-            self.env['academic.certificate'].create({
-                'student_id': rec.student_id.id,
-                'course_id': rec.course_id.id,
-                'class_id': rec.class_id.id,
-                'grade': 'passed' if rec.progress >= 50.0 else 'failed'
-            })
+            # Trigger certificate generation automatically - chặn tạo trùng nếu bấm
+            # "Hoàn thành" nhiều lần trên cùng 1 Ghi danh (VD gọi lại action).
+            if not rec.certificate_ids:
+                self.env['academic.certificate'].create({
+                    'student_id': rec.student_id.id,
+                    'course_id': rec.course_id.id,
+                    'class_id': rec.class_id.id,
+                    'enrollment_id': rec.id,
+                    'grade': 'passed' if rec.progress >= 50.0 else 'failed'
+                })
+
+    def action_view_certificate(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'academic.certificate',
+            'res_id': self.certificate_ids[0].id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
 
     def action_suspend(self):
         for rec in self:

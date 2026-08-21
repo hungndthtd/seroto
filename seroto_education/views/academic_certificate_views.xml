@@ -10,7 +10,11 @@
         <field name="name">academic.certificate.list</field>
         <field name="model">academic.certificate</field>
         <field name="arch" type="xml">
-            <list>
+            <!-- create="0": ẩn nút "Mới" - Chứng chỉ CHỈ được tự động cấp qua nút
+                 "Hoàn thành & Cấp chứng chỉ" trên form Ghi danh (action_complete,
+                 academic_enrollment.py), không tạo tay ở đây để tránh chứng chỉ không
+                 gắn đúng 1 lượt Ghi danh thật nào. -->
+            <list create="0">
                 <field name="code"/>
                 <field name="name"/>
                 <field name="student_id"/>
@@ -43,6 +47,7 @@
                             <field name="student_id"/>
                             <field name="course_id"/>
                             <field name="class_id"/>
+                            <field name="enrollment_id" readonly="1"/>
                         </group>
                         <group>
                             <field name="date_issue"/>

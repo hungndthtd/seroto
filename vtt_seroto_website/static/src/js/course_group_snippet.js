@@ -14,8 +14,8 @@ function _makeIcon(iconClass) {
     return wrap;
 }
 
-// Widget cho snippet "Khóa học - Nhóm đối tượng"
-// (views/snippets/trang_chu/s_trang_chu_course_group.xml) - đọc Mã đối tượng từ
+// Widget cho snippet "Khóa học - Khu vực hiển thị"
+// (views/snippets/trang_chu/s_trang_chu_course_group.xml) - đọc Mã khu vực hiển thị từ
 // data-audience-code (nhập ở panel Tùy chỉnh, xem s_course_group_option.xml), gọi API
 // lấy khóa học khớp academic.course.audience_ids.code, tự dựng .course__box-item bằng
 // createElement/textContent (không dùng innerHTML nối chuỗi - tránh XSS nếu tên/mô tả

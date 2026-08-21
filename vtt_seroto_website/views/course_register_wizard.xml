@@ -55,7 +55,26 @@
                   <input class="form-control" id="wizard_course_name" readonly="readonly"/>
                 </div>
                 <div class="mb-3">
-                  <label>Họ tên</label>
+                  <label class="d-block">Đăng ký cho</label>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="student_relation"
+                           id="wizard_relation_self" value="self" checked="checked"/>
+                    <label class="form-check-label" for="wizard_relation_self">Bản thân</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="student_relation"
+                           id="wizard_relation_other" value="other"/>
+                    <label class="form-check-label" for="wizard_relation_other">Người khác</label>
+                  </div>
+                </div>
+
+                <div id="wizard_student_fields" class="mb-3 d-none">
+                  <label>Họ tên học viên</label>
+                  <input class="form-control" name="student_name"/>
+                </div>
+
+                <div class="mb-3">
+                  <label>Họ tên người đăng ký</label>
                   <input class="form-control" name="name" required="required"/>
                 </div>
                 <div class="mb-3">
@@ -150,7 +169,8 @@
 
           <div class="modal-body">
             <p class="mb-1">Khóa học: <strong id="slip_course"/></p>
-            <p class="mb-1">Họ tên: <strong id="slip_name"/></p>
+            <p class="mb-1 d-none" id="slip_student_row">Học viên: <strong id="slip_student"/></p>
+            <p class="mb-1">Người đăng ký: <strong id="slip_name"/></p>
             <p class="mb-1">Email: <strong id="slip_email"/></p>
             <p class="mb-1">Số điện thoại: <strong id="slip_phone"/></p>
             <div id="slip_answers" class="mb-1"/>

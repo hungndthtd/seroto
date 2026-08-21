@@ -1,6 +1,6 @@
 {
   'name': 'VTT Seroto Website',
-  'version': '1.0',
+  'version': '1.4',
   'author': 'Seroto',
   'summary': 'Snippet kéo-thả và trang landing khóa học trên website',
   'depends': [
@@ -15,9 +15,9 @@
     # NGÂN HÀNG THẬT" trong controller).
     'vtt_bank_mock',
     # Đọc academic.course (models/course_registration.py, _get_course_questions) +
-    # đặt menu "Phiếu đăng ký" cạnh "Đợt học" trong app Đào tạo (views/
-    # course_registration_views.xml, parent="seroto_education.menu_academic_root") -
-    # khai depends thật (không còn phụ thuộc ngầm) vì menuitem BẮT BUỘC module chứa
+    # đặt menu "Phiếu đăng ký" trong nhóm "Tuyển sinh & Vận hành" của app Đào tạo (views/
+    # course_registration_views.xml, parent="seroto_education.menu_academic_group_operation")
+    # - khai depends thật (không còn phụ thuộc ngầm) vì menuitem BẮT BUỘC module chứa
     # menu cha phải nạp trước, không giống việc tra model qua self.env lúc runtime.
     'seroto_education',
     # Snippet/trang landing đọc dữ liệu seroto.course + dùng chung modal đăng ký
@@ -164,7 +164,7 @@
     'website.website_builder_assets': [
       'vtt_seroto_website/static/src/js/s_title_special_option.js',
       'vtt_seroto_website/static/src/xml/s_title_special_option.xml',
-      # Ô nhập "Mã đối tượng" cho snippet "Khóa học - Nhóm đối tượng" (panel Tùy chỉnh).
+      # Ô nhập "Mã khu vực hiển thị" cho snippet "Khóa học - Khu vực hiển thị" (panel Tùy chỉnh).
       'vtt_seroto_website/static/src/js/s_course_group_option.js',
       'vtt_seroto_website/static/src/xml/s_course_group_option.xml',
     ],

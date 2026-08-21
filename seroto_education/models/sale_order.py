@@ -46,6 +46,17 @@ class SaleOrderLine(models.Model):
         lines._sync_enrollment()
         return lines
 
+    def _prepare_invoice_line(self, **optional_values):
+        # Đồng bộ "Lớp học" từ dòng Đơn hàng sang dòng Hóa đơn khi tạo hóa đơn - Odoo
+        # mặc định KHÔNG tự copy field tùy biến này. Ghi danh/Báo cáo tổng hợp vốn đã
+        # đọc đúng qua dòng Đơn hàng gốc dù thiếu bước này (xem academic_report_metric.py),
+        # đây chỉ để cột "Lớp học" trên hóa đơn hiển thị khớp, tránh gây hiểu nhầm là
+        # thiếu dữ liệu.
+        vals = super()._prepare_invoice_line(**optional_values)
+        if self.class_id:
+            vals['class_id'] = self.class_id.id
+        return vals
+
     def write(self, vals):
         res = super(SaleOrderLine, self).write(vals)
         if 'class_id' in vals or 'student_id' in vals:

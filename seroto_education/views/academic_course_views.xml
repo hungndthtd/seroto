@@ -57,7 +57,6 @@
                             <field name="format"/>
                             <field name="product_id"/>
                             <field name="detail_url" widget="url" placeholder="VD: /khoa-hoc-eq-5-phut"/>
-                            <field name="audience_ids" widget="many2many_tags"/>
                         </group>
                         <group string="Thông tin tuyển sinh (Website)">
                             <field name="batch_info"/>
@@ -88,6 +87,14 @@
                         </page>
                         <page string="Mô tả chi tiết">
                             <field name="description" placeholder="Nhập nội dung giới thiệu khóa học..."/>
+                        </page>
+                        <page string="Khu vực hiển thị trên website">
+                            <field name="audience_ids">
+                                <list>
+                                    <field name="name" string="Tên khu vực"/>
+                                    <field name="code" string="Mã khu vực"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Câu hỏi chuyên sâu">
                             <field name="question_ids">
@@ -146,16 +153,16 @@
         </field>
     </record>
 
-    <!-- === Đối tượng khóa học (tag) === -->
+    <!-- === Khu vực hiển thị (Website) === -->
 
     <record id="view_academic_course_audience_list" model="ir.ui.view">
         <field name="name">academic.course.audience.list</field>
         <field name="model">academic.course.audience</field>
         <field name="arch" type="xml">
-            <list string="Đối tượng khóa học" editable="bottom">
+            <list string="Khu vực hiển thị" editable="bottom">
                 <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="code"/>
+                <field name="name" string="Tên khu vực"/>
+                <field name="code" string="Mã khu vực"/>
             </list>
         </field>
     </record>
@@ -164,7 +171,7 @@
         <field name="name">academic.course.audience.form</field>
         <field name="model">academic.course.audience</field>
         <field name="arch" type="xml">
-            <form string="Đối tượng khóa học">
+            <form string="Khu vực hiển thị">
                 <sheet>
                     <group>
                         <field name="name" placeholder="VD: Giáo viên"/>
@@ -177,16 +184,16 @@
     </record>
 
     <record id="action_academic_course_audience" model="ir.actions.act_window">
-        <field name="name">Đối tượng khóa học</field>
+        <field name="name">Khu vực hiển thị</field>
         <field name="res_model">academic.course.audience</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Chưa có đề mục nào!
+                Chưa có khu vực hiển thị nào!
             </p>
             <p>
-                Mỗi đề mục có 1 Mã kỹ thuật (vd "teacher") - dùng để lọc khóa học ở
-                snippet "Khóa học - Nhóm đối tượng" trên website.
+                Mỗi khu vực có 1 Mã kỹ thuật (vd "teacher") - dùng để lọc khóa học ở
+                snippet "Khóa học - Khu vực hiển thị" trên website.
             </p>
         </field>
     </record>

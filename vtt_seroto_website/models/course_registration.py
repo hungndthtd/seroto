@@ -20,12 +20,27 @@ class SerotoCourseRegistration(models.Model):
     class_id = fields.Many2one(
         'academic.class', string='Lớp học', domain="[('course_id', '=', course_id)]",
     )
-    partner_name = fields.Char(string='Họ tên', required=True)
+    partner_name = fields.Char(string='Họ tên người đăng ký', required=True)
     email = fields.Char(string='Email', required=True)
     phone = fields.Char(string='Số điện thoại', required=True)
     # Chỉ tạo/gắn res.partner thật lúc NV xác nhận hoặc tạo đơn hàng (action_confirm/
     # action_create_sale_order) - tránh tạo rác liên hệ cho các phiếu bị từ chối/hủy.
     partner_id = fields.Many2one('res.partner', string='Khách hàng', readonly=True, copy=False)
+
+    # Người đăng ký trên web có thể đăng ký hộ người khác (không phân biệt cụ thể quan
+    # hệ gì) thay vì luôn là chính người điền form - "self" (mặc định) nghĩa là
+    # partner_name/email/phone ở trên CHÍNH LÀ học viên, không cần student_name riêng.
+    # "other" thì student_name là học viên thực tế, còn partner_name/email/phone vẫn
+    # luôn là người liên hệ (nhận email xác nhận, đứng tên thanh toán) - xem
+    # _find_or_create_student_partner() bên dưới.
+    student_relation = fields.Selection([
+        ('self', 'Bản thân'),
+        ('other', 'Người khác'),
+    ], string='Đăng ký cho', default='self', required=True)
+    student_name = fields.Char(
+        string='Họ tên học viên',
+        help='Chỉ cần điền khi đăng ký hộ người khác (student_relation = "Người khác").',
+    )
     answer_ids = fields.One2many(
         'seroto.course.registration.answer', 'registration_id',
         string='Câu trả lời (Thông tin chuyên sâu)',
@@ -45,6 +60,11 @@ class SerotoCourseRegistration(models.Model):
     ], string='Trạng thái', default='draft', required=True, tracking=True)
     reject_reason = fields.Text(string='Lý do từ chối')
     sale_order_id = fields.Many2one('sale.order', string='Đơn hàng', readonly=True, copy=False)
+    # Phiếu thu (account.payment) do hệ thống TỰ TẠO ngay khi ngân hàng báo đã nhận tiền
+    # - xem _auto_process_payment(). Đây là chứng từ kế toán thật (khác bank_transaction_id
+    # ở trên chỉ là log kỹ thuật của cổng thanh toán) - giữ lại để tiện tra cứu ngược từ
+    # phiếu đăng ký ra thẳng sổ sách.
+    payment_id = fields.Many2one('account.payment', string='Phiếu thu', readonly=True, copy=False)
 
     is_complete = fields.Boolean(
         string='Đã đầy đủ thông tin', compute='_compute_is_complete', store=True,
@@ -145,24 +165,55 @@ class SerotoCourseRegistration(models.Model):
         self.partner_id = partner.id
         return partner
 
-    def action_create_sale_order(self):
+    def _find_or_create_student_partner(self, registrant):
+        """Học viên thực tế - trùng với người đăng ký (registrant) nếu student_relation
+        = "self". Khác thì tìm/tạo 1 liên hệ riêng, gắn parent_id = registrant để khớp
+        đúng domain của sale.order.line.student_id (xem seroto_education/models/
+        sale_order.py) - CHỈ cho chọn chính registrant hoặc con/liên hệ của registrant.
+        """
         self.ensure_one()
-        partner = self._find_or_create_partner()
+        if self.student_relation == 'self' or not (self.student_name or '').strip():
+            return registrant
+
+        Partner = self.env['res.partner'].sudo()
+        student = Partner.search([
+            ('name', '=', self.student_name.strip()),
+            ('parent_id', '=', registrant.id),
+        ], limit=1)
+        if not student:
+            student = Partner.create({
+                'name': self.student_name.strip(),
+                'parent_id': registrant.id,
+                'is_company': False,
+            })
+        return student
+
+    def _create_sale_order(self):
+        """Tạo Đơn hàng (Nháp) cho phiếu này - tách riêng khỏi action_create_sale_order()
+        để dùng chung được cho cả nút bấm tay (Sale) lẫn luồng tự động
+        (_auto_process_payment, xem dưới)."""
+        self.ensure_one()
+        registrant = self._find_or_create_partner()
+        student = self._find_or_create_student_partner(registrant)
 
         order_line_vals = []
         if self.course_id.product_id:
             order_line_vals.append((0, 0, {
                 'product_id': self.course_id.product_id.id,
                 'class_id': self.class_id.id if self.class_id else False,
-                'student_id': partner.id,
+                'student_id': student.id,
             }))
 
         order = self.env['sale.order'].sudo().create({
-            'partner_id': partner.id,
+            'partner_id': registrant.id,
             'order_line': order_line_vals,
         })
         self.sale_order_id = order.id
+        return order
 
+    def action_create_sale_order(self):
+        self.ensure_one()
+        order = self._create_sale_order()
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'sale.order',
@@ -170,6 +221,57 @@ class SerotoCourseRegistration(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+
+    def _auto_process_payment(self):
+        """Tự động Tạo đơn hàng -> Xác nhận -> Tạo hóa đơn -> Đăng sổ -> Đăng ký thanh
+        toán ngay khi ngân hàng báo đã nhận tiền (bank_notify_webhook gọi hàm này sau
+        khi ghi payment_status='paid') - thay cho việc Sale phải tự bấm từng bước như
+        trước. Ghi danh học viên tự phát sinh theo sau, không cần code thêm ở đây - đã
+        có sẵn hook _sync_enrollments_on_payment (seroto_education/models/account_move.py)
+        kích hoạt mỗi khi payment_state của hóa đơn chuyển "paid"/"in_payment".
+
+        Việc trả lời Câu hỏi chuyên sâu (answer_ids) KHÔNG phải điều kiện cho luồng này -
+        is_complete chỉ mang tính hiển thị/lọc ("Cần xử lý"), khách có thể điền trước
+        hoặc sau khi đã được ghi danh.
+
+        Chống webhook gọi lặp (ngân hàng/cổng thanh toán hay tự động thử lại): bỏ qua
+        toàn bộ nếu đã có sale_order_id - nghĩa là lần gọi trước đã xử lý (hoặc đang xử
+        lý) phiếu này rồi, không tạo trùng Đơn hàng/Hóa đơn/Phiếu thu.
+
+        Lỗi ở bất kỳ bước nào chỉ log lại, KHÔNG được làm mất payment_status='paid' đã
+        lưu trước khi gọi hàm này - Sale vẫn thấy đúng phiếu đã thanh toán để xử lý tay
+        phần còn lại, y hệt luồng thủ công trước khi có tự động hóa này.
+        """
+        self.ensure_one()
+        if self.sale_order_id:
+            return
+
+        try:
+            self.state = 'confirmed'
+            order = self._create_sale_order()
+            order.sudo().action_confirm()
+
+            invoices = order.sudo()._create_invoices()
+            invoices.sudo().action_post()
+
+            for invoice in invoices:
+                register = self.env['account.payment.register'].sudo().with_context(
+                    active_model='account.move', active_ids=invoice.ids,
+                ).create({
+                    # Nối ngược lại đúng phiếu đăng ký + giao dịch ngân hàng giả lập đã
+                    # kích hoạt bước này - phục vụ đối soát/tra cứu sau này (xem
+                    # payment_id, bank_transaction_id ở trên).
+                    'communication': 'PDK-%s (GD-%s)' % (self.id, self.bank_transaction_id.id),
+                })
+                payments = register._create_payments()
+                if payments:
+                    self.payment_id = payments[0].id
+        except Exception:
+            _logger.exception(
+                'Không tự xử lý được Đơn hàng/Hóa đơn/Thanh toán cho phiếu đăng ký '
+                'ID=%s - phiếu đã ghi nhận payment_status=paid, cần Sale kiểm tra và '
+                'xử lý tay phần còn lại.', self.id,
+            )
 
     def action_view_sale_order(self):
         self.ensure_one()
@@ -222,15 +324,20 @@ class SerotoCourseRegistration(models.Model):
         """
         self.ensure_one()
 
+        # Lấy đúng giá bán hiện tại của Sản phẩm liên kết (academic.course.product_id) -
+        # course_id đã tự suy ra từ course_name lúc create() (nếu khớp được tên khóa
+        # học). Không khớp được khóa học hoặc khóa học chưa gắn sản phẩm thì để 0đ (thà
+        # rõ ràng là chưa xác định được giá còn hơn hiện nhầm số của phiếu khác).
+        amount = 0
+        if self.course_id and self.course_id.product_id:
+            amount = self.course_id.product_id.list_price
+
         transaction = self.env['bank.mock.transaction'].sudo().create({
             # "PDK-<id>" khớp đúng mã hiển thị của phiếu (_compute_display_name ở trên,
             # "[PDK-<id>]") - webhook (controllers/course_registration.py, _REFERENCE_RE)
             # tách lại đúng ID này để tìm về phiếu.
             'reference': 'PDK-%s' % self.id,
-            # TODO: trang chủ (s_trang_chu_course.xml) hiện chỉ truyền tên khóa học,
-            # chưa có học phí -> tạm để 0đ, cần bổ sung data-price khi có nhu cầu thanh
-            # toán số tiền cụ thể.
-            'amount': 0,
+            'amount': amount,
             'description': '%s - %s' % (self.course_name, self.phone),
             'notify_url': '%s/seroto/course-registration/webhook/bank-notify' % self.get_base_url(),
             'notify_secret': self.access_token,

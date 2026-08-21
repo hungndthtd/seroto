@@ -11,10 +11,13 @@
                 <field name="student_code" readonly="1" invisible="not is_student" groups="base.group_user"/>
             </xpath>
             <xpath expr="//field[@name='category_id']" position="after">
-                <field name="is_student" readonly="1" groups="base.group_user"/>                
+                <field name="is_student" readonly="1" groups="base.group_user"/>
                 <field name="is_teacher"/>
+                <field name="is_volunteer" readonly="1" groups="base.group_user"/>
                 <field name="birthdate"/>
                 <field name="occupation"/>
+                <field name="current_course_ids" widget="many2many_tags" string="Đang học"/>
+                <field name="completed_course_ids" widget="many2many_tags" string="Đã học"/>
             </xpath>
             <!-- Add Academic History tab to Notebook -->
             <xpath expr="//notebook" position="inside">
@@ -25,8 +28,19 @@
                             <field name="class_id"/>
                             <field name="progress" widget="progressbar"/>
                             <field name="sessions_summary" string="Số buổi đã học"/>
+                            <field name="sessions_zoom_summary" string="Zoom" optional="show"/>
+                            <field name="sessions_bth_summary" string="BTH" optional="show"/>
                             <field name="score"/>
                             <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'completed'" decoration-warning="state == 'suspended'"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Đã phụng sự" name="volunteer_history" invisible="not is_volunteer">
+                    <field name="served_class_ids" readonly="1">
+                        <list>
+                            <field name="course_id"/>
+                            <field name="intake_id" string="Khóa/Đợt"/>
+                            <field name="state" widget="badge" decoration-success="state == 'open'" decoration-muted="state in ('closed', 'done')"/>
                         </list>
                     </field>
                 </page>
@@ -53,6 +67,10 @@
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='inactive']" position="before">
                 <filter string="Là học viên" name="is_student" domain="[('is_student', '=', True)]"/>
+                <filter string="Là người phụng sự" name="is_volunteer" domain="[('is_volunteer', '=', True)]"/>
+                <separator/>
+                <filter string="Khóa đang học" name="group_current_course" context="{'group_by': 'current_course_ids'}"/>
+                <filter string="Khóa đã học" name="group_completed_course" context="{'group_by': 'completed_course_ids'}"/>
                 <separator/>
             </xpath>
         </field>
@@ -114,6 +132,8 @@
                 <field name="street" string="Địa chỉ" optional="show"/>
                 <field name="state_id" string="Tỉnh/Thành phố" optional="show"/>
                 <field name="city" optional="hide"/>
+                <field name="current_course_ids" widget="many2many_tags" string="Đang học" optional="show"/>
+                <field name="completed_course_ids" widget="many2many_tags" string="Đã học" optional="show"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
             </list>
         </field>
@@ -142,9 +162,15 @@
                         <group string="Thông tin cá nhân">
                             <field name="birthdate"/>
                             <field name="occupation"/>
-                            <field name="street" string="Địa chỉ" placeholder="Địa chỉ chi tiết (Số nhà, Đường...)"/>                            
+                            <field name="street" string="Địa chỉ" placeholder="Địa chỉ chi tiết (Số nhà, Đường...)"/>
                             <field name="state_id" string="Tỉnh/Thành phố" placeholder="Tỉnh/Thành phố" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="country_id" placeholder="Quốc gia" options="{'no_open': True, 'no_create': True}"/>                            
+                            <field name="country_id" placeholder="Quốc gia" options="{'no_open': True, 'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Tình trạng học tập">
+                            <field name="current_course_ids" widget="many2many_tags" string="Đang học"/>
+                            <field name="completed_course_ids" widget="many2many_tags" string="Đã học"/>
                         </group>
                     </group>
                     <notebook>
@@ -155,6 +181,8 @@
                                     <field name="class_id"/>
                                     <field name="progress" widget="progressbar"/>
                                     <field name="sessions_summary" string="Số buổi đã học"/>
+                                    <field name="sessions_zoom_summary" string="Zoom" optional="show"/>
+                                    <field name="sessions_bth_summary" string="BTH" optional="show"/>
                                     <field name="score"/>
                                     <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'completed'" decoration-warning="state == 'suspended'"/>
                                 </list>
@@ -206,5 +234,97 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_partner_form_academic"/>
         <field name="act_window_id" ref="action_academic_student"/>
+    </record>
+
+    <!-- ==================================================================
+         Người phụng sự ("Angelina") - tình nguyện viên không lương, hỗ trợ
+         vài việc nhỏ cho Ban tổ chức. Phase 1: chỉ để nội bộ tra cứu/thống
+         kê (email, sđt, ngày sinh, địa chỉ, khóa đã học, khóa đã phụng sự) -
+         KHÔNG cấp tài khoản đăng nhập cho nhóm này.
+         ================================================================== -->
+
+    <record id="view_partner_list_volunteer" model="ir.ui.view">
+        <field name="name">res.partner.list.volunteer</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Người phụng sự" create="0">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="birthdate"/>
+                <field name="street" string="Địa chỉ" optional="show"/>
+                <field name="current_course_ids" widget="many2many_tags" string="Đang học" optional="show"/>
+                <field name="completed_course_ids" widget="many2many_tags" string="Đã học" optional="show"/>
+                <field name="served_class_ids" widget="many2many_tags" string="Đã phụng sự"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_partner_form_volunteer" model="ir.ui.view">
+        <field name="name">res.partner.form.volunteer</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Người phụng sự">
+                <sheet>
+                    <field name="avatar_128" widget="image" class="oe_avatar" options="{'preview_image': 'avatar_128'}"/>
+                    <div class="oe_title">
+                        <field name="name" string="Tên" placeholder="Họ và tên..."/>
+                        <field name="is_volunteer" invisible="1"/>
+                    </div>
+                    <group>
+                        <group string="Thông tin liên hệ">
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="birthdate"/>
+                        </group>
+                        <group string="Địa chỉ">
+                            <field name="street" string="Địa chỉ" placeholder="Địa chỉ chi tiết (Số nhà, Đường...)"/>
+                            <field name="state_id" string="Tỉnh/Thành phố" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="country_id" placeholder="Quốc gia" options="{'no_open': True, 'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Tình trạng học tập">
+                            <field name="current_course_ids" widget="many2many_tags" string="Đang học"/>
+                            <field name="completed_course_ids" widget="many2many_tags" string="Đã học"/>
+                        </group>
+                        <group string="Phụng sự">
+                            <field name="served_class_ids" widget="many2many_tags" string="Đã phụng sự"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_academic_volunteer" model="ir.actions.act_window">
+        <field name="name">Người phụng sự</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_volunteer', '=', True)]</field>
+        <field name="context">{'default_is_company': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có người phụng sự nào!
+            </p>
+            <p>
+                Người phụng sự tự động xuất hiện tại đây khi được thêm vào field "Người phụng sự" của 1 Lớp học.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_academic_volunteer_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_partner_list_volunteer"/>
+        <field name="act_window_id" ref="action_academic_volunteer"/>
+    </record>
+
+    <record id="action_academic_volunteer_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_partner_form_volunteer"/>
+        <field name="act_window_id" ref="action_academic_volunteer"/>
     </record>
 </odoo>

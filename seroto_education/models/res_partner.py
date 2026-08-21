@@ -17,6 +17,41 @@ class ResPartner(models.Model):
         for partner in self:
             partner.taught_class_ids = self.env['academic.class'].search([('teacher_ids', '=', partner.id)])
 
+    current_course_ids = fields.Many2many(
+        'academic.course', 'res_partner_current_course_rel', 'partner_id', 'course_id',
+        string='Đang học', compute='_compute_enrollment_courses', store=True,
+        help='Các khóa học có Ghi danh đang ở trạng thái "Đã ghi danh".',
+    )
+    completed_course_ids = fields.Many2many(
+        'academic.course', 'res_partner_completed_course_rel', 'partner_id', 'course_id',
+        string='Đã học', compute='_compute_enrollment_courses', store=True,
+        help='Các khóa học có Ghi danh đang ở trạng thái "Hoàn thành".',
+    )
+
+    @api.depends('enrollment_ids.state', 'enrollment_ids.course_id')
+    def _compute_enrollment_courses(self):
+        for partner in self:
+            partner.current_course_ids = partner.enrollment_ids.filtered(lambda e: e.state == 'enrolled').course_id
+            partner.completed_course_ids = partner.enrollment_ids.filtered(lambda e: e.state == 'completed').course_id
+
+    # Người phụng sự ("Angelina") - tình nguyện viên không lương, hỗ trợ vài việc nhỏ cho
+    # Ban tổ chức của 1 Lớp học (tách riêng khỏi organizer_ids "Ban tổ chức" chính thức -
+    # xem academic_class.py). Phase 1: chỉ để nội bộ tra cứu/thống kê, KHÔNG cấp tài
+    # khoản đăng nhập cho nhóm này nên không cần thêm nhóm quyền nào.
+    #
+    # served_class_ids dùng chung đúng bảng quan hệ với academic.class.volunteer_ids
+    # (chỉ đảo 2 cột) - Odoo tự đồng bộ 2 chiều, không cần compute.
+    served_class_ids = fields.Many2many(
+        'academic.class', 'academic_class_volunteer_rel', 'partner_id', 'class_id',
+        string='Đã phụng sự',
+    )
+    is_volunteer = fields.Boolean(string='Là người phụng sự', compute='_compute_is_volunteer', store=True)
+
+    @api.depends('served_class_ids')
+    def _compute_is_volunteer(self):
+        for partner in self:
+            partner.is_volunteer = bool(partner.served_class_ids)
+
     def init(self):
         super(ResPartner, self).init()
         # Check student_code

@@ -14,6 +14,13 @@ class AcademicCertificate(models.Model):
     student_id = fields.Many2one('res.partner', string='Học viên', required=True)
     course_id = fields.Many2one('academic.course', string='Khóa học', required=True)
     class_id = fields.Many2one('academic.class', string='Lớp học', required=True)
+    # Liên kết ngược tới đúng lượt Ghi danh đã sinh ra chứng chỉ này (xem
+    # academic_enrollment.py, action_complete()) - trước đây chỉ suy luận gián tiếp qua
+    # trùng student_id/course_id/class_id, không phân biệt được nếu 1 học viên có 2 lượt
+    # Ghi danh khác nhau vào cùng 1 lớp (VD học lại).
+    enrollment_id = fields.Many2one(
+        'academic.enrollment', string='Ghi danh', readonly=True, copy=False,
+    )
     date_issue = fields.Date(string='Ngày cấp', default=fields.Date.context_today)
 
     @api.depends('student_id', 'course_id')

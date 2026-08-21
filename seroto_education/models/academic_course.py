@@ -21,7 +21,7 @@ class AcademicCourse(models.Model):
     # lưu trữ/ẩn chung của Odoo). Mặc định False: khóa học mới tạo (có thể chưa điền
     # xong thông tin) sẽ KHÔNG tự xuất hiện trên bất kỳ snippet nào cho tới khi staff
     # chủ động bật - xem controllers/academic_course_snippet.py (module
-    # vtt_seroto_website), route lọc field này BẮT BUỘC dù có/không có Mã đối tượng.
+    # vtt_seroto_website), route lọc field này BẮT BUỘC dù có/không có Mã khu vực hiển thị.
     is_published = fields.Boolean(string='Hiển thị trên Website', default=False)
     slogan = fields.Char(string='Slogan/Mô tả ngắn')
     description = fields.Text(string='Mô tả chi tiết')
@@ -89,13 +89,15 @@ class AcademicCourse(models.Model):
         'academic.course.question', 'course_id', string='Câu hỏi chuyên sâu',
     )
 
-    # Đề mục (Giáo viên/Trường học/...) - website (vtt_seroto_website, snippet "Khóa
-    # học - Nhóm đối tượng") lọc khóa học hiển thị theo audience_ids.code, khớp với mã
-    # nhập ở panel Tùy chỉnh của snippet đó.
+    # Khu vực hiển thị (trang chủ theo Giáo viên/Trường học/...) - website
+    # (vtt_seroto_website, snippet "Khóa học - Khu vực hiển thị") lọc khóa học hiển thị
+    # theo audience_ids.code, khớp với mã nhập ở panel Tùy chỉnh của snippet đó. Field/
+    # model kỹ thuật vẫn giữ tên cũ (audience_ids, academic.course.audience) để không
+    # phải đổi cấu trúc bảng/mất dữ liệu cũ - chỉ đổi nhãn hiển thị cho người dùng.
     audience_ids = fields.Many2many(
-        'academic.course.audience', string='Đối tượng',
-        help='Đề mục hiển thị trên website (vd Giáo viên, Trường học). Một khóa học '
-             'có thể thuộc nhiều đối tượng cùng lúc.',
+        'academic.course.audience', string='Khu vực hiển thị',
+        help='Khu vực hiển thị trên website (vd trang chủ theo Giáo viên, Trường học...). '
+             'Một khóa học có thể xuất hiện ở nhiều khu vực cùng lúc.',
     )
 
     def action_open_new_batch(self):

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_academic_report_metric_search" model="ir.ui.view">
+        <field name="name">academic.report.metric.search</field>
+        <field name="model">academic.report.metric</field>
+        <field name="arch" type="xml">
+            <search string="Báo cáo tổng hợp theo khóa học">
+                <field name="course_id"/>
+                <field name="class_id"/>
+                <filter string="Học viên tham gia" name="filter_participant" domain="[('metric_type', '=', 'participant')]"/>
+                <filter string="Hoàn thành" name="filter_completed" domain="[('metric_type', '=', 'completed')]"/>
+                <filter string="Người phụng sự" name="filter_volunteer" domain="[('metric_type', '=', 'volunteer')]"/>
+                <filter string="Gieo hạt" name="filter_donation" domain="[('metric_type', '=', 'donation')]"/>
+                <filter string="Thu (học phí)" name="filter_revenue" domain="[('metric_type', '=', 'revenue')]"/>
+                <filter string="Chi" name="filter_expense" domain="[('metric_type', '=', 'expense')]"/>
+                <separator/>
+                <group>
+                    <filter string="Khóa học" name="group_course" context="{'group_by': 'course_id'}"/>
+                    <filter string="Lớp học" name="group_class" context="{'group_by': 'class_id'}"/>
+                    <filter string="Loại số liệu" name="group_metric_type" context="{'group_by': 'metric_type'}"/>
+                    <filter string="Theo tháng" name="group_month" context="{'group_by': 'date:month'}"/>
+                    <filter string="Theo năm" name="group_year" context="{'group_by': 'date:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_academic_report_metric_pivot" model="ir.ui.view">
+        <field name="name">academic.report.metric.pivot</field>
+        <field name="model">academic.report.metric</field>
+        <field name="arch" type="xml">
+            <pivot string="Báo cáo tổng hợp theo khóa học">
+                <field name="course_id" type="row"/>
+                <field name="class_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="metric_type" type="col"/>
+                <field name="count_value" type="measure" string="Số lượng"/>
+                <field name="amount_value" type="measure" string="Số tiền"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_academic_report_metric_graph" model="ir.ui.view">
+        <field name="name">academic.report.metric.graph</field>
+        <field name="model">academic.report.metric</field>
+        <field name="arch" type="xml">
+            <graph string="Báo cáo tổng hợp theo khóa học" type="bar">
+                <field name="course_id"/>
+                <field name="metric_type"/>
+                <field name="count_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_academic_report_metric_list" model="ir.ui.view">
+        <field name="name">academic.report.metric.list</field>
+        <field name="model">academic.report.metric</field>
+        <field name="arch" type="xml">
+            <list string="Báo cáo tổng hợp theo khóa học" create="0" edit="0" delete="0">
+                <field name="date"/>
+                <field name="course_id"/>
+                <field name="class_id" optional="show"/>
+                <field name="metric_type" widget="badge"/>
+                <field name="count_value" sum="Tổng số lượng"/>
+                <field name="amount_value" sum="Tổng số tiền"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_academic_report_metric" model="ir.actions.act_window">
+        <field name="name">Báo cáo tổng hợp</field>
+        <field name="res_model">academic.report.metric</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="view_academic_report_metric_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có dữ liệu để báo cáo!
+            </p>
+            <p>
+                Số liệu tự tổng hợp từ Ghi danh, Người phụng sự, Gieo hạt, Hóa đơn bán hàng (Thu) và Hóa đơn nhà cung cấp có gắn mã phân tích Lớp học (Chi) theo từng khóa học.
+            </p>
+        </field>
+    </record>
+</odoo>

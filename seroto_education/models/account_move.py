@@ -30,3 +30,15 @@ class AccountMove(models.Model):
                     ])
                     if enrollments:
                         enrollments.write({'state': 'enrolled'})
+
+
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
+
+    # Gắn 1 dòng hóa đơn (bán hàng lẫn nhà cung cấp) vào đúng lớp học - dùng field riêng
+    # thay vì Kế toán phân tích chuẩn của Odoo (account.analytic.*) vì giao diện Analytic
+    # Accounting trên dòng hóa đơn thực chất chỉ lộ ra ở app Kế toán (Enterprise), không
+    # có trong Invoicing Community đang dùng. Áp dụng cho cả hóa đơn nhà cung cấp (nhánh
+    # "expense") lẫn hóa đơn bán hàng ghi tay không qua Đơn hàng (nhánh "revenue"/
+    # "donation") - xem academic_report_metric.py.
+    class_id = fields.Many2one('academic.class', string='Lớp học')

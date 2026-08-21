@@ -23,58 +23,98 @@
         </field>
     </record>
 
-    <!-- Menu Items attached directly to Root Menu -->
-    <menuitem id="menu_academic_course"
+    <!-- Nhóm menu cha (chỉ để gom nhóm, không có action riêng) - gộp 12 mục trước đây
+         nằm phẳng dưới "Đào tạo" thành 4 nhóm theo luồng nghiệp vụ, cho gọn hơn. -->
+    <menuitem id="menu_academic_group_course"
               name="Khóa học"
               parent="menu_academic_root"
+              sequence="10"/>
+
+    <menuitem id="menu_academic_group_operation"
+              name="Tuyển sinh &amp; Vận hành"
+              parent="menu_academic_root"
+              sequence="20"/>
+
+    <menuitem id="menu_academic_group_people"
+              name="Học viên &amp; Nhân Sự"
+              parent="menu_academic_root"
+              sequence="30"/>
+
+    <menuitem id="menu_academic_group_report"
+              name="Báo cáo &amp; Cấu hình"
+              parent="menu_academic_root"
+              sequence="40"/>
+
+    <!-- Nhóm "Khóa học" -->
+    <menuitem id="menu_academic_course"
+              name="Khóa học"
+              parent="menu_academic_group_course"
               action="action_academic_course"
               sequence="10"/>
 
-    <menuitem id="menu_academic_class"
-              name="Lớp học"
-              parent="menu_academic_root"
-              action="action_academic_class"
+    <menuitem id="menu_academic_intake"
+              name="Đợt học"
+              parent="menu_academic_group_course"
+              action="action_academic_intake"
               sequence="20"/>
 
-    <menuitem id="menu_academic_student"
-              name="Học viên"
-              parent="menu_academic_root"
-              action="action_academic_student"
-              sequence="25"/>
+    <menuitem id="menu_academic_class"
+              name="Lớp học"
+              parent="menu_academic_group_course"
+              action="action_academic_class"
+              sequence="30"/>
 
-    <menuitem id="menu_academic_teacher"
-              name="Giảng viên"
-              parent="menu_academic_root"
-              action="action_academic_teacher"
-              sequence="26"/>
-
+    <!-- Nhóm "Tuyển sinh & Vận hành" - xếp đúng thứ tự vòng đời 1 học viên đi qua:
+         đăng ký -> ghi danh -> điểm danh -> chứng chỉ. "Phiếu đăng ký" định nghĩa ở
+         module vtt_seroto_website (course_registration_views.xml), tham chiếu ngược
+         parent="seroto_education.menu_academic_group_operation" - không khai ở đây. -->
     <menuitem id="menu_academic_enrollment"
               name="Ghi danh"
-              parent="menu_academic_root"
+              parent="menu_academic_group_operation"
               action="action_academic_enrollment"
-              sequence="30"/>
+              sequence="20"/>
 
     <menuitem id="menu_academic_attendance"
               name="Điểm danh"
-              parent="menu_academic_root"
+              parent="menu_academic_group_operation"
               action="action_academic_attendance"
-              sequence="35"/>
+              sequence="30"/>
 
     <menuitem id="menu_academic_certificate"
               name="Chứng chỉ"
-              parent="menu_academic_root"
+              parent="menu_academic_group_operation"
               action="action_academic_certificate"
               sequence="40"/>
 
-    <menuitem id="menu_academic_intake"
-              name="Đợt học"
-              parent="menu_academic_root"
-              action="action_academic_intake"
-              sequence="50"/>
+    <!-- Nhóm "Học viên & Nhân Sự" -->
+    <menuitem id="menu_academic_student"
+              name="Học viên"
+              parent="menu_academic_group_people"
+              action="action_academic_student"
+              sequence="10"/>
+
+    <menuitem id="menu_academic_teacher"
+              name="Giảng viên"
+              parent="menu_academic_group_people"
+              action="action_academic_teacher"
+              sequence="20"/>
+
+    <menuitem id="menu_academic_volunteer"
+              name="Người phụng sự"
+              parent="menu_academic_group_people"
+              action="action_academic_volunteer"
+              sequence="30"/>
+
+    <!-- Nhóm "Báo cáo & Cấu hình" -->
+    <menuitem id="menu_academic_report_metric"
+              name="Báo cáo tổng hợp"
+              parent="menu_academic_group_report"
+              action="action_academic_report_metric"
+              sequence="10"/>
 
     <menuitem id="menu_academic_course_audience"
-              name="Đối tượng khóa học"
-              parent="menu_academic_root"
+              name="Khu vực hiển thị trên website"
+              parent="menu_academic_group_report"
               action="action_academic_course_audience"
-              sequence="90"/>
+              sequence="20"/>
 </odoo>

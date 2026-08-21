@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sản phẩm dùng chung để ghi nhận Gieo hạt (đóng góp tự nguyện) trên Đơn
+             hàng/Hóa đơn - giá để 0, Sale/Kế toán tự nhập số tiền thực tế trên từng
+             dòng vì mỗi khoản gieo hạt một số tiền khác nhau. Xem product_template.py
+             (is_donation_product) và academic_report_metric.py (nhánh "donation"). -->
+        <record id="product_gieo_hat" model="product.template">
+            <field name="name">Gieo hạt</field>
+            <field name="type">service</field>
+            <field name="invoice_policy">order</field>
+            <field name="list_price">0</field>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+            <field name="is_donation_product">True</field>
+        </record>
+    </data>
+</odoo>

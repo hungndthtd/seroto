@@ -6,7 +6,7 @@ DEFAULT_LIMIT = 3
 
 class AcademicCourseSnippetController(http.Controller):
 
-    # Route RIÊNG cho snippet "Khóa học - Nhóm đối tượng"
+    # Route RIÊNG cho snippet "Khóa học - Khu vực hiển thị"
     # (views/snippets/trang_chu/s_trang_chu_course_group.xml +
     # static/src/js/course_group_snippet.js) - đọc từ academic.course (module
     # seroto_education, model khóa học ĐANG DÙNG THẬT). CỐ TÌNH không dùng chung route
@@ -21,10 +21,10 @@ class AcademicCourseSnippetController(http.Controller):
         # lưu trữ/ẩn chung của Odoo, KHÔNG đồng nghĩa "đã sẵn sàng công khai trên
         # website" (khóa học mới tạo mặc định is_published=False, xem academic_course.py).
         domain = [("active", "=", True), ("is_published", "=", True)]
-        # audience_code: mã kỹ thuật của academic.course.audience (vd 'teacher',
-        # 'school'), nhập ở panel Tùy chỉnh của snippet (data-audience-code, xem
-        # s_course_group_option.xml) - không truyền (None) = không lọc theo đối tượng
-        # (nhưng vẫn lọc is_published ở trên).
+        # audience_code: mã kỹ thuật của academic.course.audience - Khu vực hiển thị
+        # (vd 'teacher', 'school'), nhập ở panel Tùy chỉnh của snippet (data-audience-
+        # code, xem s_course_group_option.xml) - không truyền (None) = không lọc theo
+        # khu vực (nhưng vẫn lọc is_published ở trên).
         if audience_code:
             domain.append(("audience_ids.code", "=", audience_code))
 

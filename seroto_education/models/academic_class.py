@@ -23,6 +23,11 @@ class AcademicClass(models.Model):
         'res.partner', 'academic_class_organizer_rel', 'class_id', 'partner_id',
         string='Ban tổ chức', tracking=True,
     )
+    volunteer_ids = fields.Many2many(
+        'res.partner', 'academic_class_volunteer_rel', 'class_id', 'partner_id',
+        string='Người phụng sự', tracking=True,
+        help='Hỗ trợ vài việc nhỏ cho Ban tổ chức, không phải thành viên chính thức.',
+    )
     active = fields.Boolean(string='Kích hoạt', default=True, tracking=True)
     
     session_ids = fields.One2many('academic.session', 'class_id', string='Các buổi học')
