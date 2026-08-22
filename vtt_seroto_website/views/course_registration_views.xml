@@ -14,6 +14,7 @@
     <field name="model">seroto.course.registration</field>
     <field name="arch" type="xml">
       <list string="Phiếu đăng ký khóa học">
+        <field name="code"/>
         <field name="course_name"/>
         <field name="class_id" optional="show"/>
         <field name="student_name" string="Học viên (nếu đăng ký hộ)" optional="show"/>
@@ -39,6 +40,7 @@
     <field name="model">seroto.course.registration</field>
     <field name="arch" type="xml">
       <search string="Phiếu đăng ký khóa học">
+        <field name="code"/>
         <field name="course_name"/>
         <field name="course_id"/>
         <field name="partner_name"/>
@@ -102,6 +104,9 @@
             </button>
           </div>
           <div class="oe_title">
+            <span class="o_form_label text-muted">
+              <field name="code" readonly="1"/>
+            </span>
             <label for="course_name" string="Khóa học"/>
             <h1>
               <field name="course_name"/>
@@ -130,7 +135,7 @@
                      widget="badge"
                      decoration-success="payment_status == 'paid'"
                      decoration-danger="payment_status == 'unpaid'"/>
-              <field name="bank_transaction_id"/>
+              <field name="payos_transaction_id"/>
               <field name="payment_id"/>
             </group>
             <group string="Lý do từ chối" invisible="state != 'rejected'">

@@ -1,6 +1,5 @@
 import logging
 import secrets
-from urllib.parse import quote
 
 from odoo import api, models, fields, _
 
@@ -12,6 +11,16 @@ class SerotoCourseRegistration(models.Model):
     _description = 'Phiếu đăng ký khóa học (modal "Đăng ký ngay" nhiều bước)'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'create_date desc'
+    _rec_name = 'code'
+
+    # Mã phiếu THẬT (lưu trữ, đánh index) - gán 1 lần ngay sau create() (xem create()
+    # bên dưới, cần có self.id trước mới ghép được chuỗi). Dùng THỐNG NHẤT cho cả hiển
+    # thị (_compute_display_name), tìm kiếm (_rec_name -> _name_search mặc định tìm theo
+    # field này), lẫn nội dung chuyển khoản gửi payOS (_create_payment_transaction) -
+    # trước đây 3 chỗ này tự ghép chuỗi riêng lẻ, có chỗ còn lệch định dạng (có/không có
+    # dấu gạch ngang), khó dò ngược từ nội dung chuyển khoản thật ra đúng phiếu vì model
+    # này vốn không có field "name" để tìm theo tên như các model khác.
+    code = fields.Char(string='Mã phiếu', copy=False, readonly=True, index=True)
 
     course_name = fields.Char(string='Khóa học', required=True)
     # Many2one thật, tự suy ra từ course_name lúc tạo (xem create()) - để lọc class_id,
@@ -60,10 +69,10 @@ class SerotoCourseRegistration(models.Model):
     ], string='Trạng thái', default='draft', required=True, tracking=True)
     reject_reason = fields.Text(string='Lý do từ chối')
     sale_order_id = fields.Many2one('sale.order', string='Đơn hàng', readonly=True, copy=False)
-    # Phiếu thu (account.payment) do hệ thống TỰ TẠO ngay khi ngân hàng báo đã nhận tiền
-    # - xem _auto_process_payment(). Đây là chứng từ kế toán thật (khác bank_transaction_id
-    # ở trên chỉ là log kỹ thuật của cổng thanh toán) - giữ lại để tiện tra cứu ngược từ
-    # phiếu đăng ký ra thẳng sổ sách.
+    # Phiếu thu (account.payment) do hệ thống TỰ TẠO ngay khi payOS báo đã nhận tiền -
+    # xem _auto_process_payment(). Đây là chứng từ kế toán thật (khác
+    # payos_transaction_id ở dưới chỉ là log kỹ thuật của cổng thanh toán) - giữ lại để
+    # tiện tra cứu ngược từ phiếu đăng ký ra thẳng sổ sách.
     payment_id = fields.Many2one('account.payment', string='Phiếu thu', readonly=True, copy=False)
 
     is_complete = fields.Boolean(
@@ -89,10 +98,10 @@ class SerotoCourseRegistration(models.Model):
         default=lambda self: secrets.token_urlsafe(24),
     )
 
-    # Giao dịch thanh toán giả lập (module vtt_bank_mock, dev/test - xem
-    # _create_bank_transaction()) tương ứng với phiếu này.
-    bank_transaction_id = fields.Many2one(
-        'bank.mock.transaction', string='Giao dịch thanh toán (giả lập)', copy=False,
+    # Giao dịch thanh toán payOS (module vtt_payos - xem _create_payment_transaction())
+    # tương ứng với phiếu này.
+    payos_transaction_id = fields.Many2one(
+        'payos.transaction', string='Giao dịch payOS', copy=False,
     )
 
     # Đúng link đã gửi trong email xác nhận (_send_confirmation_email) - hiện trên form
@@ -107,7 +116,7 @@ class SerotoCourseRegistration(models.Model):
 
     def _compute_display_name(self):
         for rec in self:
-            rec.display_name = '[PDK-%d]' % rec.id if isinstance(rec.id, int) else _('Phiếu đăng ký mới')
+            rec.display_name = '[%s]' % rec.code if rec.code else _('Phiếu đăng ký mới')
 
     def _get_slip_url(self):
         self.ensure_one()
@@ -124,7 +133,12 @@ class SerotoCourseRegistration(models.Model):
                     vals['course_id'] = course.id
                     if not vals.get('class_id'):
                         vals['class_id'] = course.default_class_id.id
-        return super().create(vals_list)
+        records = super().create(vals_list)
+        # Gán "code" (Mã phiếu) SAU khi tạo - cần có id thật để ghép chuỗi, không đưa
+        # được vào vals lúc create() như các field khác.
+        for rec in records:
+            rec.code = 'PDK%s' % rec.id
+        return records
 
     def action_confirm(self):
         self.write({'state': 'confirmed'})
@@ -224,9 +238,9 @@ class SerotoCourseRegistration(models.Model):
 
     def _auto_process_payment(self):
         """Tự động Tạo đơn hàng -> Xác nhận -> Tạo hóa đơn -> Đăng sổ -> Đăng ký thanh
-        toán ngay khi ngân hàng báo đã nhận tiền (bank_notify_webhook gọi hàm này sau
-        khi ghi payment_status='paid') - thay cho việc Sale phải tự bấm từng bước như
-        trước. Ghi danh học viên tự phát sinh theo sau, không cần code thêm ở đây - đã
+        toán ngay khi payOS báo đã nhận tiền (_payos_on_paid gọi hàm này sau khi ghi
+        payment_status='paid') - thay cho việc Sale phải tự bấm từng bước như trước.
+        Ghi danh học viên tự phát sinh theo sau, không cần code thêm ở đây - đã
         có sẵn hook _sync_enrollments_on_payment (seroto_education/models/account_move.py)
         kích hoạt mỗi khi payment_state của hóa đơn chuyển "paid"/"in_payment".
 
@@ -258,10 +272,10 @@ class SerotoCourseRegistration(models.Model):
                 register = self.env['account.payment.register'].sudo().with_context(
                     active_model='account.move', active_ids=invoice.ids,
                 ).create({
-                    # Nối ngược lại đúng phiếu đăng ký + giao dịch ngân hàng giả lập đã
-                    # kích hoạt bước này - phục vụ đối soát/tra cứu sau này (xem
-                    # payment_id, bank_transaction_id ở trên).
-                    'communication': 'PDK-%s (GD-%s)' % (self.id, self.bank_transaction_id.id),
+                    # Nối ngược lại đúng phiếu đăng ký + giao dịch payOS đã kích hoạt
+                    # bước này - phục vụ đối soát/tra cứu sau này (xem payment_id,
+                    # payos_transaction_id ở trên).
+                    'communication': 'PDK%s (payOS %s)' % (self.id, self.payos_transaction_id.order_code),
                 })
                 payments = register._create_payments()
                 if payments:
@@ -272,6 +286,17 @@ class SerotoCourseRegistration(models.Model):
                 'ID=%s - phiếu đã ghi nhận payment_status=paid, cần Sale kiểm tra và '
                 'xử lý tay phần còn lại.', self.id,
             )
+
+    def _payos_on_paid(self, transaction):
+        """Quy ước payos.transaction gọi tới (xem vtt_payos/models/payos_transaction.py,
+        _notify_related_record) ngay khi giao dịch chuyển "Đã thanh toán" - dù đến từ
+        webhook payOS gọi về hay từ cron đối soát định kỳ. Thay thế đúng vị trí trước
+        đây do bank_notify_webhook (controllers/course_registration.py) đảm nhiệm.
+        """
+        self.ensure_one()
+        if self.payment_status != 'paid':
+            self.payment_status = 'paid'
+        self._auto_process_payment()
 
     def action_view_sale_order(self):
         self.ensure_one()
@@ -314,13 +339,11 @@ class SerotoCourseRegistration(models.Model):
             for question in course.question_ids
         ]
 
-    def _create_bank_transaction(self):
-        """Tạo giao dịch thanh toán để khách quét mã/mở trang thanh toán.
-
-        THAY KHI CÓ API NGÂN HÀNG THẬT: đổi nội dung hàm này sang gọi API tạo giao
-        dịch/lấy mã QR của ngân hàng/cổng thanh toán thật (vd MB Bank, VNPay, Casso...)
-        thay vì tạo bank.mock.transaction - miễn là vẫn trả về 1 URL cho khách "thanh
-        toán" thì _get_checkout_url()/luồng JS phía dưới không cần đổi gì thêm.
+    def _create_payment_transaction(self):
+        """Tạo link thanh toán payOS thật cho phiếu này - khách quét QR hoặc mở
+        checkout_url để thanh toán. payOS gọi thẳng về payos_transaction._process_paid()
+        (qua webhook cố định /payos/webhook, module vtt_payos) rồi tự tìm tới
+        _payos_on_paid() ở trên theo đúng quy ước related_res_model/related_res_id.
         """
         self.ensure_one()
 
@@ -332,38 +355,28 @@ class SerotoCourseRegistration(models.Model):
         if self.course_id and self.course_id.product_id:
             amount = self.course_id.product_id.list_price
 
-        transaction = self.env['bank.mock.transaction'].sudo().create({
-            # "PDK-<id>" khớp đúng mã hiển thị của phiếu (_compute_display_name ở trên,
-            # "[PDK-<id>]") - webhook (controllers/course_registration.py, _REFERENCE_RE)
-            # tách lại đúng ID này để tìm về phiếu.
-            'reference': 'PDK-%s' % self.id,
-            'amount': amount,
-            'description': '%s - %s' % (self.course_name, self.phone),
-            'notify_url': '%s/seroto/course-registration/webhook/bank-notify' % self.get_base_url(),
-            'notify_secret': self.access_token,
-            # Chỉ để vtt_bank_mock dựng nút "Xem bản ghi liên quan" - module đó vẫn
-            # không cần biết ý nghĩa model này là gì.
-            'related_res_model': 'seroto.course.registration',
-            'related_res_id': self.id,
-        })
-        self.bank_transaction_id = transaction.id
+        slip_url = self._get_slip_url()
+        transaction = self.env['payos.transaction'].sudo().create_for_record(
+            amount=round(amount),
+            # payOS giới hạn nội dung chuyển khoản ngắn (không dấu, không quá ~25 ký
+            # tự) - dùng đúng Mã phiếu (self.code, khớp _compute_display_name) để dễ đối
+            # chiếu ngược từ nội dung chuyển khoản thật ra đúng phiếu, không nhét thêm
+            # tên khóa học/sđt như bản giả lập trước đây vì dễ vượt giới hạn của payOS.
+            description=self.code,
+            related_record=self,
+            return_url=slip_url,
+            cancel_url=slip_url,
+        )
+        self.payos_transaction_id = transaction.id
         return transaction
 
     def _get_checkout_url(self):
         self.ensure_one()
-        return self.bank_transaction_id._get_checkout_url() if self.bank_transaction_id else False
+        return self.payos_transaction_id.checkout_url if self.payos_transaction_id else False
 
     def _get_checkout_qr_url(self):
-        """Ảnh QR (PNG) mã hóa checkout_url - dùng route /report/barcode/ có sẵn của
-        Odoo core (module "web", thư viện reportlab) để sinh ảnh, KHÔNG cần cài thêm
-        gì. Khách quét bằng app ngân hàng bất kỳ (demo - vẫn dẫn tới trang giả lập, xem
-        vtt_bank_mock) thay vì phải bấm nút mở tab trên cùng thiết bị.
-        """
         self.ensure_one()
-        checkout_url = self._get_checkout_url()
-        if not checkout_url:
-            return False
-        return '/report/barcode/?barcode_type=QR&value=%s&width=200&height=200' % quote(checkout_url, safe='')
+        return self.payos_transaction_id._get_qr_image_url() if self.payos_transaction_id else False
 
     def action_send_confirmation_email(self):
         for registration in self:

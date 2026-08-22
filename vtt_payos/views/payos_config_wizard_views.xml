@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payos_config_wizard_view_form" model="ir.ui.view">
+        <field name="name">payos.config.wizard.form</field>
+        <field name="model">payos.config.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cấu hình payOS">
+                <p class="text-muted">
+                    Lấy 3 giá trị này từ tài khoản payOS của bạn (my.payos.vn > Kênh thanh toán).
+                    Vì lý do bảo mật, giá trị đã lưu <b>không hiển thị lại</b> ở đây - để trống
+                    1 ô nghĩa là giữ nguyên giá trị đã lưu trước đó, chỉ nhập khi muốn thay khóa mới.
+                    Đồng thời cần đăng ký sẵn 1 lần địa chỉ Webhook trên payOS, trỏ về:
+                    <code>&lt;tên miền của bạn&gt;/payos/webhook</code>
+                </p>
+                <field name="current_status" readonly="1"/>
+                <group>
+                    <field name="client_id" password="True" placeholder="Để trống = giữ nguyên"/>
+                    <field name="api_key" password="True" placeholder="Để trống = giữ nguyên"/>
+                    <field name="checksum_key" password="True" placeholder="Để trống = giữ nguyên"/>
+                </group>
+                <footer>
+                    <button string="Lưu" type="object" name="action_save" class="btn-primary"/>
+                    <button string="Đóng" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="payos_config_wizard_action" model="ir.actions.act_window">
+        <field name="name">Cấu hình payOS</field>
+        <field name="res_model">payos.config.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="payos_menu_root" name="payOS" sequence="101" groups="base.group_system"/>
+    <!-- groups khai TRỰC TIẾP ở đây (không chỉ dựa vào menu cha) + đã có sẵn
+         access_payos_config_wizard_system trong ir.model.access.csv (chỉ base.group_system
+         mới có quyền đọc/ghi model payos.config.wizard) - khóa 2 lớp, chắc chắn chỉ Quản
+         trị hệ thống mới thao tác được, kể cả khi menu cha có bị đổi/gỡ groups sau này. -->
+    <menuitem id="payos_menu_config" name="Cấu hình" groups="base.group_system"
+              parent="payos_menu_root" action="payos_config_wizard_action" sequence="20"/>
+</odoo>

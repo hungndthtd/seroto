@@ -38,8 +38,8 @@
   }
 }
 
-/* Trang "cổng thanh toán" giả lập (vtt_bank_mock) - đó là ĐÍCH đến, không cần hiện QR
-   của chính nó nên vẫn dùng khung chữ placeholder này, không phải ảnh. */
+/* Khung placeholder hiện tạm trước khi có ảnh QR thật (server trả về qr_url, xem
+   course_register_wizard.js) - vẫn giữ làm nền/fallback khi ảnh chưa tải xong. */
 .course_wizard_qr_placeholder {
   border: 1px dashed #b5b5b5;
   border-radius: 8px;

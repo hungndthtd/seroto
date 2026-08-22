@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_payos_transaction_system,payos.transaction.system,model_payos_transaction,base.group_system,1,1,1,1
+access_payos_config_wizard_system,payos.config.wizard.system,model_payos_config_wizard,base.group_system,1,1,1,1

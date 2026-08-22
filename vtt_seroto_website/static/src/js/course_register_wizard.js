@@ -5,22 +5,18 @@ import { rpc } from "@web/core/network/rpc";
 
 const POLL_INTERVAL_MS = 3000;
 
-// Ảnh QR (PNG) mã hóa checkoutUrl - dùng route /report/barcode/ có sẵn của Odoo core
-// (module "web", thư viện reportlab), KHÔNG cần cài thêm gì.
-function qrImageUrl(checkoutUrl) {
-    return `/report/barcode/?barcode_type=QR&value=${encodeURIComponent(checkoutUrl)}&width=200&height=200`;
-}
-
 // Widget cho modal đăng ký khóa học DẠNG NHIỀU BƯỚC (wizard) gắn trên
 // views/course_register_wizard.xml + trang xem phiếu qua link email
 // (views/course_registration_slip_page.xml).
 //
 // Tab "Thông tin cơ bản" hoàn tất -> gọi RPC tạo bản ghi seroto.course.registration +
-// giao dịch thanh toán giả lập (vtt_bank_mock) + gửi email kèm link phiếu (xem
-// controllers/course_registration.py). Tab "Thanh toán" mở trang "ngân hàng" giả lập ở
-// tab mới rồi POLLING (setInterval, không dùng WebSocket/longpolling cho đơn giản) để tự
-// phát hiện lúc webhook (bank_notify_webhook) báo đã thanh toán - KHÔNG còn nút tự khai
-// "Tôi đã thanh toán" như bản mô phỏng trước đó.
+// link thanh toán payOS thật (module vtt_payos) + gửi email kèm link phiếu (xem
+// controllers/course_registration.py). Ảnh QR (qrUrl) do SERVER sinh sẵn từ đúng chuỗi
+// VietQR payOS trả về (không tự suy từ checkoutUrl như bản giả lập trước đây - checkoutUrl
+// chỉ là link mở trang thanh toán, không phải mã QR chuyển khoản thật). Tab "Thanh toán"
+// mở trang thanh toán payOS ở tab mới rồi POLLING (setInterval, không dùng WebSocket/
+// longpolling cho đơn giản) để tự phát hiện lúc webhook payOS báo đã thanh toán - KHÔNG
+// có nút tự khai "Tôi đã thanh toán".
 //
 // Cố tình KHÔNG tái sử dụng "register-course"/register_modal.js (seroto_form) - trigger
 // ở đây là class riêng "js_register_course_wizard" để không ảnh hưởng modal đăng ký 1
@@ -68,6 +64,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             registrationId: null,
             accessToken: null,
             checkoutUrl: null,
+            qrUrl: null,
             course: "", name: "", email: "", phone: "",
             studentRelation: "self", studentName: "",
             questions: [], // [{id, question}, ...] - riêng theo từng khóa học, xem _renderQuestions()
@@ -186,6 +183,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._state.registrationId = result.id;
         this._state.accessToken = result.token;
         this._state.checkoutUrl = result.checkout_url;
+        this._state.qrUrl = result.qr_url;
         this._state.questions = result.questions || [];
         this._state.name = name;
         this._state.email = email;
@@ -204,12 +202,25 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
 
         modalEl.querySelector('.course_wizard_step[data-step="payment"]').disabled = false;
         modalEl.querySelector("#wizard_payment_course").textContent = this._state.course;
-        modalEl.querySelector("#wizard_payment_note").textContent =
-            `${this._state.course} - ${this._state.phone}`;
+
+        // Hiện đầy đủ lại thông tin đã điền ở Tab 1 (giống hệt phần "Phiếu đăng ký" ở
+        // _syncSlip) để khách đối chiếu lại trước khi thanh toán - không còn dòng "Nội
+        // dung chuyển khoản" tự đoán như trước (payOS/ngân hàng có thể tự thêm tiền tố
+        // riêng vào nội dung chuyển khoản thật, hiện sai còn dễ gây nhầm lẫn hơn không
+        // hiện - khách xem đúng nội dung thật ngay trên trang/QR của payOS).
+        const isForOther = this._state.studentRelation === "other";
+        modalEl.querySelector("#wizard_payment_student_row").classList.toggle("d-none", !isForOther);
+        if (isForOther) {
+            modalEl.querySelector("#wizard_payment_student").textContent = this._state.studentName;
+        }
+        modalEl.querySelector("#wizard_payment_name").textContent = this._state.name;
+        modalEl.querySelector("#wizard_payment_email").textContent = this._state.email;
+        modalEl.querySelector("#wizard_payment_phone").textContent = this._state.phone;
+
         modalEl.querySelector("#wizard_email_sent_note").textContent =
             `Đã gửi email xác nhận kèm link phiếu đăng ký tới ${email}.`;
         modalEl.querySelector("#wizard_open_bank").href = this._state.checkoutUrl || "#";
-        modalEl.querySelector("#wizard_payment_qr").src = qrImageUrl(this._state.checkoutUrl);
+        modalEl.querySelector("#wizard_payment_qr").src = this._state.qrUrl || "";
         this._showPane(modalEl, "payment");
 
         this._startPolling();
@@ -439,8 +450,8 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
                 openBankLink.href = this._state.checkoutUrl || "#";
             }
             const qrImg = slipEl.querySelector("#slip_payment_qr");
-            if (qrImg && this._state.checkoutUrl) {
-                qrImg.src = qrImageUrl(this._state.checkoutUrl);
+            if (qrImg && this._state.qrUrl) {
+                qrImg.src = this._state.qrUrl;
             }
         }
     },

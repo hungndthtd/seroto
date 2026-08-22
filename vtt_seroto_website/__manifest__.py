@@ -1,6 +1,6 @@
 {
   'name': 'VTT Seroto Website',
-  'version': '1.4',
+  'version': '1.7',
   'author': 'Seroto',
   'summary': 'Snippet kéo-thả và trang landing khóa học trên website',
   'depends': [
@@ -9,11 +9,10 @@
     # tiếp) - vốn đã có sẵn qua phụ thuộc bắc cầu website -> portal -> mail, khai báo
     # thẳng ở đây cho rõ ràng thay vì ngầm định.
     'mail',
-    # Giả lập cổng thanh toán ngân hàng (dev/test, CHƯA có API ngân hàng thật) - xem
-    # controllers/course_registration.py, chỗ tạo bank.mock.transaction. Khi có API
-    # ngân hàng/cổng thanh toán thật, gỡ phụ thuộc này (xem comment "THAY KHI CÓ API
-    # NGÂN HÀNG THẬT" trong controller).
-    'vtt_bank_mock',
+    # Cổng thanh toán payOS thật - xem models/course_registration.py,
+    # _create_payment_transaction() (gọi payos.transaction.create_for_record) và
+    # _payos_on_paid() (payos.transaction gọi ngược lại quy ước này khi đã thanh toán).
+    'vtt_payos',
     # Đọc academic.course (models/course_registration.py, _get_course_questions) +
     # đặt menu "Phiếu đăng ký" trong nhóm "Tuyển sinh & Vận hành" của app Đào tạo (views/
     # course_registration_views.xml, parent="seroto_education.menu_academic_group_operation")

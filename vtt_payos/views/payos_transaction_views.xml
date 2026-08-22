@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payos_transaction_view_list" model="ir.ui.view">
+        <field name="name">payos.transaction.list</field>
+        <field name="model">payos.transaction</field>
+        <field name="arch" type="xml">
+            <!-- create="0": ẩn nút "Mới" - giao dịch chỉ được tạo qua
+                 payos.transaction.create_for_record() (gọi từ code), không tạo tay. -->
+            <list create="0">
+                <field name="order_code"/>
+                <field name="description"/>
+                <field name="amount"/>
+                <field name="status" widget="badge" decoration-success="status == 'paid'"/>
+                <field name="bank_reference" optional="hide"/>
+                <field name="confirmed_at"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="payos_transaction_view_form" model="ir.ui.view">
+        <field name="name">payos.transaction.form</field>
+        <field name="model">payos.transaction</field>
+        <field name="arch" type="xml">
+            <!-- create="0" edit="0": khóa tạm thời, không cho tạo/sửa tay trên backend -
+                 toàn bộ dữ liệu chỉ nên được ghi bởi code (webhook, create_for_record) để
+                 đảm bảo đúng thực tế đã giao dịch với payOS, tránh sửa nhầm/sửa khống. -->
+            <form create="0" edit="0">
+                <sheet>
+                    <!-- related_res_model/related_res_id do bên gọi tự truyền lúc tạo
+                         giao dịch (create_for_record) - chỉ hiện nút khi có đủ cả 2. -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_related_record" type="object"
+                                class="oe_stat_button" icon="fa-link"
+                                invisible="not related_res_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Xem bản ghi liên quan</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Thông tin link thanh toán">
+                            <field name="order_code"/>
+                            <field name="amount"/>
+                            <field name="description"/>
+                            <field name="status"/>
+                            <field name="checkout_url" widget="url"/>
+                            <field name="payment_link_id"/>
+                            <field name="confirmed_at"/>
+                        </group>
+                        <group string="Đối soát (từ webhook payOS)" invisible="status != 'paid'">
+                            <field name="webhook_description"/>
+                            <field name="bank_reference"/>
+                            <field name="bank_transaction_datetime"/>
+                            <field name="counter_account_name"/>
+                            <field name="counter_account_number"/>
+                            <field name="counter_account_bank_name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="payos_transaction_action" model="ir.actions.act_window">
+        <field name="name">Giao dịch payOS</field>
+        <field name="res_model">payos.transaction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- sequence=10 (trước "Cấu hình") - bấm vào menu cha "payOS" sẽ vào thẳng đây,
+         đúng màn hình nhân viên cần xem hàng ngày hơn là màn hình cấu hình. groups khai
+         trực tiếp - khớp access_payos_transaction_system trong ir.model.access.csv. -->
+    <menuitem id="payos_menu_transaction" name="Giao dịch" groups="base.group_system"
+              parent="payos_menu_root" action="payos_transaction_action" sequence="10"/>
+</odoo>

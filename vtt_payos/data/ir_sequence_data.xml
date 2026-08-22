@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sinh order_code SỐ NGUYÊN duy nhất cho mỗi lần tạo link thanh toán payOS -
+             không đặt prefix/suffix để kết quả luôn thuần số (payOS yêu cầu orderCode
+             là số nguyên). -->
+        <record id="seq_payos_order_code" model="ir.sequence">
+            <field name="name">Mã đơn payOS</field>
+            <field name="code">payos.transaction.order_code</field>
+            <field name="padding">6</field>
+            <field name="number_next">100000</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -66,11 +66,11 @@
                   <div class="text-center mb-3">
                     <img t-att-src="registration._get_checkout_qr_url()" class="course_wizard_qr_image"
                          alt="Mã QR thanh toán"/>
-                    <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ (demo)</p>
+                    <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ</p>
                   </div>
                   <a t-att-href="registration._get_checkout_url()" target="_blank" rel="noopener"
                      class="btn btn-success w-100 mb-2" id="slip_page_open_bank">
-                    Mở trang thanh toán ngân hàng
+                    Mở trang thanh toán
                   </a>
                   <p class="text-muted small text-center mb-0">
                     <span class="spinner-border spinner-border-sm me-1" role="status"/>

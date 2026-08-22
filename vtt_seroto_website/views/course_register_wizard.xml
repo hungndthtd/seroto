@@ -5,12 +5,12 @@
     Modal đăng ký khóa học DẠNG NHIỀU BƯỚC (wizard):
     - Tab 1 "Thông tin cơ bản": Khóa học (readonly) + Họ tên/Email/SĐT (bắt buộc). Submit
       tab này gọi RPC tạo bản ghi seroto.course.registration thật (model/controller
-      course_registration.py) + tạo giao dịch thanh toán giả lập (vtt_bank_mock) + gửi
+      course_registration.py) + tạo link thanh toán payOS thật (module vtt_payos) + gửi
       email kèm link phiếu.
-    - Tab 2 "Thanh toán": nút mở trang "ngân hàng" giả lập (checkout_url) ở tab/popup
-      mới - JS polling trạng thái trong lúc chờ, TỰ chuyển sang "Thành công" khi webhook
-      (bank_notify_webhook) báo về, KHÔNG còn nút tự khai "Tôi đã thanh toán" như bản mô
-      phỏng trước đó (client không thể tự set trạng thái đã thanh toán được nữa).
+    - Tab 2 "Thanh toán": nút mở trang thanh toán payOS (checkout_url) ở tab/popup mới -
+      JS polling trạng thái trong lúc chờ, TỰ chuyển sang "Thành công" khi webhook payOS
+      báo về, KHÔNG có nút tự khai "Tôi đã thanh toán" (client không thể tự set trạng
+      thái đã thanh toán được).
     - Tab 3 "Thông tin chuyên sâu": thu thập thêm thông tin sau khi đã thanh toán, lưu
       vào cùng bản ghi.
     Việc khoá/mở tab, disable nút "Tiếp tục" và gọi RPC xử lý ở
@@ -96,14 +96,17 @@
               <div id="wizard_payment_pending">
                 <div class="text-center mb-3">
                   <img id="wizard_payment_qr" class="course_wizard_qr_image" alt="Mã QR thanh toán"/>
-                  <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ (demo)</p>
+                  <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ</p>
                 </div>
                 <p class="mb-1">Khóa học: <strong id="wizard_payment_course"/></p>
-                <p class="mb-1">Nội dung chuyển khoản: <strong id="wizard_payment_note"/></p>
+                <p class="mb-1 d-none" id="wizard_payment_student_row">Học viên: <strong id="wizard_payment_student"/></p>
+                <p class="mb-1">Người đăng ký: <strong id="wizard_payment_name"/></p>
+                <p class="mb-1">Email: <strong id="wizard_payment_email"/></p>
+                <p class="mb-1">Số điện thoại: <strong id="wizard_payment_phone"/></p>
                 <p class="text-muted small mb-3" id="wizard_email_sent_note"/>
                 <a href="#" target="_blank" rel="noopener" class="btn btn-success w-100 mb-2"
                    id="wizard_open_bank">
-                  Mở trang thanh toán ngân hàng
+                  Mở trang thanh toán
                 </a>
                 <p class="text-muted small text-center mb-0">
                   <span class="spinner-border spinner-border-sm me-1" role="status"/>
@@ -183,10 +186,10 @@
               <hr/>
               <div class="text-center mb-3">
                 <img id="slip_payment_qr" class="course_wizard_qr_image" alt="Mã QR thanh toán"/>
-                <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ (demo)</p>
+                <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ</p>
               </div>
               <a href="#" target="_blank" rel="noopener" class="btn btn-success w-100 mb-2" id="slip_open_bank">
-                Mở trang thanh toán ngân hàng
+                Mở trang thanh toán
               </a>
               <p class="text-muted small text-center mb-0">
                 <span class="spinner-border spinner-border-sm me-1" role="status"/>
