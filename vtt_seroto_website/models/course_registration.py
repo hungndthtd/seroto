@@ -2,6 +2,7 @@ import logging
 import secrets
 
 from odoo import api, models, fields, _
+from odoo.tools import formataddr
 
 _logger = logging.getLogger(__name__)
 
@@ -395,7 +396,10 @@ class SerotoCourseRegistration(models.Model):
         # ra được khi env.user có email, vd tài khoản nội bộ) - thiếu dòng này Odoo báo
         # lỗi "mail_from_missing" dù đã cấu hình Outgoing Mail Server đầy đủ (đã gặp
         # thực tế). company.email khớp với tài khoản SMTP đang cấu hình.
-        email_from = self.env.company.email or self.env.user.email
+        # formataddr bọc thành '"Tên" <email>' - nếu chỉ truyền chuỗi email trần, mail
+        # client (Gmail...) không có tên để hiển thị, chỉ show mỗi địa chỉ.
+        company = self.env.company
+        email_from = formataddr((company.name, company.email or self.env.user.email))
 
         # Không để lỗi gửi mail (vd chưa cấu hình Outgoing Mail Server) làm hỏng cả
         # luồng đăng ký - phiếu vẫn được tạo, chỉ log lại để kiểm tra sau.
