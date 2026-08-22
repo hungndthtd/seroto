@@ -8,10 +8,10 @@ Mỗi tình huống có: bối cảnh → hệ thống phản ứng thế nào �
 ## Phần 1 — Sale
 
 ### Tình huống 1.1: Khách đăng ký khóa "EQ 5 phút" qua website, thanh toán ngay
-Chị Lan thấy trang landing "EQ 5 phút", bấm "Đăng ký ngay", điền họ tên/email/sđt (Tab 1) → hệ thống tự tạo **Phiếu đăng ký** trạng thái **Mới đăng ký**, gửi email xác nhận. Chị Lan quét mã QR ở Tab 2 (hiện đang giả lập, chưa phải cổng ngân hàng thật) → ngay khi hệ thống ghi nhận đã thanh toán, **toàn bộ các bước còn lại tự động chạy**: tạo Đơn hàng, xác nhận, xuất Hóa đơn, ghi nhận thanh toán, ghi danh chị Lan vào đúng lớp, Phiếu đăng ký tự chuyển **Hoàn tất** — không cần Sale thao tác gì. Chị Lan trả lời câu hỏi chuyên sâu ở Tab 3 trước hay sau lúc này đều được, không ảnh hưởng tới việc vào lớp.
+Chị Lan thấy trang landing "EQ 5 phút", bấm "Đăng ký ngay", điền họ tên/email/sđt (Tab 1) → hệ thống tự tạo **Phiếu đăng ký** trạng thái **Mới đăng ký**, gửi email xác nhận. Chị Lan quét mã QR ở Tab 2 (**payOS — cổng thanh toán thật**, quét bằng app ngân hàng bất kỳ) → ngay khi payOS báo đã nhận tiền, **toàn bộ các bước còn lại tự động chạy**: tạo Đơn hàng, xác nhận, xuất Hóa đơn, ghi nhận thanh toán, ghi danh chị Lan vào đúng lớp, Phiếu đăng ký tự chuyển **Hoàn tất** — không cần Sale thao tác gì. Chị Lan trả lời câu hỏi chuyên sâu ở Tab 3 trước hay sau lúc này đều được, không ảnh hưởng tới việc vào lớp.
 
 **Thao tác chi tiết:** không có thao tác bắt buộc — đây là luồng tự động hoàn toàn. Sale chỉ cần:
-1. *(Không bắt buộc)* Vào **Đào tạo → Tuyển sinh & Vận hành → Phiếu đăng ký**, mở phiếu của chị Lan để xem lại — phiếu đã ở trạng thái **Hoàn tất**, có sẵn các nút mở nhanh Đơn hàng/Hóa đơn tương ứng.
+1. *(Không bắt buộc)* Vào **Đào tạo → Tuyển sinh & Vận hành → Phiếu đăng ký**, gõ đúng Mã phiếu (VD "PDK8", hiện ngay trên đầu form phiếu) vào ô tìm kiếm hoặc tìm theo tên/sđt chị Lan, mở phiếu để xem lại — phiếu đã ở trạng thái **Hoàn tất**, có sẵn các nút mở nhanh Đơn hàng/Hóa đơn/Giao dịch payOS tương ứng.
 2. Nếu chị Lan chưa trả lời hết Câu hỏi chuyên sâu, phiếu vẫn hiện trong bộ lọc **"Cần xử lý"** — Sale chủ động nhắn nhắc khách điền nốt, không ảnh hưởng tới việc chị Lan đã vào lớp.
 
 **Biến thể — đăng ký qua điện thoại/Zalo, hoặc hệ thống tự động hóa gặp lỗi:** nếu khách không thanh toán qua website (đăng ký hộ qua điện thoại) hoặc phần tự động gặp lỗi (hiếm gặp), Sale xử lý tay:
@@ -139,6 +139,15 @@ Kế toán mở **Báo cáo tổng hợp**, dùng Pivot xem theo Tháng, lọc r
 3. Cột đã mặc định theo Tháng — bấm mở rộng để xem từng tháng cụ thể.
 4. Bấm mở rộng hàng Khóa học để xem xuống từng Lớp học nếu cần chi tiết hơn.
 
+### Tình huống 2.7: Đối soát 1 khoản thanh toán payOS với sao kê ngân hàng thật
+Kế toán nhận sao kê ngân hàng cuối ngày, thấy 1 khoản chuyển khoản muốn xác nhận đúng khớp phiếu đăng ký nào. Tra theo Mã phiếu (VD "PDK8") ở menu Phiếu đăng ký, mở field **"Giao dịch payOS"** trên phiếu đó — xem được đầy đủ tên/số tài khoản người chuyển, ngân hàng, mã tham chiếu giao dịch, đúng khớp với dòng trên sao kê.
+
+**Thao tác chi tiết:**
+1. Vào **Đào tạo → Tuyển sinh & Vận hành → Phiếu đăng ký**, gõ Mã phiếu vào ô tìm kiếm (VD "PDK8").
+2. Mở đúng phiếu, bấm vào field **"Giao dịch payOS"** để mở giao dịch tương ứng.
+3. Xem nhóm **"Đối soát (từ webhook payOS)"** — so khớp Tên/Số tài khoản chuyển, Ngân hàng, Mã tham chiếu với dòng trên sao kê ngân hàng thật.
+4. Màn hình này chỉ xem, không sửa được — nếu phát hiện sai lệch, báo Quản lý/kỹ thuật kiểm tra, không tự sửa tay dữ liệu giao dịch.
+
 ---
 
 ## Phần 3 — Quản lý (Khóa học, việc học tập, dữ liệu Đào tạo)
@@ -235,4 +244,4 @@ Quản lý danh sách đầy đủ các khu vực đang có tại **Đào tạo 
 ## Ghi chú phạm vi
 
 - Tất cả tình huống trên đều dựa trên tính năng **đã triển khai thật** trong phần mềm — không có tình huống giả định cho phần còn thiếu (VD chưa xử lý được luồng CRM Zalo/Facebook, chưa tách "Thu" theo lớp 100% trường hợp, chưa có nơi theo dõi "chi phí chung").
-- Cổng thanh toán trong Tình huống 1.1 vẫn đang **giả lập**, chưa nối ngân hàng thật.
+- Cổng thanh toán trong Tình huống 1.1 đã là **payOS thật** — không còn giả lập.

@@ -74,17 +74,21 @@ Menu **Đào tạo › Báo cáo & Cấu hình › Báo cáo tổng hợp** — 
 
 **Dành cho:** Sale, Kế toán, Quản lý
 
-**Trước đây:** khách đăng ký + "thanh toán" (giả lập) xong, **Sale vẫn phải vào backend bấm tay** từng bước — Xác nhận phiếu đăng ký → Tạo đơn hàng → Xác nhận đơn hàng → Tạo hóa đơn → Đăng ký thanh toán — thì học viên mới thực sự được ghi danh vào lớp.
+**Trước đây:** khách đăng ký + thanh toán xong, **Sale vẫn phải vào backend bấm tay** từng bước — Xác nhận phiếu đăng ký → Tạo đơn hàng → Xác nhận đơn hàng → Tạo hóa đơn → Đăng ký thanh toán — thì học viên mới thực sự được ghi danh vào lớp.
 
-**Giờ đây:** ngay khi ngân hàng/cổng thanh toán báo đã nhận tiền, hệ thống **tự động làm hết** chuỗi trên trong 1 lần — Đơn hàng, Hóa đơn, Đăng ký thanh toán, Ghi danh vào lớp đều xong ngay lập tức, Sale không cần thao tác gì cho lượt đăng ký đó nữa.
+**Giờ đây:** website đã nối cổng thanh toán **payOS thật** (quét QR/chuyển khoản ngân hàng thật, không còn giả lập) — ngay khi payOS báo đã nhận tiền, hệ thống **tự động làm hết** chuỗi trên trong 1 lần: Đơn hàng, Hóa đơn, Đăng ký thanh toán, Ghi danh vào lớp đều xong ngay lập tức, Sale không cần thao tác gì cho lượt đăng ký đó nữa.
 
 Trả lời **"Câu hỏi chuyên sâu"** (tab 3 của form đăng ký) **không phải điều kiện** cho việc tự động này — khách có thể điền trước hoặc sau khi đã được ghi danh, không ảnh hưởng gì tới việc vào lớp.
+
+**Mỗi phiếu đăng ký giờ có 1 Mã phiếu riêng** (VD "PDK8") hiện ngay trên đầu form — dùng để tra cứu nhanh (gõ thẳng mã vào ô tìm kiếm chung là ra đúng phiếu) và đối chiếu với nội dung chuyển khoản khách hàng thực hiện.
 
 **Sale vẫn cần làm gì?**
 - Theo dõi bộ lọc **"Cần xử lý"** ở menu Phiếu đăng ký để chủ động nhắc khách điền nốt Câu hỏi chuyên sâu nếu còn thiếu.
 - Nếu 1 phiếu nào đó tự động hóa bị lỗi giữa chừng (VD sản phẩm chưa gắn giá) — phiếu vẫn hiện đúng trạng thái **"Đã thanh toán"** nhưng chưa có Đơn hàng đi kèm; Sale bấm nút **"Tạo đơn hàng"** thủ công như quy trình cũ để xử lý tiếp (cơ chế dự phòng, không mất dữ liệu thanh toán đã ghi nhận).
 
-**Kế toán:** trên form Phiếu đăng ký giờ có thêm field **"Phiếu thu"** — trỏ thẳng tới đúng chứng từ kế toán (account.payment) hệ thống tự tạo, tiện đối soát ngược lại đúng phiên giao dịch ngân hàng nào tương ứng với phiếu đó.
+**Kế toán:**
+- Trên form Phiếu đăng ký có field **"Phiếu thu"** — trỏ thẳng tới đúng chứng từ kế toán hệ thống tự tạo.
+- Trên form Phiếu đăng ký cũng có field **"Giao dịch payOS"** — mở ra xem link/QR thanh toán, trạng thái, và (sau khi đã thanh toán) đầy đủ thông tin đối soát ngân hàng thật: tên/số tài khoản người chuyển, ngân hàng, mã tham chiếu giao dịch, nội dung chuyển khoản ngân hàng thực sự ghi nhận. Màn hình này **chỉ xem, không sửa/tạo tay được** — đảm bảo dữ liệu luôn khớp đúng với payOS.
 
 ---
 
@@ -155,9 +159,16 @@ Chỉ đổi vị trí menu, không đổi bất kỳ màn hình/thao tác nào 
 - Form Ghi danh giờ có nút thông minh **"Chứng chỉ"** trong khung nút phía trên (chỉ hiện khi đã cấp) — bấm mở thẳng đúng chứng chỉ tương ứng. Ngược lại, form Chứng chỉ cũng hiện field **"Ghi danh"** trỏ về đúng lượt ghi danh đã sinh ra nó — tra cứu 2 chiều đều được.
 - Hệ thống tự chặn cấp trùng — 1 lượt Ghi danh chỉ có tối đa 1 Chứng chỉ dù bấm "Hoàn thành" nhiều lần.
 
+### B.11 Chèn vào đầu tài liệu (hoặc mục điều hướng chung) — Menu "payOS"
+
+Menu riêng **payOS** (chỉ **Quản trị hệ thống** thấy được, không phải mọi nhân viên) gồm 2 mục:
+- **Giao dịch** — danh sách toàn bộ giao dịch thanh toán payOS đã tạo (đúng nội dung đã mô tả ở mục A.4), bấm vào menu cha "payOS" sẽ vào thẳng đây.
+- **Cấu hình** — nơi nhập 3 khóa kết nối với tài khoản payOS của tổ chức (chỉ làm 1 lần lúc thiết lập, không cần đụng tới sau đó trừ khi đổi khóa).
+
 ---
 
 ## Việc còn treo (chưa làm, không nằm trong phần cập nhật này)
 
 - CRM tổng hợp **chưa** gồm các lượt đăng ký web bị từ chối/hủy/chưa xử lý xong (đã đề xuất hướng giải quyết, chưa triển khai).
 - "Chi phí chung" (không gắn khóa/lớp nào) chưa có chỗ theo dõi riêng — chủ đích để ngoài phạm vi Báo cáo tổng hợp.
+- Đã có sẵn cơ chế chặn không cho đăng sản phẩm học phí/Gieo hạt lên khu vực bán hàng công khai (Shop) nếu tổ chức có mở rộng thêm chức năng này sau này — hiện chưa có Shop nên chưa có gì để thao tác.
