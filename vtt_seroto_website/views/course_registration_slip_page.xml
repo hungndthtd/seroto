@@ -20,7 +20,7 @@
     <p>
       Xem lại thông tin đã điền và hoàn tất thanh toán tại phiếu đăng ký của bạn:
       <br/>
-      <a t-att-href="slip_url"><t t-esc="slip_url"/></a>
+      <a t-att-href="slip_url">Link phiếu đăng ký</a>
     </p>
   </template>
 
