@@ -46,6 +46,14 @@ class CourseRegistrationController(http.Controller):
         if student_relation != 'self' and not student_name:
             raise UserError(_('Vui lòng nhập họ tên học viên.'))
 
+        # Chặn THẬT ở server, không chỉ ẩn nút "Đăng ký ngay" trên giao diện (nhiều
+        # trang landing tĩnh khác của Seroto không kiểm tra is_registration_open trước
+        # khi hiện nút) - is_registration_open tự tính theo đúng trạng thái "Lớp nhận
+        # đăng ký" của khóa học (xem seroto_education/models/academic_course.py).
+        course_record = request.env['academic.course'].sudo().search([('name', '=', course)], limit=1)
+        if course_record and not course_record.is_registration_open:
+            raise UserError(_('Khóa học "%s" hiện không mở đăng ký.') % course)
+
         vals = {
             'course_name': course,
             'partner_name': name,

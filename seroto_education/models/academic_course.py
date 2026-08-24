@@ -37,9 +37,6 @@ class AcademicCourse(models.Model):
     schedule_time = fields.Char(string='Giờ học/Thời gian', placeholder='5:00 - 6:00')
     deadline_register = fields.Char(string='Thời hạn đăng ký', placeholder='17h 29/06')
 
-    registration_open_date = fields.Date(string='Ngày mở đăng ký')
-    registration_close_date = fields.Date(string='Ngày đóng đăng ký')
-
     default_class_id = fields.Many2one(
         'academic.class', string='Lớp nhận đăng ký',
         domain="[('course_id', '=', id), ('state', 'in', ['draft', 'open'])]",
@@ -48,15 +45,21 @@ class AcademicCourse(models.Model):
     intake_ids = fields.One2many('academic.intake', 'course_id', string='Các đợt học')
     class_ids = fields.One2many('academic.class', 'course_id', string='Các lớp học')
 
-    is_registration_open = fields.Boolean(string='Đang mở đăng ký', compute='_compute_is_registration_open')
+    # Trước đây tính theo 2 field ngày riêng (registration_open_date/close_date) hoàn
+    # toàn TÁCH BIỆT với trạng thái Lớp học - gây lỗi thật: Quản lý bấm "Đóng đăng ký"
+    # trên Lớp học nhưng website vẫn nhận đăng ký bình thường vì không liên quan gì tới
+    # nhau. Bỏ hẳn 2 field ngày đó, chỉ còn ĐÚNG 1 nguồn sự thật: website chỉ nhận đăng
+    # ký khi "Lớp nhận đăng ký" (default_class_id) đang ở trạng thái "Đang nhận đăng ký"
+    # - Quản lý chỉ cần thao tác đúng 1 chỗ quen thuộc (nút Mở/Đóng đăng ký trên Lớp học).
+    is_registration_open = fields.Boolean(
+        string='Đang mở đăng ký', compute='_compute_is_registration_open', store=True,
+        help='Website chỉ cho đăng ký khóa học này khi "Lớp nhận đăng ký" đang ở trạng thái "Đang nhận đăng ký".',
+    )
 
-    @api.depends('registration_open_date', 'registration_close_date')
+    @api.depends('default_class_id.state')
     def _compute_is_registration_open(self):
-        today = fields.Date.context_today(self)
         for course in self:
-            open_ok = not course.registration_open_date or course.registration_open_date <= today
-            close_ok = not course.registration_close_date or course.registration_close_date >= today
-            course.is_registration_open = open_ok and close_ok
+            course.is_registration_open = bool(course.default_class_id) and course.default_class_id.state == 'open'
 
     @api.depends('code', 'name')
     def _compute_display_name(self):

@@ -51,8 +51,8 @@
             </ul>
 
             <button type="button"
-                    class="hero__button btn-default btn-animation register-course"
-                    data-course="Thực hành EQ" data-price="0">
+                    class="hero__button btn-default btn-animation js_register_course_wizard"
+                    data-course="Thực hành EQ">
               Đăng ký ngay
             </button>
           </div>

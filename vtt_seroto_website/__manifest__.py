@@ -1,6 +1,6 @@
 {
   'name': 'VTT Seroto Website',
-  'version': '1.12',
+  'version': '1.15',
   'author': 'Seroto',
   'summary': 'Snippet kéo-thả và trang landing khóa học trên website',
   'depends': [
@@ -166,6 +166,10 @@
       # Ô nhập "Mã khu vực hiển thị" cho snippet "Khóa học - Khu vực hiển thị" (panel Tùy chỉnh).
       'vtt_seroto_website/static/src/js/s_course_group_option.js',
       'vtt_seroto_website/static/src/xml/s_course_group_option.xml',
+      # Biến bất kỳ nút/link nào thành nút mở modal đăng ký khóa học ngay trên panel Tùy
+      # chỉnh - không cần sửa Code View (xem course_register_button_option.js).
+      'vtt_seroto_website/static/src/js/course_register_button_option.js',
+      'vtt_seroto_website/static/src/xml/course_register_button_option.xml',
     ],
     'web.assets_frontend': [
       'vtt_seroto_website/static/src/js/course_snippet.js',

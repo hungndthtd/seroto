@@ -59,8 +59,8 @@
         </div>
         <div class="mt-4 text-center">
           <button type="button"
-            class="hero__button btn-default btn-animation register-course"
-            data-course="EQ 5 phút" data-price="0">
+            class="hero__button btn-default btn-animation js_register_course_wizard"
+            data-course="EQ 5 phút">
             Đăng ký ngay
           </button>
         </div>

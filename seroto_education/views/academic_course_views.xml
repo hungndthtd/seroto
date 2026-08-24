@@ -63,13 +63,15 @@
                             <field name="schedule_date"/>
                             <field name="schedule_time"/>
                             <field name="deadline_register"/>
-                            <field name="registration_open_date"/>
-                            <field name="registration_close_date"/>
                         </group>
                     </group>
                     <group>
                         <group string="Lớp đang nhận đăng ký">
                             <field name="default_class_id"/>
+                            <!-- Chỉ hiện để xem, không sửa tay được - tự tính theo đúng
+                                 trạng thái của default_class_id (xem academic_course.py).
+                                 Muốn đổi, vào Lớp học bấm Mở/Đóng đăng ký. -->
+                            <field name="is_registration_open" readonly="1"/>
                         </group>
                     </group>
                     <notebook>

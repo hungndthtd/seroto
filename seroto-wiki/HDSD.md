@@ -35,7 +35,7 @@ Với khách đăng ký online, hóa đơn/thanh toán/ghi danh đã tự độn
 
 ### Quản lý — Website, khóa học, lớp học
 Toàn quyền tạo khóa học, mở đợt học mới, quản lý lớp/giáo viên/buổi học, xem Báo cáo tổng hợp.
-- Menu: toàn bộ app Đào tạo
+- Menu: toàn bộ mục Đào tạo
 - Có toàn bộ quyền của Sale, cộng thêm quyền chỉnh sửa Khóa học/Lớp học/Đợt học
 
 ---

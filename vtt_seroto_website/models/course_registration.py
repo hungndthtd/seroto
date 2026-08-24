@@ -27,8 +27,14 @@ class SerotoCourseRegistration(models.Model):
     # Many2one thật, tự suy ra từ course_name lúc tạo (xem create()) - để lọc class_id,
     # tự điền lớp nhận đăng ký mặc định, và sau này tạo sale.order.line đúng sản phẩm.
     course_id = fields.Many2one('academic.course', string='Khóa học (liên kết)')
+    # Chỉ cho chọn lớp đang "Đang nhận đăng ký" - tránh nhân viên lỡ tay chọn nhầm lớp
+    # đã đóng/đã hoàn thành lúc tạo phiếu tay trên backend (domain chỉ áp dụng cho ô
+    # chọn trên UI, không chặn giá trị đã có sẵn từ trước hay ghi thẳng qua ORM - luồng
+    # website tự gán class_id = course.default_class_id lúc create(), không đi qua ô
+    # chọn này nên không bị ảnh hưởng).
     class_id = fields.Many2one(
-        'academic.class', string='Lớp học', domain="[('course_id', '=', course_id)]",
+        'academic.class', string='Lớp học',
+        domain="[('course_id', '=', course_id), ('state', '=', 'open')]",
     )
     partner_name = fields.Char(string='Họ tên người đăng ký', required=True)
     email = fields.Char(string='Email', required=True)

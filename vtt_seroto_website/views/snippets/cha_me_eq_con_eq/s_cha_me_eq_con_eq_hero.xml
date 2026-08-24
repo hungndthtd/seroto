@@ -60,8 +60,8 @@
             </ul>
             <div class="mt-4">
               <button type="button"
-                class="hero__button btn-default register-course"
-                data-course="Cha me EQ con EQ" data-price="0">
+                class="hero__button btn-default js_register_course_wizard"
+                data-course="Cha mẹ EQ con EQ">
                 Đăng ký ngay
               </button>
             </div>

@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class AcademicClass(models.Model):
     _name = 'academic.class'
@@ -73,10 +73,49 @@ class AcademicClass(models.Model):
                 rec.attendance_count = 0
 
     def action_open_registration(self):
+        """Website chỉ thật sự nhận đăng ký cho khóa học khi lớp được mở đây ĐANG LÀ
+        "Lớp nhận đăng ký" (default_class_id) của khóa - nếu chưa phải, mở đăng ký ở
+        đây chưa có tác dụng gì trên website, cần nhắc rõ để không ai tưởng nhầm là đã
+        xong (xem academic_course.py, is_registration_open).
+        """
         self.write({'state': 'open'})
+        not_default = self.filtered(lambda c: c.course_id.default_class_id != c)
+        if not_default:
+            names = ', '.join(not_default.mapped('name'))
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Lưu ý'),
+                    'message': _(
+                        'Lớp vừa mở đăng ký (%s) hiện CHƯA phải là "Lớp nhận đăng ký" của '
+                        'khóa học tương ứng - website sẽ CHƯA cho đăng ký khóa này cho tới '
+                        'khi bạn đặt lớp này làm "Lớp nhận đăng ký" trên form Khóa học.'
+                    ) % names,
+                    'type': 'warning',
+                    'sticky': True,
+                },
+            }
 
     def action_close_registration(self):
         self.write({'state': 'closed'})
+        was_default = self.filtered(lambda c: c.course_id.default_class_id == c)
+        if was_default:
+            names = ', '.join(was_default.mapped('course_id.name'))
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Lưu ý'),
+                    'message': _(
+                        'Lớp vừa đóng đang là "Lớp nhận đăng ký" của khóa: %s - website sẽ '
+                        'tạm ngừng nhận đăng ký khóa này cho tới khi bạn chọn 1 lớp khác làm '
+                        '"Lớp nhận đăng ký".'
+                    ) % names,
+                    'type': 'warning',
+                    'sticky': True,
+                },
+            }
 
     def action_start_class(self):
         self.write({'state': 'in_progress'})

@@ -111,8 +111,8 @@
                     </ul>
 
                     <button type="button"
-                            class="btn btn-primary rounded-pill px-4 py-2 fw-bold register-course"
-                            data-course="[TÊN KHÓA HỌC]" data-price="0">
+                            class="btn btn-primary rounded-pill px-4 py-2 fw-bold js_register_course_wizard"
+                            data-course="[TÊN KHÓA HỌC]">
                       Đăng ký ngay
                     </button>
                   </div>

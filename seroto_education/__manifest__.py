@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Seroto Education Management',
-    'version': '19.0.1.8.0',
+    'version': '19.0.1.9.0',
     'category': 'Education',
     'summary': 'Manage courses, classes, enrollments, attendance, and certificates without events module',
     'description': """

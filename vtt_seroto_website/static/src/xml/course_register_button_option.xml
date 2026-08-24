@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="vtt_seroto_website.CourseRegisterButtonOption">
+    <BuilderRow label.translate="Đăng ký khóa học" tooltip.translate="Biến nút/link này thành nút mở modal đăng ký khóa học (payOS thật) - không cần sửa Code View.">
+        <BuilderCheckbox classAction="'js_register_course_wizard'" label.translate="Dùng làm nút đăng ký"/>
+    </BuilderRow>
+    <BuilderRow label.translate="Khóa học" tooltip.translate="Chọn khóa học sẽ mở khi bấm nút này - danh sách lấy trực tiếp từ menu Đào tạo > Khóa học.">
+        <BuilderSelect>
+            <BuilderSelectItem t-foreach="courseState.courses" t-as="course" t-key="course.id"
+                                dataAttributeAction="'course'" dataAttributeActionValue="course.name">
+                <t t-esc="course.name"/>
+            </BuilderSelectItem>
+        </BuilderSelect>
+    </BuilderRow>
+</t>
+</templates>
