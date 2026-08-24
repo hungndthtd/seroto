@@ -88,7 +88,11 @@
                   class="oe_highlight" invisible="state not in ('draft', 'new')"/>
           <button name="action_reject" string="Từ chối" type="object"
                   invisible="state not in ('draft', 'new')"/>
-          <button name="action_create_sale_order" string="Tạo đơn hàng" type="object"
+          <!-- "Xác nhận" giờ tự tạo luôn Đơn hàng - nút này chỉ còn xuất hiện trong 1
+               tình huống hiếm: hệ thống tự động (payOS) đã set trạng thái "Đã xác nhận"
+               nhưng lỗi giữa chừng trước khi kịp tạo Đơn hàng, cần Sale tạo tay để khắc
+               phục tiếp. -->
+          <button name="action_create_sale_order" string="Tạo đơn hàng (khắc phục lỗi)" type="object"
                   class="oe_highlight" invisible="state != 'confirmed' or sale_order_id"/>
           <button name="action_cancel" string="Hủy phiếu" type="object"
                   invisible="state in ('completed', 'cancelled', 'rejected')"/>
@@ -124,7 +128,7 @@
                      class="o_seroto_slip_url"/>
             </group>
             <group string="Khóa học / Lớp học">
-              <field name="course_id"/>
+              <field name="course_id" readonly="state != 'draft'"/>
               <field name="class_id"/>
               <field name="is_complete"/>
             </group>
@@ -146,7 +150,12 @@
             <page string="Câu hỏi chuyên sâu">
               <field name="answer_ids" create="false" delete="false">
                 <list editable="bottom">
-                  <field name="question" readonly="1"/>
+                  <!-- force_save="1": field readonly nhưng PHẢI gửi kèm lúc lưu - không
+                       có thuộc tính này, trình duyệt bỏ qua field readonly khi lưu các
+                       dòng MỚI tạo qua onchange (_onchange_course_id_questions), gây lỗi
+                       "Missing required value for the field 'Câu hỏi'" vì server nhận
+                       vals không có "question" dù onchange đã gán sẵn giá trị. -->
+                  <field name="question" readonly="1" force_save="1"/>
                   <field name="answer" readonly="parent.state != 'draft'"/>
                 </list>
               </field>

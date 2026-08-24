@@ -1,6 +1,6 @@
 {
   'name': 'VTT Seroto Website',
-  'version': '1.7',
+  'version': '1.12',
   'author': 'Seroto',
   'summary': 'Snippet kéo-thả và trang landing khóa học trên website',
   'depends': [

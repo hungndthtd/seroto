@@ -2,7 +2,7 @@
 
 Sổ tay sử dụng phần mềm quản lý khóa học / lớp học / đăng ký / báo cáo của Seroto — viết cho 3 nhóm người dùng: **Sale**, **Kế toán**, **Quản lý (website, khóa học, lớp học)**.
 
-> Bản cập nhật — gộp toàn bộ nội dung đã có trên Wiki.js trước đây và bổ sung các phần mới: Người phụng sự, Gieo hạt, Báo cáo tổng hợp, điểm danh Zoom/BTH, gắn Lớp học trên hóa đơn để tính Chi, tự động hóa đăng ký + thanh toán trên website, Khu vực hiển thị trên website, gộp gọn menu Đào tạo, liên kết Chứng chỉ với Ghi danh. Xem trước ở đây, khi ổn sẽ đẩy lên Wiki.js.
+> Bản cập nhật — gộp toàn bộ nội dung đã có trên Wiki.js trước đây và bổ sung các phần mới: Người phụng sự, Gieo hạt, Báo cáo tổng hợp, điểm danh Zoom/BTH, gắn Lớp học trên hóa đơn để tính Chi, tự động hóa đăng ký + thanh toán trên website qua **payOS thật**, gộp bước Xác nhận + Tạo đơn hàng, Mã phiếu tra cứu, Khu vực hiển thị trên website, gộp gọn menu Đào tạo, liên kết Chứng chỉ với Ghi danh. Xem trước ở đây, khi ổn sẽ đẩy lên Wiki.js.
 
 ## Mục lục
 
@@ -30,7 +30,7 @@ Với khách đăng ký qua website và thanh toán thành công, hệ thống *
 - Xem được Khóa học/Lớp học nhưng không sửa được
 
 ### Kế toán — Hóa đơn & thanh toán
-Với khách đăng ký online, hóa đơn/thanh toán/ghi danh đã tự động xử lý xong (xem mục 2) — Kế toán chủ yếu xuất hóa đơn và ghi nhận thanh toán cho các đơn hàng phát sinh ngoài luồng online (điện thoại/Zalo) hoặc khi cần xử lý tay tiếp 1 phiếu bị lỗi tự động. Thao tác này vẫn là bước kích hoạt: hệ thống tự ghi danh học viên và tự đóng Phiếu đăng ký ngay khi hoàn tất. Kế toán cũng là người ghi hóa đơn nhà cung cấp và chọn Lớp học trên dòng hóa đơn để tính "Chi" theo lớp, cũng như ghi nhận khoản "Gieo hạt" khi có người ủng hộ.
+Với khách đăng ký online, hóa đơn/thanh toán/ghi danh đã tự động xử lý xong (xem mục 2) — Kế toán chủ yếu xuất hóa đơn và ghi nhận thanh toán cho các đơn hàng phát sinh ngoài luồng online (điện thoại/Zalo) hoặc khi cần xử lý tay tiếp 1 phiếu bị lỗi tự động. Thao tác này vẫn là bước kích hoạt: hệ thống tự ghi danh học viên, tự đóng Phiếu đăng ký, và tự liên kết **Phiếu thu** vào phiếu ngay khi hoàn tất — dù thanh toán qua payOS hay ghi nhận thủ công (tiền mặt, chuyển khoản kênh khác) đều tự động như nhau, không phân biệt. Kế toán cũng là người ghi hóa đơn nhà cung cấp và chọn Lớp học trên dòng hóa đơn để tính "Chi" theo lớp, cũng như ghi nhận khoản "Gieo hạt" khi có người ủng hộ, và có thể tra cứu đối soát ngân hàng thật qua field "Giao dịch payOS" trên mỗi phiếu (xem mục 2).
 - Menu: Bán hàng > Đơn hàng, Kế toán > Hóa đơn (bán hàng & nhà cung cấp)
 
 ### Quản lý — Website, khóa học, lớp học
@@ -93,27 +93,34 @@ Tab **"Khu vực hiển thị"** trên form Khóa học — chọn khóa học n
 | # | Ai làm | Thao tác | Kết quả |
 |---|---|---|---|
 | 1 | Khách hàng | Điền form 3 bước trên web (Tab 1: Thông tin cơ bản) | Phiếu đăng ký: **Mới đăng ký** |
-| 2 | Khách hàng | Thanh toán ở Tab 2 (hiện đang giả lập để demo/kiểm thử, chưa nối ngân hàng thật) | Hệ thống ghi nhận đã thanh toán |
+| 2 | Khách hàng | Thanh toán ở Tab 2 qua **payOS** (quét QR/chuyển khoản ngân hàng thật, không còn giả lập) | Hệ thống ghi nhận đã thanh toán |
 | 3 | Hệ thống | Tự động: tạo Đơn hàng, xác nhận, xuất Hóa đơn, ghi nhận thanh toán, ghi danh học viên | Ghi danh + Phiếu: **Hoàn tất** |
 | — | Khách hàng | Trả lời Câu hỏi chuyên sâu ở Tab 3 (trước hoặc sau khi đã vào lớp đều được) | Không ảnh hưởng tới việc ghi danh |
 
 Bước 3 diễn ra **ngay lập tức** sau khi thanh toán thành công — Sale/Kế toán **không cần thao tác gì** cho các lượt đăng ký online bình thường.
 
+**Mã phiếu:** mỗi Phiếu đăng ký có 1 mã riêng (VD "PDK8") hiện ngay trên đầu form — gõ thẳng mã này vào ô tìm kiếm chung là ra đúng phiếu, tiện đối chiếu khi khách báo đã chuyển khoản.
+
 ### 2.1 Khi nào Sale/Kế toán vẫn cần thao tác tay
-- **Khách đăng ký qua điện thoại/Zalo** (không qua form web + thanh toán online) — vẫn theo quy trình thủ công như mục 2.2-2.4 bên dưới.
-- **Luồng tự động gặp lỗi** (hiếm gặp, VD dữ liệu sản phẩm/giá thiếu sót) — phiếu vẫn hiện đúng trạng thái đã thanh toán nhưng chưa có Đơn hàng đi kèm. Sale bấm nút **"Tạo đơn hàng"** xuất hiện trên phiếu để xử lý tiếp, các bước sau đó làm như quy trình thủ công (mục 2.3-2.4).
+- **Khách đăng ký qua điện thoại/Zalo** (không qua form web + thanh toán online) — vẫn theo quy trình thủ công như mục 2.2-2.3 bên dưới.
+- **Luồng tự động gặp lỗi** (hiếm gặp, VD dữ liệu sản phẩm/giá thiếu sót) — phiếu vẫn hiện đúng trạng thái đã thanh toán nhưng chưa có Đơn hàng đi kèm. Sale bấm nút **"Tạo đơn hàng (khắc phục lỗi)"** xuất hiện trên phiếu để xử lý tiếp.
 - Sale nên thường xuyên xem bộ lọc **"Cần xử lý"** ở menu Phiếu đăng ký để chủ động nhắc khách hoàn thiện Câu hỏi chuyên sâu nếu còn thiếu.
 
-### 2.2 Xác nhận / Từ chối Phiếu đăng ký
+### 2.2 Xác nhận Phiếu đăng ký (đăng ký qua điện thoại/Zalo)
 **Đào tạo › Tuyển sinh & Vận hành › Phiếu đăng ký** — mặc định lọc "Cần xử lý". Với phiếu **chưa thanh toán**, Sale kiểm tra cột "Đã đầy đủ thông tin" rồi bấm **Xác nhận** hoặc **Từ chối** (nhập lý do).
+
+Bấm **Xác nhận** giờ **tự tạo luôn Đơn hàng** trong cùng 1 lần bấm (không còn phải bấm 2 nút riêng như trước) — hệ thống mở thẳng qua Đơn hàng vừa tạo (đã điền sẵn Khách hàng/Sản phẩm/Lớp học) để Sale kiểm tra rồi tự xác nhận đơn hàng đó. Hồ sơ khách hàng chỉ được tạo thật tại đúng bước Xác nhận này (với luồng tự động qua payOS, hồ sơ được tạo ngay khi hệ thống tự xử lý).
+
+Nếu đổi Khóa học ngay trên phiếu (khi phiếu còn "Nháp"), danh sách **Câu hỏi chuyên sâu** tự cập nhật lại theo đúng khóa học vừa chọn — không cần tự thêm/xóa dòng câu hỏi tay.
 
 Lưu ý: với phiếu **đã thanh toán thành công qua website**, hệ thống đã tự động xử lý xong (ghi danh vào lớp, tạo đơn hàng/hóa đơn) trước khi Sale kịp xem — bấm "Từ chối" lúc này chỉ đổi trạng thái của Phiếu đăng ký, **không** hủy ngược lại Đơn hàng/Ghi danh đã tạo. Muốn hủy thật sự (hoàn tiền, hủy ghi danh) cần xử lý riêng ở Đơn hàng/Ghi danh tương ứng.
 
-### 2.3 Tạo đơn hàng thủ công
-Ở phiếu Đã xác nhận, bấm **Tạo đơn hàng** — tự điền khách hàng/sản phẩm/lớp. Hồ sơ khách hàng chỉ được tạo thật tại đúng bước này (với luồng tự động, hồ sơ được tạo ngay khi hệ thống tự xử lý).
+### 2.3 Kế toán thanh toán, hệ thống tự ghi danh
+Xuất hóa đơn → Ghi nhận thanh toán → hệ thống tự ghi danh học viên, Phiếu tự chuyển **Hoàn tất**, đồng thời tự liên kết **Phiếu thu** vào phiếu (đúng cơ chế mà luồng tự động qua payOS cũng đang dùng lại) — áp dụng như nhau dù thanh toán qua payOS hay Kế toán tự ghi nhận thủ công (tiền mặt, chuyển khoản kênh khác).
 
-### 2.4 Kế toán thanh toán, hệ thống tự ghi danh
-Xuất hóa đơn → Ghi nhận thanh toán → hệ thống tự ghi danh học viên + Phiếu tự chuyển Hoàn tất (đúng cơ chế mà luồng tự động ở trên cũng đang dùng lại).
+Trên form Phiếu đăng ký có 2 field phục vụ đối soát:
+- **"Phiếu thu"** — trỏ thẳng tới chứng từ kế toán tương ứng.
+- **"Giao dịch payOS"** — chỉ có khi khách thanh toán qua website; mở ra xem link/QR, trạng thái, và (sau khi đã thanh toán) đầy đủ thông tin đối soát ngân hàng thật: tên/số tài khoản người chuyển, ngân hàng, mã tham chiếu giao dịch. Màn hình này **chỉ xem, không sửa/tạo tay được**.
 
 ---
 
@@ -212,7 +219,9 @@ Menu **Đào tạo › Báo cáo & Cấu hình › Báo cáo tổng hợp** — 
 | Chi | Hóa đơn nhà cung cấp đã thanh toán, có chọn Lớp học ngay trên dòng hóa đơn |
 
 ### Cách xem
-Mở lên mặc định là Pivot: hàng = Khóa học → Lớp học (bấm mở rộng ra xem từng lớp), cột = Tháng (bấm mở rộng xem theo Loại số liệu). Có thể đổi sang xem theo Năm, hoặc lọc riêng 1 loại số liệu qua ô tìm kiếm.
+Mở lên mặc định là Pivot: hàng = Khóa học → Lớp học (bấm mở rộng ra xem từng lớp), cột = Tháng (bấm mở rộng xem theo Loại số liệu). Có thể đổi sang xem theo Năm, hoặc lọc riêng 1 loại số liệu qua ô tìm kiếm. Xem thêm hướng dẫn tinh chỉnh Pivot (mở rộng/thu gọn, đổi chỉ số, xuất Excel, lưu cách xem...) ở trang riêng "Hướng dẫn tinh chỉnh bảng Pivot".
+
+Cột "Số tiền" chỉ có ý nghĩa với "Gieo hạt"/"Thu"/"Chi" — 3 loại còn lại (Học viên tham gia/Hoàn thành/Người phụng sự) là số liệu đếm lượt, cột "Số tiền" của chúng luôn là 0đ theo đúng chủ đích, không phải lỗi.
 
 ### Cách ghi nhận "Chi" cho đúng lớp
 Khi Kế toán ghi hóa đơn nhà cung cấp (Kế toán → Nhà cung cấp → Hóa đơn), trên chính dòng chi phí có sẵn cột **"Lớp học"** — chọn đúng lớp phát sinh chi phí đó (VD thuê hội trường, thù lao giảng viên của lớp K19). Không cần thiết lập gì trước ở form Lớp học — chọn trực tiếp ngay lúc ghi hóa đơn.
@@ -262,7 +271,7 @@ Khóa học (không đổi) → Đợt học (VD "K19", mỗi khóa tự đánh 
 Phiếu đăng ký (1 lượt đăng ký), Lớp học (vòng đời vận hành cả lớp), Ghi danh (việc học của 1 học viên trong 1 lớp) — 3 khái niệm độc lập, 1 khách có thể có Phiếu "Hoàn tất" nhưng Ghi danh đang "Bảo lưu".
 
 ### 8.5 Cổng thanh toán trên website là thật hay giả lập?
-Hiện đang **giả lập** để phục vụ demo/kiểm thử — chưa nối cổng ngân hàng thật.
+Đã là **payOS thật** — không còn giả lập. Cấu hình kết nối (3 khóa của tài khoản payOS) nằm ở menu riêng **payOS › Cấu hình**, chỉ Quản trị hệ thống thấy/sửa được; menu **payOS › Giao dịch** liệt kê toàn bộ giao dịch thanh toán đã tạo.
 
 ### 8.6 Liên hệ (Contact) quan hệ thế nào với Học viên, Giảng viên, Ban tổ chức, Người phụng sự?
 Tất cả đều dùng **chung 1 hồ sơ Liên hệ** — không phải danh bạ riêng cho từng vai trò:

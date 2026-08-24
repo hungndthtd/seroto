@@ -81,6 +81,28 @@ class SerotoCourseRegistration(models.Model):
         help='Đã có Khóa học/Lớp học liên kết và đã trả lời hết các câu hỏi chuyên sâu hiện tại của khóa học.',
     )
 
+    @api.onchange('course_id')
+    def _onchange_course_id_questions(self):
+        """Đồng bộ lại answer_ids theo đúng bộ Câu hỏi chuyên sâu của Khóa học vừa chọn -
+        dành cho luồng NV tạo phiếu tay trên backend (chọn course_id qua Many2one).
+        Luồng web không đi qua đây - JS tự quản lý câu hỏi/câu trả lời riêng ở client,
+        chỉ ghi thẳng answer_ids 1 lần lúc "Hoàn tất đăng ký" (xem controllers/
+        course_registration.py, update_registration) - route đó gọi ORM create()/write()
+        trực tiếp, không qua onchange nên không bị ảnh hưởng bởi hàm này.
+
+        Giữ lại câu trả lời cũ nếu câu hỏi đó (so trùng nội dung) vẫn còn trong bộ câu
+        hỏi mới - chỉ thêm dòng cho câu hỏi chưa có, bỏ dòng cho câu hỏi không còn thuộc
+        khóa học hiện tại (trước đây đổi Khóa học không làm gì cả, tab Câu hỏi chuyên sâu
+        cứ giữ nguyên/trống, không khớp khóa học thật đang chọn).
+        """
+        for rec in self:
+            questions = rec.course_id.question_ids.mapped('question') if rec.course_id else []
+            existing = {a.question: a.answer for a in rec.answer_ids}
+            rec.answer_ids = [(5, 0, 0)] + [
+                (0, 0, {'question': q, 'answer': existing.get(q, '')})
+                for q in questions
+            ]
+
     @api.depends('course_id.question_ids.question', 'answer_ids.question', 'answer_ids.answer',
                  'partner_name', 'email', 'phone')
     def _compute_is_complete(self):
@@ -142,7 +164,24 @@ class SerotoCourseRegistration(models.Model):
         return records
 
     def action_confirm(self):
+        """Gộp luôn bước Tạo đơn hàng vào đây (trước đây phải bấm 2 nút riêng: Xác nhận
+        rồi mới tới Tạo đơn hàng) - Sale bấm 1 lần là xong, mở thẳng qua Đơn hàng vừa
+        tạo để kiểm tra/xác nhận tiếp. Nút "Tạo đơn hàng" trên form vẫn giữ lại - không
+        còn xuất hiện trong luồng bình thường (sale_order_id đã có sẵn ngay khi state
+        chuyển "confirmed"), chỉ còn là lối khắc phục nếu luồng tự động
+        (_auto_process_payment) lỡ set state="confirmed" nhưng lỗi giữa chừng trước khi
+        tạo được Đơn hàng.
+        """
+        self.ensure_one()
         self.write({'state': 'confirmed'})
+        order = self._create_sale_order()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'sale.order',
+            'res_id': order.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
 
     def action_reject(self):
         self.ensure_one()
