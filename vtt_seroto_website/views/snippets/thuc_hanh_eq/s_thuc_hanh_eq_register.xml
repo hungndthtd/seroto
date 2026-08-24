@@ -67,7 +67,7 @@
               <div class="register__box-numb" style="--background: #c9adff;">4</div>
               <div class="register__box-content">
                 <div class="fw-bold text-lg mb-2">Điền form đăng ký thông tin và tải ảnh đã chuẩn bị</div>
-                <a href="https://forms.gle/QjxgXu3Q4JH7o7g97" class="btn-default register__button">Form đăng ký</a>
+                <a href="https://forms.gle/QjxgXu3Q4JH7o7g97" target="_blank" class="btn-default register__button">Form đăng ký</a>
               </div>
             </div>
             <div class="register__box">

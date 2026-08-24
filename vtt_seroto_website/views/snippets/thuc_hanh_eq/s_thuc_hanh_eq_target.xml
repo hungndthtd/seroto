@@ -61,9 +61,9 @@
           </div>
         </div>
         <div class="mt-4 text-center">
-          <div class="target__button btn-default btn-animation">
+          <button type="button" class="target__button btn-default btn-animation js_register_course_wizard" data-course="Thực hành EQ">
             Đăng ký ngay
-          </div>
+          </button>
         </div>
       </div>
     </section>
