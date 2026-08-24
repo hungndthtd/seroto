@@ -1,3 +1,5 @@
+import json
+
 from odoo import http, _
 from odoo.exceptions import UserError
 from odoo.http import request
@@ -139,7 +141,28 @@ class CourseRegistrationController(http.Controller):
         if not registration or not consteq(registration.access_token, token):
             return request.not_found()
 
+        # Câu hỏi chuyên sâu CHƯA trả lời - hiện thẳng input/select ngay trên trang phiếu
+        # để khách điền nốt qua link email, không bắt buộc phải mở lại wizard "Đăng ký
+        # ngay". Chỉ có ý nghĩa khi phiếu còn hiệu lực (không rejected/cancelled - xem
+        # template, phần Câu hỏi chuyên sâu bị ẩn hẳn ở 2 trạng thái đó).
+        questions = registration._get_course_questions(registration.course_name)
+        answered = {a.question for a in registration.answer_ids if (a.answer or '').strip()}
+        unanswered_questions = [q for q in questions if q['question'] not in answered]
+
+        # Route /seroto/course-registration/update GHI ĐÈ TOÀN BỘ answer_ids mỗi lần gọi
+        # (xem update_registration bên trên) - phải gửi kèm các câu đã trả lời từ trước
+        # cùng lúc với câu mới điền trên trang này, nếu không sẽ bị mất answer cũ. JS đọc
+        # lại giá trị này (data-existing-answers) rồi gộp với câu trả lời mới trước khi
+        # gọi update.
+        existing_answers_json = json.dumps([
+            {'question': a.question, 'answer': a.answer} for a in registration.answer_ids
+        ])
+
         return request.render(
             'vtt_seroto_website.course_registration_slip_page',
-            {'registration': registration},
+            {
+                'registration': registration,
+                'unanswered_questions': unanswered_questions,
+                'existing_answers_json': existing_answers_json,
+            },
         )
