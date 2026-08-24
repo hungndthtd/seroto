@@ -100,7 +100,7 @@ Học viên hủy giữa khóa, Kế toán lập hóa đơn điều chỉnh gi�
 1. Mở hóa đơn học phí gốc đã thanh toán (Kế toán → Khách hàng → Hóa đơn).
 2. Tìm nút liên quan đến "Giấy báo có"/"Credit Note" ngay trên hóa đơn đó (thường nằm ở đầu form hoặc trong menu Hành động ⚙) — bấm để hệ thống tự tạo 1 hóa đơn điều chỉnh giảm tham chiếu đúng hóa đơn gốc. Nếu không thấy nút này, vào thẳng **Kế toán → Khách hàng → Giấy báo có → Mới**, tự chọn khách hàng + dòng sản phẩm học phí cần hoàn tương ứng.
 3. Xác nhận (Đăng sổ) hóa đơn điều chỉnh vừa tạo.
-4. Bấm **"Đăng ký thanh toán"**/tất toán cho khoản hoàn tiền này — chỉ khi trạng thái thanh toán về "Đã thanh toán" thì số tiền mới tự trừ vào Báo cáo tổng hợp.
+4. Bấm **"Thanh toán"**/tất toán cho khoản hoàn tiền này — chỉ khi trạng thái thanh toán về "Đã thanh toán" thì số tiền mới tự trừ vào Báo cáo tổng hợp.
 
 ### Tình huống 2.3: Trả tiền thuê hội trường cho lớp "Thực hành EQ - K19"
 Kế toán nhận hóa đơn từ đơn vị cho thuê hội trường 3.000.000đ. Vào **Kế toán → Nhà cung cấp → Hóa đơn → Mới**, chọn nhà cung cấp, thêm dòng chi phí, ở cột **"Lớp học"** ngay trên dòng đó chọn đúng lớp K19 (không cần thiết lập gì trước, chọn trực tiếp) → xác nhận hóa đơn. Khoản chi này tự động cộng vào cột "Chi" của đúng lớp K19 trong Báo cáo tổng hợp.
@@ -108,10 +108,10 @@ Kế toán nhận hóa đơn từ đơn vị cho thuê hội trường 3.000.000
 **Thao tác chi tiết:**
 1. Vào **Kế toán → Nhà cung cấp → Hóa đơn → Mới**.
 2. Chọn Nhà cung cấp.
-3. Thêm dòng chi phí: mô tả, số tiền 3.000.000.
+3. Thêm dòng chi phí: mô tả (Nhãn), số tiền 3.000.000.
 4. Trên chính dòng đó, cột **"Lớp học"** — chọn lớp K19.
 5. Bấm Xác nhận (Đăng sổ) hóa đơn.
-6. Bấm "Đăng ký thanh toán" khi đã thực chi.
+6. Bấm "Thanh toán" khi đã thực chi.
 
 ### Tình huống 2.4: Chi phí văn phòng, không liên quan khóa học nào
 Hóa đơn tiền điện văn phòng — Kế toán ghi nhận bình thường nhưng **để trống cột "Lớp học"**. Khoản này vẫn vào sổ kế toán chung của công ty, chỉ là không xuất hiện trong Báo cáo tổng hợp theo khóa học (đúng chủ đích, tránh lẫn chi phí vận hành chung vào chi phí đào tạo).
