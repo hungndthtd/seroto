@@ -50,7 +50,7 @@
                 <div class="content__title">Điền form đăng ký thông tin</div>
               </div>
               <div class="guide__box-button">
-                <a href="https://forms.gle/zzKpgKBXVmxJ7jGh7" target="_blank" class="btn-default">Form đăng ký</a>
+                <button type="button" class="btn-default js_register_course_wizard" data-course="Cha mẹ EQ con EQ">Form đăng ký</button>
               </div>
             </div>
           </div>

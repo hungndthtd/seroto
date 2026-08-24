@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="text-center my-5">
-          <div class="timeline__button btn-default" style="--background: #4da5b9; --background-hover: #ffb201;">Đăng ký tham gia</div>
+          <button type="button" class="timeline__button btn-default js_register_course_wizard" data-course="Cha mẹ EQ con EQ" style="--background: #4da5b9; --background-hover: #ffb201;">Đăng ký tham gia</button>
         </div>
         <div class="row">
           <div class="col-12 col-md-6 mb-4 mb-md-5">

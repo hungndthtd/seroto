@@ -14,7 +14,7 @@
                 <div class="ms-3 text-lg fst-italic" style="flex: 1;">"Con lớn lên từng ngày. Nếu cha mẹ không học cách đồng hành, chúng ta rất dễ bỏ lỡ những năm tháng quan trọng nhất trong đời con.”</div>
               </div>
               <div class="text-center">
-                <a href="https://forms.gle/zzKpgKBXVmxJ7jGh7" target="_blank" class="contact__button btn-default text-xl" style="--background: #ffb949; --background-hover: #f89f11;">Đăng ký ngay</a>
+                <button type="button" class="contact__button btn-default text-xl js_register_course_wizard" data-course="Cha mẹ EQ con EQ" style="--background: #ffb949; --background-hover: #f89f11;">Đăng ký ngay</button>
               </div>
             </div>
           </div>

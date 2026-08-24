@@ -13,7 +13,7 @@
             <img src="/web/static/img/placeholder.png" alt="Cha mẹ EQ - Con EQ"
               class="img-fluid" style="max-height: 46px;"/>
             <div class="content__action">
-              <div class="btn-default">Đăng ký ngay</div>
+              <button type="button" class="btn-default js_register_course_wizard" data-course="Cha mẹ EQ con EQ">Đăng ký ngay</button>
               <div class="text-lg fw-bolder fst-italic">Hạn chót đăng ký K40: 24h ngày 19/07</div>
             </div>
           </div>

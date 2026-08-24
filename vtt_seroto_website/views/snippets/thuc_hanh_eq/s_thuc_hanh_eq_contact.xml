@@ -17,7 +17,7 @@
                 <div class="ms-3 text-lg" style="flex: 1;">Nếu có câu hỏi, bạn đừng ngần ngại liên hệ BTC khóa Thực Hành EQ <b> - 091 102 4499 - 0987 077 588 </b> (Ms. Hiền)  qua ĐT/Zalo để được hỗ trợ giải đáp.</div>
               </div>
               <div class="text-center">
-                <a href="https://forms.gle/QjxgXu3Q4JH7o7g97" target="_blank" class="contact__button btn-default text-xl" style="--background: #fdd401; --background-hover: #ffb201;">Đăng ký ngay</a>
+                <button type="button" class="contact__button btn-default text-xl js_register_course_wizard" data-course="Thực hành EQ" style="--background: #fdd401; --background-hover: #ffb201;">Đăng ký ngay</button>
               </div>
             </div>
           </div>
