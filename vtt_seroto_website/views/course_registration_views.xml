@@ -95,7 +95,8 @@
           <button name="action_create_sale_order" string="Tạo đơn hàng (khắc phục lỗi)" type="object"
                   class="oe_highlight" invisible="state != 'confirmed' or sale_order_id"/>
           <button name="action_cancel" string="Hủy phiếu" type="object"
-                  invisible="state in ('completed', 'cancelled', 'rejected')"/>
+                  invisible="state in ('completed', 'cancelled', 'rejected')"
+                  confirm="Bạn có chắc chắn muốn hủy phiếu đăng ký này? Sau khi hủy, khách sẽ không thể đăng ký lại phiếu này và cần liên hệ CSKH nếu cần hoàn tiền."/>
           <field name="state" widget="statusbar" clickable="0"/>
         </header>
         <sheet>

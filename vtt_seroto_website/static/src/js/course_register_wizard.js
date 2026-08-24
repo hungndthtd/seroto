@@ -34,6 +34,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         "click #wizard_payment_continue": "_onWizardPaymentContinue",
         "click #wizard_open_slip_unpaid": "_onOpenSlipFromWizard",
         "submit #course_wizard_detail_form": "_onDetailSubmit",
+        "submit #slip_page_questions_form": "_onSlipQuestionsSubmit",
     },
 
     start() {
@@ -42,9 +43,11 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
 
         // Trang xem phiếu qua link email (views/course_registration_slip_page.xml) -
         // KHÔNG đi qua wizard nên không có trong this._state, cần tự polling riêng nếu
-        // đang ở trạng thái chưa thanh toán.
+        // đang ở trạng thái chưa thanh toán. Chỉ polling khi #slip_page_payment_section
+        // thật sự có mặt - phiếu rejected/cancelled hoặc đã thanh toán không render khối
+        // này (xem template), dù #course_registration_slip_page_root luôn render.
         const slipPageRoot = this.el.querySelector("#course_registration_slip_page_root");
-        if (slipPageRoot) {
+        if (slipPageRoot && this.el.querySelector("#slip_page_payment_section")) {
             this._pollSlipPage(slipPageRoot);
         }
 
@@ -487,6 +490,50 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
                 window.location.reload();
             }
         }, POLL_INTERVAL_MS);
+    },
+
+    // --- Câu hỏi chuyên sâu CHƯA trả lời trên trang xem phiếu (link email) ---
+    // Route /seroto/course-registration/update GHI ĐÈ TOÀN BỘ answer_ids mỗi lần gọi
+    // (xem controllers/course_registration.py) - phải gộp câu trả lời cũ (data-existing-
+    // answers, server tính sẵn) với câu mới điền ở đây rồi gửi CẢ HAI, nếu không sẽ mất
+    // answer đã lưu trước đó.
+    async _onSlipQuestionsSubmit(ev) {
+        ev.preventDefault();
+
+        const form = ev.currentTarget;
+        const root = this.el.querySelector("#course_registration_slip_page_root");
+        const { registrationId, registrationToken, existingAnswers } = root.dataset;
+
+        const wraps = form.querySelectorAll("[data-question]");
+        const newAnswers = Array.from(wraps).map((wrap) => {
+            let answer = "";
+            if (wrap.dataset.questionType === "radio") {
+                const checked = wrap.querySelector(".slip_question_radio:checked");
+                answer = checked ? checked.value : "";
+            } else {
+                const input = wrap.querySelector(".slip_question_input");
+                answer = input ? input.value.trim() : "";
+            }
+            return { question: wrap.dataset.question, answer };
+        });
+
+        const submitBtn = form.querySelector("button[type='submit']");
+        submitBtn.disabled = true;
+
+        try {
+            await rpc("/seroto/course-registration/update", {
+                id: registrationId,
+                token: registrationToken,
+                answers: JSON.parse(existingAnswers || "[]").concat(newAnswers),
+            });
+        } catch (error) {
+            console.error("Lưu câu trả lời thất bại:", error);
+            alert("Có lỗi xảy ra, vui lòng thử lại.");
+            submitBtn.disabled = false;
+            return;
+        }
+
+        window.location.reload();
     },
 
     // --- Dùng chung cho cả wizard: đổi bước đang active + hiện đúng pane ---

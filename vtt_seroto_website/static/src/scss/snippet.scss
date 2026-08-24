@@ -756,6 +756,21 @@
   }
 }
 
+.nav-link {
+  --nav-link-font-weight: 700;
+}
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+  color: #022f2f;
+}
+.dropdown-item {
+  --dropdown-link-color: #022f2f;
+}
+.dropdown-menu .dropdown-item.active, .o_dropdown_menu .dropdown-item.active
+ {
+    --dropdown-link-active-bg: #fff;
+    --dropdown-link-active-color: #022f2f;
+}
+
 @keyframes pulse {
   0% {
     -webkit-transform: scale(1);
