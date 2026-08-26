@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_zalo_config_wizard_system,zalo.config.wizard.system,model_zalo_config_wizard,base.group_system,1,1,1,1
+access_zalo_zns_template_user,zalo.zns.template.user,model_zalo_zns_template,base.group_user,1,0,0,0
+access_zalo_zns_template_system,zalo.zns.template.system,model_zalo_zns_template,base.group_system,1,1,1,1
+access_zalo_zns_template_param_user,zalo.zns.template.param.user,model_zalo_zns_template_param,base.group_user,1,0,0,0
+access_zalo_zns_template_param_system,zalo.zns.template.param.system,model_zalo_zns_template_param,base.group_system,1,1,1,1
+access_zalo_send_zns_wizard_user,zalo.send.zns.wizard.user,model_zalo_send_zns_wizard,base.group_user,1,1,1,1
+access_zalo_zns_log_user,zalo.zns.log.user,model_zalo_zns_log,base.group_user,1,0,0,0
+access_zalo_zns_log_system,zalo.zns.log.system,model_zalo_zns_log,base.group_system,1,1,1,1
+access_zalo_sale_order_cancel_wizard_user,zalo.sale.order.cancel.wizard.user,model_zalo_sale_order_cancel_wizard,base.group_user,1,1,1,1

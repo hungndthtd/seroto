@@ -14,7 +14,7 @@
           <div class="banner__box-content">
             <h3 class="text-white">Thực hành EQ</h3>
             <div class="content__action">
-              <div class="btn-default">Đăng ký ngay</div>
+              <button type="button" class="btn-default js_register_course_wizard" data-course="Thực hành EQ">Đăng ký ngay</button>
               <div class="text-white text-lg fst-italic fw-bolder">Hạn chót đăng ký K49: 17h ngày 03/08</div>
             </div>
           </div>

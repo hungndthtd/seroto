@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="zalo_config_wizard_view_form" model="ir.ui.view">
+        <field name="name">zalo.config.wizard.form</field>
+        <field name="model">zalo.config.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cấu hình Zalo ZNS">
+                <p class="text-muted">
+                    App ID/Secret Key lấy từ Zalo Developers (App đã gắn với Official Account).
+                    Access Token/Refresh Token lấy từ luồng OAuth của Zalo (đăng nhập cấp quyền
+                    OA admin) rồi dán vào đây 1 lần - sau đó dùng nút "Làm mới Access Token" khi
+                    hết hạn, không cần lặp lại OAuth từ đầu.
+                    <br/>
+                    Vì lý do bảo mật, giá trị đã lưu <b>không hiển thị lại</b> ở đây - để trống
+                    1 ô nghĩa là giữ nguyên giá trị đã lưu trước đó, chỉ nhập khi muốn thay mới.
+                </p>
+                <!--
+                  Icon trạng thái từng khóa thay cho text "current_status" cũ - xanh (tick) =
+                  đã có, xám (gạch ngang) = chưa có, đỏ (x) = lỗi (chỉ Access Token/Refresh
+                  Token mới có thể lên 'error', sau khi "Làm mới Access Token" thất bại - xem
+                  models/zalo_config_wizard.py, action_refresh_token).
+                -->
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4 d-flex align-items-center gap-2">
+                        <i class="fa fa-check-circle text-success" invisible="app_id_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" invisible="app_id_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" invisible="app_id_status != 'error'"/>
+                        <label for="app_id" string="App ID"/>
+                    </div>
+                    <div class="col-8">
+                        <field name="app_id" password="True" placeholder="Để trống = giữ nguyên" nolabel="1"/>
+                    </div>
+                </div>
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4 d-flex align-items-center gap-2">
+                        <i class="fa fa-check-circle text-success" invisible="secret_key_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" invisible="secret_key_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" invisible="secret_key_status != 'error'"/>
+                        <label for="secret_key" string="Secret Key"/>
+                    </div>
+                    <div class="col-8">
+                        <field name="secret_key" password="True" placeholder="Để trống = giữ nguyên" nolabel="1"/>
+                    </div>
+                </div>
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4 d-flex align-items-center gap-2">
+                        <i class="fa fa-check-circle text-success" invisible="access_token_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" invisible="access_token_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" invisible="access_token_status != 'error'"/>
+                        <label for="access_token" string="Access Token"/>
+                    </div>
+                    <div class="col-8">
+                        <field name="access_token" password="True" placeholder="Để trống = giữ nguyên" nolabel="1"/>
+                    </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-4 d-flex align-items-center gap-2">
+                        <i class="fa fa-check-circle text-success" invisible="refresh_token_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" invisible="refresh_token_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" invisible="refresh_token_status != 'error'"/>
+                        <label for="refresh_token" string="Refresh Token"/>
+                    </div>
+                    <div class="col-8">
+                        <field name="refresh_token" password="True" placeholder="Để trống = giữ nguyên" nolabel="1"/>
+                    </div>
+                </div>
+                <field name="status_message" readonly="1" invisible="not status_message" class="text-muted"/>
+                <footer>
+                    <button string="Lưu" type="object" name="action_save" class="btn-primary"/>
+                    <button string="Làm mới Access Token" type="object" name="action_refresh_token"
+                            class="btn-secondary"/>
+                    <button string="Đóng" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="zalo_config_wizard_action" model="ir.actions.act_window">
+        <field name="name">Cấu hình Zalo ZNS</field>
+        <field name="res_model">zalo.config.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="zalo_menu_root" name="Zalo ZNS" sequence="102" groups="base.group_user"/>
+    <!-- groups khai TRỰC TIẾP ở đây (không chỉ dựa vào menu cha) + đã có sẵn
+         access_zalo_config_wizard_system trong ir.model.access.csv (chỉ base.group_system
+         mới có quyền đọc/ghi model zalo.config.wizard) - khóa 2 lớp, giống hệt quy ước
+         payos_menu_config của module vtt_payos. -->
+    <menuitem id="zalo_menu_config" name="Cấu hình" groups="base.group_system"
+              parent="zalo_menu_root" action="zalo_config_wizard_action" sequence="20"/>
+</odoo>

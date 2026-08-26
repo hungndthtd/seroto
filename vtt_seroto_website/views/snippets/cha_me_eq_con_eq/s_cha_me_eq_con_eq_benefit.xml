@@ -90,7 +90,9 @@
             </div>
           </div>
         </div>
-        <div class="benefit__button btn-default mt-5">Đăng ký tham gia</div>
+        <div class="text-center">
+          <button type="button" class="benefit__button btn-default mt-5 js_register_course_wizard" data-course="Cha mẹ EQ con EQ">Đăng ký tham gia</button>
+        </div>
       </div>
     </section>
   </template>
