@@ -166,26 +166,28 @@ Seroto muốn ra mắt khóa "Trải nghiệm EQ". Quản lý vào **Đào tạo
 8. Sau khi lưu thì có thể **Mở đợt học mới**
 
 ### Tình huống 3.2: Mở đợt tuyển sinh mới (K19) cho khóa đã có sẵn
-Khóa "EQ 5 phút" đã chạy được vài đợt, giờ mở tiếp K19. Quản lý mở form Khóa học, bấm **"Mở đợt học mới"**: nhập mã đợt "K19", ngày dự kiến, chọn giáo viên, tick "Đặt làm lớp nhận đăng ký" → hệ thống tự tạo Đợt học + Lớp học (trạng thái **Sắp mở**). Quản lý bấm tiếp nút **"Mở đăng ký"** trên form Lớp học khi sẵn sàng công bố tuyển sinh. Về sau, khi phát sinh chi phí cho lớp này, Kế toán chỉ cần chọn thẳng lớp K19 ở cột "Lớp học" ngay trên dòng hóa đơn nhà cung cấp (xem Tình huống 2.3), không cần thiết lập gì thêm ở đây.
+Khóa "EQ 5 phút" đã chạy được vài đợt, giờ mở tiếp K19. Quản lý mở form Khóa học, bấm **"Mở đợt học mới"**: nhập mã đợt "K19", ngày dự kiến, chọn giáo viên, tick "Đặt làm lớp nhận đăng ký" → hệ thống tự tạo Đợt học + Lớp học (trạng thái **Sắp mở**). Nếu đã sẵn sàng công bố tuyển sinh ngay, tick luôn **"Mở cho phép đăng ký"** trong cùng wizard để khỏi phải vào lại form Lớp học bấm thêm bước; nếu chưa, để trống rồi bấm **"Mở đăng ký"** trên form Lớp học sau khi rà lại thông tin. Về sau, khi phát sinh chi phí cho lớp này, Kế toán chỉ cần chọn thẳng lớp K19 ở cột "Lớp học" ngay trên dòng hóa đơn nhà cung cấp (xem Tình huống 2.3), không cần thiết lập gì thêm ở đây.
+
+**Lưu ý quan trọng:** website chỉ THẬT SỰ nhận đăng ký khóa "EQ 5 phút" khi đồng thời đủ 2 điều kiện: (1) lớp đang **"Đang nhận đăng ký"**, VÀ (2) lớp đó đang là **"Lớp nhận đăng ký"** của khóa học (field trên form Khóa học). Thiếu 1 trong 2 thì web vẫn chưa cho đăng ký — hệ thống tự cảnh báo ngay lúc bấm nếu thiếu điều kiện còn lại.
 
 **Thao tác chi tiết:**
 1. Mở form Khóa học "EQ 5 phút".
 2. Bấm nút **"Mở đợt học mới"** ở đầu form.
 3. Điền Mã đợt "K19", Ngày bắt đầu/kết thúc dự kiến, chọn Giáo viên.
 4. Tick "Đặt làm lớp nhận đăng ký" nếu muốn khách đăng ký web tự rơi vào lớp này.
-5. Bấm **"Mở đợt học"** để xác nhận wizard.
-6. Mở tab "Đợt học & Lớp học" trên form Khóa học, mở đúng lớp K19 vừa tạo.
-7. Khi sẵn sàng công bố tuyển sinh, bấm nút **"Mở đăng ký"** trên form Lớp học.
+5. Tick **"Mở cho phép đăng ký"** nếu muốn web nhận đăng ký ngay (gộp luôn bước 7 vào đây) — cần tick cả bước 4 thì mới có hiệu lực thật trên web.
+6. Bấm **"Mở đợt học"** để xác nhận wizard.
+7. *(Nếu chưa tick bước 5)* Mở tab "Đợt học & Lớp học" trên form Khóa học, mở đúng lớp K19 vừa tạo, khi sẵn sàng công bố tuyển sinh thì bấm nút **"Mở đăng ký"** trên form Lớp học.
 
 ### Tình huống 3.3: Lớp K19 sáng đăng ký đông hơn dự kiến, cần mở thêm lớp tối
-Quản lý vào menu Lớp học, tạo lớp mới, chọn **cùng Đợt học K19** đã có (không tạo Đợt học mới), đặt tên "EQ 5 phút - K19 (tối)", gán giáo viên khác nếu cần — 2 lớp cùng đợt chạy song song bình thường, không giới hạn.
+Quản lý vào menu Lớp học, tạo lớp mới, chọn **cùng Đợt học K19** đã có (không tạo Đợt học mới), đặt tên "EQ 5 phút - K19 (tối)", gán giáo viên khác nếu cần — 2 lớp cùng đợt chạy song song bình thường, không giới hạn. Bấm "Mở đăng ký" trên lớp tối mới này **không** tự động khiến web nhận đăng ký vào đó — web vẫn đang rơi vào lớp sáng nếu lớp sáng đang là "Lớp nhận đăng ký" (xem Tình huống 1.4 nếu cần chuyển hẳn sang lớp tối).
 
 **Thao tác chi tiết:**
 1. Vào **Đào tạo → Khóa học → Lớp học → Mới**.
 2. Ô "Đợt học" — chọn đúng "K19" đã có sẵn (không tạo Đợt học mới ở đây).
 3. Đặt tên lớp "EQ 5 phút - K19 (tối)".
 4. Gán Giáo viên phù hợp.
-5. Lưu, bấm nút **"Mở đăng ký"** khi sẵn sàng nhận học viên.
+5. Lưu, bấm nút **"Mở đăng ký"** khi sẵn sàng nhận học viên (cho phép Sale chọn tay lớp này khi tạo Phiếu đăng ký thủ công) — muốn web tự rơi vào lớp tối thay vì lớp sáng thì cần đổi thêm "Lớp nhận đăng ký" trên Khóa học (xem Tình huống 1.4).
 
 ### Tình huống 3.4: Gán nhân sự vận hành cho 1 lớp
 Trên form Lớp học K19: gán **Giảng viên** (người đứng lớp, phải đã tick "Là giảng viên"), **Ban tổ chức** (nhân sự chính thức hỗ trợ vận hành), và **Người phụng sự** (1-2 bạn tình nguyện hỗ trợ việc nhỏ, KHÔNG phải Ban tổ chức chính thức, KHÔNG được xem dữ liệu học viên). 3 nhóm này tách biệt hoàn toàn trên cùng 1 form.
@@ -245,3 +247,4 @@ Quản lý danh sách đầy đủ các khu vực đang có tại **Đào tạo 
 
 - Tất cả tình huống trên đều dựa trên tính năng **đã triển khai thật** trong phần mềm — không có tình huống giả định cho phần còn thiếu (VD chưa xử lý được luồng CRM Zalo/Facebook, chưa tách "Thu" theo lớp 100% trường hợp, chưa có nơi theo dõi "chi phí chung").
 - Cổng thanh toán trong Tình huống 1.1 đã là **payOS thật** — không còn giả lập.
+- Cơ chế Mở/Đóng đăng ký (Tình huống 1.4, 3.2, 3.3) đã sửa lỗi: trước đây bấm Mở/Đóng đăng ký trên Lớp học **không có tác dụng thật** trên website (web luôn cho đăng ký bất kể trạng thái) — nay đã chặn thật ở server, đúng theo trạng thái "Lớp nhận đăng ký" như mô tả ở các tình huống trên.

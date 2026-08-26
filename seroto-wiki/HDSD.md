@@ -60,13 +60,18 @@ Tab **Câu hỏi chuyên sâu** — bộ câu hỏi khách trả lời ở bư�
 | Field | Bản chất | Tác dụng |
 |---|---|---|
 | Đợt tuyển sinh, Ngày học, Giờ học, Thời hạn đăng ký | Chữ tự do | Chỉ để **hiển thị** |
-| Ngày mở đăng ký, Ngày đóng đăng ký | Ngày thật | Tự **ẩn/hiện** nút "Đăng ký ngay" trên website |
+| Đang mở đăng ký | Tự tính, chỉ xem | Website có cho đăng ký khóa này hay không — xem cách hoạt động ở mục 1.6 |
+
+**Lưu ý (đã sửa lỗi):** trước đây có 2 field ngày "Ngày mở đăng ký"/"Ngày đóng đăng ký" nhập tay nhưng **không thật sự điều khiển được gì** trên website (bấm Mở/Đóng đăng ký ở Lớp học không đổi 2 ngày này, và web cũng không kiểm tra 2 ngày này trước khi cho đăng ký) — đã bỏ hẳn 2 field đó, thay bằng field **"Đang mở đăng ký"** tự tính đúng theo trạng thái thật của "Lớp nhận đăng ký" (mục 1.6), đồng thời server đã chặn thật ở website (không chỉ ẩn nút).
 
 ### 1.4 Mở đợt học mới
 Bấm nút **"Mở đợt học mới"** trên form Khóa học:
 1. Điền mã đợt (VD `K19`), ngày bắt đầu/kết thúc dự kiến, chọn giáo viên.
 2. Tick "Đặt làm lớp nhận đăng ký" nếu muốn.
-3. Bấm "Mở đợt học" — hệ thống tự tạo Đợt học + Lớp học (trạng thái **Sắp mở**).
+3. Tick **"Mở cho phép đăng ký"** nếu muốn website nhận đăng ký khóa này ngay (gộp luôn thao tác "Mở đăng ký" ở mục 1.5 vào 1 lần bấm) — để trống nếu muốn rà lại thông tin lớp trước khi công bố tuyển sinh.
+4. Bấm "Mở đợt học" — hệ thống tự tạo Đợt học + Lớp học (trạng thái **Sắp mở**, hoặc **Đang nhận đăng ký** nếu đã tick bước 3).
+
+Nếu tick "Mở cho phép đăng ký" nhưng **quên** tick "Đặt làm lớp nhận đăng ký", hệ thống sẽ cảnh báo ngay: lớp đã mở đăng ký nhưng chưa phải "Lớp nhận đăng ký" của khóa nên web vẫn chưa nhận đăng ký được — cần vào Khóa học đổi field đó thì mới có hiệu lực thật.
 
 ### 1.5 Vòng đời của một Lớp học
 | Trạng thái | Bấm nút | Khi nào dùng |
@@ -77,8 +82,10 @@ Bấm nút **"Mở đợt học mới"** trên form Khóa học:
 | Đang học | Bắt đầu học | Lớp đã khai giảng |
 | Hoàn thành | Hoàn thành | Lớp đã kết thúc |
 
+Bấm **"Mở đăng ký"/"Đóng đăng ký"** trên 1 lớp chỉ thật sự có tác dụng trên website **khi lớp đó đang là "Lớp nhận đăng ký"** của khóa học (mục 1.6) — nếu không phải, hệ thống hiện cảnh báo ngay lúc bấm để tránh Quản lý tưởng nhầm là đã xong. Phiếu đăng ký khóa học (kể cả khi Sale tạo tay) cũng chỉ cho chọn các lớp đang **"Đang nhận đăng ký"** ở ô "Lớp học" — tránh chọn nhầm lớp đã đóng/đã học xong.
+
 ### 1.6 "Lớp nhận đăng ký"
-Field trên form Khóa học — lớp mà **mọi khách đăng ký mới trên web sẽ tự động được gắn vào**. Nhiều lớp mở song song → Quản lý chủ động đổi field này khi 1 lớp đầy.
+Field trên form Khóa học — lớp mà **mọi khách đăng ký mới trên web sẽ tự động được gắn vào**, đồng thời là lớp **quyết định** field "Đang mở đăng ký" ở mục 1.3: website chỉ nhận đăng ký khóa học khi "Lớp nhận đăng ký" đang ở trạng thái **"Đang nhận đăng ký"**. Nhiều lớp mở song song → Quản lý chủ động đổi field này khi 1 lớp đầy.
 
 ### 1.7 Khu vực hiển thị trên website
 Tab **"Khu vực hiển thị"** trên form Khóa học — chọn khóa học này xuất hiện ở khu vực nào trên website (VD trang dành cho Giáo viên, trang dành cho Trường học...). Mỗi khu vực có **Tên** và **Mã** riêng — quản lý danh sách khu vực tại **Đào tạo › Báo cáo & Cấu hình › Khu vực hiển thị trên website**. 1 khóa học có thể thuộc nhiều khu vực cùng lúc, hoặc không thuộc khu vực nào nếu chỉ muốn hiển thị chung.
@@ -94,7 +101,7 @@ Tab **"Khu vực hiển thị"** trên form Khóa học — chọn khóa học n
 |---|---|---|---|
 | 1 | Khách hàng | Điền form 3 bước trên web (Tab 1: Thông tin cơ bản) | Phiếu đăng ký: **Mới đăng ký** |
 | 2 | Khách hàng | Thanh toán ở Tab 2 qua **payOS** (quét QR/chuyển khoản ngân hàng thật, không còn giả lập) | Hệ thống ghi nhận đã thanh toán |
-| 3 | Hệ thống | Tự động: tạo Đơn hàng, xác nhận, xuất Hóa đơn, ghi nhận thanh toán, ghi danh học viên | Ghi danh + Phiếu: **Hoàn tất** |
+| 3 | Hệ thống | Tự động: tạo Đơn hàng, xác nhận, xuất Hóa đơn, ghi nhận thanh toán, ghi danh học viên vào lớp học | Ghi danh + Phiếu: **Hoàn tất** |
 | — | Khách hàng | Trả lời Câu hỏi chuyên sâu ở Tab 3 (trước hoặc sau khi đã vào lớp đều được) | Không ảnh hưởng tới việc ghi danh |
 
 Bước 3 diễn ra **ngay lập tức** sau khi thanh toán thành công — Sale/Kế toán **không cần thao tác gì** cho các lượt đăng ký online bình thường.
@@ -112,6 +119,8 @@ Bước 3 diễn ra **ngay lập tức** sau khi thanh toán thành công — Sa
 Bấm **Xác nhận** giờ **tự tạo luôn Đơn hàng** trong cùng 1 lần bấm (không còn phải bấm 2 nút riêng như trước) — hệ thống mở thẳng qua Đơn hàng vừa tạo (đã điền sẵn Khách hàng/Sản phẩm/Lớp học) để Sale kiểm tra rồi tự xác nhận đơn hàng đó. Hồ sơ khách hàng chỉ được tạo thật tại đúng bước Xác nhận này (với luồng tự động qua payOS, hồ sơ được tạo ngay khi hệ thống tự xử lý).
 
 Nếu đổi Khóa học ngay trên phiếu (khi phiếu còn "Nháp"), danh sách **Câu hỏi chuyên sâu** tự cập nhật lại theo đúng khóa học vừa chọn — không cần tự thêm/xóa dòng câu hỏi tay.
+
+Ô **"Lớp học"** trên phiếu chỉ hiện các lớp đang **"Đang nhận đăng ký"** của đúng khóa đã chọn (xem mục 1.5) — tránh Sale chọn nhầm lớp đã đóng/đã học xong.
 
 Lưu ý: với phiếu **đã thanh toán thành công qua website**, hệ thống đã tự động xử lý xong (ghi danh vào lớp, tạo đơn hàng/hóa đơn) trước khi Sale kịp xem — bấm "Từ chối" lúc này chỉ đổi trạng thái của Phiếu đăng ký, **không** hủy ngược lại Đơn hàng/Ghi danh đã tạo. Muốn hủy thật sự (hoàn tiền, hủy ghi danh) cần xử lý riêng ở Đơn hàng/Ghi danh tương ứng.
 
@@ -224,7 +233,7 @@ Mở lên mặc định là Pivot: hàng = Khóa học → Lớp học (bấm m�
 Cột "Số tiền" chỉ có ý nghĩa với "Gieo hạt"/"Thu"/"Chi" — 3 loại còn lại (Học viên tham gia/Hoàn thành/Người phụng sự) là số liệu đếm lượt, cột "Số tiền" của chúng luôn là 0đ theo đúng chủ đích, không phải lỗi.
 
 ### Cách ghi nhận "Chi" cho đúng lớp
-Khi Kế toán ghi hóa đơn nhà cung cấp (Kế toán → Nhà cung cấp → Hóa đơn), trên chính dòng chi phí có sẵn cột **"Lớp học"** — chọn đúng lớp phát sinh chi phí đó (VD thuê hội trường, thù lao giảng viên của lớp K19). Không cần thiết lập gì trước ở form Lớp học — chọn trực tiếp ngay lúc ghi hóa đơn.
+Khi Kế toán ghi hóa đơn nhà cung cấp (Hóa đơn → Nhà cung cấp → Hóa đơn), trên chính dòng chi phí có sẵn cột **"Lớp học"** — chọn đúng lớp phát sinh chi phí đó (VD thuê hội trường, thù lao giảng viên của lớp K19). Không cần thiết lập gì trước ở form Lớp học — chọn trực tiếp ngay lúc ghi hóa đơn.
 
 ### Lưu ý về độ đầy đủ
 - **Chi phí chung/ngoài phạm vi khóa-lớp** (VD thuê văn phòng) — để trống cột "Lớp học" trên dòng hóa đơn, khoản đó sẽ **không** xuất hiện trong báo cáo này (đúng chủ đích, tránh lẫn vào chi phí hoạt động đào tạo).

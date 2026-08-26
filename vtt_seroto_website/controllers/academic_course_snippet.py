@@ -51,3 +51,22 @@ class AcademicCourseSnippetController(http.Controller):
             }
             for course in courses
         ]
+
+    # Route dùng chung cho MỌI nút "Đăng ký ngay" trên toàn site (kể cả nút tĩnh ở các
+    # trang con không có widget riêng như s_trang_chu_course_group) - JS gọi route này
+    # NGAY LÚC BẤM NÚT, trước khi mở modal wizard (xem course_register_wizard.js,
+    # _onOpenWizard), để khỏi mở form đăng ký cho khách rồi mới báo lỗi thô ở bước cuối.
+    # Không tìm thấy khóa học khớp tên -> coi như "mở" (True) để KHỚP ĐÚNG hành vi dễ dãi
+    # đã có ở controllers/course_registration.py, create_registration() - route đó cũng
+    # bỏ qua kiểm tra is_registration_open khi không có academic.course khớp tên.
+    @http.route(
+        "/seroto/academic-course/is-registration-open",
+        type="jsonrpc", auth="public", website=True,
+    )
+    def academic_course_is_registration_open(self, course=None, **kwargs):
+        course_record = request.env["academic.course"].sudo().search(
+            [("name", "=", (course or "").strip())], limit=1
+        )
+        return {
+            "is_registration_open": (not course_record) or course_record.is_registration_open,
+        }

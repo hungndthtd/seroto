@@ -94,9 +94,16 @@ Trả lời **"Câu hỏi chuyên sâu"** (tab 3 của form đăng ký) **không
 
 ## B. NỘI DUNG CHÈN THÊM VÀO TRANG ĐÃ CÓ
 
-### B.1 Chèn vào trang "1. Mở khóa học, mở đợt học mới" — cập nhật mục 1.4
+### B.1 Chèn vào trang "1. Mở khóa học, mở đợt học mới" — cập nhật mục 1.3-1.6
 
 > ~~Khi bấm "Mở đợt học" ở bước 3, hệ thống tự tạo luôn Mã phân tích chi phí cho lớp mới~~ — **đã bỏ hẳn**, không còn khái niệm "Mã phân tích chi phí" trong phần mềm nữa (chỉ có ở app Kế toán Enterprise, không có trong Invoicing Community đang dùng). Về sau khi phát sinh chi phí cho lớp này, Kế toán chỉ cần chọn thẳng **Lớp học** ngay trên dòng hóa đơn nhà cung cấp lúc ghi hóa đơn (xem trang "Báo cáo tổng hợp") — không cần thiết lập/tạo mã gì trước ở bước mở đợt học này.
+
+> **Sửa lỗi Mở/Đóng đăng ký (quan trọng):** trước đây 2 field "Ngày mở đăng ký"/"Ngày đóng đăng ký" trên Khóa học và nút "Mở đăng ký"/"Đóng đăng ký" trên Lớp học **không hề liên kết với nhau, và không cái nào thật sự chặn được website** — khách vẫn đăng ký được dù khóa "đang đóng". Đã sửa tận gốc:
+> - Bỏ hẳn 2 field ngày nhập tay, thay bằng field **"Đang mở đăng ký"** (chỉ xem, tự tính) — website chỉ nhận đăng ký khi field này = Có, và field này chỉ = Có khi **"Lớp nhận đăng ký"** của khóa đang ở trạng thái **"Đang nhận đăng ký"**.
+> - Bấm "Mở đăng ký"/"Đóng đăng ký" trên Lớp học giờ có cảnh báo ngay nếu lớp đó chưa/không còn là "Lớp nhận đăng ký" — tránh Quản lý tưởng nhầm là đã có hiệu lực trên web.
+> - Wizard "Mở đợt học mới" có thêm tick **"Mở cho phép đăng ký"** — tick là web nhận đăng ký ngay (cần tick kèm "Đặt làm lớp nhận đăng ký" mới có hiệu lực thật, có cảnh báo nếu thiếu).
+> - Ô "Lớp học" trên Phiếu đăng ký (Sale tạo tay) giờ chỉ cho chọn lớp đang "Đang nhận đăng ký" — tránh chọn nhầm lớp đã đóng.
+> - Website giờ chặn THẬT ở server (không chỉ ẩn nút) khi khóa học đang đóng đăng ký.
 
 ### B.2 Chèn vào trang "3. Quản lý lớp, quản lý học viên" — cập nhật mục 3.1
 

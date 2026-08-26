@@ -32,8 +32,13 @@
             <pivot string="Báo cáo tổng hợp theo khóa học">
                 <field name="course_id" type="row"/>
                 <field name="class_id" type="row"/>
-                <field name="date" interval="month" type="col"/>
+                <!-- metric_type đứng TRƯỚC date: mở màn hình lên là thấy sẵn đủ 6 cột
+                     Loại số liệu (Học viên tham gia/Hoàn thành/Người phụng sự/Gieo hạt/
+                     Thu/Chi) ngay, không cần tự bấm mở rộng cột Tháng trước rồi mới thấy
+                     - ai cần xem xu hướng theo tháng của riêng 1 loại thì bấm mở rộng
+                     thêm cột date bên trong loại đó (vẫn còn, chỉ đổi thứ tự ưu tiên). -->
                 <field name="metric_type" type="col"/>
+                <field name="date" interval="month" type="col"/>
                 <field name="count_value" type="measure" string="Số lượng"/>
                 <field name="amount_value" type="measure" string="Số tiền"/>
             </pivot>
@@ -69,7 +74,7 @@
     </record>
 
     <record id="action_academic_report_metric" model="ir.actions.act_window">
-        <field name="name">Báo cáo tổng hợp</field>
+        <field name="name">Báo cáo tổng hợp theo khóa học</field>
         <field name="res_model">academic.report.metric</field>
         <field name="view_mode">pivot,graph,list</field>
         <field name="search_view_id" ref="view_academic_report_metric_search"/>
@@ -79,6 +84,9 @@
             </p>
             <p>
                 Số liệu tự tổng hợp từ Ghi danh, Người phụng sự, Gieo hạt, Hóa đơn bán hàng (Thu) và Hóa đơn nhà cung cấp có gắn mã phân tích Lớp học (Chi) theo từng khóa học.
+            </p>
+            <p>
+                Chỉ tính khoản gắn được với 1 khóa/lớp cụ thể. Chi phí chung, doanh thu/khoản khác không thuộc khóa học nào — xem ở Kế toán › Báo cáo (phân tích hóa đơn), không nằm trong báo cáo này.
             </p>
         </field>
     </record>

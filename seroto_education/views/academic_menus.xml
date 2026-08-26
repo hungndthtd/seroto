@@ -107,7 +107,7 @@
 
     <!-- Nhóm "Báo cáo & Cấu hình" -->
     <menuitem id="menu_academic_report_metric"
-              name="Báo cáo tổng hợp"
+              name="Báo cáo tổng hợp theo khóa học"
               parent="menu_academic_group_report"
               action="action_academic_report_metric"
               sequence="10"/>

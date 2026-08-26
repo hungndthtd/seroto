@@ -77,12 +77,34 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
     },
 
     // --- Mở wizard từ nút "Đăng ký ngay" ---
-    _onOpenWizard(ev) {
+    // async: kiểm tra is_registration_open TRƯỚC khi mở modal - áp dụng cho MỌI nút
+    // js_register_course_wizard trên toàn site (kể cả nút tĩnh ở trang con không có
+    // widget riêng tự ẩn/hiện như s_trang_chu_course_group), tránh để khách điền hết
+    // form 3 bước rồi mới nhận lỗi thô ở bước cuối (server vẫn chặn lại ở
+    // create_registration() - đây chỉ là lớp chặn sớm, thân thiện hơn).
+    async _onOpenWizard(ev) {
         ev.preventDefault();
+
+        const course = ev.currentTarget.dataset.course || "";
+
+        let openCheck;
+        try {
+            openCheck = await rpc("/seroto/academic-course/is-registration-open", { course });
+        } catch (error) {
+            // Lỗi mạng/route tạm thời - không chặn nhầm khách, để server tự chặn lại ở
+            // bước tạo phiếu nếu thật sự đang đóng (xem catch trong _onBasicSubmit).
+            console.error("Kiểm tra trạng thái mở đăng ký thất bại:", error);
+            openCheck = { is_registration_open: true };
+        }
+        if (!openCheck.is_registration_open) {
+            alert(`Khóa học "${course}" hiện chưa mở đăng ký, vui lòng quay lại sau hoặc liên hệ Seroto để được tư vấn.`);
+            return;
+        }
+
         this._clearPollTimer();
 
         this._state = this._emptyState();
-        this._state.course = ev.currentTarget.dataset.course || "";
+        this._state.course = course;
 
         const modalEl = this.el.querySelector("#courseRegisterWizardModal");
 
@@ -177,7 +199,12 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             });
         } catch (error) {
             console.error("Tạo phiếu đăng ký thất bại:", error);
-            alert("Có lỗi xảy ra, vui lòng thử lại.");
+            // error.data.message: nội dung UserError thật từ server (VD "Khóa học ...
+            // hiện không mở đăng ký" - trường hợp hiếm khi khóa vừa đóng đúng lúc khách
+            // đang điền form, giữa lúc mở modal và lúc bấm "Tiếp tục") - chỉ rơi về câu
+            // chung chung khi đây thực sự là lỗi không xác định được (mất mạng...).
+            const serverMessage = error && error.data && error.data.message;
+            alert(serverMessage || "Có lỗi xảy ra, vui lòng thử lại.");
             continueBtn.textContent = "Tiếp tục";
             continueBtn.disabled = false;
             return;
