@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Trang Shop (/shop, danh sách sản phẩm) do controller của website_sale tự render, KHÔNG
+      có bản ghi website.page đứng sau (đã kiểm tra trực tiếp trong DB: 0 dòng) - nên nút
+      "Ẩn Footer" trong Page Visibility của Website Builder không xuất hiện (nút đó chỉ hiện
+      khi trang có website.page, xem addons/website/static/src/builder/plugins/options/
+      website_page_config_option_plugin.js, HideFooterOption.selector cần input
+      "o_page_option_data[name=footer_visible]" do website.page_options.mixin render ra).
+
+      Ẩn cứng Footer CHỈ cho trang danh sách Shop bằng cách set no_footer=True trước khi gọi
+      website.layout - không đụng tới trang chi tiết sản phẩm (website_sale.product, template
+      khác) hay bất kỳ trang nào khác.
+    -->
+    <template id="website_sale_products_no_footer" inherit_id="website_sale.products">
+        <xpath expr="//t[@t-call='website.layout']/t[@t-set='additional_title']" position="before">
+            <t t-set="no_footer" t-value="True"/>
+        </xpath>
+    </template>
+</odoo>

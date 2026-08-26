@@ -17,6 +17,34 @@ class ResPartner(models.Model):
         for partner in self:
             partner.taught_class_ids = self.env['academic.class'].search([('teacher_ids', '=', partner.id)])
 
+    # Field PHẲNG (không phải dotted "parent_id.is_company") để dùng trong invisible của
+    # views/res_partner_views.xml - đã gặp thực tế: view client KHÔNG fetch tin cậy field
+    # lồng qua Many2one (parent_id.is_company) khi chỉ tham chiếu trong biểu thức invisible
+    # mà không có field nào khác kéo nó vào spec - field phẳng ngay trên record này thì
+    # chắc chắn được client fetch đúng khi có <field .../> tương ứng trong view.
+    parent_is_company = fields.Boolean(
+        string='Liên hệ cha là công ty', compute='_compute_parent_is_company',
+    )
+
+    @api.depends('parent_id.is_company')
+    def _compute_parent_is_company(self):
+        for partner in self:
+            partner.parent_is_company = bool(partner.parent_id.is_company)
+
+    def _compute_type_address_label(self):
+        """Core (res.partner) mặc định hiện "Company Address" cho MỌI contact có parent_id
+        (giả định luôn là công ty) - sai ngữ cảnh với luồng "Đăng ký hộ" (parent_id trỏ tới
+        1 người, VD "Chị Hoa", không phải công ty - xem parent_is_company/views/
+        res_partner_views.xml). Ghi thẳng "Địa chỉ" (không qua _(), vì msgid "Address" của
+        Odoo core KHÔNG có bản dịch vi_VN sẵn trong hệ thống này - đã kiểm chứng qua shell -
+        dự án dùng tiếng Việt là chính nên không phụ thuộc bản dịch, giống các label khác
+        trong file này, VD "Đang học"/"Đã học").
+        """
+        super()._compute_type_address_label()
+        for partner in self:
+            if partner.type == 'contact' and partner.parent_id and not partner.parent_is_company:
+                partner.type_address_label = 'Địa chỉ'
+
     current_course_ids = fields.Many2many(
         'academic.course', 'res_partner_current_course_rel', 'partner_id', 'course_id',
         string='Đang học', compute='_compute_enrollment_courses', store=True,

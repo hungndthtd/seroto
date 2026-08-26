@@ -80,7 +80,7 @@
             <div class="content__title">Seroto Shop</div>
             <p>Quà tặng EQ từ Seroto, những món quà <br/> chạm tới cảm xúc và nuôi dưỡng sự bình an</p>
             <div class="content__button">
-              <div class="btn-default">Sắp mở</div>
+              <a href="/shop" target="_blank" class="btn-default">Sắp mở</a>
             </div>
           </div>
         </div>

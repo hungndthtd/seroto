@@ -70,6 +70,9 @@
       <t t-snippet="vtt_seroto_website.s_trang_chu_project" string="Dự án" group="seroto">
         <keywords>dự án, project</keywords>
       </t>
+      <t t-snippet="vtt_seroto_website.s_trang_chu_footer" string="Đoạn kết" group="seroto">
+        <keywords>đoạn kết, footer</keywords>
+      </t>
       <!-- <t t-snippet="vtt_seroto_website.s_roadmap_timeline" string="Lịch trình học" group="seroto_landing">
         <keywords>lịch trình, roadmap, buổi học, học phí</keywords>
       </t> -->
@@ -348,6 +351,23 @@
         <keywords>trích dẫn, quote, buổi học, học phí</keywords>
       </t>
       <t t-snippet="vtt_seroto_website.s_mang_eq_ve_truong_footer" string="Đoạn kết" group="seroto_landing">
+        <keywords>đoạn kết, footer, buổi học, học phí</keywords>
+      </t>
+
+      <!-- Quà tặng -->
+      <t t-snippet="vtt_seroto_website.s_qua_tang_hero" string="Tiêu đề chính" group="seroto_landing">
+        <keywords>tiêu đề chính, hero, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_qua_tang_about" string="Giới thiệu" group="seroto_landing">
+        <keywords>giới thiệu, about, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_qua_tang_quote" string="Trích dẫn" group="seroto_landing">
+        <keywords>trích dẫn, quote, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_qua_tang_reason" string="Tại sao" group="seroto_landing">
+        <keywords>tại sao, reason, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_qua_tang_footer" string="Đoạn kết" group="seroto_landing">
         <keywords>đoạn kết, footer, buổi học, học phí</keywords>
       </t>
     </xpath>

@@ -22,9 +22,9 @@
                 -->
                 <div class="row mb-2 align-items-center">
                     <div class="col-4 d-flex align-items-center gap-2">
-                        <i class="fa fa-check-circle text-success" invisible="app_id_status != 'ok'"/>
-                        <i class="fa fa-minus text-muted" invisible="app_id_status != 'missing'"/>
-                        <i class="fa fa-times-circle text-danger" invisible="app_id_status != 'error'"/>
+                        <i class="fa fa-check-circle text-success" title="Đã có" invisible="app_id_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" title="Chưa có" invisible="app_id_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" title="Lỗi" invisible="app_id_status != 'error'"/>
                         <label for="app_id" string="App ID"/>
                     </div>
                     <div class="col-8">
@@ -33,9 +33,9 @@
                 </div>
                 <div class="row mb-2 align-items-center">
                     <div class="col-4 d-flex align-items-center gap-2">
-                        <i class="fa fa-check-circle text-success" invisible="secret_key_status != 'ok'"/>
-                        <i class="fa fa-minus text-muted" invisible="secret_key_status != 'missing'"/>
-                        <i class="fa fa-times-circle text-danger" invisible="secret_key_status != 'error'"/>
+                        <i class="fa fa-check-circle text-success" title="Đã có" invisible="secret_key_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" title="Chưa có" invisible="secret_key_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" title="Lỗi" invisible="secret_key_status != 'error'"/>
                         <label for="secret_key" string="Secret Key"/>
                     </div>
                     <div class="col-8">
@@ -44,9 +44,9 @@
                 </div>
                 <div class="row mb-2 align-items-center">
                     <div class="col-4 d-flex align-items-center gap-2">
-                        <i class="fa fa-check-circle text-success" invisible="access_token_status != 'ok'"/>
-                        <i class="fa fa-minus text-muted" invisible="access_token_status != 'missing'"/>
-                        <i class="fa fa-times-circle text-danger" invisible="access_token_status != 'error'"/>
+                        <i class="fa fa-check-circle text-success" title="Đã có" invisible="access_token_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" title="Chưa có" invisible="access_token_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" title="Lỗi" invisible="access_token_status != 'error'"/>
                         <label for="access_token" string="Access Token"/>
                     </div>
                     <div class="col-8">
@@ -55,9 +55,9 @@
                 </div>
                 <div class="row mb-3 align-items-center">
                     <div class="col-4 d-flex align-items-center gap-2">
-                        <i class="fa fa-check-circle text-success" invisible="refresh_token_status != 'ok'"/>
-                        <i class="fa fa-minus text-muted" invisible="refresh_token_status != 'missing'"/>
-                        <i class="fa fa-times-circle text-danger" invisible="refresh_token_status != 'error'"/>
+                        <i class="fa fa-check-circle text-success" title="Đã có" invisible="refresh_token_status != 'ok'"/>
+                        <i class="fa fa-minus text-muted" title="Chưa có" invisible="refresh_token_status != 'missing'"/>
+                        <i class="fa fa-times-circle text-danger" title="Lỗi" invisible="refresh_token_status != 'error'"/>
                         <label for="refresh_token" string="Refresh Token"/>
                     </div>
                     <div class="col-8">
@@ -82,7 +82,13 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="zalo_menu_root" name="Zalo ZNS" sequence="102" groups="base.group_user"/>
+    <!--
+      web_icon (KHÁC với static/description/icon.png dùng cho màn hình "Ứng dụng") - đây là
+      icon hiện ở màn hình chính chọn module (app switcher/9 chấm), chỉ đọc được từ thuộc
+      tính này trên menu GỐC (không cha), thiếu thì Odoo tự dùng icon hộp mặc định.
+    -->
+    <menuitem id="zalo_menu_root" name="Zalo ZNS" sequence="102" groups="base.group_user"
+              web_icon="vtt_zalo,static/description/icon.png"/>
     <!-- groups khai TRỰC TIẾP ở đây (không chỉ dựa vào menu cha) + đã có sẵn
          access_zalo_config_wizard_system trong ir.model.access.csv (chỉ base.group_system
          mới có quyền đọc/ghi model zalo.config.wizard) - khóa 2 lớp, giống hệt quy ước
