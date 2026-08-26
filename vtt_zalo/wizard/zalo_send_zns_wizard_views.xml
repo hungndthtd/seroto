@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="zalo_send_zns_wizard_view_form" model="ir.ui.view">
+        <field name="name">zalo.send.zns.wizard.form</field>
+        <field name="model">zalo.send.zns.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Gửi thử ZNS thủ công">
+                <p class="text-muted" invisible="sale_order_id">
+                    Dùng để kiểm tra kết nối (Access Token) + mẫu tin hoạt động đúng trước khi
+                    gắn gọi tự động vào các luồng nghiệp vụ khác.
+                </p>
+                <p class="text-muted" invisible="not sale_order_id">
+                    Tham số (JSON) đã được TỰ ĐỘNG điền theo Trường thông tin đã khai ở Mẫu tin
+                    - kiểm tra lại rồi bấm Gửi, có thể sửa tay trước khi gửi nếu cần.
+                </p>
+                <group>
+                    <field name="sale_order_id" readonly="1" invisible="not sale_order_id"/>
+                    <field name="template_id"/>
+                    <field name="phone"/>
+                    <field name="tracking_id"/>
+                    <!--
+                      Mẫu tin không có field chuẩn nào để tự lấy "lý do hủy đơn" (sale.order
+                      không có sẵn) - chỉ hiện ô này khi mẫu tin đang chọn thật sự cần tham
+                      số đó (VD "Thông báo hủy đơn hàng"), field_source='order_cancel_reason'.
+                    -->
+                    <field name="has_cancel_reason_param" invisible="1"/>
+                    <field name="cancel_reason" invisible="not has_cancel_reason_param"/>
+                </group>
+                <field name="template_data" placeholder='{"order_code": "PDK8"}'/>
+                <field name="result_message" readonly="1" invisible="not result_message"/>
+                <footer>
+                    <button string="Gửi" type="object" name="action_send" class="btn-primary"/>
+                    <button string="Đóng" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="zalo_send_zns_wizard_action" model="ir.actions.act_window">
+        <field name="name">Gửi thử ZNS</field>
+        <field name="res_model">zalo.send.zns.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="zalo_menu_send_test" name="Gửi thử ZNS" parent="zalo_menu_root"
+              action="zalo_send_zns_wizard_action" sequence="30"/>
+</odoo>
