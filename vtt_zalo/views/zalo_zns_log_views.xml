@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="zalo_zns_log_view_list" model="ir.ui.view">
+        <field name="name">zalo.zns.log.list</field>
+        <field name="model">zalo.zns.log</field>
+        <field name="arch" type="xml">
+            <list string="Nhật ký gửi ZNS" default_order="create_date desc" create="false" edit="false">
+                <field name="create_date" string="Thời gian gửi"/>
+                <field name="template_id"/>
+                <field name="phone"/>
+                <field name="sale_order_id"/>
+                <field name="source"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'success'"
+                       decoration-danger="state == 'error'"/>
+                <field name="error_code" optional="show"/>
+                <field name="user_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="zalo_zns_log_view_form" model="ir.ui.view">
+        <field name="name">zalo.zns.log.form</field>
+        <field name="model">zalo.zns.log</field>
+        <field name="arch" type="xml">
+            <form string="Nhật ký gửi ZNS" create="false" edit="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="phone"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="template_id"/>
+                            <field name="sale_order_id"/>
+                            <field name="source"/>
+                            <field name="tracking_id"/>
+                        </group>
+                        <group>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'success'"
+                                   decoration-danger="state == 'error'"/>
+                            <field name="error_code"/>
+                            <field name="user_id"/>
+                            <field name="create_date" string="Thời gian gửi"/>
+                        </group>
+                    </group>
+                    <!--
+                      KHÔNG bọc trong <group> - group luôn chia lưới 2 cột (label/value) dù
+                      chỉ có 1 field/nolabel, ép bảng co lại vào đúng 1 nửa bề rộng form (đã
+                      gặp thực tế: bảng bị bóp hẹp, chữ vỡ dòng từng ký tự). <div> thường mới
+                      cho field chiếm trọn bề rộng sheet.
+                    -->
+                    <separator string="Tham số đã gửi"/>
+                    <div>
+                        <field name="template_data_html" nolabel="1"/>
+                    </div>
+                    <separator string="Phản hồi"/>
+                    <div>
+                        <field name="response_message" nolabel="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="zalo_zns_log_view_search" model="ir.ui.view">
+        <field name="name">zalo.zns.log.search</field>
+        <field name="model">zalo.zns.log</field>
+        <field name="arch" type="xml">
+            <search string="Nhật ký gửi ZNS">
+                <field name="phone"/>
+                <field name="template_id"/>
+                <field name="sale_order_id"/>
+                <field name="tracking_id"/>
+                <filter string="Thành công" name="filter_success" domain="[('state', '=', 'success')]"/>
+                <filter string="Lỗi" name="filter_error" domain="[('state', '=', 'error')]"/>
+                <separator/>
+                <filter string="Gửi tự động" name="filter_auto" domain="[('source', '=', 'auto_payment')]"/>
+                <filter string="Gửi tay" name="filter_manual"
+                        domain="[('source', 'in', ('manual_order', 'manual_test'))]"/>
+                <group>
+                    <filter string="Mẫu tin" name="group_template" context="{'group_by': 'template_id'}"/>
+                    <filter string="Trạng thái" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Nguồn gửi" name="group_source" context="{'group_by': 'source'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="zalo_zns_log_action" model="ir.actions.act_window">
+        <field name="name">Danh sách gửi tin</field>
+        <field name="res_model">zalo.zns.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="zalo_zns_log_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có tin ZNS nào được gửi!</p>
+            <p>
+                Mỗi lần gửi (thủ công từ Đơn hàng, gửi thử, hoặc tự động khi xác nhận thanh
+                toán) đều được ghi lại đây - kèm trạng thái thành công/lỗi và phản hồi từ Zalo.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="zalo_menu_log" name="Danh sách gửi tin" parent="zalo_menu_root"
+              action="zalo_zns_log_action" sequence="5"/>
+</odoo>

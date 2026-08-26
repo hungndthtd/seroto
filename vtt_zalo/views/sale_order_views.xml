@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Nút "Gửi ZNS" chèn trước nút "Cancel" trên header Đơn bán hàng (sale.view_order_form)
+      - khớp đúng vị trí trong ảnh tham chiếu người dùng gửi. Hiện mọi trạng thái (kể cả
+      draft) vì việc gửi ZNS không phụ thuộc trạng thái đơn hàng, chỉ cần đơn đã lưu (có id).
+    -->
+    <record id="view_order_form_zalo_zns_button" model="ir.ui.view">
+        <field name="name">sale.order.form.zalo.zns.button</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <button name="action_cancel" position="before">
+                <button string="Gửi ZNS" name="action_open_zalo_send_zns_wizard" type="object"
+                        invisible="not id"/>
+            </button>
+            <!--
+              Đổi TARGET của nút "Hủy" gốc sang action_cancel_with_zalo_prompt (KHÔNG đổi gì
+              khác - vẫn cùng 1 nút, cùng vị trí, cùng "confirm"/invisible/hotkey gốc của
+              Odoo) - method mới TỰ QUYẾT ĐỊNH: không có Mẫu tin nào kích hoạt cho sự kiện
+              "Khi đơn hàng bị hủy" thì hủy y hệt hành vi gốc (action_cancel), có thì mở
+              wizard hỏi Lý do hủy đơn trước (xem models/sale_order.py).
+            -->
+            <button name="action_cancel" position="attributes">
+                <attribute name="name">action_cancel_with_zalo_prompt</attribute>
+            </button>
+            <xpath expr="//page[@name='other_information']//group[@name='sales_person']/field[@name='tag_ids']"
+                   position="after">
+                <field name="cancel_reason" readonly="1" invisible="not cancel_reason"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
