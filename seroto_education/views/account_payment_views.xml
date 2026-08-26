@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Field "state" của account.payment KHÔNG khai string= riêng (xem account/models/
+        account_payment.py) - Odoo tự suy nhãn cột từ tên field ("state" -> "State"). Bản
+        dịch tiếng Việt của Odoo lại ánh xạ chung msgid "State" sang "Tỉnh/Thành" (dùng cho
+        field địa chỉ res.country.state) vì không phân biệt được ngữ cảnh - gây hiển thị sai
+        "Tỉnh thành" thay vì "Trạng thái" ở cột này trên danh sách Payments (Invoicing).
+        Ép cứng string="Trạng thái" ngay trên field trong view để không phụ thuộc bản dịch.
+    -->
+    <record id="view_account_payment_tree_inherit_seroto" model="ir.ui.view">
+        <field name="name">account.payment.list.inherit.seroto</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="attributes">
+                <attribute name="string">Trạng thái</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

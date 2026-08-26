@@ -57,6 +57,7 @@
     'views/snippets/trang_chu/s_trang_chu_mission.xml',
     'views/snippets/trang_chu/s_trang_chu_culture.xml',
     'views/snippets/trang_chu/s_trang_chu_project.xml',
+    'views/snippets/trang_chu/s_trang_chu_footer.xml',
     'views/snippets/eq_5_phut/s_eq_5_phut_hero.xml',
     'views/snippets/eq_5_phut/s_eq_5_phut_timeline.xml',
     'views/snippets/eq_5_phut/s_eq_5_phut_footer.xml',
@@ -143,6 +144,11 @@
     'views/snippets/mang_eq_ve_truong/s_mang_eq_ve_truong_count.xml',
     'views/snippets/mang_eq_ve_truong/s_mang_eq_ve_truong_quote.xml',
     'views/snippets/mang_eq_ve_truong/s_mang_eq_ve_truong_footer.xml',
+    'views/snippets/qua_tang/s_qua_tang_hero.xml',
+    'views/snippets/qua_tang/s_qua_tang_about.xml',
+    'views/snippets/qua_tang/s_qua_tang_quote.xml',
+    'views/snippets/qua_tang/s_qua_tang_reason.xml',
+    'views/snippets/qua_tang/s_qua_tang_footer.xml',
     'views/snippets/snippets.xml',
     # Trang MẪU (is_new_page_template=True) cho các trang landing khóa học - url=
     # /maukhoahoc. Tạo trang khóa học thật (K19, K13...) qua Website Editor > "+New
@@ -184,6 +190,7 @@
       'vtt_seroto_website/static/src/scss/s_tri_tue_cam_xuc.scss',
       'vtt_seroto_website/static/src/scss/s_lang_live.scss',
       'vtt_seroto_website/static/src/scss/s_mang_eq_ve_truong.scss',
+      'vtt_seroto_website/static/src/scss/s_qua_tang.scss',
     ],
     # Style riêng cho form backend "Phiếu đăng ký khóa học" (views/
     # course_registration_views.xml) - web.assets_backend (không phải assets_frontend)

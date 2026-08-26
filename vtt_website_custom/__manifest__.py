@@ -9,12 +9,13 @@ This module allows saving the currently customized website footer as a template
 and reusing it on other pages or websites. It also includes a custom multi-layer background builder.
     """,
     'author': 'Antigravity',
-    'depends': ['website'],
+    'depends': ['website', 'website_sale'],
     'data': [
         'security/ir.model.access.csv',
         'views/website_custom_footer_views.xml',
         'views/website_custom_background_views.xml',
         'views/website_custom_svg_views.xml',
+        'views/website_sale_shop_footer_views.xml',
         'views/snippets.xml',
     ],
     'assets': {

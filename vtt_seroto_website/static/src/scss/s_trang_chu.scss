@@ -253,3 +253,18 @@
     }
   }
 }
+
+/* Trang chủ - Đoạn kết */
+.s_trang_chu_footer {
+  font-family: var(--font-montserrat);
+  color: var(--color-black);
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 16px;
+    li {
+      padding-bottom: 8px;
+      font-family: var(--font-open-sans);
+    }
+  }
+}

@@ -10,6 +10,38 @@
             <xpath expr="//field[@name='name']" position="before">
                 <field name="student_code" readonly="1" invisible="not is_student" groups="base.group_user"/>
             </xpath>
+            <!--
+                Field "Company" gốc (parent_id, domain is_company=True) chỉ đúng ngữ nghĩa
+                khi liên hệ cha THẬT SỰ là công ty (VD nhân sự thuộc 1 công ty, hoặc liên hệ
+                của nơi tổ chức offline) - KHÔNG đổi/ảnh hưởng gì tới các trường hợp đó.
+
+                Riêng luồng "Đăng ký hộ" (xem vtt_seroto_website/models/course_registration.py
+                _find_or_create_student_partner + sale_order.py student_id) lại TÁI SỬ DỤNG
+                đúng field parent_id để nối Học viên (VD "Bé An") với Người đăng ký (VD "Chị
+                Hoa") - một liên hệ CÁ NHÂN, không phải công ty. Field gốc vẫn hiện đúng do
+                domain chỉ áp dụng lúc CHỌN qua UI, không chặn giá trị gán thẳng qua code, nên
+                hiện nhãn "Company" sai ngữ cảnh (Chị Hoa không phải công ty) như đã gặp thực tế.
+
+                Giải pháp: ẩn field gốc + hiện thêm 1 field parent_id KHÁC (chỉ đổi label,
+                readonly - sửa quan hệ Phụ huynh/Học viên phải qua đúng luồng Đơn hàng, không
+                sửa tay ở đây) khi parent_id đã có giá trị và KHÔNG phải công ty.
+
+                Dùng field PHẲNG "parent_is_company" (models/res_partner.py) thay vì tham
+                chiếu lồng "parent_id.is_company" trực tiếp trong invisible - đã gặp thực tế:
+                view client không fetch tin cậy field lồng qua Many2one khi chỉ xuất hiện
+                trong biểu thức invisible (không có <field> nào khác kéo nó vào spec), khiến
+                điều kiện luôn coi như false. Field phẳng đảm bảo luôn có giá trị đúng.
+            -->
+            <xpath expr="//field[@name='parent_id']" position="before">
+                <field name="parent_is_company" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="attributes">
+                <attribute name="invisible">((is_company and not parent_id) or company_name) and company_name != '' or (parent_id and not parent_is_company)</attribute>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="parent_id" string="Liên hệ cha" readonly="1"
+                       invisible="not parent_id or parent_is_company"/>
+            </xpath>
             <xpath expr="//field[@name='category_id']" position="after">
                 <field name="is_student" readonly="1" groups="base.group_user"/>
                 <field name="is_teacher"/>

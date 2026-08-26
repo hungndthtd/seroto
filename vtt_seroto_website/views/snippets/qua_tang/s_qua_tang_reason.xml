@@ -4,12 +4,12 @@
   <template id="s_qua_tang_reason" name="Tại sao">
     <section class="s_qua_tang_reason s_qua_tang custom-snippet pt48 pb48" style="background: #e9fcff;">
       <div class="container-page">
-        <h3 class="fw-bolder text-center">
+        <h3 class="fw-bolder text-center mb-5">
           Tại sao bạn sẽ yêu <br/> <span>SEROTO SHOP?</span>
         </h3>
         <div class="row">
           <div class="col-12 col-md-6 mb-4 mb-md-5">
-            <div class="reason_item">
+            <div class="reason__item">
               <div class="reason__item-image">
                 <img src="/web/static/img/placeholder.png" alt="Quà tặng"
                   class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>
@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="col-12 col-md-6 mb-4 mb-md-5">
-            <div class="reason_item">
+            <div class="reason__item">
               <div class="reason__item-image">
                 <img src="/web/static/img/placeholder.png" alt="Quà tặng"
                   class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>
@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="col-12 col-md-6 mb-4 mb-md-5">
-            <div class="reason_item">
+            <div class="reason__item">
               <div class="reason__item-image">
                 <img src="/web/static/img/placeholder.png" alt="Quà tặng"
                   class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>
@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="col-12 col-md-6 mb-4 mb-md-5">
-            <div class="reason_item">
+            <div class="reason__item">
               <div class="reason__item-image">
                 <img src="/web/static/img/placeholder.png" alt="Quà tặng"
                   class="img-fluid mx-auto" style="max-height: 44px; max-width: 44px;"/>

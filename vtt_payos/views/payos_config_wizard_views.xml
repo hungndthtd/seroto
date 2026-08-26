@@ -33,7 +33,7 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="payos_menu_root" name="payOS" sequence="101" groups="base.group_system"/>
+    <menuitem id="payos_menu_root" name="payOS" sequence="101" groups="base.group_system" web_icon="vtt_payos,static/description/icon.png"/>
     <!-- groups khai TRỰC TIẾP ở đây (không chỉ dựa vào menu cha) + đã có sẵn
          access_payos_config_wizard_system trong ir.model.access.csv (chỉ base.group_system
          mới có quyền đọc/ghi model payos.config.wizard) - khóa 2 lớp, chắc chắn chỉ Quản

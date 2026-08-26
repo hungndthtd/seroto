@@ -29,6 +29,7 @@
         'data/product_data.xml',
         'views/academic_course_views.xml',
         'views/account_move_views.xml',
+        'views/account_payment_views.xml',
         'views/academic_class_views.xml',
         'wizard/academic_batch_wizard_views.xml',
         'views/academic_enrollment_views.xml',
