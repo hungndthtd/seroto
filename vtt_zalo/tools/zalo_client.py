@@ -62,6 +62,10 @@ def refresh_access_token(app_id, secret_key, refresh_token):
     return {
         'access_token': data['access_token'],
         'refresh_token': data.get('refresh_token', refresh_token),
+        # Zalo trả kèm số giây còn hiệu lực của access_token mới (thường ~3600s) - dùng để
+        # tính token_expires_at cho module vtt_integrations (Nhật ký/Dashboard giám sát kết
+        # nối) cảnh báo trước khi hết hạn. None nếu Zalo không trả field này.
+        'expires_in': int(data['expires_in']) if data.get('expires_in') else None,
     }
 
 

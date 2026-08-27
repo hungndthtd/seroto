@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Nhật ký - ĐẶT TRƯỚC form Kết nối vì form dùng %(action_integration_connector_log)d,
+         placeholder này resolve NGAY lúc load XML (không phải lazy lúc render). -->
+    <record id="integration_connector_log_view_list" model="ir.ui.view">
+        <field name="name">integration.connector.log.list</field>
+        <field name="model">integration.connector.log</field>
+        <field name="arch" type="xml">
+            <list string="Nhật ký kiểm tra kết nối" create="false" edit="false">
+                <field name="create_date" string="Thời gian"/>
+                <field name="connector_id"/>
+                <field name="ok" widget="boolean_toggle" readonly="1"/>
+                <field name="message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="integration_connector_log_view_search" model="ir.ui.view">
+        <field name="name">integration.connector.log.search</field>
+        <field name="model">integration.connector.log</field>
+        <field name="arch" type="xml">
+            <search string="Nhật ký kiểm tra kết nối">
+                <field name="connector_id"/>
+                <filter string="Thành công" name="filter_ok" domain="[('ok', '=', True)]"/>
+                <filter string="Lỗi" name="filter_not_ok" domain="[('ok', '=', False)]"/>
+                <group>
+                    <filter string="Kết nối" name="group_connector" context="{'group_by': 'connector_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_integration_connector_log" model="ir.actions.act_window">
+        <field name="name">Nhật ký kiểm tra kết nối</field>
+        <field name="res_model">integration.connector.log</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="integration_connector_log_view_search"/>
+    </record>
+
+    <record id="integration_connector_view_list" model="ir.ui.view">
+        <field name="name">integration.connector.list</field>
+        <field name="model">integration.connector</field>
+        <field name="arch" type="xml">
+            <list string="Kết nối tích hợp" default_order="status desc, name">
+                <field name="name"/>
+                <field name="provider_type"/>
+                <field name="status" widget="badge"
+                       decoration-success="status == 'ok'"
+                       decoration-warning="status == 'warning'"
+                       decoration-danger="status == 'error'"
+                       decoration-muted="status == 'not_configured'"/>
+                <field name="status_message" optional="show"/>
+                <field name="last_check_date"/>
+                <field name="last_success_date" optional="show"/>
+                <field name="token_expires_at" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="integration_connector_view_form" model="ir.ui.view">
+        <field name="name">integration.connector.form</field>
+        <field name="model">integration.connector</field>
+        <field name="arch" type="xml">
+            <form string="Kết nối tích hợp">
+                <header>
+                    <button string="Kiểm tra kết nối" type="object" name="action_check_connection"
+                            class="oe_highlight"/>
+                    <button string="Làm mới Token" type="object" name="action_refresh_token"
+                            invisible="not supports_refresh"/>
+                    <field name="status" widget="statusbar" statusbar_visible="not_configured,ok,warning,error"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_integration_connector_log)d" type="action"
+                                class="oe_stat_button" icon="fa-list-alt"
+                                context="{'search_default_connector_id': id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Nhật ký</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="provider_type"/>
+                            <field name="supports_refresh"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="last_check_date"/>
+                            <field name="last_success_date"/>
+                            <field name="token_expires_at"/>
+                            <field name="status_message"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="integration_connector_view_search" model="ir.ui.view">
+        <field name="name">integration.connector.search</field>
+        <field name="model">integration.connector</field>
+        <field name="arch" type="xml">
+            <search string="Kết nối tích hợp">
+                <field name="name"/>
+                <field name="provider_type"/>
+                <filter string="Lỗi" name="filter_error" domain="[('status', '=', 'error')]"/>
+                <filter string="Sắp hết hạn" name="filter_warning" domain="[('status', '=', 'warning')]"/>
+                <filter string="Chưa cấu hình" name="filter_not_configured"
+                        domain="[('status', '=', 'not_configured')]"/>
+                <group>
+                    <filter string="Trạng thái" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Loại tích hợp" name="group_provider" context="{'group_by': 'provider_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_integration_connector" model="ir.actions.act_window">
+        <field name="name">Kết nối tích hợp</field>
+        <field name="res_model">integration.connector</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="integration_connector_view_search"/>
+        <field name="context">{'search_default_group_status': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có kết nối tích hợp nào!</p>
+            <p>
+                Mỗi module tích hợp (payOS, Zalo ZNS...) tự tạo 1 bản ghi đại diện chính nó tại
+                đây khi được cài đặt - không tạo tay được ở màn hình này.
+            </p>
+        </field>
+    </record>
+
+    <!-- groups="base.group_system" (KHÔNG phải group_user như trước) - module này chạy TỰ
+         ĐỘNG hoàn toàn qua cron sau khi cấu hình 1 lần (xem agent_config_wizard), người
+         dùng thường trên site khách hàng KHÔNG BAO GIỜ cần thao tác gì ở đây - chỉ người
+         setup ban đầu (Quản trị hệ thống) mới cần thấy menu này. -->
+    <menuitem id="menu_integration_agent_root" name="Kết nối tích hợp" sequence="103"
+              groups="base.group_system" web_icon="vtt_integrations_agent,static/description/icon.png"/>
+    <menuitem id="menu_integration_connector" name="Kết nối tích hợp" parent="menu_integration_agent_root"
+              action="action_integration_connector" sequence="10"/>
+    <menuitem id="menu_integration_connector_log" name="Nhật ký kiểm tra" parent="menu_integration_agent_root"
+              action="action_integration_connector_log" sequence="20"/>
+</odoo>

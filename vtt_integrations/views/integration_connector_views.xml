@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kế thừa view CỦA AGENT (vtt_integrations_agent) - KHÔNG định nghĩa lại list/form/
+         search từ đầu, chỉ thêm đúng phần Hub cần: cột/field "Website", ẩn nút Kiểm tra kết
+         nối/Làm mới Token cho kết nối is_remote (thay bằng nút "Yêu cầu làm mới từ xa"), và
+         thêm chatter (agent gốc không có mail.thread nên form gốc không có <chatter/>). -->
+    <record id="integration_connector_view_list_inherit" model="ir.ui.view">
+        <field name="name">integration.connector.list.inherit.hub</field>
+        <field name="model">integration.connector</field>
+        <field name="inherit_id" ref="vtt_integrations_agent.integration_connector_view_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='provider_type']" position="after">
+                <field name="client_site_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="integration_connector_view_search_inherit" model="ir.ui.view">
+        <field name="name">integration.connector.search.inherit.hub</field>
+        <field name="model">integration.connector</field>
+        <field name="inherit_id" ref="vtt_integrations_agent.integration_connector_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='provider_type']" position="after">
+                <field name="client_site_id"/>
+            </xpath>
+            <xpath expr="//group/filter[@name='group_provider']" position="after">
+                <filter string="Website" name="group_website" context="{'group_by': 'client_site_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="integration_connector_view_form_inherit" model="ir.ui.view">
+        <field name="name">integration.connector.form.inherit.hub</field>
+        <field name="model">integration.connector</field>
+        <field name="inherit_id" ref="vtt_integrations_agent.integration_connector_view_form"/>
+        <field name="arch" type="xml">
+            <field name="provider_type" position="after">
+                <field name="client_site_id"/>
+                <field name="is_remote" invisible="1"/>
+            </field>
+            <button name="action_check_connection" position="attributes">
+                <attribute name="invisible">is_remote</attribute>
+            </button>
+            <button name="action_refresh_token" position="attributes">
+                <attribute name="invisible">not supports_refresh or is_remote</attribute>
+            </button>
+            <button name="action_refresh_token" position="after">
+                <button string="Yêu cầu Làm mới Token từ xa" type="object"
+                        name="action_refresh_token"
+                        invisible="not supports_refresh or not is_remote"
+                        help="Tạo 1 Nhiệm vụ chờ - site khách hàng tự thực thi tại chỗ rồi báo kết quả ngược lại."/>
+            </button>
+            <sheet position="after">
+                <chatter/>
+            </sheet>
+        </field>
+    </record>
+</odoo>

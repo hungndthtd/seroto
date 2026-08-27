@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="integration_website_view_list" model="ir.ui.view">
+        <field name="name">integration.website.list</field>
+        <field name="model">integration.website</field>
+        <field name="arch" type="xml">
+            <list string="Khách hàng/Website">
+                <field name="name"/>
+                <field name="url"/>
+                <field name="partner_id"/>
+                <field name="connector_count" string="Số kết nối"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="integration_website_view_form" model="ir.ui.view">
+        <field name="name">integration.website.form</field>
+        <field name="model">integration.website</field>
+        <field name="arch" type="xml">
+            <form string="Khách hàng/Website">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(vtt_integrations_agent.action_integration_connector)d" type="action"
+                                class="oe_stat_button" icon="fa-plug"
+                                context="{'search_default_client_site_id': id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Kết nối tích hợp</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="url"/>
+                        <field name="partner_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Kết nối Agent (site khách hàng tự báo cáo về)">
+                        <label for="api_key"/>
+                        <div class="o_row">
+                            <field name="api_key" readonly="1"/>
+                            <button string="Tạo API Key mới" type="object"
+                                    name="action_regenerate_api_key" class="btn-link"
+                                    confirm="Tạo API Key mới sẽ làm API Key cũ ngừng hoạt động ngay - cần dán lại API Key mới vào Cấu hình của module vtt_integrations_agent trên site khách hàng. Tiếp tục?"/>
+                        </div>
+                        <p class="text-muted mb-0">
+                            Dán y nguyên giá trị này vào ô "API Key" của module vtt_integrations_agent
+                            (menu Kết nối tích hợp &gt; Cấu hình) cài trên CHÍNH site khách hàng này.
+                        </p>
+                    </group>
+                    <field name="note" placeholder="Ghi chú..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="integration_website_view_search" model="ir.ui.view">
+        <field name="name">integration.website.search</field>
+        <field name="model">integration.website</field>
+        <field name="arch" type="xml">
+            <search string="Khách hàng/Website">
+                <field name="name"/>
+                <field name="url"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_integration_website" model="ir.actions.act_window">
+        <field name="name">Danh sách khách hàng</field>
+        <field name="res_model">integration.website</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có khách hàng/website nào!</p>
+            <p>
+                Mỗi bản ghi đại diện 1 site đang được giám sát tích hợp - gán vào field
+                "Website" của từng Kết nối tích hợp để biết kết nối đó thuộc site nào.
+            </p>
+        </field>
+    </record>
+
+    <!-- parent tham chiếu menu GỐC của module vtt_integrations_agent (dependency) - Hub
+         KHÔNG tự tạo menu gốc riêng, dùng chung để tránh 2 icon "Kết nối tích hợp" trùng
+         nhau trên màn hình chọn ứng dụng khi cả 2 module cùng cài (site trung tâm). -->
+    <menuitem id="menu_integration_website" name="Danh sách khách hàng"
+              parent="vtt_integrations_agent.menu_integration_agent_root"
+              action="action_integration_website" sequence="30"/>
+</odoo>

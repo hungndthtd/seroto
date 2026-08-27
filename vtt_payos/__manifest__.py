@@ -15,6 +15,11 @@ của Odoo, phải tự cài).
 
 Cấu hình Client ID / API Key / Checksum Key qua menu payOS > Cấu hình (lưu vào
 ir.config_parameter, chỉ nhóm Quản trị hệ thống mới xem/sửa được).
+
+KHÔNG phụ thuộc module giám sát nào - cài độc lập, tự cấu hình tay, hoạt động đầy đủ dù
+không có Dashboard giám sát "Kết nối tích hợp". Nếu site có cài THÊM vtt_integrations_agent,
+module cầu nối "vtt_payos_monitor" (auto_install) sẽ tự bật để đăng ký kết nối này vào
+Dashboard đó - không cần làm gì thêm, cũng không bắt buộc.
     """,
     'depends': ['base'],
     'external_dependencies': {

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="integration_remote_task_view_list" model="ir.ui.view">
+        <field name="name">integration.remote.task.list</field>
+        <field name="model">integration.remote.task</field>
+        <field name="arch" type="xml">
+            <list string="Nhiệm vụ từ xa" create="false" edit="false" default_order="create_date desc">
+                <field name="create_date" string="Thời gian tạo"/>
+                <field name="client_site_id"/>
+                <field name="connector_id"/>
+                <field name="action"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-danger="state == 'error'"
+                       decoration-info="state == 'pending'"/>
+                <field name="result_message" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="integration_remote_task_view_search" model="ir.ui.view">
+        <field name="name">integration.remote.task.search</field>
+        <field name="model">integration.remote.task</field>
+        <field name="arch" type="xml">
+            <search string="Nhiệm vụ từ xa">
+                <field name="client_site_id"/>
+                <field name="connector_id"/>
+                <filter string="Chờ thực thi" name="filter_pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Lỗi" name="filter_error" domain="[('state', '=', 'error')]"/>
+                <group>
+                    <filter string="Website" name="group_website" context="{'group_by': 'client_site_id'}"/>
+                    <filter string="Trạng thái" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_integration_remote_task" model="ir.actions.act_window">
+        <field name="name">Nhiệm vụ từ xa</field>
+        <field name="res_model">integration.remote.task</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="integration_remote_task_view_search"/>
+        <field name="context">{'search_default_filter_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có nhiệm vụ từ xa nào!</p>
+            <p>
+                Tạo tự động khi bấm "Yêu cầu Làm mới Token từ xa" trên 1 kết nối của site
+                khách hàng - site đó tự thực thi tại chỗ rồi báo kết quả về đây.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_integration_remote_task" name="Nhiệm vụ từ xa"
+              parent="vtt_integrations_agent.menu_integration_agent_root"
+              action="action_integration_remote_task" sequence="25"/>
+</odoo>

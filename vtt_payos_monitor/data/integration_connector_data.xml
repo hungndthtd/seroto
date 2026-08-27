@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Bản ghi đại diện payOS trên Dashboard giám sát (vtt_integrations_agent) - noupdate
+         để admin đổi tên/tắt active sau này không bị Odoo ghi đè lại lúc nâng cấp module.
+         KHÔNG gán field "client_site_id" ở đây - field đó CHỈ tồn tại khi site này CÒN cài
+         thêm Hub trung tâm (vtt_integrations, tuỳ chọn) - module cầu nối này chỉ bảo đảm có
+         vtt_integrations_agent, không bảo đảm có Hub. Nếu có cài Hub, Hub tự gán website mặc
+         định cho các kết nối cục bộ còn thiếu qua post_init_hook (xem
+         vtt_integrations/__init__.py). -->
+    <record id="integration_connector_payos" model="integration.connector">
+        <field name="name">payOS</field>
+        <field name="provider_type">payos</field>
+        <field name="supports_refresh">False</field>
+    </record>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="agent_config_wizard_view_form" model="ir.ui.view">
+        <field name="name">agent.config.wizard.form</field>
+        <field name="model">agent.config.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cấu hình đẩy báo cáo lên Hub trung tâm">
+                <p class="text-muted">
+                    Tuỳ chọn - để trống nếu site này không cần báo cáo về Hub trung tâm, module
+                    vẫn hoạt động đầy đủ như 1 Dashboard giám sát độc lập tại chỗ.
+                    <br/>
+                    Vì lý do bảo mật, giá trị đã lưu <b>không hiển thị lại</b> ở đây - để trống
+                    1 ô nghĩa là giữ nguyên giá trị đã lưu trước đó.
+                </p>
+                <field name="current_status" readonly="1"/>
+                <group>
+                    <field name="hub_url" placeholder="Để trống = giữ nguyên"/>
+                    <field name="api_key" password="True" placeholder="Để trống = giữ nguyên"/>
+                </group>
+                <footer>
+                    <button string="Lưu" type="object" name="action_save" class="btn-primary"/>
+                    <button string="Đóng" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="agent_config_wizard_action" model="ir.actions.act_window">
+        <field name="name">Cấu hình đẩy báo cáo lên Hub</field>
+        <field name="res_model">agent.config.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_agent_config" name="Cấu hình" groups="base.group_system"
+              parent="menu_integration_agent_root" action="agent_config_wizard_action" sequence="30"/>
+</odoo>

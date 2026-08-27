@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Website mặc định đại diện CHÍNH site đang chạy - vtt_zalo/vtt_payos gán bản ghi
+         integration.connector của mình vào đây (xem data/integration_connector_data.xml của
+         2 module đó) - noupdate để admin đổi tên/thêm URL sau này không bị ghi đè lúc
+         nâng cấp module. -->
+    <record id="integration_website_default" model="integration.website">
+        <field name="name">Seroto</field>
+    </record>
+</odoo>

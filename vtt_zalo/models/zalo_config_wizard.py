@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import timedelta
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -67,22 +69,25 @@ class ZaloConfigWizard(models.TransientModel):
                 self[status_field] = 'ok'
         return {'type': 'ir.actions.act_window_close'}
 
-    def action_refresh_token(self):
-        """Làm mới access_token bằng refresh_token đang lưu (hoặc vừa nhập trên form nếu
-        có) - dùng khi access_token cũ đã hết hạn, tránh phải lặp lại toàn bộ luồng OAuth.
-        Lưu đè lại CẢ access_token lẫn refresh_token mới vào ir.config_parameter (xem lý
-        do ở tools/zalo_client.refresh_access_token).
+    @api.model
+    def _do_refresh_token(self, app_id=None, secret_key=None, refresh_token=None):
+        """Logic LÀM MỚI THẬT (gọi Zalo + lưu đè ir.config_parameter) - tách riêng khỏi
+        action_refresh_token (nút bấm trên form) để module vtt_zalo_monitor (adapter kết
+        nối vào Dashboard giám sát chung, chỉ có khi cài thêm vtt_integrations_agent) gọi
+        lại được CHÍNH XÁC cùng 1 logic, không viết trùng.
 
-        Thiếu App ID/Secret Key/Refresh Token là lỗi NHẬP LIỆU (raise UserError chặn luôn).
-        Lỗi GỌI API Zalo (mất mạng, token đã thu hồi...) thì KHÔNG raise - set icon 'error'
-        + status_message rồi mở lại form, để người dùng thấy ngay lỗi ở đâu thay vì chỉ có
-        1 popup thoáng qua rồi mất dấu vết tương ứng field nào lỗi.
+        app_id/secret_key/refresh_token truyền vào CHỈ để ưu tiên giá trị đang gõ dở trên
+        form (xem action_refresh_token) - không truyền thì tự đọc từ ir.config_parameter,
+        đúng luồng vtt_zalo_monitor sẽ dùng.
+
+        Trả về dict {ok: bool, message: str, expires_at: datetime|None} - KHÔNG raise khi
+        gọi Zalo thất bại (chỉ raise khi thiếu hẳn App ID/Secret Key/Refresh Token, coi là
+        lỗi cấu hình chứ không phải lỗi kết nối).
         """
-        self.ensure_one()
         ICP = self.env['ir.config_parameter'].sudo()
-        app_id = self.app_id or ICP.get_param('vtt_zalo.app_id')
-        secret_key = self.secret_key or ICP.get_param('vtt_zalo.secret_key')
-        refresh_token = self.refresh_token or ICP.get_param('vtt_zalo.refresh_token')
+        app_id = app_id or ICP.get_param('vtt_zalo.app_id')
+        secret_key = secret_key or ICP.get_param('vtt_zalo.secret_key')
+        refresh_token = refresh_token or ICP.get_param('vtt_zalo.refresh_token')
 
         if not (app_id and secret_key and refresh_token):
             raise UserError(_(
@@ -93,18 +98,43 @@ class ZaloConfigWizard(models.TransientModel):
         try:
             result = zalo_client.refresh_access_token(app_id, secret_key, refresh_token)
         except Exception as exc:
-            self.access_token_status = 'error'
-            self.refresh_token_status = 'error'
-            self.status_message = _('Làm mới Access Token thất bại: %s') % exc
-            return self._reopen()
+            return {'ok': False, 'message': _('Làm mới Access Token thất bại: %s') % exc, 'expires_at': None}
 
         ICP.set_param('vtt_zalo.access_token', result['access_token'])
         ICP.set_param('vtt_zalo.refresh_token', result['refresh_token'])
-        self.access_token = result['access_token']
-        self.refresh_token = result['refresh_token']
+
+        expires_at = None
+        if result.get('expires_in'):
+            expires_at = fields.Datetime.now() + timedelta(seconds=result['expires_in'])
+
+        return {'ok': True, 'message': _('Đã làm mới Access Token thành công.'), 'expires_at': expires_at}
+
+    def action_refresh_token(self):
+        """Làm mới access_token bằng refresh_token đang lưu (hoặc vừa nhập trên form nếu
+        có) - dùng khi access_token cũ đã hết hạn, tránh phải lặp lại toàn bộ luồng OAuth.
+
+        Thiếu App ID/Secret Key/Refresh Token là lỗi NHẬP LIỆU (raise UserError chặn luôn,
+        xem _do_refresh_token). Lỗi GỌI API Zalo (mất mạng, token đã thu hồi...) thì KHÔNG
+        raise - set icon 'error' + status_message rồi mở lại form, để người dùng thấy ngay
+        lỗi ở đâu thay vì chỉ có 1 popup thoáng qua rồi mất dấu vết tương ứng field nào lỗi.
+        """
+        self.ensure_one()
+        result = self._do_refresh_token(
+            app_id=self.app_id, secret_key=self.secret_key, refresh_token=self.refresh_token,
+        )
+
+        if not result['ok']:
+            self.access_token_status = 'error'
+            self.refresh_token_status = 'error'
+            self.status_message = result['message']
+            return self._reopen()
+
+        ICP = self.env['ir.config_parameter'].sudo()
+        self.access_token = ICP.get_param('vtt_zalo.access_token')
+        self.refresh_token = ICP.get_param('vtt_zalo.refresh_token')
         self.access_token_status = 'ok'
         self.refresh_token_status = 'ok'
-        self.status_message = _('Đã làm mới Access Token thành công.')
+        self.status_message = result['message']
 
         return self._reopen()
 

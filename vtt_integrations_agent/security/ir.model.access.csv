@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_integration_connector_user,integration.connector.user,model_integration_connector,base.group_user,1,0,0,0
+access_integration_connector_system,integration.connector.system,model_integration_connector,base.group_system,1,1,1,1
+access_integration_connector_log_user,integration.connector.log.user,model_integration_connector_log,base.group_user,1,0,0,0
+access_integration_connector_log_system,integration.connector.log.system,model_integration_connector_log,base.group_system,1,1,1,1
+access_agent_config_wizard_system,agent.config.wizard.system,model_agent_config_wizard,base.group_system,1,1,1,1

@@ -37,6 +37,11 @@ gì thay đổi). Sự kiện còn lại (Khi xác nhận đơn hàng) hiện v�
 Menu "Danh sách gửi tin" (Zalo ZNS > Danh sách gửi tin) ghi lại MỌI lần gửi (thủ công lẫn
 tự động, thành công lẫn lỗi) kèm mẫu tin/SĐT/đơn hàng/phản hồi từ Zalo để giám sát - đồng
 thời mỗi lần gửi cũng đăng 1 dòng vào chatter của Đơn hàng liên quan.
+
+KHÔNG phụ thuộc module giám sát nào - cài độc lập, tự cấu hình tay, hoạt động đầy đủ dù
+không có Dashboard giám sát "Kết nối tích hợp". Nếu site có cài THÊM vtt_integrations_agent,
+module cầu nối "vtt_zalo_monitor" (auto_install) sẽ tự bật để đăng ký kết nối này vào
+Dashboard đó - không cần làm gì thêm, cũng không bắt buộc.
     """,
     'depends': ['base', 'sale', 'account'],
     'data': [
