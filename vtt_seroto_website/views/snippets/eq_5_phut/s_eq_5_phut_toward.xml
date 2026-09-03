@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_5_phut_toward" name="Khoá học dành cho ai?">
+    <section class="s_eq_5_phut_toward s_eq_5_phut custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="text-center text-green fw-bolder mb-2">
+          Khoá học dành cho ai?
+        </h2>
+        <div class="mb-5 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="toward__box">
+              <div class="toward__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgba(255, 240, 199, 1.0)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="EQ 5 phút"
+                  class="img-fluid" style="max-height: 44px; max-width: 44px;"/>
+              </div>
+              <div class="toward__box-content">
+                <div class="fw-bolder mb-1">Các giáo viên ở mọi cấp học, mọi môn học</div>
+                <ul>
+                  <li>Mong muốn có công cụ quản lý lớp học hiệu quả. </li>
+                  <li>Mong muốn học sinh của mình ngoan hơn, học giỏi hơn</li>
+                  <li>Mong muốn giúp học sinh phát triển Trí tuệ cảm xúc</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="toward__box">
+              <div class="toward__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgb(255, 230, 242)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="EQ 5 phút"
+                  class="img-fluid" style="max-height: 44px; max-width: 44px;"/>
+              </div>
+              <div class="toward__box-content">
+                <div class="fw-bolder mb-1">Cha mẹ, phụ huynh học sinh</div>
+                <ul>
+                  <li>Mong muốn có các công cụ để vừa chơi, vừa học cùng con</li>
+                  <li>Giúp con biết cách nhận diện và giải quyết các cảm xúc tiêu cực</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="toward__box">
+              <div class="toward__box-image">
+                <div class="image__shape">
+                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 47.798 45.297" fill="rgb(221, 243, 255)" stroke="#00000000" stroke-width="1px">
+                    <path d="M 0.999993,25.2089 C0.999993,25.2089 1.006451,15.224191 9.999993,7.2089 C18.993535,-0.8063910000000001 30.999993,0.20889999999999997 36.999993,3.2089 C42.999993,6.2089 48.999993,15.2089 45.999993,26.2089 C42.999993,37.2089 37.006439,45.234009 18.999993,44.2089 C0.993547,43.183791 0.999993,25.2089 0.999993,25.2089 Z"></path>
+                  </svg>
+                </div>
+                <img src="/web/static/img/placeholder.png" alt="EQ 5 phút"
+                  class="img-fluid" style="max-height: 44px; max-width: 44px;"/>
+              </div>
+              <div class="toward__box-content">
+                <div class="fw-bolder mb-1">Cá nhân, thành viên của đội nhóm</div>
+                <ul>
+                  <li>Mong muốn có các công cụ tổ chức hoạt động kết nối đội nhóm</li>
+                  <li>Mong muốn có các hoạt động giúp nhận diện và quản lý cảm xúc</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>
