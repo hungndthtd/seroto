@@ -84,6 +84,12 @@
       <t t-snippet="vtt_seroto_website.s_eq_5_phut_hero" string="Tiêu đề chính" group="seroto_landing">
         <keywords>tiêu đề, hero, buổi học, học phí</keywords>
       </t>
+      <t t-snippet="vtt_seroto_website.s_eq_5_phut_about" string="Giới thiệu khóa học" group="seroto_landing">
+        <keywords>giới thiệu, about, buổi học, học phí</keywords>
+      </t>
+      <t t-snippet="vtt_seroto_website.s_eq_5_phut_toward" string="Khóa học dành cho ai" group="seroto_landing">
+        <keywords>dành cho, toward, buổi học, học phí</keywords>
+      </t>
       <t t-snippet="vtt_seroto_website.s_eq_5_phut_timeline" string="Lịch trình học" group="seroto_landing">
         <keywords>lịch trình, timeline, buổi học, học phí</keywords>
       </t>

@@ -59,6 +59,8 @@
     'views/snippets/trang_chu/s_trang_chu_project.xml',
     'views/snippets/trang_chu/s_trang_chu_footer.xml',
     'views/snippets/eq_5_phut/s_eq_5_phut_hero.xml',
+    'views/snippets/eq_5_phut/s_eq_5_phut_about.xml',
+    'views/snippets/eq_5_phut/s_eq_5_phut_toward.xml',
     'views/snippets/eq_5_phut/s_eq_5_phut_timeline.xml',
     'views/snippets/eq_5_phut/s_eq_5_phut_footer.xml',
     'views/snippets/trai_nghiem_eq/s_trai_nghiem_eq_hero.xml',

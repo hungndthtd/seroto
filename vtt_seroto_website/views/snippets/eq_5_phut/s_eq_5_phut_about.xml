@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <template id="s_eq_5_phut_about" name="Giới thiệu">
+    <section class="s_eq_5_phut_about s_eq_5_phut custom-snippet pt48 pb48">
+      <div class="container-page">
+        <h2 class="text-center text-green fw-bolder mb-2">
+          Giới thiệu khóa học
+        </h2>
+        <div class="mb-3 mx-auto" style="width: 80px; height: 2px; background: var(--color-yellow); border-radius: 2px;"></div>
+        <p class="mb-5 mx-auto" style="max-width: 650px;">EQ 5 Phút là khoá học giúp trang bị kiến thức và công cụ cho giáo viên để có thể đưa các hoạt động phát triển Trí tuệ cảm xúc EQ (Emotional Quotient) siêu nhỏ tới lớp học.</p>
+        <div class="text-lg fw-bolder">Các hoạt động EQ 5 Phút có đặc điểm:</div>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-4 mt-4">
+            <div class="about__box" style="background: #ddf3ff;">
+              <div class="about__box-numb">
+                <div class="numb__shape">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="rgb(91, 185, 228)">
+                    <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                  </svg>
+                </div>
+                <span>1</span>
+              </div>
+              <div class="about__box-content">
+                <div class="fw-bolder">Nhanh gọn:</div>
+                <p>Dưới 5 phút triển khai.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mt-4">
+            <div class="about__box" style="background: #fff4d7;">
+              <div class="about__box-numb">
+                <div class="numb__shape">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="rgb(246, 194, 70)">
+                    <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                  </svg>
+                </div>
+                <span>2</span>
+              </div>
+              <div class="about__box-content">
+                <div class="fw-bolder">Hiệu quả tức thì:</div>
+                <p>Tạo ngay sự thay đổi trạng thái năng lượng, hỗ trợ quản lý lớp học.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mt-4">
+            <div class="about__box" style="background: #f5f0ff;">
+              <div class="about__box-numb">
+                <div class="numb__shape">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 149.5 149.6" class="" fill="rgb(159, 127, 222)">
+                    <g><path d="M147.3,74.8c0-7.8,3.9-16.1,1.5-23.1S138,39.9,133.4,33.8s-6.5-15.1-12.9-19.5-15.7-3.4-23.3-5.8S82.9,0,74.8,0,59.7,6.2,52.4,8.5s-17,1.4-23.3,5.8S20.8,27.7,16.1,33.8,3.3,44.4.8,51.7,2.3,67,2.3,74.8-1.6,90.9.8,97.9s10.8,11.8,15.3,17.9,6.5,15.1,12.9,19.5,15.7,3.4,23.3,5.8,14.3,8.5,22.4,8.5,15.1-6.2,22.4-8.5,17-1.4,23.3-5.8,8.3-13.4,12.9-19.5,12.9-10.6,15.3-17.9S147.3,82.6,147.3,74.8Z"></path></g>
+                  </svg>
+                </div>
+                <span>3</span>
+              </div>
+              <div class="about__box-content">
+                <div class="fw-bolder">Tác động lâu dài:</div>
+                <p>Phát triển chức năng của não: khả năng tập trung, ghi nhớ, nhận diện và làm chủ cảm xúc, hành vi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>
