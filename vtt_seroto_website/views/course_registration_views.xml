@@ -140,7 +140,8 @@
                      widget="badge"
                      decoration-success="payment_status == 'paid'"
                      decoration-danger="payment_status == 'unpaid'"/>
-              <field name="payos_transaction_id"/>
+              <field name="payment_provider_label" readonly="1"/>
+              <field name="payment_transaction_ref" readonly="1"/>
               <field name="payment_id"/>
             </group>
             <group string="Lý do từ chối" invisible="state != 'rejected'">

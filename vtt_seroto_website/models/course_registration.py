@@ -128,10 +128,42 @@ class SerotoCourseRegistration(models.Model):
     )
 
     # Giao dịch thanh toán payOS (module vtt_payos - xem _create_payment_transaction())
-    # tương ứng với phiếu này.
+    # tương ứng với phiếu này. GIỮ LẠI để tương thích ngược (dữ liệu cũ, các chỗ khác
+    # trong code đang đọc field này) - không hiển thị trực tiếp trên form nữa, xem
+    # payment_transaction_ref bên dưới.
     payos_transaction_id = fields.Many2one(
         'payos.transaction', string='Giao dịch payOS', copy=False,
     )
+
+    # Field TỔNG QUÁT thay cho việc hiển thị thẳng payos_transaction_id trên form - trỏ
+    # tới ĐÚNG bản ghi giao dịch đã dùng, không cố định phải là payOS. Cố tình liệt kê
+    # sẵn cả 'bank.mock.transaction' (module vtt_bank_mock/vtt_payment_dev_switch, CHỈ
+    # dev mới cài) dù vtt_seroto_website không phụ thuộc module đó - Reference field chỉ
+    # cần tên model đúng lúc THỰC SỰ có bản ghi trỏ tới, không bắt buộc module phải cài
+    # sẵn chỉ vì có mặt trong danh sách lựa chọn. Thêm cổng thanh toán thật mới sau này
+    # (VD MoMo, VNPay) chỉ cần thêm 1 dòng vào selection này.
+    payment_transaction_ref = fields.Reference(
+        selection=[
+            ('payos.transaction', 'PayOS'),
+            ('bank.mock.transaction', 'Giả lập (dev)'),
+        ],
+        string='Giao dịch', copy=False,
+    )
+    # Tên cổng dạng chữ ("PayOS"/"Giả lập (dev)") lấy lại TỪ selection của
+    # payment_transaction_ref (không lặp lại chuỗi lần 2) - tránh phải bấm vào Giao
+    # dịch mới biết đang dùng cổng nào.
+    payment_provider_label = fields.Char(
+        string='Cổng thanh toán', compute='_compute_payment_provider_label',
+    )
+
+    @api.depends('payment_transaction_ref')
+    def _compute_payment_provider_label(self):
+        provider_names = dict(self._fields['payment_transaction_ref'].selection)
+        for rec in self:
+            rec.payment_provider_label = (
+                provider_names.get(rec.payment_transaction_ref._name)
+                if rec.payment_transaction_ref else False
+            )
 
     # Đúng link đã gửi trong email xác nhận (_send_confirmation_email) - hiện trên form
     # backend để nhân viên copy gửi lại thủ công (Zalo/điện thoại...) khi khách cần,
@@ -414,6 +446,7 @@ class SerotoCourseRegistration(models.Model):
             cancel_url=slip_url,
         )
         self.payos_transaction_id = transaction.id
+        self.payment_transaction_ref = 'payos.transaction,%s' % transaction.id
         return transaction
 
     def _get_checkout_url(self):
