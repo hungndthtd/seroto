@@ -94,7 +94,7 @@
             <!-- Tab 2: Thanh toán -->
             <div class="course_wizard_pane d-none" data-pane="payment">
               <div id="wizard_payment_pending">
-                <div class="text-center mb-3">
+                <div class="text-center mb-3" id="wizard_payment_qr_wrap">
                   <img id="wizard_payment_qr" class="course_wizard_qr_image" alt="Mã QR thanh toán"/>
                   <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ</p>
                 </div>
@@ -115,11 +115,10 @@
               </div>
 
               <div id="wizard_payment_success" class="d-none text-center">
-                <p class="text-success fw-bold mb-3">
-                  Thành công
-                  <br/>
-                  Thanh toán hoàn tất
+                <p class="text-success fw-bold mb-1">
+                  Thanh toán thành công
                 </p>
+                <p class="mb-4" style="font-size: 14px;">Đã hoàn tất thủ tục thanh toán, tiếp tục trả lời các câu hỏi chuyên sâu để hoàn thành phiếu đăng ký khóa học</p>
                 <button type="button" class="btn btn-success w-100" id="wizard_payment_continue">
                   Tiếp tục
                 </button>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_seroto_payment_dev_switch_wizard_system,seroto.payment.dev.switch.wizard.system,model_seroto_payment_dev_switch_wizard,base.group_system,1,1,1,1

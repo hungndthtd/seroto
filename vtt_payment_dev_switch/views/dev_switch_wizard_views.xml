@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_dev_switch_wizard_view_form" model="ir.ui.view">
+        <field name="name">seroto.payment.dev.switch.wizard.form</field>
+        <field name="model">seroto.payment.dev.switch.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cổng thanh toán (dev)" create="false">
+                <header>
+                    <button string="Lưu" type="object" name="action_save" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-warning" role="alert">
+                        CHỈ DÙNG KHI ĐANG CODE/TEST. Chọn "Giả lập" để dùng cổng thanh
+                        toán giả lập (vtt_bank_mock) thay cho payOS thật lúc "Thanh
+                        toán" trong wizard đăng ký khóa học - bấm xác nhận trên trang
+                        giả lập là coi như đã thanh toán ngay, không cần chuyển khoản
+                        thật.
+                        <br/>
+                        Nhớ đổi lại "payOS (thật)" trước khi cần test đúng luồng thanh
+                        toán thật.
+                    </div>
+                    <group>
+                        <field name="payment_provider"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="payment_dev_switch_wizard_action" model="ir.actions.act_window">
+        <field name="name">Cổng thanh toán (dev)</field>
+        <field name="res_model">seroto.payment.dev.switch.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="payment_dev_switch_menu_root" name="Thanh toán (Dev)" sequence="102"
+              groups="base.group_system"/>
+    <!-- groups khai TRỰC TIẾP ở đây (không chỉ dựa vào menu cha) + đã có sẵn
+         access_seroto_payment_dev_switch_wizard_system trong ir.model.access.csv (chỉ
+         base.group_system mới có quyền đọc/ghi model này) - khóa 2 lớp, đúng mẫu
+         vtt_payos/views/payos_config_wizard_views.xml. -->
+    <menuitem id="payment_dev_switch_menu_config" name="Bật/tắt"
+              groups="base.group_system" parent="payment_dev_switch_menu_root"
+              action="payment_dev_switch_wizard_action" sequence="10"/>
+</odoo>

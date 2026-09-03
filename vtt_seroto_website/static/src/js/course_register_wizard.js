@@ -250,7 +250,15 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         modalEl.querySelector("#wizard_email_sent_note").textContent =
             `Đã gửi email xác nhận kèm link phiếu đăng ký tới ${email}.`;
         modalEl.querySelector("#wizard_open_bank").href = this._state.checkoutUrl || "#";
-        modalEl.querySelector("#wizard_payment_qr").src = this._state.qrUrl || "";
+        // Không phải cổng nào cũng có QR (VD cổng giả lập dev, vtt_payment_dev_switch) -
+        // ẩn hẳn khối QR thay vì gán src="" (browser coi <img src=""> là tải lại chính
+        // trang HTML hiện tại làm ảnh -> luôn ra ảnh vỡ).
+        const qrImg = modalEl.querySelector("#wizard_payment_qr");
+        const qrWrap = modalEl.querySelector("#wizard_payment_qr_wrap");
+        qrWrap.classList.toggle("d-none", !this._state.qrUrl);
+        if (this._state.qrUrl) {
+            qrImg.src = this._state.qrUrl;
+        }
         this._showPane(modalEl, "payment");
 
         this._startPolling();
