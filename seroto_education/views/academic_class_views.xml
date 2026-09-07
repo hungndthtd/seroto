@@ -38,6 +38,7 @@
                 <field name="teacher_ids" widget="many2many_tags"/>
                 <field name="organizer_ids" widget="many2many_tags" optional="show"/>
                 <field name="volunteer_ids" widget="many2many_tags" optional="show"/>
+                <field name="registration_open_date"/>
                 <field name="date_start_planned" string="BĐ dự kiến"/>
                 <field name="date_end_planned" string="KT dự kiến"/>
                 <field name="state" widget="badge" decoration-success="state == 'open'" decoration-muted="state in ('closed', 'done')"/>
@@ -115,6 +116,7 @@
                             <field name="course_id" readonly="1"/>
                             <field name="date_start_planned"/>
                             <field name="date_end_planned"/>
+                            <field name="registration_open_date"/>
                         </group>
                         <group>
                             <field name="date_start" readonly="1"/>

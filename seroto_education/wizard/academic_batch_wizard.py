@@ -11,6 +11,9 @@ class AcademicBatchWizard(models.TransientModel):
     intake_name = fields.Char(string='Mã đợt học', required=True, placeholder='K19')
     date_start = fields.Date(string='Ngày bắt đầu dự kiến')
     date_end = fields.Date(string='Ngày kết thúc dự kiến')
+    # Đăng ký TRƯỚC ngày này thì tính "Đăng ký sớm" (Diện đóng học phí, module
+    # vtt_seroto_website) - xem academic.class.registration_open_date.
+    registration_open_date = fields.Date(string='Ngày mở đăng ký')
     teacher_ids = fields.Many2many('res.partner', string='Giảng viên', domain=[('is_teacher', '=', True)])
     set_as_default = fields.Boolean(string='Đặt làm lớp nhận đăng ký', default=True)
     # Gộp luôn bước "Mở đăng ký" vào wizard này - trước đây phải tạo đợt xong rồi tự vào
@@ -32,6 +35,7 @@ class AcademicBatchWizard(models.TransientModel):
             'intake_id': intake.id,
             'teacher_ids': [(6, 0, self.teacher_ids.ids)],
             'state': 'draft',
+            'registration_open_date': self.registration_open_date,
         })
         if self.set_as_default:
             self.course_id.default_class_id = new_class.id

@@ -10,6 +10,7 @@
                     <field name="intake_name"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
+                    <field name="registration_open_date"/>
                     <field name="teacher_ids" widget="many2many_tags" context="{'default_is_teacher': True, 'default_is_company': False}"/>
                     <field name="set_as_default"/>
                     <field name="open_registration"/>

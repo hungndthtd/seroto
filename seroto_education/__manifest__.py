@@ -20,6 +20,11 @@
         'sale_management',
         'website',
         'account',
+        # academic.course.loyalty_program_id (models/academic_course.py) - link tham
+        # chiếu nhanh tới "Phiếu giảm giá" (loyalty.program) tương ứng khóa học. Module
+        # này vốn đã được cài trên DB qua vtt_seroto_website (đợt làm Diện voucher quà
+        # tặng) - khai depends thẳng ở đây chỉ để chính thức hoá cho đúng.
+        'loyalty',
     ],
     'data': [
         'security/seroto_security.xml',
