@@ -58,7 +58,10 @@ class SerotoCourseRegistration(models.Model):
 
     def _create_dev_bank_mock_transaction(self):
         self.ensure_one()
-        amount = self.course_id.product_id.list_price if self.course_id.product_id else 0
+        # Dùng ĐÚNG method chung (_get_payment_amount, vtt_seroto_website) - trước đây tự
+        # tính lại amount riêng ở đây, bỏ sót hoàn toàn phần giảm giá voucher vì không đi
+        # qua đúng chỗ đã áp dụng khuyến mãi.
+        amount = self._get_payment_amount()
         transaction = self.env['bank.mock.transaction'].sudo().create({
             'reference': self.code,
             'amount': amount,
