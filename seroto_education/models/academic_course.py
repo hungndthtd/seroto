@@ -85,6 +85,49 @@ class AcademicCourse(models.Model):
     product_id = fields.Many2one('product.template', string='Sản phẩm liên kết',
         domain=[('type', '=', 'service')], required=True)
 
+    # related + readonly=False - field "ảo" ĐỌC/GHI THẲNG vào product_id.list_price,
+    # cùng kỹ thuật với ProductTemplate.course_id bên dưới (compute + readonly=False).
+    # Sửa giá ở đây trên form Khóa học sẽ đổi LUÔN giá bán thật của Sản phẩm liên kết -
+    # không có bản sao/field riêng nào khác, tuyệt đối không lệch nhau. PHẢI khai Float
+    # (không phải Monetary) - product.template.list_price tự nó là Float, related field
+    # bắt buộc khớp kiểu với field nguồn (hiển thị dạng tiền qua widget="monetary" ở
+    # view, đúng cách core product hiển thị field này).
+    course_price = fields.Float(
+        string='Học phí tương ứng', related='product_id.list_price', readonly=False,
+        help='Sửa trực tiếp tại đây sẽ đổi luôn giá bán của Sản phẩm liên kết.',
+    )
+
+    # currency_id CHỈ để early_price (academic.course.pricing) hiện đúng đơn vị tiền tệ
+    # (VNĐ) - không có ý nghĩa đa tiền tệ gì khác, luôn là tiền tệ của công ty (cùng quy
+    # ước với currency_id của seroto.course.registration bên vtt_seroto_website).
+    currency_id = fields.Many2one(
+        'res.currency', string='Đơn vị tiền tệ', default=lambda self: self.env.company.currency_id,
+    )
+    # Cấu hình giá theo "Diện đăng ký" (seroto.course.registration.registration_category,
+    # module vtt_seroto_website) NGAY TRÊN Khóa học - nhân viên tạo Phiếu đăng ký không
+    # phải tự tính tay, vẫn sửa được riêng cho từng phiếu nếu cần (xem
+    # seroto.course.registration.early_price/discount_percent). 5 dòng CỐ ĐỊNH (1 diện/
+    # dòng, xem create() bên dưới) - hiển thị dạng list bên tab "Cấu hình giá theo diện
+    # đăng ký" (academic_course_views.xml), cột "Ưu đãi" chỉ để xem, sửa số/liên kết
+    # thật phải bấm vào dòng để mở form riêng (xem academic.course.pricing).
+    pricing_ids = fields.One2many(
+        'academic.course.pricing', 'course_id', string='Cấu hình giá theo diện đăng ký',
+    )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        courses = super().create(vals_list)
+        Pricing = self.env['academic.course.pricing']
+        categories = [c for c, _label in Pricing._fields['registration_category'].selection]
+        for course in courses:
+            if course.pricing_ids:
+                continue
+            Pricing.create([
+                {'course_id': course.id, 'registration_category': category}
+                for category in categories
+            ])
+        return courses
+
     # Mỗi khóa học 1 bộ câu hỏi riêng - website (vtt_seroto_website, wizard đăng ký
     # nhiều bước) đọc lại đúng bộ câu hỏi của khóa học đang đăng ký ở bước "Thông tin
     # chuyên sâu" để khách điền câu trả lời.

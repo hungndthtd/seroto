@@ -1,6 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_academic_course_mgr,academic.course.mgr,model_academic_course,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_course_question_mgr,academic.course.question.mgr,model_academic_course_question,seroto_education.group_seroto_manager,1,1,1,1
+access_academic_course_pricing_mgr,academic.course.pricing.mgr,model_academic_course_pricing,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_course_audience_mgr,academic.course.audience.mgr,model_academic_course_audience,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_intake_mgr,academic.intake.mgr,model_academic_intake,seroto_education.group_seroto_manager,1,1,1,1
 access_academic_class_mgr,academic.class.mgr,model_academic_class,seroto_education.group_seroto_manager,1,1,1,1

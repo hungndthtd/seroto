@@ -29,7 +29,8 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         "click .js_register_course_wizard": "_onOpenWizard",
         "click .course_wizard_step": "_onStepClick",
         "input #course_wizard_basic_form": "_onBasicInput",
-        "change input[name='student_relation']": "_onRelationChange",
+        "change select[name='student_relation']": "_onRelationChange",
+        "change #wizard_registration_category": "_onCategoryChange",
         "submit #course_wizard_basic_form": "_onBasicSubmit",
         "click #wizard_payment_continue": "_onWizardPaymentContinue",
         "click #wizard_open_slip_unpaid": "_onOpenSlipFromWizard",
@@ -117,6 +118,15 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         // phải state của form) - phải tự ẩn lại tay ở đây.
         modalEl.querySelector("#wizard_student_fields").classList.add("d-none");
         modalEl.querySelector("[name='student_name']").required = false;
+        // Diện đăng ký - form.reset() đưa <select> về lại "tuition" (option mặc định
+        // trong HTML) nhưng KHÔNG tự ẩn/hiện lại các khối field theo diện (chỉ là class
+        // CSS, không phải state của form) - tự làm lại y hệt _onCategoryChange cho diện
+        // mặc định, giống cách #wizard_student_fields đang tự re-hide ở trên. Diện đóng
+        // học phí (mặc định) không có khối riêng nào cần hiện.
+        ["voucher", "upload", "medical", "nonprofit"].forEach((name) => {
+            modalEl.querySelector(`#wizard_category_${name}_fields`).classList.add("d-none");
+        });
+        modalEl.querySelector("#wizard_category_attachment_input").value = "";
         modalEl.querySelector("#wizard_email_sent_note").textContent = "";
         modalEl.querySelector("#wizard_payment_pending").classList.remove("d-none");
         modalEl.querySelector("#wizard_payment_success").classList.add("d-none");
@@ -166,6 +176,73 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._updateBasicContinueState(modalEl);
     },
 
+    // "Diện đăng ký": hiện đúng (các) khối field theo diện đã chọn - medical/nonprofit
+    // hiện CẢ khối riêng LẪN khối "upload" dùng chung (3 diện cần nộp giấy tờ). Đúng
+    // pattern _onRelationChange, chỉ áp dụng cho nhiều khối hơn 1.
+    _onCategoryChange(ev) {
+        const modalEl = ev.currentTarget.closest(".modal");
+        const category = ev.currentTarget.value;
+
+        // Diện đóng học phí không có khối riêng nào trên website (xem
+        // views/course_register_wizard.xml) - "Trạng thái đăng ký" chỉ nhân viên tự
+        // chọn tay trên backend.
+        const BLOCKS_BY_CATEGORY = {
+            tuition: [],
+            voucher: ["voucher"],
+            education_scholarship: ["upload"],
+            medical_scholarship: ["medical", "upload"],
+            nonprofit: ["nonprofit", "upload"],
+        };
+        const visibleBlocks = BLOCKS_BY_CATEGORY[category] || [];
+
+        ["voucher", "upload", "medical", "nonprofit"].forEach((name) => {
+            const blockEl = modalEl.querySelector(`#wizard_category_${name}_fields`);
+            const isVisible = visibleBlocks.includes(name);
+            blockEl.classList.toggle("d-none", !isVisible);
+            if (!isVisible) {
+                // Ẩn thì xóa luôn giá trị (kể cả file đã chọn) - tránh gửi lên field
+                // của diện KHÔNG còn được chọn nữa.
+                blockEl.querySelectorAll("input, select").forEach((input) => {
+                    if (input.tagName === "SELECT") {
+                        input.selectedIndex = 0;
+                    } else {
+                        input.value = "";
+                    }
+                });
+            }
+        });
+
+        // Khối "upload" dùng chung cho 3 diện - đổi hint/link tải mẫu tùy diện đang
+        // chọn (medical_scholarship không có mẫu sẵn của Seroto để tải).
+        const UPLOAD_HINTS = {
+            education_scholarship: "Vui lòng đính kèm giấy xác nhận của trường (có thể dùng mẫu của Seroto).",
+            medical_scholarship: "Vui lòng đính kèm thẻ đeo (thẻ nhân viên, thẻ chức danh...) hoặc giấy tờ chứng minh khác.",
+            nonprofit: "Vui lòng đính kèm giấy xác nhận của tổ chức (có thể dùng mẫu của Seroto).",
+        };
+        modalEl.querySelector("#wizard_category_upload_hint").textContent = UPLOAD_HINTS[category] || "";
+        modalEl.querySelector("#wizard_category_template_link").classList.toggle(
+            "d-none", category !== "education_scholarship" && category !== "nonprofit",
+        );
+
+        this._updateBasicContinueState(modalEl);
+    },
+
+    // Đọc 1 File thành {filename, data (base64, không kèm tiền tố "data:...;base64,"),
+    // mimetype} - dùng để gửi kèm JSON-RPC (route hiện tại là jsonrpc thuần, không phải
+    // multipart/form-data, nên phải encode base64 thay vì gửi file thẳng).
+    _fileToAttachment(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result || "";
+                const base64 = result.includes(",") ? result.split(",")[1] : result;
+                resolve({ filename: file.name, data: base64, mimetype: file.type });
+            };
+            reader.onerror = () => reject(reader.error);
+            reader.readAsDataURL(file);
+        });
+    },
+
     async _onBasicSubmit(ev) {
         ev.preventDefault();
 
@@ -182,23 +259,94 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         const phone = (data.get("phone") || "").trim();
         const studentRelation = data.get("student_relation") || "self";
         const studentName = studentRelation === "other" ? (data.get("student_name") || "").trim() : "";
+        const category = data.get("registration_category") || "tuition";
+        const commitmentConfirmed = modalEl.querySelector("#wizard_commitment").checked;
+
+        // Chỉ gửi lên field của ĐÚNG diện đang chọn - field của diện khác luôn bị
+        // _onCategoryChange xóa giá trị lúc ẩn khối tương ứng, nhưng lọc lại ở đây theo
+        // category cho rõ ràng, khỏi phụ thuộc hoàn toàn vào việc JS đã xóa đúng chưa.
+        // Diện đóng học phí không gửi gì thêm - "Trạng thái đăng ký" (sớm/bình thường)
+        // chỉ nhân viên tự chọn tay trên backend, không có ở form website.
+        const categoryVals = {};
+        if (category === "voucher") {
+            categoryVals.voucher_type = data.get("voucher_type") || "";
+            categoryVals.voucher_code = (data.get("voucher_code") || "").trim();
+        } else if (category === "medical_scholarship") {
+            categoryVals.medical_facility_name = (data.get("medical_facility_name") || "").trim();
+            categoryVals.medical_facility_province = (data.get("medical_facility_province") || "").trim();
+            categoryVals.medical_role = (data.get("medical_role") || "").trim();
+        } else if (category === "nonprofit") {
+            categoryVals.nonprofit_org_name = (data.get("nonprofit_org_name") || "").trim();
+            categoryVals.nonprofit_org_province = (data.get("nonprofit_org_province") || "").trim();
+            categoryVals.nonprofit_org_ward = (data.get("nonprofit_org_ward") || "").trim();
+            categoryVals.nonprofit_registrant_role = (data.get("nonprofit_registrant_role") || "").trim();
+            categoryVals.nonprofit_signer_name = (data.get("nonprofit_signer_name") || "").trim();
+            categoryVals.nonprofit_signer_phone = (data.get("nonprofit_signer_phone") || "").trim();
+            categoryVals.nonprofit_representative_name = (data.get("nonprofit_representative_name") || "").trim();
+            categoryVals.nonprofit_representative_phone = (data.get("nonprofit_representative_phone") || "").trim();
+        }
+
+        // 3 diện cần nộp giấy tờ dùng CHUNG 1 ô chọn file - đọc + encode base64 TRƯỚC
+        // khi khóa nút "Tiếp tục" (route hiện tại là jsonrpc thuần, không phải multipart,
+        // nên phải gửi file dạng base64 kèm trong payload JSON).
+        let attachments = [];
+        const UPLOAD_CATEGORIES = ["education_scholarship", "medical_scholarship", "nonprofit"];
+        if (UPLOAD_CATEGORIES.includes(category)) {
+            const MAX_SIZE = 10 * 1024 * 1024;
+            const files = Array.from(modalEl.querySelector("#wizard_category_attachment_input").files || []);
+            const tooLarge = files.find((file) => file.size > MAX_SIZE);
+            if (tooLarge) {
+                alert(`File "${tooLarge.name}" vượt quá 10MB, vui lòng chọn file khác.`);
+                return;
+            }
+            try {
+                attachments = await Promise.all(files.map((file) => this._fileToAttachment(file)));
+            } catch (error) {
+                console.error("Đọc file đính kèm thất bại:", error);
+                alert("Không đọc được file đính kèm, vui lòng thử lại.");
+                return;
+            }
+        }
+
+        const hasStudiedSeroto = data.get("has_studied_seroto_before") || "no";
 
         const continueBtn = modalEl.querySelector("#wizard_basic_continue");
         continueBtn.disabled = true;
         continueBtn.textContent = "Đang xử lý...";
 
+        // Đã submit thành công 1 lần trước đó (registrationId đã có, VD khách bấm quay lại
+        // bước 1 sửa lại rồi bấm "Tiếp tục" lần nữa) - GHI ĐÈ lên đúng phiếu cũ thay vì tạo
+        // phiếu MỚI + giao dịch thanh toán MỚI mỗi lần bấm lại (xem controllers/
+        // course_registration.py, update_basic_registration).
+        const isUpdate = Boolean(this._state.registrationId);
+        const payload = {
+            course: this._state.course,
+            name,
+            email,
+            phone,
+            student_relation: studentRelation,
+            student_name: studentName,
+            has_studied_seroto_before: hasStudiedSeroto,
+            registration_category: category,
+            commitment_confirmed: commitmentConfirmed,
+            attachments,
+            ...categoryVals,
+        };
+        if (isUpdate) {
+            payload.id = this._state.registrationId;
+            payload.token = this._state.accessToken;
+        }
+
         let result;
         try {
-            result = await rpc("/seroto/course-registration/create", {
-                course: this._state.course,
-                name,
-                email,
-                phone,
-                student_relation: studentRelation,
-                student_name: studentName,
-            });
+            result = await rpc(
+                isUpdate
+                    ? "/seroto/course-registration/update-basic"
+                    : "/seroto/course-registration/create",
+                payload,
+            );
         } catch (error) {
-            console.error("Tạo phiếu đăng ký thất bại:", error);
+            console.error(isUpdate ? "Cập nhật phiếu đăng ký thất bại:" : "Tạo phiếu đăng ký thất bại:", error);
             // error.data.message: nội dung UserError thật từ server (VD "Khóa học ...
             // hiện không mở đăng ký" - trường hợp hiếm khi khóa vừa đóng đúng lúc khách
             // đang điền form, giữa lúc mở modal và lúc bấm "Tiếp tục") - chỉ rơi về câu
@@ -220,6 +368,12 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._state.phone = phone;
         this._state.studentRelation = studentRelation;
         this._state.studentName = studentName;
+        this._state.code = result.code;
+        this._state.categoryLabel = result.registration_category_label;
+        this._state.voucherLabel = result.voucher_label;
+        this._state.baseAmount = result.base_amount;
+        this._state.amount = result.amount;
+        this._state.pendingConfirmation = result.pending_confirmation;
 
         this._renderQuestions(modalEl);
 
@@ -231,34 +385,68 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._syncSlip();
 
         modalEl.querySelector('.course_wizard_step[data-step="payment"]').disabled = false;
-        modalEl.querySelector("#wizard_payment_course").textContent = this._state.course;
 
-        // Hiện đầy đủ lại thông tin đã điền ở Tab 1 (giống hệt phần "Phiếu đăng ký" ở
-        // _syncSlip) để khách đối chiếu lại trước khi thanh toán - không còn dòng "Nội
-        // dung chuyển khoản" tự đoán như trước (payOS/ngân hàng có thể tự thêm tiền tố
-        // riêng vào nội dung chuyển khoản thật, hiện sai còn dễ gây nhầm lẫn hơn không
-        // hiện - khách xem đúng nội dung thật ngay trên trang/QR của payOS).
+        // Hiện đầy đủ lại thông tin đã điền ở Tab 1 + thông tin thanh toán (diện đăng ký,
+        // số tiền, voucher, nội dung chuyển khoản) để khách đối chiếu lại trước khi trả
+        // tiền - các ô này đều là <input readonly>, PHẢI gán .value (không phải
+        // .textContent như trước lúc còn là <strong>/<p>).
+        modalEl.querySelector("#wizard_payment_course").value = this._state.course;
         const isForOther = this._state.studentRelation === "other";
         modalEl.querySelector("#wizard_payment_student_row").classList.toggle("d-none", !isForOther);
         if (isForOther) {
-            modalEl.querySelector("#wizard_payment_student").textContent = this._state.studentName;
+            modalEl.querySelector("#wizard_payment_student").value = this._state.studentName;
         }
-        modalEl.querySelector("#wizard_payment_name").textContent = this._state.name;
-        modalEl.querySelector("#wizard_payment_email").textContent = this._state.email;
-        modalEl.querySelector("#wizard_payment_phone").textContent = this._state.phone;
+        modalEl.querySelector("#wizard_payment_name").value = this._state.name;
+        modalEl.querySelector("#wizard_payment_email").value = this._state.email;
+        modalEl.querySelector("#wizard_payment_phone").value = this._state.phone;
+        modalEl.querySelector("#wizard_payment_category").value = this._state.categoryLabel || "";
+        const voucherRow = modalEl.querySelector("#wizard_payment_voucher_row");
+        voucherRow.classList.toggle("d-none", !this._state.voucherLabel);
+        if (this._state.voucherLabel) {
+            modalEl.querySelector("#wizard_payment_voucher").value = this._state.voucherLabel;
+        }
+        const baseAmount = this._state.baseAmount || 0;
+        const amount = this._state.amount || 0;
+        const discountAmount = baseAmount - amount;
+        modalEl.querySelector("#wizard_payment_base_amount").value =
+            `${baseAmount.toLocaleString("vi-VN")} ₫`;
+        const discountRow = modalEl.querySelector("#wizard_payment_discount_row");
+        discountRow.classList.toggle("d-none", discountAmount <= 0);
+        if (discountAmount > 0) {
+            modalEl.querySelector("#wizard_payment_discount_amount").value =
+                `${discountAmount.toLocaleString("vi-VN")} ₫`;
+        }
+        modalEl.querySelector("#wizard_payment_amount").value =
+            `${amount.toLocaleString("vi-VN")} ₫`;
+        // Nội dung chuyển khoản hiển thị ở đây lấy đúng Mã phiếu (description gửi cho
+        // payOS lúc tạo link) - payOS/ngân hàng có thể tự thêm tiền tố riêng vào nội dung
+        // chuyển khoản THẬT, khách vẫn nên ưu tiên nội dung hiển thị trên trang/QR thanh
+        // toán thật nếu có sai khác (xem models/course_registration.py
+        // _create_payment_transaction).
+        modalEl.querySelector("#wizard_payment_code").value = this._state.code || "";
 
         modalEl.querySelector("#wizard_email_sent_note").textContent =
             `Đã gửi email xác nhận kèm link phiếu đăng ký tới ${email}.`;
         modalEl.querySelector("#wizard_open_bank").href = this._state.checkoutUrl || "#";
+        const pending = Boolean(this._state.pendingConfirmation);
         // Không phải cổng nào cũng có QR (VD cổng giả lập dev, vtt_payment_dev_switch) -
         // ẩn hẳn khối QR thay vì gán src="" (browser coi <img src=""> là tải lại chính
         // trang HTML hiện tại làm ảnh -> luôn ra ảnh vỡ).
         const qrImg = modalEl.querySelector("#wizard_payment_qr");
         const qrWrap = modalEl.querySelector("#wizard_payment_qr_wrap");
-        qrWrap.classList.toggle("d-none", !this._state.qrUrl);
+        qrWrap.classList.toggle("d-none", !this._state.qrUrl || pending);
         if (this._state.qrUrl) {
             qrImg.src = this._state.qrUrl;
         }
+        // Có QR (payOS thật) -> khách quét QR là đủ, ẩn nút "Mở trang thanh toán" (đỡ
+        // rối/trùng lặp). Không có QR (cổng giả lập dev) -> đây là cách DUY NHẤT để vào
+        // được trang thanh toán, phải hiện. Diện cần xác nhận giấy tờ (pending) - CHƯA
+        // có link nào cả (checkoutUrl cũng rỗng) - ẩn nút, hiện thông báo chờ xác nhận
+        // thay vào đó (xem course_register_wizard.xml).
+        modalEl.querySelector("#wizard_open_bank").classList.toggle(
+            "d-none", Boolean(this._state.qrUrl) || pending);
+        modalEl.querySelector("#wizard_payment_pending_confirmation_note").classList.toggle(
+            "d-none", !pending);
         this._showPane(modalEl, "payment");
 
         this._startPolling();

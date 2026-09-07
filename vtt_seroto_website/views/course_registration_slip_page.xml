@@ -33,7 +33,7 @@
   <template id="course_registration_slip_page" name="Phiếu đăng ký khóa học">
     <t t-call="website.layout">
       <div id="wrap">
-        <div class="container py-5" style="max-width: 460px;">
+        <div class="container py-5" style="max-width: 720px;">
           <!--
             data-registration-id/token đặt trên khối NGOÀI CÙNG (luôn render, không phụ
             thuộc payment_status/state) - form Câu hỏi chuyên sâu bên dưới cần 2 giá trị
@@ -47,13 +47,35 @@
             <div class="card-body">
               <h4 class="card-title mb-3">Phiếu đăng ký khóa học</h4>
               <hr/>
-              <p class="mb-1">Khóa học: <strong t-esc="registration.course_name"/></p>
-              <p class="mb-1" t-if="registration.student_relation != 'self'">
-                Học viên: <strong t-esc="registration.student_name"/>
-              </p>
-              <p class="mb-1">Người đăng ký: <strong t-esc="registration.partner_name"/></p>
-              <p class="mb-1">Email: <strong t-esc="registration.email"/></p>
-              <p class="mb-1">Số điện thoại: <strong t-esc="registration.phone"/></p>
+              <!-- Bố cục 2 cột (row/col-md-6) - cùng quy ước với Tab "Thông tin cơ
+                   bản"/"Thanh toán" của modal đăng ký (course_register_wizard.xml), tự
+                   xếp chồng lại 1 cột trên màn hình nhỏ (Bootstrap responsive). -->
+              <div class="row">
+                <div class="col-md-6 mb-2">
+                  <div class="text-muted small">Khóa học</div>
+                  <strong t-esc="registration.course_name"/>
+                </div>
+                <div class="col-md-6 mb-2" t-if="registration.student_relation != 'self'">
+                  <div class="text-muted small">Học viên</div>
+                  <strong t-esc="registration.student_name"/>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <div class="text-muted small">Người đăng ký</div>
+                  <strong t-esc="registration.partner_name"/>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <div class="text-muted small">Email</div>
+                  <strong t-esc="registration.email"/>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <div class="text-muted small">Số điện thoại</div>
+                  <strong t-esc="registration.phone"/>
+                </div>
+                <div class="col-12 mb-2" t-if="registration.has_studied_seroto_before">
+                  <div class="text-muted small">Đã học khóa của Seroto trước đây</div>
+                  <strong t-esc="dict(registration._fields['has_studied_seroto_before'].selection).get(registration.has_studied_seroto_before)"/>
+                </div>
+              </div>
 
               <t t-if="registration.state == 'rejected'">
                 <div class="alert alert-secondary mt-3 mb-0">
@@ -70,10 +92,48 @@
                 </div>
               </t>
               <t t-else="">
-                <t t-foreach="registration.answer_ids" t-as="answer">
-                  <p class="mb-1"><t t-esc="answer.question"/>: <strong t-esc="answer.answer or '-'"/></p>
-                </t>
-                <p class="mb-3">
+                <!--
+                  Toàn bộ thông tin tương ứng lúc đăng ký trên form (Diện đăng ký/thông
+                  tin theo diện/giấy tờ đính kèm) - trước đây trang này chỉ có 4 field cơ
+                  bản, thiếu hẳn phần này dù đã thu thập lúc đăng ký.
+                -->
+                <hr/>
+                <!-- <div class="course_wizard_section_title">Diện đăng ký khóa học</div> -->
+                 <div class="row">
+                   <div class="col-md-6 mb-2">
+                     <div class="text-muted small">Diện đăng ký</div>
+                     <strong t-esc="dict(registration._fields['registration_category'].selection).get(registration.registration_category)"/>
+                   </div>
+                   <div class="col-md-6 mb-2"
+                        t-if="registration.registration_category == 'voucher' and registration.voucher_code">
+                     <div class="text-muted small">Mã voucher</div>
+                     <strong t-esc="registration.voucher_code"/>
+                   </div>
+                 </div>
+                <div class="row" t-if="registration.category_info_ids">
+                  <t t-foreach="registration.category_info_ids" t-as="info">
+                    <div class="col-md-6 mb-2">
+                      <div class="text-muted small" t-esc="info.label"/>
+                      <strong t-esc="info.value or '-'"/>
+                    </div>
+                  </t>
+                </div>
+                <div class="mb-2" t-if="registration.category_attachment_ids">
+                  <div class="text-muted small">Giấy tờ/tài liệu đính kèm</div>
+                  <strong t-esc="', '.join(registration.category_attachment_ids.mapped('name'))"/>
+                </div>
+
+                <!--
+                  Mục "Thanh toán" - HIỆN NGAY LÚC TẠO PHIẾU, không đợi thanh toán xong
+                  (khác khối QR/nút bên dưới, CHỈ hiện khi chưa thanh toán) - khách xem
+                  lại được đúng số tiền gốc/đã giảm/cần trả bất kỳ lúc nào, kể cả sau khi
+                  đã thanh toán xong. base_amount/pay_amount lấy ĐÚNG 2 method model đã
+                  dùng cho mọi tính toán khác (_get_base_amount/_get_payment_amount) -
+                  không tính lại theo cách khác ở đây.
+                -->
+                <hr/>
+                <!-- <div class="course_wizard_section_title">Thanh toán</div> -->
+                <p class="mb-2">
                   Trạng thái thanh toán:
                   <t t-if="registration.payment_status == 'paid'">
                     <span class="badge text-bg-success">Đã thanh toán</span>
@@ -82,23 +142,94 @@
                     <span class="badge text-bg-danger">Chưa thanh toán</span>
                   </t>
                 </p>
+                <t t-set="base_amount" t-value="registration._get_base_amount()"/>
+                <t t-set="pay_amount" t-value="registration._get_payment_amount()"/>
+                <t t-set="discount_amount" t-value="base_amount - pay_amount"/>
+                <div class="row">
+                  <div class="col-md-6 mb-2">
+                    <div class="text-muted small">Số tiền gốc</div>
+                    <strong t-esc="'{:,.0f}đ'.format(base_amount).replace(',', '.')"/>
+                  </div>
+                  <div class="col-md-6 mb-2" t-if="discount_amount > 0">
+                    <div class="text-muted small">Số tiền được giảm</div>
+                    <strong t-esc="'{:,.0f}đ'.format(discount_amount).replace(',', '.')"/>
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <div class="text-muted small">Số tiền cần thanh toán</div>
+                    <strong t-esc="'{:,.0f}đ'.format(pay_amount).replace(',', '.')"/>
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <div class="text-muted small">Nội dung chuyển khoản</div>
+                    <strong t-esc="registration.code"/>
+                  </div>
+                </div>
 
+                <!--
+                  Cổng giả lập (dev, xem vtt_payment_dev_switch checkout_qr_url luôn để
+                  False) KHÔNG có QR thật - ẩn cả khối QR lẫn dòng "Đang chờ xác nhận" (dễ
+                  gây hiểu lầm đang chờ quét QR trong khi thực ra phải bấm nút "Mở trang
+                  thanh toán"). Nút "Mở trang thanh toán" vẫn luôn hiện ở cả 2 cổng - cổng
+                  giả lập BẮT BUỘC phải bấm nút này (không có QR để quét thay thế).
+
+                  3 diện cần nộp giấy tờ CHƯA được nhân viên xác nhận (pending) - CHƯA hề
+                  có giao dịch thanh toán nào (checkout_url/qr_url đều rỗng, xem
+                  controllers/course_registration.py create_registration/
+                  update_basic_registration) - hiện thông báo chờ xác nhận thay vì
+                  QR/nút trống. #slip_page_payment_section vẫn PHẢI luôn có mặt dù đang
+                  pending - JS polling payment_status vẫn cần chạy để tự phát hiện
+                  trường hợp giảm đủ 100% (nhân viên xác nhận xong tự đánh dấu Đã thanh
+                  toán ngay, không cần khách làm gì thêm - xem
+                  action_confirm_category_discount).
+                -->
                 <t t-if="registration.payment_status != 'paid'">
+                  <t t-set="qr_url" t-value="registration._get_checkout_qr_url()"/>
+                  <t t-set="pending" t-value="registration._requires_category_confirmation() and not registration.category_discount_confirmed"/>
                   <hr/>
                   <div id="slip_page_payment_section">
-                    <div class="text-center mb-3">
-                      <img t-att-src="registration._get_checkout_qr_url()" class="course_wizard_qr_image"
-                           alt="Mã QR thanh toán"/>
-                      <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ</p>
-                    </div>
-                    <a t-att-href="registration._get_checkout_url()" target="_blank" rel="noopener"
-                       class="btn btn-success w-100 mb-2" id="slip_page_open_bank">
-                      Mở trang thanh toán
-                    </a>
-                    <p class="text-muted small text-center mb-0">
-                      <span class="spinner-border spinner-border-sm me-1" role="status"/>
-                      Đang chờ xác nhận thanh toán... (trang sẽ tự cập nhật)
-                    </p>
+                    <t t-if="pending">
+                      <p class="text-danger small text-center mb-0 mx-auto" style="max-width: 450px;">
+                        Hồ sơ của bạn đang được nhân viên xác nhận thông tin/giấy tờ - Link thanh toán sẽ được gửi qua email ngay sau khi xác nhận xong.
+                      </p>
+                    </t>
+                    <t t-else="">
+                      <t t-if="qr_url">
+                        <div class="text-center mb-3">
+                          <img t-att-src="qr_url" class="course_wizard_qr_image" alt="Mã QR thanh toán"/>
+                          <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ</p>
+                        </div>
+                      </t>
+                      <a t-att-href="registration._get_checkout_url()" target="_blank" rel="noopener"
+                         class="btn btn-success w-100 mb-2" id="slip_page_open_bank">
+                        Mở trang thanh toán
+                      </a>
+                      <t t-if="qr_url">
+                        <p class="text-muted small text-center mb-0">
+                          <span class="spinner-border spinner-border-sm me-1" role="status"/>
+                          Đang chờ xác nhận thanh toán... (trang sẽ tự cập nhật)
+                        </p>
+                      </t>
+                    </t>
+                  </div>
+                </t>
+
+                <!--
+                  CHỈ hiện câu ĐÃ trả lời thật (answer khác rỗng) - answer_ids giờ có cả
+                  dòng RỖNG pre-seed sẵn lúc tạo phiếu (xem models/course_registration.py,
+                  create()/_sync_answer_ids) để NV thấy đủ câu cần hỏi trên backend,
+                  nhưng ở đây (khách xem) câu chưa trả lời phải nằm ở form "Câu hỏi
+                  chuyên sâu" bên dưới, không lẫn vào mục hiển thị kết quả này.
+                -->
+                <t t-set="answered_list" t-value="registration.answer_ids.filtered(lambda a: (a.answer or '').strip())"/>
+                <t t-if="answered_list">
+                  <hr/>
+                  <!-- <div class="course_wizard_section_title">Câu hỏi chuyên sâu</div> -->
+                  <div class="row">
+                    <t t-foreach="answered_list" t-as="answer">
+                      <div class="col-md-6 mb-2">
+                        <div class="text-muted small" t-esc="answer.question"/>
+                        <strong t-esc="answer.answer"/>
+                      </div>
+                    </t>
                   </div>
                 </t>
 
@@ -112,11 +243,11 @@
                 <t t-if="unanswered_questions">
                   <hr/>
                   <form id="slip_page_questions_form">
-                    <h6 class="mb-3">Câu hỏi chuyên sâu</h6>
+                    <!-- <div class="course_wizard_section_title">Câu hỏi chuyên sâu</div> -->
                     <t t-foreach="unanswered_questions" t-as="q">
                       <div class="mb-3" t-att-data-question="q['question']"
                            t-att-data-question-type="q['question_type']">
-                        <label t-esc="q['question']" class="form-label"/>
+                        <label t-esc="q['question']" class="form-label" style="font-size: 14px;"/>
                         <t t-if="q['question_type'] == 'select'">
                           <select class="form-control slip_question_input">
                             <option value="">-- Chọn --</option>

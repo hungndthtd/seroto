@@ -88,6 +88,15 @@
                   class="oe_highlight" invisible="state not in ('draft', 'new')"/>
           <button name="action_reject" string="Từ chối" type="object"
                   invisible="state not in ('draft', 'new')"/>
+          <!-- Chỉ 3 diện cần nộp giấy tờ - NV tự kiểm tra giấy tờ/thông tin đính kèm rồi
+               mới bấm, popup confirm hỏi lại 1 lần trước khi áp mức giảm + tạo lại link
+               thanh toán (xem action_confirm_category_discount). Tự ẩn sau khi đã xác
+               nhận hoặc đã thanh toán - tránh bấm lại tạo trùng giao dịch không cần thiết
+               (đổi discount_percent thì tự hiện lại, xem _onchange_discount_percent_reset_confirm). -->
+          <button name="action_confirm_category_discount" string="Xác nhận thông tin đăng ký"
+                  type="object" class="oe_highlight"
+                  invisible="state not in ('draft', 'new') or payment_status == 'paid' or category_discount_confirmed or registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"
+                  confirm="Xác nhận thông tin/giấy tờ/tài liệu chính xác và đầy đủ?"/>
           <!-- "Xác nhận" giờ tự tạo luôn Đơn hàng - nút này chỉ còn xuất hiện trong 1
                tình huống hiếm: hệ thống tự động (payOS) đã set trạng thái "Đã xác nhận"
                nhưng lỗi giữa chừng trước khi kịp tạo Đơn hàng, cần Sale tạo tay để khắc
@@ -127,11 +136,15 @@
               <field name="partner_id" invisible="not partner_id"/>
               <field name="slip_url" widget="CopyClipboardURL" string="Link phiếu"
                      class="o_seroto_slip_url"/>
+              <field name="commitment_confirmed" readonly="state != 'draft'"/>
             </group>
             <group string="Khóa học / Lớp học">
               <field name="course_id" readonly="state != 'draft'"/>
               <field name="class_id"/>
               <field name="is_complete"/>
+              <field name="has_studied_seroto_before" readonly="state != 'draft'"/>
+              <field name="currency_id" invisible="1"/>
+              <field name="expected_amount"/>
             </group>
           </group>
           <group>
@@ -144,21 +157,65 @@
               <field name="payment_transaction_ref" readonly="1"/>
               <field name="payment_id"/>
             </group>
-            <group string="Lý do từ chối" invisible="state != 'rejected'">
-              <field name="reject_reason" readonly="1" nolabel="1"/>
+            <!-- Tách riêng thành 1 mục - registration_category CHO PHÉP nhân viên tự đổi
+                (không readonly, không phụ thuộc state) để phân loại lại phiếu khi cần.
+                CHỈ field đơn giản/upload nằm ở đây - field "thông tin điền thêm" của
+                diện y tế/tổ chức phi lợi nhuận nằm ở tab "Thông tin theo diện đăng ký"
+                (notebook bên dưới), theo đúng yêu cầu. -->
+            <group string="Diện đăng ký khóa học">
+              <field name="currency_id" invisible="1"/>
+              <field name="registration_category"/>
+              <field name="early_registration_status" invisible="registration_category != 'tuition'"/>
+              <field name="early_price"
+                     invisible="registration_category != 'tuition' or early_registration_status != 'early'"/>
+              <!-- KHÔNG dùng widget="percentage" - widget đó quy ước field lưu dạng
+                   phân số 0-1 (tự x100 lúc hiện/÷100 lúc lưu), trong khi discount_percent
+                   lưu THẲNG số 0-100 giống hệt sale.order.line.discount (đã từng bị sai:
+                   nhập 100 qua widget percentage lại lưu thành 1.0, chỉ giảm 1%). -->
+              <field name="discount_percent"
+                     invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
+              <field name="category_discount_confirmed" readonly="1" widget="boolean_toggle"
+                     invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
+              <!-- voucher_type ẩn hẳn - field vẫn còn trong model (tương thích ngược
+                   dữ liệu phiếu cũ) nhưng không còn ai điền/hiển thị nữa. -->
+              <field name="voucher_code" invisible="registration_category != 'voucher'"/>
+              <field name="loyalty_card_id" readonly="1" invisible="registration_category != 'voucher'"/>
+              <field name="voucher_discount_amount" readonly="1" invisible="registration_category != 'voucher'"/>
+              <field name="voucher_final_amount" readonly="1" invisible="registration_category != 'voucher'"/>
+              <field name="category_attachment_ids" widget="many2many_binary"
+                    invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
             </group>
+          </group>
+          <group string="Lý do từ chối" invisible="state != 'rejected'">
+            <field name="reject_reason" readonly="1" nolabel="1"/>
           </group>
           <notebook>
             <page string="Câu hỏi chuyên sâu">
-              <field name="answer_ids" create="false" delete="false">
-                <list editable="bottom">
+              <field name="answer_ids">
+                <list editable="bottom" create="false" delete="false">
                   <!-- force_save="1": field readonly nhưng PHẢI gửi kèm lúc lưu - không
                        có thuộc tính này, trình duyệt bỏ qua field readonly khi lưu các
                        dòng MỚI tạo qua onchange (_onchange_course_id_questions), gây lỗi
                        "Missing required value for the field 'Câu hỏi'" vì server nhận
                        vals không có "question" dù onchange đã gán sẵn giá trị. -->
                   <field name="question" readonly="1" force_save="1"/>
-                  <field name="answer" readonly="parent.state != 'draft'"/>
+                  <field name="answer"/>
+                </list>
+              </field>
+            </page>
+            <!-- Chỉ "thông tin điền thêm" của diện y tế/tổ chức phi lợi nhuận nằm ở
+                 đây - Trạng thái/Loại voucher/Mã voucher/giấy tờ đính kèm đã nằm ở mục
+                 "Diện đăng ký khóa học" trên form chính (không lặp lại ở đây). Diện học
+                 bổng giáo dục không có field riêng nào (chỉ cần giấy tờ đính kèm), nên
+                 tab này tự ẩn với diện đó. category_info_ids (label/value) do
+                 controllers/course_registration.py tự ghép lúc tạo phiếu - list
+                 editable="bottom" y hệt answer_ids/"Câu hỏi chuyên sâu" ở trên. -->
+            <page string="Thông tin theo diện đăng ký"
+                  invisible="registration_category not in ('medical_scholarship', 'nonprofit')">
+              <field name="category_info_ids">
+                <list editable="bottom" create="false" delete="false">
+                  <field name="label" readonly="1" force_save="1"/>
+                  <field name="value"/>
                 </list>
               </field>
             </page>

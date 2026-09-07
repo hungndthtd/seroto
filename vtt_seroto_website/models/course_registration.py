@@ -1,10 +1,35 @@
 import logging
 import secrets
 
+from markupsafe import Markup
+
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import formataddr
 
 _logger = logging.getLogger(__name__)
+
+# Nhãn cố định của category_info_ids theo từng diện cần "thông tin điền thêm" - dùng
+# chung cho _onchange_registration_category (tự dựng lại khi NHÂN VIÊN đổi diện trên
+# backend) VÀ đối chiếu với đúng thứ tự/nội dung controllers/course_registration.py
+# đang tạo lúc khách đăng ký qua website (2 nơi phải khớp nhau nếu sau này đổi chữ).
+CATEGORY_INFO_LABELS = {
+    'medical_scholarship': [
+        'Tên cơ sở y tế',
+        'Cơ sở y tế thuộc tỉnh/thành phố',
+        'Vai trò',
+    ],
+    'nonprofit': [
+        'Tên tổ chức',
+        'Trực thuộc tỉnh/thành phố',
+        'Thuộc xã/phường',
+        'Vai trò của bạn tại tổ chức',
+        'Họ tên người ký giấy xác nhận',
+        'Số điện thoại người ký giấy xác nhận',
+        'Họ tên người đại diện nhóm đăng ký',
+        'Số điện thoại người đại diện nhóm đăng ký',
+    ],
+}
 
 
 class SerotoCourseRegistration(models.Model):
@@ -57,6 +82,161 @@ class SerotoCourseRegistration(models.Model):
         string='Họ tên học viên',
         help='Chỉ cần điền khi đăng ký hộ người khác (student_relation = "Người khác").',
     )
+
+    # Khách phải tick trước khi bấm "Tiếp tục" ở bước "Thông tin cơ bản" (chặn cả
+    # server-side trong controller, không chỉ dựa vào required phía JS).
+    commitment_confirmed = fields.Boolean(string='Đã cam kết thông tin chính xác', copy=False)
+
+    has_studied_seroto_before = fields.Selection([
+        ('no', 'Tôi chưa học bất cứ khóa học nào của Seroto'),
+        ('yes', 'Tôi đã học'),
+    ], string='Bạn đã học các khóa của Seroto trước đây chưa?', default='no')
+
+    # "Diện đăng ký" - phân loại người đăng ký để áp dụng field/hồ sơ khác nhau. Chọn
+    # ngay trong bước "Thông tin cơ bản" của wizard (không phải bước riêng) - xem
+    # course_register_wizard.js, _onCategoryChange.
+    registration_category = fields.Selection([
+        ('tuition', 'Diện đóng học phí'),
+        ('voucher', 'Diện voucher quà tặng'),
+        ('education_scholarship', 'Diện học bổng giáo dục'),
+        ('medical_scholarship', 'Diện học bổng ngành y'),
+        ('nonprofit', 'Diện tổ chức phi lợi nhuận'),
+    ], string='Diện đăng ký', default='tuition', required=True)
+
+    # --- Diện đóng học phí ---
+    # CHỈ lưu lựa chọn ở giai đoạn này - CHƯA tự tính lại amount theo mốc thời gian
+    # (xem _create_payment_transaction, để nguyên giai đoạn 2 xử lý).
+    early_registration_status = fields.Selection([
+        ('normal', 'Đăng ký bình thường'),
+        ('early', 'Đăng ký sớm'),
+    ], string='Trạng thái đăng ký', default='normal')
+
+    # --- Diện voucher quà tặng ---
+    voucher_type = fields.Selection([
+        ('angelina', 'Voucher từ người phụng sự (Angelina)'),
+        ('seroto_course', 'Voucher từ các khóa học của Seroto'),
+        ('seroto_talkshow', 'Voucher từ các talkshow của Seroto'),
+    ], string='Loại voucher')
+    voucher_code = fields.Char(string='Mã voucher')
+    # currency_id CHỈ để 2 field Monetary bên dưới tự hiện đúng đơn vị tiền tệ (VNĐ, không
+    # số thập phân theo đúng cấu hình res.currency) - không có ý nghĩa đa tiền tệ gì khác,
+    # luôn là tiền tệ của công ty.
+    currency_id = fields.Many2one(
+        'res.currency', string='Tiền tệ', default=lambda self: self.env.company.currency_id,
+    )
+    # 3 field dưới đây do _validate_voucher_code() tự điền lúc tạo phiếu (controller gọi
+    # TRƯỚC create(), xem controllers/course_registration.py) - KHÔNG tính lại ở nơi khác,
+    # _create_payment_transaction() chỉ đọc lại voucher_final_amount để tránh sai lệch làm
+    # tròn giữa 2 lần tính.
+    loyalty_card_id = fields.Many2one(
+        'loyalty.card', string='Phiếu giảm giá đã áp dụng', readonly=True, copy=False,
+    )
+    voucher_discount_amount = fields.Monetary(string='Số tiền được giảm', readonly=True, copy=False)
+    voucher_final_amount = fields.Monetary(string='Học phí sau giảm giá', readonly=True, copy=False)
+
+    # --- Diện đóng học phí (đăng ký sớm) / Diện học bổng giáo dục / Diện học bổng ngành
+    # y / Diện tổ chức phi lợi nhuận ---
+    # Mặc định tự nạp theo cấu hình của Khóa học (academic.course.early_price/
+    # default_discount_percent, xem _onchange_registration_category_pricing bên dưới) -
+    # nhân viên vẫn sửa được riêng cho từng phiếu này. Diện voucher KHÔNG dùng 2 field
+    # này - giữ nguyên loyalty_card_id/voucher_discount_amount/voucher_final_amount ở
+    # trên, không đổi gì.
+    early_price = fields.Monetary(
+        string='Mức học phí đăng ký sớm', copy=False,
+        help='Mặc định lấy theo cấu hình Khóa học, nhân viên có thể sửa riêng cho phiếu này.',
+    )
+    discount_percent = fields.Float(
+        string='Mức giảm học phí (%)', copy=False,
+        help='Mặc định lấy theo cấu hình Khóa học, nhân viên có thể sửa riêng cho phiếu này.',
+    )
+    # Chỉ có ý nghĩa với 3 diện cần nộp giấy tờ (education_scholarship/medical_scholarship/
+    # nonprofit) - đánh dấu nhân viên ĐÃ kiểm tra giấy tờ/thông tin đăng ký hợp lệ (bấm nút
+    # "Xác nhận thông tin đăng ký", xem action_confirm_category_discount()) và ĐÃ tạo lại
+    # đúng link/QR thanh toán theo mức giảm hiện tại - không phải trạng thái tổng của cả
+    # phiếu (khác hẳn "state").
+    category_discount_confirmed = fields.Boolean(
+        string='Đã xác nhận giảm học phí', copy=False, readonly=True,
+    )
+
+    # Chặn cứng NGOÀI khoảng 0-100 - đã gặp thực tế nhân viên gõ nhầm số quá lớn (VD
+    # 4000) làm _get_payment_amount() ra số tiền ÂM (giảm hơn 100% giá gốc), vô lý về
+    # nghiệp vụ - giống hệt constraint bên academic.course (3 field nguồn mặc định).
+    @api.constrains('discount_percent')
+    def _check_discount_percent_range(self):
+        for rec in self:
+            if not (0 <= rec.discount_percent <= 100):
+                raise ValidationError(_('Mức giảm học phí (%) phải nằm trong khoảng 0-100.'))
+
+    @api.onchange('discount_percent')
+    def _onchange_discount_percent_reset_confirm(self):
+        """Nhân viên sửa lại % giảm SAU KHI đã xác nhận (category_discount_confirmed=True)
+        thì phải bấm "Xác nhận thông tin đăng ký" lại mới tạo được link thanh toán mới -
+        tự bỏ đánh dấu để tránh link cũ (số tiền cũ) vẫn còn hiệu lực mà tưởng đã đúng.
+        """
+        for rec in self:
+            if rec.category_discount_confirmed:
+                rec.category_discount_confirmed = False
+
+    @api.model
+    def _validate_voucher_code(self, code, course_record, amount):
+        """Validate mã "Phiếu giảm giá" (model loyalty.card chuẩn Odoo, Sales > Chiết khấu &
+        Khách hàng thân thiết) và tính học phí sau giảm cho ĐÚNG amount/course_record hiện
+        tại. Trả về (loyalty.card, số tiền được giảm, số tiền cuối cùng) hoặc raise UserError
+        nếu mã không hợp lệ - gọi TRƯỚC create() để chặn cứng ngay ở bước "Thông tin cơ bản",
+        không tạo phiếu với mã sai.
+
+        loyalty.card KHÔNG lưu số tiền giảm trực tiếp - chỉ lưu points (đơn vị đếm lượt đổi
+        thưởng), số tiền/% giảm thật nằm ở loyalty.reward. Core Odoo không có sẵn hàm "mã ->
+        số tiền giảm" độc lập (chỉ có trong sale_loyalty, gắn chặt sale.order nhiều dòng) nên
+        tự tính ở đây - CHỈ hỗ trợ discount_mode 'percent'/'per_order' (đủ cho hình thức
+        "Phiếu giảm giá" thủ công), 'per_point' (kiểu ví điểm gift_card/ewallet) chưa hỗ trợ.
+        """
+        card = self.env['loyalty.card'].sudo().search([('code', '=', code)], limit=1)
+        if not card or not card.program_id.active:
+            raise UserError(_('Mã voucher không hợp lệ.'))
+        if card.expiration_date and card.expiration_date < fields.Date.today():
+            raise UserError(_('Mã voucher đã hết hạn.'))
+        reward = card.program_id.reward_ids[:1]
+        if not reward or card.points < reward.required_points:
+            raise UserError(_('Mã voucher đã được sử dụng hoặc không còn khả dụng.'))
+        if reward.discount_applicability == 'specific':
+            # CỐ TÌNH không dùng reward.all_discount_product_ids - field tính sẵn này bị
+            # khóa rỗng toàn cục khi tham số hệ thống loyalty.compute_all_discount_product_ids
+            # = False (Odoo tự tắt để tối ưu hiệu năng lúc catalog lớn), gây báo sai "không
+            # áp dụng" dù cấu hình đúng - đã kiểm chứng thực tế trên DB. Tự dò lại đúng domain
+            # qua _get_discount_product_domain() (đúng logic Odoo dùng nội bộ), không phụ
+            # thuộc tham số bật/tắt đó.
+            product = course_record.product_id.product_variant_id if course_record else False
+            domain = reward._get_discount_product_domain()
+            if not product or not self.env['product.product'].sudo().search_count(
+                    domain + [('id', '=', product.id)]):
+                raise UserError(_('Mã voucher không áp dụng cho khóa học này.'))
+        if reward.discount_mode == 'percent':
+            discount = amount * (reward.discount / 100)
+        elif reward.discount_mode == 'per_order':
+            discount = min(amount, reward.discount)
+        else:
+            raise UserError(_('Loại phiếu giảm giá này chưa được hỗ trợ.'))
+        return card, round(discount), round(amount - discount)
+
+    # Dùng CHUNG cho 3 diện cần nộp giấy tờ (education_scholarship/medical_scholarship/
+    # nonprofit) - Many2many ir.attachment, đúng widget many2many_binary chuẩn Odoo cho
+    # nhiều file, không cần model riêng cho từng diện.
+    category_attachment_ids = fields.Many2many(
+        'ir.attachment', string='Giấy tờ/tài liệu đính kèm',
+    )
+
+    # --- Diện học bổng ngành y / Diện tổ chức phi lợi nhuận ---
+    # Field theo diện y tế/tổ chức KHÔNG khai riêng từng field như voucher/học phí ở
+    # trên - dùng model con dạng label/value CHUNG (seroto.course.registration.
+    # category_info), hiển thị dạng list editable="bottom" y hệt answer_ids/"Câu hỏi
+    # chuyên sâu" bên dưới (nhân viên yêu cầu đúng UI này). Controller
+    # (create_registration) tự ghép label cố định theo từng diện lúc tạo phiếu.
+    category_info_ids = fields.One2many(
+        'seroto.course.registration.category.info', 'registration_id',
+        string='Thông tin theo diện đăng ký',
+    )
+
     answer_ids = fields.One2many(
         'seroto.course.registration.answer', 'registration_id',
         string='Câu trả lời (Thông tin chuyên sâu)',
@@ -87,36 +267,110 @@ class SerotoCourseRegistration(models.Model):
         help='Đã có Khóa học/Lớp học liên kết và đã trả lời hết các câu hỏi chuyên sâu hiện tại của khóa học.',
     )
 
-    @api.onchange('course_id')
+    # Học phí GỐC của Khóa học liên kết (product_id.list_price) - CỐ TÌNH không tính
+    # giảm giá/voucher vào đây (khác hẳn _get_payment_amount()) - dùng để nhân viên đối
+    # chiếu mức giá chuẩn của khóa, không lẫn với số tiền THẬT cần thu (xem
+    # "Số tiền cần thanh toán" ở pane Thanh toán phía website, cũng tách riêng 2 số này).
+    expected_amount = fields.Monetary(
+        string='Học phí tương ứng theo khóa học', compute='_compute_expected_amount',
+    )
+
+    @api.depends('course_id.product_id.list_price')
+    def _compute_expected_amount(self):
+        for rec in self:
+            rec.expected_amount = rec._get_base_amount()
+
+    def _get_base_amount(self):
+        """Học phí GỐC theo Khóa học liên kết - CHƯA áp bất kỳ giảm giá/voucher nào (so
+        sánh với _get_payment_amount() bên dưới, số tiền THẬT cần thu sau khi đã áp).
+        """
+        self.ensure_one()
+        if self.course_id and self.course_id.product_id:
+            return self.course_id.product_id.list_price
+        return 0
+
+    @api.onchange('course_id', 'registration_category')
     def _onchange_course_id_questions(self):
-        """Đồng bộ lại answer_ids theo đúng bộ Câu hỏi chuyên sâu của Khóa học vừa chọn -
-        dành cho luồng NV tạo phiếu tay trên backend (chọn course_id qua Many2one).
-        Luồng web không đi qua đây - JS tự quản lý câu hỏi/câu trả lời riêng ở client,
-        chỉ ghi thẳng answer_ids 1 lần lúc "Hoàn tất đăng ký" (xem controllers/
-        course_registration.py, update_registration) - route đó gọi ORM create()/write()
-        trực tiếp, không qua onchange nên không bị ảnh hưởng bởi hàm này.
+        """Đồng bộ lại answer_ids theo đúng bộ Câu hỏi chuyên sâu ÁP DỤNG cho Khóa học +
+        Diện đăng ký hiện tại (is_shared hoặc khớp registration_category, xem
+        _get_course_questions()) - dành cho luồng NV tạo/sửa phiếu tay trên backend
+        (chọn course_id qua Many2one, hoặc đổi Diện đăng ký). Luồng web không đi qua đây
+        - JS tự quản lý câu hỏi/câu trả lời riêng ở client, ghi thẳng answer_ids qua ORM
+        create()/write() (xem controllers/course_registration.py) - route đó không qua
+        onchange nên không bị ảnh hưởng; phiếu tạo qua web đã tự pre-seed answer_ids
+        rỗng ngay lúc create() (xem create() bên dưới), NV vẫn thấy đủ câu hỏi cần hỏi
+        trên backend dù khách CHƯA trả lời câu nào.
 
         Giữ lại câu trả lời cũ nếu câu hỏi đó (so trùng nội dung) vẫn còn trong bộ câu
         hỏi mới - chỉ thêm dòng cho câu hỏi chưa có, bỏ dòng cho câu hỏi không còn thuộc
-        khóa học hiện tại (trước đây đổi Khóa học không làm gì cả, tab Câu hỏi chuyên sâu
-        cứ giữ nguyên/trống, không khớp khóa học thật đang chọn).
+        khóa học/diện hiện tại (trước đây đổi Khóa học không làm gì cả, tab Câu hỏi
+        chuyên sâu cứ giữ nguyên/trống, không khớp khóa học thật đang chọn).
         """
         for rec in self:
-            questions = rec.course_id.question_ids.mapped('question') if rec.course_id else []
+            questions = (
+                [q['question'] for q in rec._get_course_questions(rec.course_id.name)]
+                if rec.course_id else []
+            )
             existing = {a.question: a.answer for a in rec.answer_ids}
             rec.answer_ids = [(5, 0, 0)] + [
                 (0, 0, {'question': q, 'answer': existing.get(q, '')})
                 for q in questions
             ]
 
-    @api.depends('course_id.question_ids.question', 'answer_ids.question', 'answer_ids.answer',
-                 'partner_name', 'email', 'phone')
+    @api.onchange('registration_category')
+    def _onchange_registration_category_info(self):
+        """Tự dựng lại đúng bộ nhãn category_info_ids theo diện MỚI chọn - dành cho lúc
+        NHÂN VIÊN tự đổi "Diện đăng ký" trên backend (registration_category cho sửa tự
+        do, không khoá theo state - xem views/course_registration_views.xml). Phiếu tạo
+        qua website đã có sẵn category_info_ids đúng diện lúc đăng ký (xem controllers/
+        course_registration.py, create_registration) - hàm này CHỈ chạy khi có thao tác
+        đổi field trên form, không ảnh hưởng luồng tạo phiếu qua web.
+
+        Giữ lại value cũ nếu nhãn đó (so trùng nội dung) vẫn còn trong bộ nhãn mới -
+        lỡ đổi qua diện khác rồi đổi lại không mất dữ liệu đã điền, đúng tinh thần
+        _onchange_course_id_questions ở trên.
+        """
+        for rec in self:
+            labels = CATEGORY_INFO_LABELS.get(rec.registration_category, [])
+            existing = {info.label: info.value for info in rec.category_info_ids}
+            rec.category_info_ids = [(5, 0, 0)] + [
+                (0, 0, {'label': label, 'value': existing.get(label, '')})
+                for label in labels
+            ]
+
+    @api.onchange('registration_category', 'course_id')
+    def _onchange_registration_category_pricing(self):
+        """Tự nạp mặc định early_price/discount_percent theo đúng cấu hình của Khóa
+        học (academic.course.pricing_ids, 1 dòng/diện - module seroto_education) mỗi
+        khi đổi Diện đăng ký hoặc Khóa học - nhân viên vẫn sửa tay lại được sau đó, y
+        hệt tinh thần _onchange_registration_category_info ở trên. Mỗi dòng cấu hình đã
+        tự gắn với ĐÚNG 1 diện (course_id + registration_category), nên 2 diện học bổng
+        khác nhau vẫn có mức giảm riêng dù đọc chung field discount_percent của dòng đó.
+        """
+        for rec in self:
+            pricing = rec.course_id.pricing_ids.filtered(
+                lambda p: p.registration_category == rec.registration_category
+            )
+            if rec.registration_category == 'tuition':
+                rec.early_price = pricing.early_price
+            elif rec.registration_category in (
+                    'education_scholarship', 'medical_scholarship', 'nonprofit'):
+                rec.discount_percent = pricing.discount_percent
+
+    @api.depends('course_id.question_ids.question', 'course_id.question_ids.is_shared',
+                 'course_id.question_ids.registration_category', 'registration_category',
+                 'answer_ids.question', 'answer_ids.answer', 'partner_name', 'email', 'phone')
     def _compute_is_complete(self):
         for rec in self:
             if not (rec.partner_name and rec.email and rec.phone):
                 rec.is_complete = False
                 continue
-            required_questions = rec.course_id.question_ids.mapped('question') if rec.course_id else []
+            # CHỈ xét câu hỏi ÁP DỤNG cho đúng Diện đăng ký hiện tại (is_shared/khớp
+            # category) - trước đây bắt trả lời CẢ câu hỏi của diện khác, is_complete
+            # không bao giờ = True dù khách đã trả lời đủ câu hỏi thật sự liên quan.
+            required_questions = [
+                q['question'] for q in rec._get_course_questions(rec.course_id.name)
+            ] if rec.course_id else []
             answered = {a.question for a in rec.answer_ids if (a.answer or '').strip()}
             rec.is_complete = all(q in answered for q in required_questions)
 
@@ -199,7 +453,48 @@ class SerotoCourseRegistration(models.Model):
         # được vào vals lúc create() như các field khác.
         for rec in records:
             rec.code = 'PDK%s' % rec.id
+            # Pre-seed answer_ids RỖNG cho MỌI câu hỏi áp dụng NGAY lúc tạo phiếu -
+            # trước đây answer_ids HOÀN TOÀN RỖNG tới khi khách tự trả lời, NV mở phiếu
+            # trên backend không biết cần hỏi khách những gì. "not rec.answer_ids" tránh
+            # ghi đè answer_ids nếu vals đã có sẵn (VD luồng backend qua onchange đã tự
+            # dựng từ trước).
+            if rec.course_id and not rec.answer_ids:
+                rec._sync_answer_ids()
         return records
+
+    def _sync_answer_ids(self):
+        """Đồng bộ answer_ids theo ĐÚNG bộ câu hỏi áp dụng hiện tại (is_shared/khớp
+        diện, xem _get_course_questions()) - thêm dòng RỖNG cho câu hỏi mới (VD NV vừa
+        thêm câu hỏi vào Khóa học sau khi phiếu đã tạo), và XÓA dòng RỖNG (answer chưa
+        điền) có câu hỏi KHÔNG CÒN khớp bộ câu hỏi hiện tại (VD NV vừa đổi tên câu hỏi
+        trên Khóa học - dòng rỗng theo tên CŨ giờ chỉ còn là rác, không ai trả lời được
+        nữa vì tên mới mới là cái đang hỏi khách).
+
+        Dòng ĐÃ có trả lời thật (answer khác rỗng) KHÔNG BAO GIỜ bị đụng tới dù tên câu
+        hỏi không còn khớp nữa - giữ nguyên lịch sử đúng câu đã hỏi khách lúc đó (xem
+        comment trên SerotoCourseRegistrationAnswer.question).
+
+        Gọi ở các điểm khách/NV thực sự XEM lại phiếu (view_registration_slip,
+        _build_registration_response, xem controllers/course_registration.py) để tự dọn
+        rác mà không cần chờ NV mở đúng form backend rồi tự tay đổi field mới kích hoạt
+        được _onchange_course_id_questions (vốn cũng làm việc này, nhưng CHỈ chạy khi có
+        thao tác trên UI backend).
+        """
+        for rec in self:
+            if not rec.course_id:
+                continue
+            questions = [q['question'] for q in rec._get_course_questions(rec.course_id.name)]
+            existing_questions = set(rec.answer_ids.mapped('question'))
+            stale = rec.answer_ids.filtered(
+                lambda a: not (a.answer or '').strip() and a.question not in questions
+            )
+            stale.unlink()
+            missing = [q for q in questions if q not in existing_questions]
+            if missing:
+                self.env['seroto.course.registration.answer'].create([
+                    {'registration_id': rec.id, 'question': q, 'answer': ''}
+                    for q in missing
+                ])
 
     def action_confirm(self):
         """Gộp luôn bước Tạo đơn hàng vào đây (trước đây phải bấm 2 nút riêng: Xác nhận
@@ -220,6 +515,70 @@ class SerotoCourseRegistration(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+
+    def _requires_category_confirmation(self):
+        """3 diện cần nộp giấy tờ/thông tin (education_scholarship/medical_scholarship/
+        nonprofit) - PHẢI đợi nhân viên bấm "Xác nhận thông tin đăng ký"
+        (action_confirm_category_discount) mới có link/QR thanh toán (xem
+        controllers/course_registration.py, create_registration/update_basic_registration)
+        - tránh khách thanh toán ngay giá GỐC (chưa áp mức giảm) trước khi nhân viên kịp
+        duyệt giấy tờ.
+        """
+        self.ensure_one()
+        return self.registration_category in (
+            'education_scholarship', 'medical_scholarship', 'nonprofit')
+
+    def action_confirm_category_discount(self):
+        """Nút "Xác nhận thông tin đăng ký" - CHỈ dành cho 3 diện cần nộp giấy tờ
+        (education_scholarship/medical_scholarship/nonprofit, xem invisible trên view).
+        Nhân viên bấm sau khi đã tự kiểm tra giấy tờ/thông tin đính kèm (category_
+        attachment_ids/category_info_ids) hợp lệ - KHÔNG tự động validate nội dung giấy
+        tờ (không có gì để máy kiểm tra được), chỉ ghi nhận xác nhận của con người, y hệt
+        tinh thần popup confirm hỏi lại trước khi thực hiện (xem confirm= trên view).
+
+        Áp dụng ĐÚNG mức giảm đã cấu hình (discount_percent, tự nạp theo Khóa học qua
+        _onchange_registration_category_pricing, nhân viên có thể đã sửa tay) bằng cách
+        tạo lại giao dịch thanh toán (_create_payment_transaction, tự đọc lại amount mới
+        qua _get_payment_amount) - khách vào lại ĐÚNG link phiếu cũ trong email sẽ tự
+        thấy QR/số tiền mới, không cần gửi lại email (checkout_url/qr_url luôn đọc TRỰC
+        TIẾP từ payment_transaction_ref hiện tại, không cache).
+
+        Giảm đủ 100% (amount = 0) thì bỏ qua hẳn bước thanh toán - tự động đánh dấu Đã
+        thanh toán và chạy tiếp luồng tự động y hệt lúc payOS báo đã nhận tiền
+        (_auto_process_payment) - đúng quyết định đã chốt cùng người dùng trước đây.
+        """
+        self.ensure_one()
+        if not self._requires_category_confirmation():
+            raise UserError(
+                _('Chỉ áp dụng cho Diện học bổng giáo dục/học bổng ngành y/tổ chức phi lợi nhuận.')
+            )
+        self.category_discount_confirmed = True
+        amount = self._get_payment_amount()
+        # Ghi log vào chatter - NV bấm nút này là 1 quyết định nghiệp vụ quan trọng
+        # (xác nhận giấy tờ hợp lệ + chốt mức giảm), khác hẳn các thay đổi field thông
+        # thường (đã tự có tracking qua state), cần thấy rõ AI đã xác nhận, LÚC NÀO,
+        # và mức giảm/số tiền cuối cùng là bao nhiêu để đối chiếu sau này.
+        self.message_post(
+            body=Markup(
+                '<p>%s</p>'
+                '<ul>'
+                '<li>%s <b>%s%%</b></li>'
+                '<li>%s <b>%sđ</b></li>'
+                '</ul>'
+            ) % (
+                _('Đã xác nhận thông tin/giấy tờ đăng ký hợp lệ'),
+                _('Áp dụng mức giảm học phí:'),
+                self.discount_percent,
+                _('Số tiền cần thanh toán:'),
+                '{:,.0f}'.format(amount).replace(',', '.'),
+            )
+        )
+        if amount <= 0:
+            if self.payment_status != 'paid':
+                self.payment_status = 'paid'
+            self._auto_process_payment()
+        else:
+            self._create_payment_transaction()
 
     def action_reject(self):
         self.ensure_one()
@@ -290,17 +649,45 @@ class SerotoCourseRegistration(models.Model):
 
         order_line_vals = []
         if self.course_id.product_id:
-            order_line_vals.append((0, 0, {
+            line_vals = {
                 'product_id': self.course_id.product_id.id,
                 'class_id': self.class_id.id if self.class_id else False,
                 'student_id': student.id,
-            }))
+            }
+            # Áp cùng logic giá của _get_payment_amount() lên dòng Đơn hàng thật - dùng
+            # ĐÚNG field "discount" (%) có sẵn của sale.order.line cho 3 diện giảm giá
+            # (để Odoo tự tính tiền, không tự làm tay), ghi đè thẳng price_unit cho
+            # tuition đăng ký sớm. Nhánh voucher KHÔNG cần gì thêm ở đây - _try_apply_code
+            # bên dưới tự lo phần chiết khấu trên Đơn hàng.
+            if self.registration_category == 'tuition' and self.early_registration_status == 'early' and self.early_price:
+                line_vals['price_unit'] = self.early_price
+            elif self.registration_category in ('education_scholarship', 'medical_scholarship', 'nonprofit') and self.discount_percent:
+                line_vals['discount'] = self.discount_percent
+            order_line_vals.append((0, 0, line_vals))
 
         order = self.env['sale.order'].sudo().create({
             'partner_id': registrant.id,
             'order_line': order_line_vals,
         })
         self.sale_order_id = order.id
+
+        # Diện voucher - áp mã "Phiếu giảm giá" NGAY TRÊN Đơn hàng bằng ĐÚNG luồng chuẩn
+        # của Odoo (sale_loyalty._try_apply_code, module loyalty đã khai depends) thay vì
+        # tự trừ points tay - Odoo tự lo đúng phần tạo dòng chiết khấu trên đơn, ghi
+        # loyalty.history, trừ points, thay vì code ở đây tự làm lệch với cách Odoo ghi
+        # nhận. Mã đã validate hợp lệ lúc tạo phiếu (_validate_voucher_code, xem
+        # controllers/course_registration.py) chỉ để TÍNH học phí cho link thanh toán,
+        # KHÔNG trừ points ở đó - điểm chỉ thực sự bị tiêu ở đây, đúng lúc Đơn hàng thật
+        # được tạo. 'error' (VD mã đã bị người khác dùng hết trong lúc chờ thanh toán) chỉ
+        # log lại - không chặn cả luồng tạo Đơn hàng, Sale tự xử lý chênh lệch giá nếu có.
+        if self.registration_category == 'voucher' and self.voucher_code:
+            result = order._try_apply_code(self.voucher_code)
+            if isinstance(result, dict) and result.get('error'):
+                _logger.warning(
+                    'Không áp được mã voucher "%s" lên Đơn hàng %s (phiếu ID=%s): %s',
+                    self.voucher_code, order.name, self.id, result.get('error'),
+                )
+
         return order
 
     def action_create_sale_order(self):
@@ -397,11 +784,21 @@ class SerotoCourseRegistration(models.Model):
         vào seroto_education trong __manifest__.py - giống cách course_snippet.js/
         s_course_card.xml trong module này đã tra 'seroto.course' (module seroto_form)
         từ trước, không phải quyết định mới.
+
+        Chỉ lấy câu hỏi "Dùng chung" (is_shared) hoặc khớp ĐÚNG registration_category
+        của self (self luôn là 1 bản ghi phiếu đăng ký thật ở cả 2 nơi gọi hàm này -
+        _build_registration_response/view_registration_slip, xem controllers/
+        course_registration.py) - câu hỏi cũ (chưa từng cấu hình diện) mặc định
+        is_shared=True nên vẫn hiển thị bình thường ở mọi diện, không bị mất.
         """
         Course = self.env['academic.course'].sudo()
         course = Course.search([('name', '=', course_name)], limit=1)
         if not course:
             return []
+        category = self.registration_category if len(self) == 1 else False
+        questions = course.question_ids.filtered(
+            lambda q: q.is_shared or q.registration_category == category
+        )
         return [
             {
                 'id': question.id,
@@ -414,8 +811,37 @@ class SerotoCourseRegistration(models.Model):
                     line.strip() for line in (question.options or '').split('\n') if line.strip()
                 ],
             }
-            for question in course.question_ids
+            for question in questions
         ]
+
+    def _get_payment_amount(self):
+        """Số tiền THẬT cần thu cho phiếu này - dùng CHUNG cho MỌI cổng thanh toán (payOS
+        thật lẫn giả lập dev, xem vtt_payment_dev_switch/models/course_registration.py
+        _create_dev_bank_mock_transaction()). CỐ TÌNH tách riêng thành 1 method duy nhất -
+        trước đây nhánh giả lập tự tính lại `amount` riêng, bỏ sót hoàn toàn phần giảm giá
+        voucher (đã xảy ra thực tế) vì 2 nơi tính theo 2 cách khác nhau.
+        """
+        self.ensure_one()
+        # Lấy đúng giá GỐC (chưa giảm) của Sản phẩm liên kết - course_id đã tự suy ra từ
+        # course_name lúc create() (nếu khớp được tên khóa học). Không khớp được khóa
+        # học hoặc khóa học chưa gắn sản phẩm thì để 0đ (thà rõ ràng là chưa xác định
+        # được giá còn hơn hiện nhầm số của phiếu khác).
+        amount = self._get_base_amount()
+        # Diện đóng học phí + đã chọn "Đăng ký sớm" - dùng thẳng early_price (mặc định
+        # nạp từ Khóa học, nhân viên có thể đã sửa riêng cho phiếu này, xem
+        # _onchange_registration_category_pricing).
+        if self.registration_category == 'tuition' and self.early_registration_status == 'early' and self.early_price:
+            amount = self.early_price
+        # 3 diện học bổng/phi lợi nhuận - giảm theo % (discount_percent, cùng quy ước
+        # 0-100 như field discount có sẵn của sale.order.line, xem _create_sale_order).
+        elif self.registration_category in ('education_scholarship', 'medical_scholarship', 'nonprofit') and self.discount_percent:
+            amount = amount * (1 - self.discount_percent / 100)
+        # Diện voucher đã có mã hợp lệ - dùng ĐÚNG số tiền đã tính sẵn lúc tạo phiếu
+        # (_validate_voucher_code, gọi từ controller), không tính lại ở đây để tránh sai
+        # lệch làm tròn giữa 2 lần tính.
+        elif self.registration_category == 'voucher' and self.loyalty_card_id:
+            amount = self.voucher_final_amount
+        return amount
 
     def _create_payment_transaction(self):
         """Tạo link thanh toán payOS thật cho phiếu này - khách quét QR hoặc mở
@@ -424,15 +850,7 @@ class SerotoCourseRegistration(models.Model):
         _payos_on_paid() ở trên theo đúng quy ước related_res_model/related_res_id.
         """
         self.ensure_one()
-
-        # Lấy đúng giá bán hiện tại của Sản phẩm liên kết (academic.course.product_id) -
-        # course_id đã tự suy ra từ course_name lúc create() (nếu khớp được tên khóa
-        # học). Không khớp được khóa học hoặc khóa học chưa gắn sản phẩm thì để 0đ (thà
-        # rõ ràng là chưa xác định được giá còn hơn hiện nhầm số của phiếu khác).
-        amount = 0
-        if self.course_id and self.course_id.product_id:
-            amount = self.course_id.product_id.list_price
-
+        amount = self._get_payment_amount()
         slip_url = self._get_slip_url()
         transaction = self.env['payos.transaction'].sudo().create_for_record(
             amount=round(amount),
@@ -508,3 +926,19 @@ class SerotoCourseRegistrationAnswer(models.Model):
     # liên kết (xem SerotoCourseRegistration._get_course_questions() ở trên).
     question = fields.Char(string='Câu hỏi', required=True)
     answer = fields.Char(string='Trả lời')
+
+
+class SerotoCourseRegistrationCategoryInfo(models.Model):
+    _name = 'seroto.course.registration.category.info'
+    _description = 'Thông tin theo diện đăng ký (Phiếu đăng ký khóa học)'
+    _order = 'id'
+
+    registration_id = fields.Many2one(
+        'seroto.course.registration', string='Phiếu đăng ký', required=True, ondelete='cascade',
+    )
+    # label/value dạng CHUNG (không khai field riêng cho từng thông tin của diện y
+    # tế/tổ chức phi lợi nhuận) - controller (create_registration) tự ghép đúng nhãn cố
+    # định theo từng diện lúc tạo phiếu, hiển thị dạng list y hệt seroto.course.
+    # registration.answer/"Câu hỏi chuyên sâu" ở trên.
+    label = fields.Char(string='Thông tin', required=True)
+    value = fields.Char(string='Nội dung')
