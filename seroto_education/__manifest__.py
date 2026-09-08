@@ -32,6 +32,7 @@
         'security/seroto_rules.xml',
         'data/ir_sequence_data.xml',
         'data/product_data.xml',
+        'data/academic_registration_category_data.xml',
         'views/academic_course_views.xml',
         'views/account_move_views.xml',
         'views/account_payment_views.xml',

@@ -35,6 +35,7 @@ class CourseRegistrationController(http.Controller):
         nonprofit_org_name, nonprofit_org_province, nonprofit_org_ward,
         nonprofit_registrant_role, nonprofit_signer_name, nonprofit_signer_phone,
         nonprofit_representative_name, nonprofit_representative_phone,
+        basic_answers=None,
     ):
         """Validate toàn bộ "Thông tin cơ bản" + "Diện đăng ký" và dựng vals - dùng CHUNG
         cho cả tạo phiếu mới (create_registration) lẫn sửa lại phiếu đã tồn tại
@@ -58,10 +59,48 @@ class CourseRegistrationController(http.Controller):
             raise UserError(_('Vui lòng điền đầy đủ thông tin cơ bản.'))
         if student_relation != 'self' and not student_name:
             raise UserError(_('Vui lòng nhập họ tên học viên.'))
-        # Chặn THẬT ở server - "required" phía JS chỉ là UX, khách vẫn có thể gọi
-        # thẳng route này bỏ qua giao diện.
-        if not commitment_confirmed:
-            raise UserError(_('Vui lòng xác nhận cam kết thông tin đăng ký là chính xác.'))
+        # ĐÃ BỎ ràng buộc chặn cứng "commitment_confirmed" (field vẫn còn trong model để
+        # tương thích ngược, xem vals bên dưới) - không còn field riêng nào trên form
+        # nữa, giao hẳn cho từng Khóa học TỰ cấu hình câu hỏi cam kết (nếu cần) qua "Câu
+        # hỏi cơ bản" loại Checkbox (academic.course.basic.question, module
+        # seroto_education) - đã validate đủ ở đoạn basic_answers bên dưới, khóa nào
+        # KHÔNG cấu hình câu hỏi cam kết thì không còn bắt buộc gì thêm.
+
+        # Diện học bổng ngành y/tổ chức phi lợi nhuận - bắt buộc đủ field riêng của diện
+        # đó (trước đây thiếu field nào cũng ÂM THẦM bỏ qua, không báo lỗi gì - xem
+        # category_info_labels bên dưới, chỉ lọc bỏ giá trị rỗng chứ không chặn). Diện
+        # học bổng giáo dục KHÔNG có field text riêng (chỉ cần giấy tờ, xem
+        # CATEGORY_INFO_LABELS bên models/course_registration.py) nên không nằm trong
+        # danh sách này - giấy tờ đính kèm validate riêng ở 2 route gọi hàm này
+        # (create_registration/update_basic_registration, cần biết attachments/trạng
+        # thái phiếu cũ nên không kiểm ở đây được).
+        required_fields_by_category = {
+            'medical_scholarship': [medical_facility_name, medical_facility_province, medical_role],
+            'nonprofit': [
+                nonprofit_org_name, nonprofit_org_province, nonprofit_org_ward,
+                nonprofit_registrant_role, nonprofit_signer_name, nonprofit_signer_phone,
+                nonprofit_representative_name, nonprofit_representative_phone,
+            ],
+        }
+        for value in required_fields_by_category.get(registration_category, []):
+            if not (value or '').strip():
+                raise UserError(_('Vui lòng điền đầy đủ thông tin theo diện đăng ký.'))
+
+        # "Câu hỏi cơ bản" (Bước 1, module seroto_education) - bắt buộc trả lời đủ mọi
+        # câu ÁP DỤNG cho ĐÚNG diện vừa chọn (is_shared/khớp diện, xem models/
+        # course_registration.py _get_applicable_basic_questions) - "required" phía JS
+        # chỉ là UX, khách vẫn gọi thẳng route này bỏ qua giao diện được.
+        basic_answers = basic_answers or []
+        answered_basic = {
+            (item.get('question') or '').strip(): (item.get('answer') or '').strip()
+            for item in basic_answers
+        }
+        applicable_basic_questions = request.env['seroto.course.registration']._get_applicable_basic_questions(
+            course, registration_category,
+        )
+        for q in applicable_basic_questions:
+            if not answered_basic.get(q['question']):
+                raise UserError(_('Vui lòng trả lời đầy đủ các câu hỏi cơ bản.'))
 
         # Chặn THẬT ở server, không chỉ ẩn nút "Đăng ký ngay" trên giao diện (nhiều
         # trang landing tĩnh khác của Seroto không kiểm tra is_registration_open trước
@@ -176,6 +215,15 @@ class CourseRegistrationController(http.Controller):
             for _key, label, value in category_info_labels if (value or '').strip()
         ]
 
+        # Câu trả lời "Câu hỏi cơ bản" - GHI ĐÈ TOÀN BỘ mỗi lần gọi ((5,0,0) xóa sạch
+        # trước), giống category_info_ids ở trên - an toàn cho cả tạo mới lẫn cập nhật
+        # (đổi diện thì bộ câu hỏi áp dụng cũng đổi theo, không giữ lại câu trả lời của
+        # diện cũ không còn liên quan).
+        vals['basic_answer_ids'] = [(5, 0, 0)] + [
+            (0, 0, {'question': q['question'], 'answer': answered_basic.get(q['question'], '')})
+            for q in applicable_basic_questions
+        ]
+
         return vals
 
     def _save_attachments(self, registration, attachments):
@@ -206,6 +254,10 @@ class CourseRegistrationController(http.Controller):
         registration.category_attachment_ids = [(6, 0, created.ids)]
 
     def _build_registration_response(self, registration, course):
+        # Tự dọn answer_ids theo đúng bộ câu hỏi áp dụng HIỆN TẠI (thêm câu mới/xóa dòng
+        # rỗng đã đổi tên - xem _sync_answer_ids) - NV mở phiếu trên backend ngay sau đó
+        # luôn thấy đúng, không cần tự tay kích hoạt onchange mới đồng bộ lại.
+        registration._sync_answer_ids()
         category_labels = dict(registration._fields['registration_category'].selection)
         # "Loại voucher" không còn hiển thị cho khách chọn (đã ẩn khỏi form/Phiếu đăng
         # ký - field vẫn còn trong model để tương thích ngược với phiếu cũ, chỉ không
@@ -261,7 +313,7 @@ class CourseRegistrationController(http.Controller):
                              nonprofit_signer_name=None, nonprofit_signer_phone=None,
                              nonprofit_representative_name=None,
                              nonprofit_representative_phone=None,
-                             attachments=None, **post):
+                             attachments=None, basic_answers=None, **post):
         vals = self._prepare_registration_vals(
             course=course, name=name, email=email, phone=phone,
             student_relation=student_relation, student_name=student_name,
@@ -278,6 +330,7 @@ class CourseRegistrationController(http.Controller):
             nonprofit_org_ward=nonprofit_org_ward,
             nonprofit_registrant_role=nonprofit_registrant_role,
             nonprofit_signer_name=nonprofit_signer_name,
+            basic_answers=basic_answers,
             nonprofit_signer_phone=nonprofit_signer_phone,
             nonprofit_representative_name=nonprofit_representative_name,
             nonprofit_representative_phone=nonprofit_representative_phone,
@@ -285,6 +338,13 @@ class CourseRegistrationController(http.Controller):
         vals['state'] = 'new'
         registration = request.env['seroto.course.registration'].sudo().create(vals)
         self._save_attachments(registration, attachments)
+
+        # Chặn THẬT ở server - diện cần nộp giấy tờ (education_scholarship/
+        # medical_scholarship/nonprofit) bắt buộc có ÍT NHẤT 1 file đính kèm. Raise ở
+        # đây (SAU khi đã create()) vẫn AN TOÀN - lỗi làm cả transaction của request này
+        # rollback, phiếu vừa tạo không bị lưu lại nửa vời.
+        if registration._requires_category_confirmation() and not registration.category_attachment_ids:
+            raise UserError(_('Vui lòng đính kèm giấy tờ/tài liệu theo diện đăng ký.'))
 
         # 3 diện cần nộp giấy tờ - CHƯA tạo giao dịch thanh toán ngay, đợi nhân viên
         # bấm "Xác nhận thông tin đăng ký" (action_confirm_category_discount) mới tạo,
@@ -324,7 +384,7 @@ class CourseRegistrationController(http.Controller):
                                    nonprofit_signer_name=None, nonprofit_signer_phone=None,
                                    nonprofit_representative_name=None,
                                    nonprofit_representative_phone=None,
-                                   attachments=None, **post):
+                                   attachments=None, basic_answers=None, **post):
         registration = self._get_registration_or_raise(id, token)
         if registration.payment_status == 'paid' or registration.state != 'new':
             raise UserError(_('Phiếu đăng ký đã xử lý xong, không thể sửa lại thông tin.'))
@@ -348,9 +408,17 @@ class CourseRegistrationController(http.Controller):
             nonprofit_signer_phone=nonprofit_signer_phone,
             nonprofit_representative_name=nonprofit_representative_name,
             nonprofit_representative_phone=nonprofit_representative_phone,
+            basic_answers=basic_answers,
         )
         registration.write(vals)
         self._save_attachments(registration, attachments)
+
+        # Chặn THẬT ở server - diện cần nộp giấy tờ bắt buộc có ÍT NHẤT 1 file đính kèm
+        # SAU khi ghi - tính theo trạng thái CUỐI CÙNG (không chỉ file mới gửi lần này),
+        # vì _save_attachments giữ nguyên file cũ nếu khách không chọn lại file mới lúc
+        # sửa "Thông tin cơ bản".
+        if registration._requires_category_confirmation() and not registration.category_attachment_ids:
+            raise UserError(_('Vui lòng đính kèm giấy tờ/tài liệu theo diện đăng ký.'))
 
         # Học phí có thể đã đổi (khóa học/diện/mã voucher khác) - tạo lại link thanh toán
         # MỚI phản ánh đúng số tiền mới. Giao dịch payOS/giả lập CŨ (chưa thanh toán) bị bỏ
@@ -423,6 +491,12 @@ class CourseRegistrationController(http.Controller):
 
         if not registration or not consteq(registration.access_token, token):
             return request.not_found()
+
+        # Tự dọn answer_ids theo đúng bộ câu hỏi áp dụng HIỆN TẠI (thêm câu mới/xóa dòng
+        # rỗng đã đổi tên - xem models/course_registration.py, _sync_answer_ids) TRƯỚC
+        # khi tính unanswered_questions bên dưới - nếu không, dòng rỗng theo tên CŨ vẫn
+        # còn lẫn trong answer_ids dù không ai còn hỏi tên đó nữa.
+        registration._sync_answer_ids()
 
         # Câu hỏi chuyên sâu CHƯA trả lời - hiện thẳng input/select ngay trên trang phiếu
         # để khách điền nốt qua link email, không bắt buộc phải mở lại wizard "Đăng ký
