@@ -134,6 +134,11 @@ class AcademicCourse(models.Model):
     question_ids = fields.One2many(
         'academic.course.question', 'course_id', string='Câu hỏi chuyên sâu',
     )
+    # Hiện NGAY Ở BƯỚC 1 "Thông tin cơ bản" của wizard đăng ký, TRƯỚC KHI Phiếu đăng ký
+    # được tạo - khác "Câu hỏi chuyên sâu" (question_ids) chỉ hiện SAU khi đã có Phiếu.
+    basic_question_ids = fields.One2many(
+        'academic.course.basic.question', 'course_id', string='Câu hỏi cơ bản',
+    )
 
     # Khu vực hiển thị (trang chủ theo Giáo viên/Trường học/...) - website
     # (vtt_seroto_website, snippet "Khóa học - Khu vực hiển thị") lọc khóa học hiển thị

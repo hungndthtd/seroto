@@ -69,4 +69,11 @@ class AcademicCourseSnippetController(http.Controller):
         )
         return {
             "is_registration_open": (not course_record) or course_record.is_registration_open,
+            # Câu hỏi cơ bản (Bước 1 "Thông tin cơ bản") - gọi NGAY lúc mở modal, TRƯỚC
+            # KHI biết Diện đăng ký khách sẽ chọn, nên trả CHƯA lọc theo diện kèm
+            # is_shared/category_codes - JS tự lọc lại mỗi khi đổi dropdown "Diện đăng
+            # ký" (xem models/course_registration.py, _get_basic_questions_raw).
+            "basic_questions": request.env["seroto.course.registration"]._get_basic_questions_raw(
+                (course or "").strip()
+            ),
         }

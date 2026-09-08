@@ -241,6 +241,12 @@ class SerotoCourseRegistration(models.Model):
         'seroto.course.registration.answer', 'registration_id',
         string='Câu trả lời (Thông tin chuyên sâu)',
     )
+    # Trả lời NGAY Ở BƯỚC 1 "Thông tin cơ bản" - ghi 1 LẦN lúc tạo/cập nhật phiếu (khác
+    # answer_ids ở trên, có thể ghi lại nhiều lần sau khi phiếu đã tồn tại).
+    basic_answer_ids = fields.One2many(
+        'seroto.course.registration.basic.answer', 'registration_id',
+        string='Câu trả lời (Thông tin cơ bản)',
+    )
     payment_status = fields.Selection(
         [('unpaid', 'Chưa thanh toán'), ('paid', 'Đã thanh toán')],
         string='Trạng thái thanh toán', default='unpaid', required=True,
@@ -358,7 +364,7 @@ class SerotoCourseRegistration(models.Model):
                 rec.discount_percent = pricing.discount_percent
 
     @api.depends('course_id.question_ids.question', 'course_id.question_ids.is_shared',
-                 'course_id.question_ids.registration_category', 'registration_category',
+                 'course_id.question_ids.registration_category_ids', 'registration_category',
                  'answer_ids.question', 'answer_ids.answer', 'partner_name', 'email', 'phone')
     def _compute_is_complete(self):
         for rec in self:
@@ -453,18 +459,48 @@ class SerotoCourseRegistration(models.Model):
         # được vào vals lúc create() như các field khác.
         for rec in records:
             rec.code = 'PDK%s' % rec.id
-            # Pre-seed answer_ids RỖNG cho MỌI câu hỏi áp dụng (is_shared/khớp diện,
-            # xem _get_course_questions()) NGAY lúc tạo phiếu - trước đây answer_ids
-            # HOÀN TOÀN RỖNG tới khi khách tự trả lời, NV mở phiếu trên backend không
-            # biết cần hỏi khách những gì. "not rec.answer_ids" tránh ghi đè answer_ids
-            # nếu vals đã có sẵn (VD luồng backend qua onchange đã tự dựng từ trước).
+            # Pre-seed answer_ids RỖNG cho MỌI câu hỏi áp dụng NGAY lúc tạo phiếu -
+            # trước đây answer_ids HOÀN TOÀN RỖNG tới khi khách tự trả lời, NV mở phiếu
+            # trên backend không biết cần hỏi khách những gì. "not rec.answer_ids" tránh
+            # ghi đè answer_ids nếu vals đã có sẵn (VD luồng backend qua onchange đã tự
+            # dựng từ trước).
             if rec.course_id and not rec.answer_ids:
-                questions = rec._get_course_questions(rec.course_id.name)
-                rec.answer_ids = [
-                    (0, 0, {'question': q['question'], 'answer': ''})
-                    for q in questions
-                ]
+                rec._sync_answer_ids()
         return records
+
+    def _sync_answer_ids(self):
+        """Đồng bộ answer_ids theo ĐÚNG bộ câu hỏi áp dụng hiện tại (is_shared/khớp
+        diện, xem _get_course_questions()) - thêm dòng RỖNG cho câu hỏi mới (VD NV vừa
+        thêm câu hỏi vào Khóa học sau khi phiếu đã tạo), và XÓA dòng RỖNG (answer chưa
+        điền) có câu hỏi KHÔNG CÒN khớp bộ câu hỏi hiện tại (VD NV vừa đổi tên câu hỏi
+        trên Khóa học - dòng rỗng theo tên CŨ giờ chỉ còn là rác, không ai trả lời được
+        nữa vì tên mới mới là cái đang hỏi khách).
+
+        Dòng ĐÃ có trả lời thật (answer khác rỗng) KHÔNG BAO GIỜ bị đụng tới dù tên câu
+        hỏi không còn khớp nữa - giữ nguyên lịch sử đúng câu đã hỏi khách lúc đó (xem
+        comment trên SerotoCourseRegistrationAnswer.question).
+
+        Gọi ở các điểm khách/NV thực sự XEM lại phiếu (view_registration_slip,
+        _build_registration_response, xem controllers/course_registration.py) để tự dọn
+        rác mà không cần chờ NV mở đúng form backend rồi tự tay đổi field mới kích hoạt
+        được _onchange_course_id_questions (vốn cũng làm việc này, nhưng CHỈ chạy khi có
+        thao tác trên UI backend).
+        """
+        for rec in self:
+            if not rec.course_id:
+                continue
+            questions = [q['question'] for q in rec._get_course_questions(rec.course_id.name)]
+            existing_questions = set(rec.answer_ids.mapped('question'))
+            stale = rec.answer_ids.filtered(
+                lambda a: not (a.answer or '').strip() and a.question not in questions
+            )
+            stale.unlink()
+            missing = [q for q in questions if q not in existing_questions]
+            if missing:
+                self.env['seroto.course.registration.answer'].create([
+                    {'registration_id': rec.id, 'question': q, 'answer': ''}
+                    for q in missing
+                ])
 
     def action_confirm(self):
         """Gộp luôn bước Tạo đơn hàng vào đây (trước đây phải bấm 2 nút riêng: Xác nhận
@@ -755,8 +791,11 @@ class SerotoCourseRegistration(models.Model):
         s_course_card.xml trong module này đã tra 'seroto.course' (module seroto_form)
         từ trước, không phải quyết định mới.
 
-        Chỉ lấy câu hỏi "Dùng chung" (is_shared) hoặc khớp ĐÚNG registration_category
-        của self (self luôn là 1 bản ghi phiếu đăng ký thật ở cả 2 nơi gọi hàm này -
+        Chỉ lấy câu hỏi "Dùng chung" (is_shared) hoặc khớp ĐÚNG 1 trong các diện đã chọn
+        cho câu hỏi đó (registration_category_ids, Many2many - 1 câu hỏi áp dụng được
+        cho NHIỀU diện cùng lúc, so khớp bằng "code" chứ không phải id - xem
+        academic.registration.category, module seroto_education) của self (self luôn
+        là 1 bản ghi phiếu đăng ký thật ở cả 2 nơi gọi hàm này -
         _build_registration_response/view_registration_slip, xem controllers/
         course_registration.py) - câu hỏi cũ (chưa từng cấu hình diện) mặc định
         is_shared=True nên vẫn hiển thị bình thường ở mọi diện, không bị mất.
@@ -767,7 +806,7 @@ class SerotoCourseRegistration(models.Model):
             return []
         category = self.registration_category if len(self) == 1 else False
         questions = course.question_ids.filtered(
-            lambda q: q.is_shared or q.registration_category == category
+            lambda q: q.is_shared or category in q.registration_category_ids.mapped('code')
         )
         return [
             {
@@ -782,6 +821,45 @@ class SerotoCourseRegistration(models.Model):
                 ],
             }
             for question in questions
+        ]
+
+    @api.model
+    def _get_basic_questions_raw(self, course_name):
+        """Toàn bộ Câu hỏi cơ bản (academic.course.basic.question, module seroto_education)
+        của khóa học - KHÔNG lọc theo diện (khác _get_course_questions() ở trên, nơi ĐÃ
+        biết registration_category của 1 Phiếu đăng ký thật). Câu hỏi cơ bản hiện Ở BƯỚC 1
+        "Thông tin cơ bản", TRƯỚC KHI Phiếu đăng ký tồn tại, nên gọi được ngay lúc mở modal
+        (xem controllers/academic_course_snippet.py, academic_course_is_registration_open)
+        - JS tự lọc lại theo diện đang chọn mỗi khi đổi dropdown (course_register_wizard.js,
+        _renderBasicQuestions/_onCategoryChange), kèm is_shared/category_codes để lọc.
+        """
+        Course = self.env['academic.course'].sudo()
+        course = Course.search([('name', '=', course_name)], limit=1)
+        if not course:
+            return []
+        return [
+            {
+                'id': question.id,
+                'question': question.question,
+                'question_type': question.question_type,
+                'options': [
+                    line.strip() for line in (question.options or '').split('\n') if line.strip()
+                ],
+                'is_shared': question.is_shared,
+                'category_codes': question.registration_category_ids.mapped('code'),
+            }
+            for question in course.basic_question_ids
+        ]
+
+    @api.model
+    def _get_applicable_basic_questions(self, course_name, registration_category):
+        """Câu hỏi cơ bản ÁP DỤNG cho ĐÚNG 1 diện cụ thể - dùng để validate THẬT ở server
+        (controllers/course_registration.py, _prepare_registration_vals) rằng khách đã
+        trả lời đủ, không chỉ dựa vào JS.
+        """
+        return [
+            q for q in self._get_basic_questions_raw(course_name)
+            if q['is_shared'] or registration_category in q['category_codes']
         ]
 
     def _get_payment_amount(self):
@@ -894,6 +972,20 @@ class SerotoCourseRegistrationAnswer(models.Model):
     # - dù sau này khóa học đổi/xóa câu hỏi, phiếu cũ vẫn giữ đúng câu đã hỏi khách lúc
     # đó; đồng thời tránh phải khai phụ thuộc cứng sang seroto_education chỉ vì 1 field
     # liên kết (xem SerotoCourseRegistration._get_course_questions() ở trên).
+    question = fields.Char(string='Câu hỏi', required=True)
+    answer = fields.Char(string='Trả lời')
+
+
+class SerotoCourseRegistrationBasicAnswer(models.Model):
+    _name = 'seroto.course.registration.basic.answer'
+    _description = 'Trả lời câu hỏi cơ bản (Phiếu đăng ký khóa học)'
+    _order = 'id'
+
+    # Model RIÊNG với seroto.course.registration.answer ("Câu hỏi chuyên sâu") - câu hỏi
+    # ở đây trả lời NGAY Ở BƯỚC 1 "Thông tin cơ bản", trước khi Phiếu đăng ký tồn tại.
+    registration_id = fields.Many2one(
+        'seroto.course.registration', string='Phiếu đăng ký', required=True, ondelete='cascade',
+    )
     question = fields.Char(string='Câu hỏi', required=True)
     answer = fields.Char(string='Trả lời')
 
