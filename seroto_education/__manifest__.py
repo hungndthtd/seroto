@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Seroto Education Management',
-    'version': '19.0.1.10.0',
+    'version': '19.0.1.13.0',
     'category': 'Education',
     'summary': 'Manage courses, classes, enrollments, attendance, and certificates without events module',
     'description': """
@@ -20,11 +20,6 @@
         'sale_management',
         'website',
         'account',
-        # academic.course.loyalty_program_id (models/academic_course.py) - link tham
-        # chiếu nhanh tới "Phiếu giảm giá" (loyalty.program) tương ứng khóa học. Module
-        # này vốn đã được cài trên DB qua vtt_seroto_website (đợt làm Diện voucher quà
-        # tặng) - khai depends thẳng ở đây chỉ để chính thức hoá cho đúng.
-        'loyalty',
     ],
     'data': [
         'security/seroto_security.xml',
@@ -45,6 +40,7 @@
         'views/sale_order_views.xml',
         'views/res_partner_views.xml',
         'views/academic_menus.xml',
+        'views/academic_registration_category_views.xml',
         'views/website_course_templates.xml',
         'views/website_foundation_templates.xml',
         'data/automated_actions.xml',

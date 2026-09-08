@@ -88,14 +88,18 @@
                   class="oe_highlight" invisible="state not in ('draft', 'new')"/>
           <button name="action_reject" string="Từ chối" type="object"
                   invisible="state not in ('draft', 'new')"/>
-          <!-- Chỉ 3 diện cần nộp giấy tờ - NV tự kiểm tra giấy tờ/thông tin đính kèm rồi
-               mới bấm, popup confirm hỏi lại 1 lần trước khi áp mức giảm + tạo lại link
-               thanh toán (xem action_confirm_category_discount). Tự ẩn sau khi đã xác
-               nhận hoặc đã thanh toán - tránh bấm lại tạo trùng giao dịch không cần thiết
-               (đổi discount_percent thì tự hiện lại, xem _onchange_discount_percent_reset_confirm). -->
+          <!-- Chỉ diện có requires_category_confirmation=True (đọc từ
+               academic.registration.category.requires_review, xem
+               _compute_requires_category_flags) - NV tự kiểm tra giấy tờ/thông tin đính
+               kèm rồi mới bấm, popup confirm hỏi lại 1 lần trước khi áp mức giảm + tạo
+               lại link thanh toán (xem action_confirm_category_discount). Tự ẩn sau khi
+               đã xác nhận hoặc đã thanh toán - tránh bấm lại tạo trùng giao dịch không
+               cần thiết (đổi discount_percent thì tự hiện lại, xem
+               _onchange_discount_percent_reset_confirm). -->
+          <field name="requires_category_confirmation" invisible="1"/>
           <button name="action_confirm_category_discount" string="Xác nhận thông tin đăng ký"
                   type="object" class="oe_highlight"
-                  invisible="state not in ('draft', 'new') or payment_status == 'paid' or category_discount_confirmed or registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"
+                  invisible="state not in ('draft', 'new') or payment_status == 'paid' or category_discount_confirmed or not requires_category_confirmation"
                   confirm="Xác nhận thông tin/giấy tờ/tài liệu chính xác và đầy đủ?"/>
           <!-- "Xác nhận" giờ tự tạo luôn Đơn hàng - nút này chỉ còn xuất hiện trong 1
                tình huống hiếm: hệ thống tự động (payOS) đã set trạng thái "Đã xác nhận"
@@ -167,6 +171,7 @@
                 (notebook bên dưới), theo đúng yêu cầu. -->
             <group string="Diện đăng ký khóa học">
               <field name="currency_id" invisible="1"/>
+              <field name="requires_category_upload" invisible="1"/>
               <field name="registration_category"/>
               <field name="early_registration_status" invisible="registration_category != 'tuition'"/>
               <field name="early_price"
@@ -178,7 +183,7 @@
               <field name="discount_percent"
                      invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
               <field name="category_discount_confirmed" readonly="1" widget="boolean_toggle"
-                     invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
+                     invisible="not requires_category_confirmation"/>
               <!-- voucher_type ẩn hẳn - field vẫn còn trong model (tương thích ngược
                    dữ liệu phiếu cũ) nhưng không còn ai điền/hiển thị nữa. -->
               <field name="voucher_code" invisible="registration_category != 'voucher'"/>
@@ -186,7 +191,7 @@
               <field name="voucher_discount_amount" readonly="1" invisible="registration_category != 'voucher'"/>
               <field name="voucher_final_amount" readonly="1" invisible="registration_category != 'voucher'"/>
               <field name="category_attachment_ids" widget="many2many_binary"
-                    invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
+                    invisible="not requires_category_upload"/>
             </group>
           </group>
           <group string="Lý do từ chối" invisible="state != 'rejected'">

@@ -108,14 +108,14 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label>Diện đăng ký</label>
+                    <!-- RỖNG lúc render server-side - JS (course_register_wizard.js,
+                         _renderRegistrationCategoryOptions) tự bơm <option> ngay lúc mở
+                         modal, CHỈ gồm đúng những diện đang active=True cho ĐÚNG khóa học
+                         này (xem controllers/academic_course_snippet.py,
+                         academic_course_is_registration_open, registration_categories) -
+                         không còn danh sách 5 diện cố định dùng chung mọi khóa như trước. -->
                     <select class="form-control" name="registration_category"
-                            id="wizard_registration_category">
-                      <option value="tuition" selected="selected">Diện đóng học phí</option>
-                      <option value="voucher">Diện voucher quà tặng</option>
-                      <option value="education_scholarship">Diện học bổng giáo dục</option>
-                      <option value="medical_scholarship">Diện học bổng ngành y</option>
-                      <option value="nonprofit">Diện tổ chức phi lợi nhuận</option>
-                    </select>
+                            id="wizard_registration_category"/>
                   </div>
                 </div>
                 <!-- Diện đóng học phí: KHÔNG có field riêng nào trên website - "Trạng

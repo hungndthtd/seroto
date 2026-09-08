@@ -339,11 +339,11 @@ class CourseRegistrationController(http.Controller):
         registration = request.env['seroto.course.registration'].sudo().create(vals)
         self._save_attachments(registration, attachments)
 
-        # Chặn THẬT ở server - diện cần nộp giấy tờ (education_scholarship/
-        # medical_scholarship/nonprofit) bắt buộc có ÍT NHẤT 1 file đính kèm. Raise ở
-        # đây (SAU khi đã create()) vẫn AN TOÀN - lỗi làm cả transaction của request này
-        # rollback, phiếu vừa tạo không bị lưu lại nửa vời.
-        if registration._requires_category_confirmation() and not registration.category_attachment_ids:
+        # Chặn THẬT ở server - diện có requires_upload=True (academic.registration.category)
+        # bắt buộc có ÍT NHẤT 1 file đính kèm. Raise ở đây (SAU khi đã create()) vẫn AN
+        # TOÀN - lỗi làm cả transaction của request này rollback, phiếu vừa tạo không bị
+        # lưu lại nửa vời.
+        if registration._requires_category_upload() and not registration.category_attachment_ids:
             raise UserError(_('Vui lòng đính kèm giấy tờ/tài liệu theo diện đăng ký.'))
 
         # 3 diện cần nộp giấy tờ - CHƯA tạo giao dịch thanh toán ngay, đợi nhân viên
@@ -413,11 +413,11 @@ class CourseRegistrationController(http.Controller):
         registration.write(vals)
         self._save_attachments(registration, attachments)
 
-        # Chặn THẬT ở server - diện cần nộp giấy tờ bắt buộc có ÍT NHẤT 1 file đính kèm
-        # SAU khi ghi - tính theo trạng thái CUỐI CÙNG (không chỉ file mới gửi lần này),
-        # vì _save_attachments giữ nguyên file cũ nếu khách không chọn lại file mới lúc
-        # sửa "Thông tin cơ bản".
-        if registration._requires_category_confirmation() and not registration.category_attachment_ids:
+        # Chặn THẬT ở server - diện có requires_upload=True bắt buộc có ÍT NHẤT 1 file
+        # đính kèm SAU khi ghi - tính theo trạng thái CUỐI CÙNG (không chỉ file mới gửi
+        # lần này), vì _save_attachments giữ nguyên file cũ nếu khách không chọn lại file
+        # mới lúc sửa "Thông tin cơ bản".
+        if registration._requires_category_upload() and not registration.category_attachment_ids:
             raise UserError(_('Vui lòng đính kèm giấy tờ/tài liệu theo diện đăng ký.'))
 
         # Học phí có thể đã đổi (khóa học/diện/mã voucher khác) - tạo lại link thanh toán

@@ -45,10 +45,24 @@ class AcademicCoursePricing(models.Model):
     )
     # readonly="id" trên view (không phải readonly=True ở field) - CHO SỬA khi đang tạo
     # dòng mới (chưa có id), KHÓA lại sau khi đã lưu - tránh đổi diện của 1 dòng đã có
-    # sẵn dữ liệu (early_price/loyalty_program_id/discount_percent) làm lẫn sang diện
-    # khác ngoài ý muốn.
+    # sẵn dữ liệu (early_price/discount_percent) làm lẫn sang diện khác ngoài ý muốn.
     registration_category = fields.Selection(
         REGISTRATION_CATEGORY_SELECTION, string='Diện đăng ký', required=True,
+    )
+    # Mặc định True - giữ đúng hành vi hiện tại (mọi khóa đang hiện đủ 5 diện). Quản lý
+    # tắt dòng nào thì diện đó KHÔNG còn xuất hiện trên form đăng ký website CỦA ĐÚNG
+    # khóa này nữa (không xóa cấu hình % đã nhập, chỉ ẩn) - xem controllers/
+    # academic_course_snippet.py (module vtt_seroto_website), academic_course_is_registration_open.
+    # CỐ TÌNH đặt tên "website_visible" (KHÔNG dùng tên field mặc định "active" của Odoo)
+    # - "active" mang ý nghĩa đặc biệt trong ORM (tự bị loại khỏi mọi search()/browse()
+    # mặc định, kể cả đọc qua One2many như course_id.pricing_ids trong Python), tắt nó đi
+    # sẽ làm dòng cấu hình "biến mất" luôn khỏi tab Cấu hình giá trên form Khóa học lẫn
+    # _onchange_registration_category_pricing() (module vtt_seroto_website, đọc pricing
+    # theo diện lúc nhân viên tạo Phiếu tay ở backend) - trong khi ý định thật của field
+    # này CHỈ là ẩn/hiện trên FORM ĐĂNG KÝ WEBSITE, không phải lưu trữ/xóa mềm bản ghi.
+    website_visible = fields.Boolean(
+        string='Hiển thị trên website', default=True,
+        help='Tắt để tạm ẩn diện này khỏi form đăng ký của khóa học này, không xóa cấu hình đã nhập.',
     )
     content = fields.Char(
         string='Nội dung',
@@ -65,14 +79,6 @@ class AcademicCoursePricing(models.Model):
         string='Mức học phí đăng ký sớm', currency_field='currency_id',
         help='Áp dụng cho Diện đóng học phí khi Phiếu đăng ký chọn "Đăng ký sớm".',
     )
-    # CHỈ mang tính tham chiếu/điều hướng nhanh cho nhân viên (bấm mở thẳng Phiếu giảm
-    # giá của khóa) - KHÔNG dùng để validate mã voucher, việc đó vẫn theo đúng phạm vi
-    # sản phẩm cấu hình trong loyalty.reward (xem
-    # SerotoCourseRegistration._validate_voucher_code, module vtt_seroto_website).
-    loyalty_program_id = fields.Many2one(
-        'loyalty.program', string='Phiếu giảm giá tương ứng',
-        help='Chỉ để tham chiếu nhanh - không ảnh hưởng việc kiểm tra mã voucher.',
-    )
     discount_percent = fields.Float(
         string='Mức giảm học phí (%)',
         help='Áp dụng mặc định cho diện này khi tạo Phiếu đăng ký - nhân viên vẫn sửa '
@@ -80,12 +86,16 @@ class AcademicCoursePricing(models.Model):
     )
 
     # Cột "Ưu đãi" hiển thị trên list - CHỈ ĐỂ XEM (không nhập trực tiếp vào đây được vì
-    # 3 diện có 3 KIỂU DỮ LIỆU thật khác nhau - tiền/link/%, không gộp chung 1 field vừa
-    # nhập vừa giữ đúng kiểu). Muốn sửa số/liên kết thật, bấm vào dòng để mở form riêng
-    # (xem <form> lồng trong <field name="pricing_ids"> của academic_course_views.xml).
+    # các diện có KIỂU DỮ LIỆU thật khác nhau - tiền/%, không gộp chung 1 field vừa nhập
+    # vừa giữ đúng kiểu). Muốn sửa số thật, bấm vào dòng để mở form riêng (xem <form>
+    # lồng trong <field name="pricing_ids"> của academic_course_views.xml). Diện voucher
+    # không có gì để hiển thị ở đây - chương trình/mã áp dụng cấu hình thẳng ở
+    # loyalty.reward (Sales > Chiết khấu & Khách hàng thân thiết), không cấu hình lại ở
+    # màn này (đã bỏ field loyalty_program_id trước đây do không có tác dụng thật, chỉ
+    # gây hiểu lầm là "gắn" được voucher vào khóa từ đây).
     offer_display = fields.Char(string='Ưu đãi', compute='_compute_offer_display')
 
-    @api.depends('registration_category', 'early_price', 'loyalty_program_id.name', 'discount_percent')
+    @api.depends('registration_category', 'early_price', 'discount_percent')
     def _compute_offer_display(self):
         for rec in self:
             if rec.registration_category == 'tuition':
@@ -93,8 +103,6 @@ class AcademicCoursePricing(models.Model):
                     '{:,.0f}đ'.format(rec.early_price).replace(',', '.')
                     if rec.early_price else ''
                 )
-            elif rec.registration_category == 'voucher':
-                rec.offer_display = rec.loyalty_program_id.name or ''
             elif rec.registration_category in DISCOUNT_PERCENT_CATEGORIES:
                 rec.offer_display = '%s%%' % rec.discount_percent if rec.discount_percent else ''
             else:

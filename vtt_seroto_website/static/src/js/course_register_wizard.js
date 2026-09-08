@@ -77,6 +77,14 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             // CHƯA lọc theo diện (server trả nguyên cả bộ), tự lọc lại theo diện đang
             // chọn mỗi khi render - xem _renderBasicQuestions.
             basicQuestions: [],
+            // [{code, name, requires_review, requires_upload, template_url}, ...] - CHỈ
+            // những diện đang website_visible=True cho ĐÚNG khóa học này (xem controllers/
+            // academic_course_snippet.py, academic_course_is_registration_open) - nguồn
+            // duy nhất để dựng <option> của #wizard_registration_category, biết diện
+            // đang chọn có yêu cầu upload hay không, VÀ link tải mẫu giấy tờ (xem
+            // _renderRegistrationCategoryOptions, _onCategoryChange, _onBasicSubmit) -
+            // không còn hardcode "5 diện cố định"/UPLOAD_CATEGORIES như trước.
+            registrationCategories: [],
             paid: false,
         };
     },
@@ -111,6 +119,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._state = this._emptyState();
         this._state.course = course;
         this._state.basicQuestions = openCheck.basic_questions || [];
+        this._state.registrationCategories = openCheck.registration_categories || [];
 
         const modalEl = this.el.querySelector("#courseRegisterWizardModal");
 
@@ -123,27 +132,15 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         // phải state của form) - phải tự ẩn lại tay ở đây.
         modalEl.querySelector("#wizard_student_fields").classList.add("d-none");
         modalEl.querySelector("[name='student_name']").required = false;
-        // Diện đăng ký - form.reset() đưa <select> về lại "tuition" (option mặc định
-        // trong HTML) nhưng KHÔNG tự ẩn/hiện lại các khối field theo diện (chỉ là class
-        // CSS, không phải state của form) - tự làm lại y hệt _onCategoryChange cho diện
-        // mặc định, giống cách #wizard_student_fields đang tự re-hide ở trên. Diện đóng
-        // học phí (mặc định) không có khối riêng nào cần hiện.
-        // Diện mặc định "tuition" không có khối nào bắt buộc - reset .required về false
-        // cho khối "upload"/"medical"/"nonprofit" (KHÔNG chỉ ẩn class) - required tĩnh
-        // trên input dù đang ẩn vẫn bị Chrome tính vào checkValidity() của cả form, xem
-        // comment tại _onCategoryChange.
-        const REQUIRED_BLOCKS = ["upload", "medical", "nonprofit"];
-        ["voucher", "upload", "medical", "nonprofit"].forEach((name) => {
-            const blockEl = modalEl.querySelector(`#wizard_category_${name}_fields`);
-            blockEl.classList.add("d-none");
-            if (REQUIRED_BLOCKS.includes(name)) {
-                blockEl.querySelectorAll("input, select").forEach((input) => {
-                    input.required = false;
-                });
-            }
-        });
+        // Diện đăng ký - danh sách <option> giờ DỰNG LẠI TỪ ĐẦU mỗi lần mở modal, CHỈ
+        // gồm đúng những diện đang active=True cho khóa học này (xem
+        // _renderRegistrationCategoryOptions) - không còn cố định "tuition" làm mặc định
+        // như trước (khóa có thể tắt hẳn diện tuition). Gọi lại _onCategoryChange ngay
+        // sau đó (y hệt lúc khách tự đổi dropdown) để ẩn/hiện + bật/tắt required đúng
+        // theo diện ĐẦU TIÊN thực tế đang được chọn, thay vì tự giả định "tuition".
+        this._renderRegistrationCategoryOptions(modalEl);
         modalEl.querySelector("#wizard_category_attachment_input").value = "";
-        this._renderBasicQuestions(modalEl);
+        this._onCategoryChange({ currentTarget: modalEl.querySelector("#wizard_registration_category") });
         modalEl.querySelector("#wizard_email_sent_note").textContent = "";
         modalEl.querySelector("#wizard_payment_pending").classList.remove("d-none");
         modalEl.querySelector("#wizard_payment_success").classList.add("d-none");
@@ -193,24 +190,59 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._updateBasicContinueState(modalEl);
     },
 
+    // Dựng lại <option> của #wizard_registration_category từ this._state.registrationCategories
+    // (đã lọc theo ĐÚNG khóa học + active=True, xem _onOpenWizard) - chọn sẵn diện ĐẦU
+    // TIÊN trong danh sách (sequence nhỏ nhất, thứ tự server đã trả đúng - xem
+    // academic.course.pricing._order). Khóa không cấu hình diện nào cả (danh sách rỗng,
+    // lẽ ra không nên xảy ra vì academic.course.create() tự sinh đủ dòng) thì để
+    // <select> rỗng - form vẫn gửi registration_category="" lên server, server tự chặn
+    // lại (không có diện nào khớp).
+    _renderRegistrationCategoryOptions(modalEl) {
+        const select = modalEl.querySelector("#wizard_registration_category");
+        select.replaceChildren();
+        this._state.registrationCategories.forEach((cat, idx) => {
+            const option = document.createElement("option");
+            option.value = cat.code;
+            option.textContent = cat.name;
+            if (idx === 0) {
+                option.selected = true;
+            }
+            select.appendChild(option);
+        });
+    },
+
     // "Diện đăng ký": hiện đúng (các) khối field theo diện đã chọn - medical/nonprofit
-    // hiện CẢ khối riêng LẪN khối "upload" dùng chung (3 diện cần nộp giấy tờ). Đúng
+    // hiện CẢ khối riêng LẪN khối "upload" dùng chung (diện cần nộp giấy tờ). Đúng
     // pattern _onRelationChange, chỉ áp dụng cho nhiều khối hơn 1.
     _onCategoryChange(ev) {
         const modalEl = ev.currentTarget.closest(".modal");
         const category = ev.currentTarget.value;
 
-        // Diện đóng học phí không có khối riêng nào trên website (xem
+        // Cấu trúc field RIÊNG của từng diện (voucher/medical/nonprofit có field đặc thù
+        // không diện nào khác dùng chung) - vẫn hardcode ở đây, cố tình KHÔNG đưa vào
+        // academic.registration.category (danh mục đó chỉ nắm 2 quyết định NGHIỆP VỤ
+        // dùng chung là requires_review/requires_upload, không nắm cấu trúc FORM). Diện
+        // đóng học phí không có khối riêng nào trên website (xem
         // views/course_register_wizard.xml) - "Trạng thái đăng ký" chỉ nhân viên tự
         // chọn tay trên backend.
-        const BLOCKS_BY_CATEGORY = {
+        const STRUCTURAL_BLOCKS_BY_CATEGORY = {
             tuition: [],
             voucher: ["voucher"],
-            education_scholarship: ["upload"],
-            medical_scholarship: ["medical", "upload"],
-            nonprofit: ["nonprofit", "upload"],
+            education_scholarship: [],
+            medical_scholarship: ["medical"],
+            nonprofit: ["nonprofit"],
         };
-        const visibleBlocks = BLOCKS_BY_CATEGORY[category] || [];
+        // Khối "upload" dùng chung - hiện hay không giờ đọc THẲNG từ requires_upload của
+        // đúng diện đang chọn (this._state.registrationCategories, nguồn từ
+        // academic.registration.category) thay vì mảng UPLOAD_CATEGORIES hardcode cố
+        // định như trước - đổi cấu hình ở màn "Loại diện đăng ký" (backend) là form tự
+        // theo, không cần sửa code.
+        const categoryInfo = this._state.registrationCategories.find((c) => c.code === category);
+        const requiresUpload = Boolean(categoryInfo && categoryInfo.requires_upload);
+        const visibleBlocks = STRUCTURAL_BLOCKS_BY_CATEGORY[category] || [];
+        if (requiresUpload) {
+            visibleBlocks.push("upload");
+        }
 
         // required="required" TĨNH trong HTML KHÔNG đủ - đã kiểm chứng thực tế (Chrome
         // DevTools, reportValidity()): input nằm trong khối display:none (d-none) VẪN bị
@@ -250,9 +282,14 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             nonprofit: "Vui lòng đính kèm giấy xác nhận của tổ chức (có thể dùng mẫu của Seroto).",
         };
         modalEl.querySelector("#wizard_category_upload_hint").textContent = UPLOAD_HINTS[category] || "";
-        modalEl.querySelector("#wizard_category_template_link").classList.toggle(
-            "d-none", category !== "education_scholarship" && category !== "nonprofit",
-        );
+        // Link tải mẫu - đọc THẲNG từ template_url của đúng diện đang chọn
+        // (this._state.registrationCategories, nguồn academic.registration.category) thay
+        // vì chỉ ẩn/hiện cứng theo 2 mã diện hardcode như trước - diện nào Quản lý chưa
+        // nhập link (để trống) thì KHÔNG hiện link, không phân biệt CODE diện là gì.
+        const templateUrl = (categoryInfo && categoryInfo.template_url) || "";
+        const templateLinkEl = modalEl.querySelector("#wizard_category_template_link");
+        templateLinkEl.classList.toggle("d-none", !templateUrl);
+        templateLinkEl.href = templateUrl || "#";
 
         // "Câu hỏi cơ bản" áp dụng theo diện có thể khác hẳn diện vừa đổi - render lại
         // TOÀN BỘ (mất câu trả lời cũ nếu có), cùng tinh thần "đổi diện thì xóa giá trị
@@ -445,12 +482,14 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             categoryVals.nonprofit_representative_phone = (data.get("nonprofit_representative_phone") || "").trim();
         }
 
-        // 3 diện cần nộp giấy tờ dùng CHUNG 1 ô chọn file - đọc + encode base64 TRƯỚC
-        // khi khóa nút "Tiếp tục" (route hiện tại là jsonrpc thuần, không phải multipart,
-        // nên phải gửi file dạng base64 kèm trong payload JSON).
+        // Diện có requires_upload=True dùng CHUNG 1 ô chọn file - đọc + encode base64
+        // TRƯỚC khi khóa nút "Tiếp tục" (route hiện tại là jsonrpc thuần, không phải
+        // multipart, nên phải gửi file dạng base64 kèm trong payload JSON). Đọc thẳng từ
+        // this._state.registrationCategories (nguồn academic.registration.category) thay
+        // vì mảng hardcode cố định như trước.
         let attachments = [];
-        const UPLOAD_CATEGORIES = ["education_scholarship", "medical_scholarship", "nonprofit"];
-        if (UPLOAD_CATEGORIES.includes(category)) {
+        const submitCategoryInfo = this._state.registrationCategories.find((c) => c.code === category);
+        if (submitCategoryInfo && submitCategoryInfo.requires_upload) {
             const MAX_SIZE = 10 * 1024 * 1024;
             const files = Array.from(modalEl.querySelector("#wizard_category_attachment_input").files || []);
             const tooLarge = files.find((file) => file.size > MAX_SIZE);

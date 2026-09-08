@@ -158,6 +158,25 @@ class SerotoCourseRegistration(models.Model):
         string='Đã xác nhận giảm học phí', copy=False, readonly=True,
     )
 
+    # 2 field compute CHỈ để dùng trong invisible="..." của view backend (course_registration_views.xml)
+    # - XML view không gọi thẳng được _requires_category_confirmation()/_requires_category_upload()
+    # (method Python), nên cần field thật trên model. Đọc lại ĐÚNG 2 hàm đó (không tự viết
+    # logic riêng) - giữ đúng 1 nguồn sự thật academic.registration.category.requires_review/
+    # requires_upload, thay cho tuple hardcode registration_category in (...) từng lặp lại ở
+    # nhiều chỗ trên view trước đây.
+    requires_category_confirmation = fields.Boolean(
+        string='Cần duyệt hồ sơ trước khi thanh toán', compute='_compute_requires_category_flags',
+    )
+    requires_category_upload = fields.Boolean(
+        string='Yêu cầu tải lên chứng từ', compute='_compute_requires_category_flags',
+    )
+
+    @api.depends('registration_category')
+    def _compute_requires_category_flags(self):
+        for rec in self:
+            rec.requires_category_confirmation = rec._requires_category_confirmation()
+            rec.requires_category_upload = rec._requires_category_upload()
+
     # Chặn cứng NGOÀI khoảng 0-100 - đã gặp thực tế nhân viên gõ nhầm số quá lớn (VD
     # 4000) làm _get_payment_amount() ra số tiền ÂM (giảm hơn 100% giá gốc), vô lý về
     # nghiệp vụ - giống hệt constraint bên academic.course (3 field nguồn mặc định).
@@ -522,21 +541,40 @@ class SerotoCourseRegistration(models.Model):
             'target': 'current',
         }
 
-    def _requires_category_confirmation(self):
-        """3 diện cần nộp giấy tờ/thông tin (education_scholarship/medical_scholarship/
-        nonprofit) - PHẢI đợi nhân viên bấm "Xác nhận thông tin đăng ký"
-        (action_confirm_category_discount) mới có link/QR thanh toán (xem
-        controllers/course_registration.py, create_registration/update_basic_registration)
-        - tránh khách thanh toán ngay giá GỐC (chưa áp mức giảm) trước khi nhân viên kịp
-        duyệt giấy tờ.
+    def _get_registration_category_record(self):
+        """Đọc đúng 1 dòng academic.registration.category khớp registration_category
+        của phiếu này - NGUỒN SỰ THẬT DUY NHẤT cho requires_review/requires_upload (xem
+        seroto_education/models/academic_registration_category.py), thay cho tuple hardcode
+        trước đây. Không tìm thấy (VD dữ liệu demo thiếu) -> trả recordset rỗng, các hàm
+        gọi bên dưới tự coi là False (an toàn - không chặn nhầm khách không cần duyệt/upload).
         """
         self.ensure_one()
-        return self.registration_category in (
-            'education_scholarship', 'medical_scholarship', 'nonprofit')
+        return self.env['academic.registration.category'].sudo().search(
+            [('code', '=', self.registration_category)], limit=1)
+
+    def _requires_category_confirmation(self):
+        """Diện cần nhân viên duyệt hồ sơ trước khi thanh toán - PHẢI đợi nhân viên bấm
+        "Xác nhận thông tin đăng ký" (action_confirm_category_discount) mới có link/QR
+        thanh toán (xem controllers/course_registration.py, create_registration/
+        update_basic_registration) - tránh khách thanh toán ngay giá GỐC (chưa áp mức
+        giảm) trước khi nhân viên kịp duyệt giấy tờ. Đọc field requires_review trên
+        academic.registration.category (xem _get_registration_category_record) thay vì
+        tuple hardcode cố định như trước.
+        """
+        return bool(self._get_registration_category_record().requires_review)
+
+    def _requires_category_upload(self):
+        """Diện bắt buộc đính kèm ÍT NHẤT 1 file (category_attachment_ids) - đọc field
+        requires_upload trên academic.registration.category, TÁCH RIÊNG khỏi
+        _requires_category_confirmation() vì 1 diện có thể cần duyệt mà không cần upload
+        (hoặc ngược lại) tùy cấu hình Quản lý nhập, không còn gộp chung 1 điều kiện như
+        trước.
+        """
+        return bool(self._get_registration_category_record().requires_upload)
 
     def action_confirm_category_discount(self):
-        """Nút "Xác nhận thông tin đăng ký" - CHỈ dành cho 3 diện cần nộp giấy tờ
-        (education_scholarship/medical_scholarship/nonprofit, xem invisible trên view).
+        """Nút "Xác nhận thông tin đăng ký" - CHỈ dành cho diện có requires_review=True
+        (academic.registration.category, xem invisible trên view + _requires_category_confirmation).
         Nhân viên bấm sau khi đã tự kiểm tra giấy tờ/thông tin đính kèm (category_
         attachment_ids/category_info_ids) hợp lệ - KHÔNG tự động validate nội dung giấy
         tờ (không có gì để máy kiểm tra được), chỉ ghi nhận xác nhận của con người, y hệt
@@ -556,7 +594,7 @@ class SerotoCourseRegistration(models.Model):
         self.ensure_one()
         if not self._requires_category_confirmation():
             raise UserError(
-                _('Chỉ áp dụng cho Diện học bổng giáo dục/học bổng ngành y/tổ chức phi lợi nhuận.')
+                _('Chỉ áp dụng cho các diện đăng ký cần nhân viên duyệt hồ sơ trước khi thanh toán.')
             )
         self.category_discount_confirmed = True
         amount = self._get_payment_amount()

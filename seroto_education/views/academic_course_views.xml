@@ -164,6 +164,7 @@
                                     <field name="registration_category"/>
                                     <field name="content"/>
                                     <field name="offer_display" string="Ưu đãi"/>
+                                    <field name="website_visible" string="Hiển thị trên website" widget="boolean_toggle"/>
                                 </list>
                                 <form>
                                     <group>
@@ -175,14 +176,18 @@
                                         <field name="currency_id" invisible="1"/>
                                         <field name="early_price"
                                                invisible="registration_category != 'tuition'"/>
-                                        <field name="loyalty_program_id"
-                                               invisible="registration_category != 'voucher'"/>
+                                        <!-- Diện voucher KHÔNG có field riêng ở đây - chương
+                                             trình/mã áp dụng cấu hình thẳng ở loyalty.reward
+                                             (Sales > Chiết khấu & Khách hàng thân thiết), đã bỏ
+                                             field loyalty_program_id (chỉ tham chiếu, không có
+                                             tác dụng thật, dễ gây hiểu lầm là cấu hình ở đây). -->
                                         <!-- KHÔNG dùng widget="percentage" - widget đó quy
                                              ước field lưu dạng phân số 0-1 (tự x100 lúc
                                              hiện/÷100 lúc lưu), field này lưu THẲNG số
                                              0-100 giống sale.order.line.discount. -->
                                         <field name="discount_percent"
                                                invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
+                                        <field name="website_visible" string="Hiển thị trên website"/>
                                     </group>
                                 </form>
                             </field>

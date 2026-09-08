@@ -76,4 +76,41 @@ class AcademicCourseSnippetController(http.Controller):
             "basic_questions": request.env["seroto.course.registration"]._get_basic_questions_raw(
                 (course or "").strip()
             ),
+            # Danh sách diện đăng ký THẬT SỰ áp dụng cho ĐÚNG khóa học này (chỉ những
+            # dòng academic.course.pricing đang website_visible=True) - JS dùng để tự
+            # dựng lại dropdown "Diện đăng ký" thay vì <option> tĩnh cố định trên mọi
+            # khóa (xem course_register_wizard.js, _onOpenWizard). Không tìm thấy khóa
+            # học khớp tên (course_record rỗng) -> trả về TẤT CẢ diện đang cấu hình (danh
+            # mục academic.registration.category) để không chặn nhầm khi tên khóa lệch/thiếu.
+            "registration_categories": self._get_registration_categories(course_record),
         }
+
+    def _get_registration_categories(self, course_record):
+        Category = request.env["academic.registration.category"].sudo()
+        if not course_record:
+            categories = Category.search([])
+            return [
+                {
+                    "code": cat.code,
+                    "name": cat.name,
+                    "requires_review": cat.requires_review,
+                    "requires_upload": cat.requires_upload,
+                    "template_url": cat.template_url or "",
+                }
+                for cat in categories
+            ]
+        pricing_lines = course_record.pricing_ids.filtered("website_visible")
+        categories_by_code = {cat.code: cat for cat in Category.search([])}
+        result = []
+        for line in pricing_lines:
+            cat = categories_by_code.get(line.registration_category)
+            result.append({
+                "code": line.registration_category,
+                "name": cat.name if cat else dict(
+                    line._fields["registration_category"].selection
+                ).get(line.registration_category, line.registration_category),
+                "requires_review": cat.requires_review if cat else False,
+                "requires_upload": cat.requires_upload if cat else False,
+                "template_url": (cat.template_url or "") if cat else "",
+            })
+        return result
