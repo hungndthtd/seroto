@@ -24,16 +24,31 @@ DISCOUNT_PERCENT_CATEGORIES = ('education_scholarship', 'medical_scholarship', '
 class AcademicCoursePricing(models.Model):
     _name = 'academic.course.pricing'
     _description = 'Cấu hình giá theo diện đăng ký (Khóa học)'
-    _order = 'course_id, id'
+    _order = 'course_id, sequence, id'
 
-    # 5 dòng CỐ ĐỊNH/tự sinh (1 dòng/diện) ngay lúc tạo Khóa học (xem
-    # AcademicCourse.create()) - KHÔNG cho thêm/xóa tay (create="false" delete="false"
-    # trên view) để tránh trùng/thiếu diện.
+    sequence = fields.Integer(default=10)
+
+    # 5 dòng tự sinh (1 dòng/diện) ngay lúc TẠO Khóa học (xem AcademicCourse.create())
+    # - nhưng khóa học đã có từ TRƯỚC khi module này cài (DB khác, hoặc nâng cấp module
+    # trên DB cũ) sẽ KHÔNG tự có 5 dòng này (create() chỉ chạy lúc tạo mới) - cho phép
+    # nhân viên tự thêm/xóa (create=true/delete=true trên view) để tự bổ sung khi cần,
+    # KHÔNG còn cố định cứng như trước. _course_category_uniq bên dưới chặn tạo trùng 2
+    # dòng cùng diện cho 1 khóa học - nếu trùng, mọi chỗ đọc pricing.early_price/
+    # discount_percent (vtt_seroto_website, giả định LUÔN đúng 1 dòng khớp diện) sẽ vỡ
+    # với lỗi "Expected singleton" ngay khi khách đăng ký đúng diện đó.
     course_id = fields.Many2one(
         'academic.course', string='Khóa học', required=True, ondelete='cascade',
     )
+    _course_category_uniq = models.Constraint(
+        'unique(course_id, registration_category)',
+        'Mỗi diện đăng ký chỉ được cấu hình đúng 1 dòng cho mỗi khóa học.',
+    )
+    # readonly="id" trên view (không phải readonly=True ở field) - CHO SỬA khi đang tạo
+    # dòng mới (chưa có id), KHÓA lại sau khi đã lưu - tránh đổi diện của 1 dòng đã có
+    # sẵn dữ liệu (early_price/loyalty_program_id/discount_percent) làm lẫn sang diện
+    # khác ngoài ý muốn.
     registration_category = fields.Selection(
-        REGISTRATION_CATEGORY_SELECTION, string='Diện đăng ký', required=True, readonly=True,
+        REGISTRATION_CATEGORY_SELECTION, string='Diện đăng ký', required=True,
     )
     content = fields.Char(
         string='Nội dung',

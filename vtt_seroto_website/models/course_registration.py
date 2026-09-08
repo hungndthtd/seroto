@@ -453,18 +453,48 @@ class SerotoCourseRegistration(models.Model):
         # được vào vals lúc create() như các field khác.
         for rec in records:
             rec.code = 'PDK%s' % rec.id
-            # Pre-seed answer_ids RỖNG cho MỌI câu hỏi áp dụng (is_shared/khớp diện,
-            # xem _get_course_questions()) NGAY lúc tạo phiếu - trước đây answer_ids
-            # HOÀN TOÀN RỖNG tới khi khách tự trả lời, NV mở phiếu trên backend không
-            # biết cần hỏi khách những gì. "not rec.answer_ids" tránh ghi đè answer_ids
-            # nếu vals đã có sẵn (VD luồng backend qua onchange đã tự dựng từ trước).
+            # Pre-seed answer_ids RỖNG cho MỌI câu hỏi áp dụng NGAY lúc tạo phiếu -
+            # trước đây answer_ids HOÀN TOÀN RỖNG tới khi khách tự trả lời, NV mở phiếu
+            # trên backend không biết cần hỏi khách những gì. "not rec.answer_ids" tránh
+            # ghi đè answer_ids nếu vals đã có sẵn (VD luồng backend qua onchange đã tự
+            # dựng từ trước).
             if rec.course_id and not rec.answer_ids:
-                questions = rec._get_course_questions(rec.course_id.name)
-                rec.answer_ids = [
-                    (0, 0, {'question': q['question'], 'answer': ''})
-                    for q in questions
-                ]
+                rec._sync_answer_ids()
         return records
+
+    def _sync_answer_ids(self):
+        """Đồng bộ answer_ids theo ĐÚNG bộ câu hỏi áp dụng hiện tại (is_shared/khớp
+        diện, xem _get_course_questions()) - thêm dòng RỖNG cho câu hỏi mới (VD NV vừa
+        thêm câu hỏi vào Khóa học sau khi phiếu đã tạo), và XÓA dòng RỖNG (answer chưa
+        điền) có câu hỏi KHÔNG CÒN khớp bộ câu hỏi hiện tại (VD NV vừa đổi tên câu hỏi
+        trên Khóa học - dòng rỗng theo tên CŨ giờ chỉ còn là rác, không ai trả lời được
+        nữa vì tên mới mới là cái đang hỏi khách).
+
+        Dòng ĐÃ có trả lời thật (answer khác rỗng) KHÔNG BAO GIỜ bị đụng tới dù tên câu
+        hỏi không còn khớp nữa - giữ nguyên lịch sử đúng câu đã hỏi khách lúc đó (xem
+        comment trên SerotoCourseRegistrationAnswer.question).
+
+        Gọi ở các điểm khách/NV thực sự XEM lại phiếu (view_registration_slip,
+        _build_registration_response, xem controllers/course_registration.py) để tự dọn
+        rác mà không cần chờ NV mở đúng form backend rồi tự tay đổi field mới kích hoạt
+        được _onchange_course_id_questions (vốn cũng làm việc này, nhưng CHỈ chạy khi có
+        thao tác trên UI backend).
+        """
+        for rec in self:
+            if not rec.course_id:
+                continue
+            questions = [q['question'] for q in rec._get_course_questions(rec.course_id.name)]
+            existing_questions = set(rec.answer_ids.mapped('question'))
+            stale = rec.answer_ids.filtered(
+                lambda a: not (a.answer or '').strip() and a.question not in questions
+            )
+            stale.unlink()
+            missing = [q for q in questions if q not in existing_questions]
+            if missing:
+                self.env['seroto.course.registration.answer'].create([
+                    {'registration_id': rec.id, 'question': q, 'answer': ''}
+                    for q in missing
+                ])
 
     def action_confirm(self):
         """Gộp luôn bước Tạo đơn hàng vào đây (trước đây phải bấm 2 nút riêng: Xác nhận

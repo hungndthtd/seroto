@@ -121,22 +121,30 @@
                                 </list>
                             </field>
                         </page>
-                        <!-- 5 dòng CỐ ĐỊNH (1 diện/dòng, tự sinh lúc tạo Khóa học - xem
-                             AcademicCourse.create()) - create="false" delete="false" vì
-                             không được thêm/xóa/trùng diện. List KHÔNG editable="bottom"
-                             - bấm vào dòng mở form riêng (nested <form> bên dưới) để sửa
-                             đúng field thật theo diện đó, cột "Ưu đãi" trên list chỉ để
-                             xem nhanh (xem academic.course.pricing, offer_display). -->
+                        <!-- 5 dòng (1 diện/dòng) tự sinh lúc TẠO Khóa học (xem
+                             AcademicCourse.create()) - nhưng khóa học đã có TỪ TRƯỚC
+                             khi module này cài (DB khác/nâng cấp trên DB cũ) sẽ KHÔNG tự
+                             có, nên CHO PHÉP nhân viên tự thêm/xóa (create/delete) để tự
+                             bổ sung khi trống - _course_category_uniq (model) chặn tạo
+                             trùng 2 dòng cùng diện. List KHÔNG editable="bottom" - bấm
+                             vào dòng (hoặc "Thêm 1 dòng") mở form riêng (nested <form>
+                             bên dưới) để sửa/nhập đúng field thật theo diện đó, cột "Ưu
+                             đãi" trên list chỉ để xem nhanh (xem academic.course.pricing,
+                             offer_display). -->
                         <page string="Cấu hình giá theo diện đăng ký">
                             <field name="pricing_ids">
-                                <list create="false" delete="false">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
                                     <field name="registration_category"/>
                                     <field name="content"/>
                                     <field name="offer_display" string="Ưu đãi"/>
                                 </list>
                                 <form>
                                     <group>
-                                        <field name="registration_category" readonly="1"/>
+                                        <!-- readonly="id" - cho chọn diện lúc THÊM MỚI
+                                             (chưa có id), khóa lại sau khi đã lưu để
+                                             tránh đổi diện của 1 dòng đã có sẵn dữ liệu. -->
+                                        <field name="registration_category" readonly="id"/>
                                         <field name="content"/>
                                         <field name="currency_id" invisible="1"/>
                                         <field name="early_price"

@@ -212,14 +212,22 @@
                   </div>
                 </t>
 
-                <t t-if="registration.answer_ids">
+                <!--
+                  CHỈ hiện câu ĐÃ trả lời thật (answer khác rỗng) - answer_ids giờ có cả
+                  dòng RỖNG pre-seed sẵn lúc tạo phiếu (xem models/course_registration.py,
+                  create()/_sync_answer_ids) để NV thấy đủ câu cần hỏi trên backend,
+                  nhưng ở đây (khách xem) câu chưa trả lời phải nằm ở form "Câu hỏi
+                  chuyên sâu" bên dưới, không lẫn vào mục hiển thị kết quả này.
+                -->
+                <t t-set="answered_list" t-value="registration.answer_ids.filtered(lambda a: (a.answer or '').strip())"/>
+                <t t-if="answered_list">
                   <hr/>
                   <!-- <div class="course_wizard_section_title">Câu hỏi chuyên sâu</div> -->
                   <div class="row">
-                    <t t-foreach="registration.answer_ids" t-as="answer">
+                    <t t-foreach="answered_list" t-as="answer">
                       <div class="col-md-6 mb-2">
                         <div class="text-muted small" t-esc="answer.question"/>
-                        <strong t-esc="answer.answer or '-'"/>
+                        <strong t-esc="answer.answer"/>
                       </div>
                     </t>
                   </div>

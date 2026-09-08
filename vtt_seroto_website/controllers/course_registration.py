@@ -206,6 +206,10 @@ class CourseRegistrationController(http.Controller):
         registration.category_attachment_ids = [(6, 0, created.ids)]
 
     def _build_registration_response(self, registration, course):
+        # Tự dọn answer_ids theo đúng bộ câu hỏi áp dụng HIỆN TẠI (thêm câu mới/xóa dòng
+        # rỗng đã đổi tên - xem _sync_answer_ids) - NV mở phiếu trên backend ngay sau đó
+        # luôn thấy đúng, không cần tự tay kích hoạt onchange mới đồng bộ lại.
+        registration._sync_answer_ids()
         category_labels = dict(registration._fields['registration_category'].selection)
         # "Loại voucher" không còn hiển thị cho khách chọn (đã ẩn khỏi form/Phiếu đăng
         # ký - field vẫn còn trong model để tương thích ngược với phiếu cũ, chỉ không
@@ -423,6 +427,12 @@ class CourseRegistrationController(http.Controller):
 
         if not registration or not consteq(registration.access_token, token):
             return request.not_found()
+
+        # Tự dọn answer_ids theo đúng bộ câu hỏi áp dụng HIỆN TẠI (thêm câu mới/xóa dòng
+        # rỗng đã đổi tên - xem models/course_registration.py, _sync_answer_ids) TRƯỚC
+        # khi tính unanswered_questions bên dưới - nếu không, dòng rỗng theo tên CŨ vẫn
+        # còn lẫn trong answer_ids dù không ai còn hỏi tên đó nữa.
+        registration._sync_answer_ids()
 
         # Câu hỏi chuyên sâu CHƯA trả lời - hiện thẳng input/select ngay trên trang phiếu
         # để khách điền nốt qua link email, không bắt buộc phải mở lại wizard "Đăng ký
