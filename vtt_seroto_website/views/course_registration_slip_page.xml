@@ -71,10 +71,9 @@
                   <div class="text-muted small">Số điện thoại</div>
                   <strong t-esc="registration.phone"/>
                 </div>
-                <div class="col-12 mb-2" t-if="registration.has_studied_seroto_before">
-                  <div class="text-muted small">Đã học khóa của Seroto trước đây</div>
-                  <strong t-esc="dict(registration._fields['has_studied_seroto_before'].selection).get(registration.has_studied_seroto_before)"/>
-                </div>
+                <!-- has_studied_seroto_before ẨN HẲN - không còn field UI riêng trên
+                     form website nữa, giao hẳn cho từng Khóa học tự cấu hình câu hỏi
+                     tương đương qua "Câu hỏi cơ bản" nếu cần. -->
               </div>
 
               <t t-if="registration.state == 'rejected'">

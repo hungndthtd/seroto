@@ -136,13 +136,16 @@
               <field name="partner_id" invisible="not partner_id"/>
               <field name="slip_url" widget="CopyClipboardURL" string="Link phiếu"
                      class="o_seroto_slip_url"/>
-              <field name="commitment_confirmed" readonly="state != 'draft'"/>
+              <!-- commitment_confirmed ẨN HẲN - không còn field UI riêng trên form
+                   website nữa (field vẫn còn trong model để tương thích ngược dữ liệu
+                   phiếu cũ), giao hẳn cho từng Khóa học tự cấu hình câu hỏi cam kết
+                   (nếu cần) qua "Câu hỏi cơ bản" (xem tab dưới). -->
             </group>
             <group string="Khóa học / Lớp học">
               <field name="course_id" readonly="state != 'draft'"/>
               <field name="class_id"/>
               <field name="is_complete"/>
-              <field name="has_studied_seroto_before" readonly="state != 'draft'"/>
+              <!-- has_studied_seroto_before ẨN HẲN - cùng lý do trên. -->
               <field name="currency_id" invisible="1"/>
               <field name="expected_amount"/>
             </group>
@@ -198,6 +201,14 @@
                        dòng MỚI tạo qua onchange (_onchange_course_id_questions), gây lỗi
                        "Missing required value for the field 'Câu hỏi'" vì server nhận
                        vals không có "question" dù onchange đã gán sẵn giá trị. -->
+                  <field name="question" readonly="1" force_save="1"/>
+                  <field name="answer"/>
+                </list>
+              </field>
+            </page>
+            <page string="Câu hỏi cơ bản">
+              <field name="basic_answer_ids">
+                <list editable="bottom" create="false" delete="false">
                   <field name="question" readonly="1" force_save="1"/>
                   <field name="answer"/>
                 </list>

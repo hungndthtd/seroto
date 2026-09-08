@@ -107,6 +107,27 @@
                                 </list>
                             </field>
                         </page>
+                        <!-- Hiện NGAY Ở BƯỚC 1 "Thông tin cơ bản" của wizard đăng ký
+                             (module vtt_seroto_website) - TRƯỚC KHI Phiếu đăng ký được
+                             tạo, khác "Câu hỏi chuyên sâu" ở trên (chỉ hiện SAU khi đã
+                             có Phiếu). Cấu trúc y hệt "Câu hỏi chuyên sâu" nhưng model
+                             riêng (academic.course.basic.question), không dùng chung. -->
+                        <page string="Câu hỏi cơ bản">
+                            <field name="basic_question_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question" placeholder="Nhập câu hỏi... (loại Checkbox: câu hỏi CHÍNH LÀ nhãn của ô tích)"/>
+                                    <field name="question_type"/>
+                                    <field name="options"
+                                           placeholder="Mỗi lựa chọn 1 dòng..."
+                                           invisible="question_type in ('text', 'checkbox')"/>
+                                    <field name="is_shared" widget="boolean_toggle"/>
+                                    <field name="registration_category_ids" widget="many2many_tags"
+                                           options="{'no_create': True, 'no_create_edit': True}"
+                                           invisible="is_shared"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Câu hỏi chuyên sâu">
                             <field name="question_ids">
                                 <list editable="bottom">
@@ -117,7 +138,12 @@
                                            placeholder="Mỗi lựa chọn 1 dòng..."
                                            invisible="question_type == 'text'"/>
                                     <field name="is_shared" widget="boolean_toggle"/>
-                                    <field name="registration_category" invisible="is_shared"/>
+                                    <!-- no_create/no_create_edit - CHỈ chọn trong đúng 5
+                                         diện cố định (data/academic_registration_category_data.xml),
+                                         không cho nhân viên tự gõ thêm "thẻ" mới. -->
+                                    <field name="registration_category_ids" widget="many2many_tags"
+                                           options="{'no_create': True, 'no_create_edit': True}"
+                                           invisible="is_shared"/>
                                 </list>
                             </field>
                         </page>
