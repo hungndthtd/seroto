@@ -32,6 +32,9 @@
   ],
   'data': [
     'security/ir.model.access.csv',
+    # Sản phẩm ẩn dùng chung để tạo dòng chiết khấu riêng trên Đơn hàng (xem
+    # models/course_registration.py, _create_sale_order) - nạp SỚM, trước mọi view.
+    'data/registration_discount_product_data.xml',
     # Thêm nút "Tạo trang landing" vào form Khóa học (kế thừa view của seroto_form) -
     # xem models/seroto_course.py trong module này để biết lý do action này KHÔNG thể
     # nằm ở seroto_form (tránh phụ thuộc vòng tròn).

@@ -693,21 +693,26 @@ class SerotoCourseRegistration(models.Model):
 
         order_line_vals = []
         if self.course_id.product_id:
-            line_vals = {
+            # Dòng khóa học LUÔN giữ ĐÚNG giá gốc (list_price, không ghi đè price_unit/
+            # discount như trước đây) - nếu có ưu đãi, tách RIÊNG thành 1 dòng chiết khấu
+            # bên dưới (xem _get_order_discount_line_info) - khách xem lại Đơn hàng thấy
+            # rõ giá gốc + số tiền được giảm, không bị gộp thành 1 con số duy nhất. Nhánh
+            # voucher KHÔNG cần gì thêm ở đây - _try_apply_code bên dưới đã TỰ tạo dòng
+            # chiết khấu riêng theo ĐÚNG cơ chế chuẩn của Odoo (loyalty.reward).
+            order_line_vals.append((0, 0, {
                 'product_id': self.course_id.product_id.id,
                 'class_id': self.class_id.id if self.class_id else False,
                 'student_id': student.id,
-            }
-            # Áp cùng logic giá của _get_payment_amount() lên dòng Đơn hàng thật - dùng
-            # ĐÚNG field "discount" (%) có sẵn của sale.order.line cho 3 diện giảm giá
-            # (để Odoo tự tính tiền, không tự làm tay), ghi đè thẳng price_unit cho
-            # tuition đăng ký sớm. Nhánh voucher KHÔNG cần gì thêm ở đây - _try_apply_code
-            # bên dưới tự lo phần chiết khấu trên Đơn hàng.
-            if self.registration_category == 'tuition' and self.early_registration_status == 'early' and self.early_price:
-                line_vals['price_unit'] = self.early_price
-            elif self.registration_category in ('education_scholarship', 'medical_scholarship', 'nonprofit') and self.discount_percent:
-                line_vals['discount'] = self.discount_percent
-            order_line_vals.append((0, 0, line_vals))
+            }))
+            discount_amount, discount_name = self._get_order_discount_line_info()
+            if discount_amount:
+                discount_product = self.env.ref('vtt_seroto_website.product_registration_discount')
+                order_line_vals.append((0, 0, {
+                    'product_id': discount_product.product_variant_id.id,
+                    'name': discount_name,
+                    'product_uom_qty': 1,
+                    'price_unit': -discount_amount,
+                }))
 
         order = self.env['sale.order'].sudo().create({
             'partner_id': registrant.id,
@@ -733,6 +738,28 @@ class SerotoCourseRegistration(models.Model):
                 )
 
         return order
+
+    def _get_order_discount_line_info(self):
+        """Số tiền + tên dòng chiết khấu RIÊNG trên Đơn hàng (xem _create_sale_order) -
+        (0, False) nếu diện hiện tại không có ưu đãi gì (VD tuition bình thường, hoặc
+        early_price/discount_percent chưa cấu hình) - KHÔNG xử lý diện voucher ở đây
+        (đã có dòng chiết khấu riêng tự động qua _try_apply_code, cơ chế chuẩn của
+        Odoo). Số tiền tính dựa ĐÚNG trên _get_base_amount() - luôn khớp với
+        _get_payment_amount() (base - discount = final), không tính lại theo cách khác.
+        """
+        self.ensure_one()
+        base_amount = self._get_base_amount()
+        if self.registration_category == 'tuition' and self.early_registration_status == 'early' and self.early_price:
+            discount = base_amount - self.early_price
+            return (round(discount), _('Ưu đãi đăng ký sớm')) if discount > 0 else (0, False)
+        if self.registration_category in ('education_scholarship', 'medical_scholarship', 'nonprofit') and self.discount_percent:
+            category_labels = dict(self._fields['registration_category'].selection)
+            discount = base_amount * (self.discount_percent / 100)
+            name = _('Giảm học phí %s (%s%%)') % (
+                category_labels.get(self.registration_category), self.discount_percent,
+            )
+            return (round(discount), name) if discount > 0 else (0, False)
+        return (0, False)
 
     def action_create_sale_order(self):
         self.ensure_one()

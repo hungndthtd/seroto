@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Sản phẩm ẨN dùng CHUNG để tạo dòng chiết khấu RIÊNG trên Đơn hàng (tách khỏi dòng
+      khóa học, giữ dòng khóa học LUÔN ở giá gốc) - mirror ĐÚNG kỹ thuật core Odoo dùng
+      cho "Phiếu giảm giá" (xem addons/loyalty, loyalty.reward.discount_line_product_id,
+      _get_discount_product_values: type=service, sale_ok=False, purchase_ok=False,
+      list_price=0) - KHÔNG bán được/mua được, chỉ để làm dòng hiển thị số tiền giảm
+      (âm), tên dòng đổi theo từng phiếu lúc tạo (xem models/course_registration.py,
+      _create_sale_order).
+    -->
+    <record id="product_registration_discount" model="product.template">
+        <field name="name">Ưu đãi/Giảm học phí</field>
+        <field name="type">service</field>
+        <field name="sale_ok" eval="False"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="list_price">0</field>
+        <!-- XÓA HẲN thuế - mặc định Odoo tự gán thuế bán hàng của công ty cho sản phẩm
+             mới tạo, trong khi Sản phẩm liên kết của Khóa học KHÔNG có thuế nào (taxes_id
+             rỗng) - lệch thuế giữa 2 dòng làm sai amount_total của Đơn hàng (đã kiểm
+             chứng thực tế: 1 dòng 15%, 1 dòng 0%, tổng lệch hẳn so với 2 dòng cộng lại). -->
+        <field name="taxes_id" eval="[(5, 0, 0)]"/>
+    </record>
+</odoo>
