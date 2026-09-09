@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      5 diện đăng ký CỐ ĐỊNH - "code" PHẢI khớp y hệt value của
+      seroto.course.registration.registration_category (module vtt_seroto_website). Đây
+      là danh mục dùng chung cho Many2many trên academic.course.question
+      (registration_category_ids) - KHÔNG cho nhân viên tự tạo thêm (widget
+      many2many_tags dùng no_create/no_create_edit trên view).
+    -->
+    <record id="registration_category_tuition" model="academic.registration.category">
+        <field name="name">Diện đóng học phí</field>
+        <field name="code">tuition</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="registration_category_voucher" model="academic.registration.category">
+        <field name="name">Diện voucher quà tặng</field>
+        <field name="code">voucher</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="registration_category_education_scholarship" model="academic.registration.category">
+        <field name="name">Diện học bổng giáo dục</field>
+        <field name="code">education_scholarship</field>
+        <field name="sequence">30</field>
+        <field name="requires_review">True</field>
+        <field name="requires_upload">True</field>
+    </record>
+    <record id="registration_category_medical_scholarship" model="academic.registration.category">
+        <field name="name">Diện học bổng ngành y</field>
+        <field name="code">medical_scholarship</field>
+        <field name="sequence">40</field>
+        <field name="requires_review">True</field>
+        <field name="requires_upload">True</field>
+    </record>
+    <record id="registration_category_nonprofit" model="academic.registration.category">
+        <field name="name">Diện tổ chức phi lợi nhuận</field>
+        <field name="code">nonprofit</field>
+        <field name="sequence">50</field>
+        <field name="requires_review">True</field>
+        <field name="requires_upload">True</field>
+    </record>
+</odoo>

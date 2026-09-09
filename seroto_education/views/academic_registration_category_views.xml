@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Danh mục "Loại diện đăng ký" - cấu trúc chung, hiếm khi cần sửa. 3 field mang ý nghĩa
+    nghiệp vụ thật (requires_review/requires_upload/template_url) - đây là NGUỒN SỰ THẬT
+    DUY NHẤT quyết định diện nào cần Sale/Quản lý duyệt hồ sơ, yêu cầu upload chứng từ,
+    và link mẫu giấy tờ hiện kèm trên form đăng ký website - thay cho việc hardcode rải
+    rác trước đây. Muốn BẬT/TẮT 1 diện cho 1 KHÓA HỌC cụ thể (VD khóa này không nhận đăng
+    ký diện học bổng) - vào form Khóa học, tab "Cấu hình giá theo diện đăng ký", tắt cột
+    "Hiển thị trên website" của đúng dòng đó.
+  -->
+  <record id="view_academic_registration_category_list" model="ir.ui.view">
+    <field name="name">academic.registration.category.list</field>
+    <field name="model">academic.registration.category</field>
+    <field name="arch" type="xml">
+      <list string="Loại diện đăng ký" editable="bottom">
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="requires_review" widget="boolean_toggle"/>
+        <field name="requires_upload" widget="boolean_toggle"/>
+        <field name="template_url" widget="url" placeholder="VD: https://drive.google.com/..."/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_academic_registration_category" model="ir.actions.act_window">
+    <field name="name">Loại diện đăng ký</field>
+    <field name="res_model">academic.registration.category</field>
+    <field name="view_mode">list</field>
+    <field name="help" type="html">
+      <p>
+        Đây chỉ là danh sách LOẠI diện (cấu trúc, hiếm khi cần sửa) - quyết định diện nào
+        cần Sale/Quản lý duyệt hồ sơ trước khi thanh toán, diện nào yêu cầu tải lên chứng
+        từ. Muốn bật/tắt 1 diện cho 1 khóa học cụ thể, vào form Khóa học, tab "Cấu hình
+        giá theo diện đăng ký".
+      </p>
+    </field>
+  </record>
+
+  <menuitem id="menu_academic_registration_category"
+            name="Loại diện đăng ký"
+            parent="menu_academic_group_report"
+            action="action_academic_registration_category"
+            sequence="30"/>
+
+</odoo>

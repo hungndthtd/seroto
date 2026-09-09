@@ -33,3 +33,21 @@ class AcademicCourseQuestion(models.Model):
         string='Các lựa chọn',
         help='Mỗi lựa chọn 1 dòng - chỉ áp dụng khi Loại câu hỏi là Chọn 1 đáp án (Dropdown/Checkbox).',
     )
+
+    # Cho phép mỗi "Diện đăng ký" của cùng 1 khóa học có bộ câu hỏi chuyên sâu RIÊNG -
+    # Many2many (KHÔNG phải Selection) để 1 câu hỏi áp dụng được CHO NHIỀU diện cùng lúc
+    # mà không cần đánh dấu "Dùng chung" (áp dụng CẢ 5 diện). academic.registration.
+    # category.code PHẢI khớp y hệt value của seroto.course.registration.
+    # registration_category (module vtt_seroto_website) - xem
+    # SerotoCourseRegistration._get_course_questions() bên đó tự so khớp bằng code.
+    registration_category_ids = fields.Many2many(
+        'academic.registration.category', string='Diện đăng ký',
+        help='Chỉ áp dụng khi KHÔNG đánh dấu "Dùng chung" bên dưới - chọn được nhiều diện.',
+    )
+    # default=True để MỌI câu hỏi đã cấu hình từ trước (chưa từng biết tới "diện") tự
+    # động coi là dùng chung ngay sau khi nâng cấp module - không mất hiển thị đột ngột
+    # ở bất kỳ diện đăng ký nào.
+    is_shared = fields.Boolean(
+        string='Dùng chung', default=True,
+        help='Hiển thị cho MỌI diện đăng ký. Bỏ chọn để giới hạn theo đúng 1 diện cụ thể.',
+    )

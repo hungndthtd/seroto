@@ -55,7 +55,6 @@
                             <field name="slogan"/>
                             <field name="lecturer"/>
                             <field name="format"/>
-                            <field name="product_id"/>
                             <field name="detail_url" widget="url" placeholder="VD: /khoa-hoc-eq-5-phut"/>
                         </group>
                         <group string="Thông tin tuyển sinh (Website)">
@@ -66,6 +65,15 @@
                         </group>
                     </group>
                     <group>
+                        <!-- course_price = related product_id.list_price (readonly=False)
+                             - sửa thẳng ở đây đổi LUÔN giá bán của Sản phẩm liên kết,
+                             không phải bản sao riêng (xem academic_course.py). -->
+                        <group string="Thông tin sản phẩm">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="product_id"/>
+                            <field name="course_price" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </group>
                         <group string="Lớp đang nhận đăng ký">
                             <field name="default_class_id"/>
                             <!-- Chỉ hiện để xem, không sửa tay được - tự tính theo đúng
@@ -81,6 +89,7 @@
                                     <field name="name"/>
                                     <field name="intake_id"/>
                                     <field name="teacher_ids" widget="many2many_tags"/>
+                                    <field name="registration_open_date"/>
                                     <field name="date_start_planned" string="BĐ dự kiến"/>
                                     <field name="date_end_planned" string="KT dự kiến"/>
                                     <field name="state" widget="badge"/>
@@ -98,6 +107,27 @@
                                 </list>
                             </field>
                         </page>
+                        <!-- Hiện NGAY Ở BƯỚC 1 "Thông tin cơ bản" của wizard đăng ký
+                             (module vtt_seroto_website) - TRƯỚC KHI Phiếu đăng ký được
+                             tạo, khác "Câu hỏi chuyên sâu" ở trên (chỉ hiện SAU khi đã
+                             có Phiếu). Cấu trúc y hệt "Câu hỏi chuyên sâu" nhưng model
+                             riêng (academic.course.basic.question), không dùng chung. -->
+                        <page string="Câu hỏi cơ bản">
+                            <field name="basic_question_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question" placeholder="Nhập câu hỏi... (loại Checkbox: câu hỏi CHÍNH LÀ nhãn của ô tích)"/>
+                                    <field name="question_type"/>
+                                    <field name="options"
+                                           placeholder="Mỗi lựa chọn 1 dòng..."
+                                           invisible="question_type in ('text', 'checkbox')"/>
+                                    <field name="is_shared" widget="boolean_toggle"/>
+                                    <field name="registration_category_ids" widget="many2many_tags"
+                                           options="{'no_create': True, 'no_create_edit': True}"
+                                           invisible="is_shared"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Câu hỏi chuyên sâu">
                             <field name="question_ids">
                                 <list editable="bottom">
@@ -107,7 +137,59 @@
                                     <field name="options"
                                            placeholder="Mỗi lựa chọn 1 dòng..."
                                            invisible="question_type == 'text'"/>
+                                    <field name="is_shared" widget="boolean_toggle"/>
+                                    <!-- no_create/no_create_edit - CHỈ chọn trong đúng 5
+                                         diện cố định (data/academic_registration_category_data.xml),
+                                         không cho nhân viên tự gõ thêm "thẻ" mới. -->
+                                    <field name="registration_category_ids" widget="many2many_tags"
+                                           options="{'no_create': True, 'no_create_edit': True}"
+                                           invisible="is_shared"/>
                                 </list>
+                            </field>
+                        </page>
+                        <!-- 5 dòng (1 diện/dòng) tự sinh lúc TẠO Khóa học (xem
+                             AcademicCourse.create()) - nhưng khóa học đã có TỪ TRƯỚC
+                             khi module này cài (DB khác/nâng cấp trên DB cũ) sẽ KHÔNG tự
+                             có, nên CHO PHÉP nhân viên tự thêm/xóa (create/delete) để tự
+                             bổ sung khi trống - _course_category_uniq (model) chặn tạo
+                             trùng 2 dòng cùng diện. List KHÔNG editable="bottom" - bấm
+                             vào dòng (hoặc "Thêm 1 dòng") mở form riêng (nested <form>
+                             bên dưới) để sửa/nhập đúng field thật theo diện đó, cột "Ưu
+                             đãi" trên list chỉ để xem nhanh (xem academic.course.pricing,
+                             offer_display). -->
+                        <page string="Cấu hình giá theo diện đăng ký">
+                            <field name="pricing_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="registration_category"/>
+                                    <field name="content"/>
+                                    <field name="offer_display" string="Ưu đãi"/>
+                                    <field name="website_visible" string="Hiển thị trên website" widget="boolean_toggle"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <!-- readonly="id" - cho chọn diện lúc THÊM MỚI
+                                             (chưa có id), khóa lại sau khi đã lưu để
+                                             tránh đổi diện của 1 dòng đã có sẵn dữ liệu. -->
+                                        <field name="registration_category" readonly="id"/>
+                                        <field name="content"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="early_price"
+                                               invisible="registration_category != 'tuition'"/>
+                                        <!-- Diện voucher KHÔNG có field riêng ở đây - chương
+                                             trình/mã áp dụng cấu hình thẳng ở loyalty.reward
+                                             (Sales > Chiết khấu & Khách hàng thân thiết), đã bỏ
+                                             field loyalty_program_id (chỉ tham chiếu, không có
+                                             tác dụng thật, dễ gây hiểu lầm là cấu hình ở đây). -->
+                                        <!-- KHÔNG dùng widget="percentage" - widget đó quy
+                                             ước field lưu dạng phân số 0-1 (tự x100 lúc
+                                             hiện/÷100 lúc lưu), field này lưu THẲNG số
+                                             0-100 giống sale.order.line.discount. -->
+                                        <field name="discount_percent"
+                                               invisible="registration_category not in ('education_scholarship', 'medical_scholarship', 'nonprofit')"/>
+                                        <field name="website_visible" string="Hiển thị trên website"/>
+                                    </group>
+                                </form>
                             </field>
                         </page>
                     </notebook>

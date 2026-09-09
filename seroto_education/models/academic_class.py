@@ -42,6 +42,14 @@ class AcademicClass(models.Model):
     date_start_planned = fields.Date(related='intake_id.date_start', string='Ngày bắt đầu (dự kiến)', store=True, readonly=True)
     date_end_planned = fields.Date(related='intake_id.date_end', string='Ngày kết thúc (dự kiến)', store=True, readonly=True)
 
+    # Mốc ngày để tự động xác định "Đăng ký sớm" (Diện đóng học phí, module
+    # vtt_seroto_website) - đăng ký TRƯỚC ngày này thì tính là sớm, xem
+    # SerotoCourseRegistration.create() (models/course_registration.py bên đó). CHỈ để
+    # tính giá - KHÔNG dùng để chặn/mở đăng ký (việc đó vẫn ĐÚNG 1 nguồn sự thật là
+    # "state" của lớp, xem academic_course.py is_registration_open - tránh lặp lại lỗi
+    # cũ đã từng gặp khi có 2 field ngày tách biệt với trạng thái Lớp học).
+    registration_open_date = fields.Date(string='Ngày mở đăng ký')
+
     def init(self):
         super(AcademicClass, self).init()
         # Check date_start

@@ -19,14 +19,14 @@
   <template id="course_register_wizard_modal">
     <div class="modal fade" id="courseRegisterWizardModal" tabindex="-1"
          aria-labelledby="courseRegisterWizardModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 720px;">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="courseRegisterWizardModalLabel">Đăng ký khóa học</h5>
+            <h5 class="modal-title fw-bolder" id="courseRegisterWizardModalLabel">Đăng ký khóa học</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"/>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body" style="padding: 24px 16px 30px;">
             <!--
               3 nút bước - mặc định chỉ "basic" là bấm được (2 nút còn lại có "disabled"
               sẵn trong HTML để phòng trường hợp JS lỗi/chưa kịp chạy thì tab sau vẫn
@@ -47,45 +47,161 @@
               </button>
             </div>
 
-            <!-- Tab 1: Thông tin cơ bản -->
+            <!-- Tab 1: Thông tin cơ bản (gồm cả "Diện đăng ký khóa học" - KHÔNG phải
+                 bước riêng, gộp chung 1 form/1 lần submit, xem course_register_wizard.js
+                 _onBasicSubmit/_onCategoryChange). Bố cục 2 cột (row/col-md-6) để đỡ dài
+                 - tự xếp chồng lại thành 1 cột trên màn hình nhỏ (Bootstrap responsive). -->
             <div class="course_wizard_pane" data-pane="basic">
               <form id="course_wizard_basic_form" novalidate="novalidate">
-                <div class="mb-3">
-                  <label>Khóa học</label>
-                  <input class="form-control" id="wizard_course_name" readonly="readonly"/>
-                </div>
-                <div class="mb-3">
-                  <label class="d-block">Đăng ký cho</label>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="student_relation"
-                           id="wizard_relation_self" value="self" checked="checked"/>
-                    <label class="form-check-label" for="wizard_relation_self">Bản thân</label>
+                <div class="course_wizard_section_title">Thông tin cơ bản</div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label>Khóa học</label>
+                    <input class="form-control" id="wizard_course_name" readonly="readonly"/>
                   </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="student_relation"
-                           id="wizard_relation_other" value="other"/>
-                    <label class="form-check-label" for="wizard_relation_other">Người khác</label>
+                  <div class="col-md-6 mb-3">
+                    <label>Đăng ký cho</label>
+                    <select class="form-control" name="student_relation" id="wizard_student_relation">
+                      <option value="self" selected="selected">Bản thân</option>
+                      <option value="other">Người khác</option>
+                    </select>
+                  </div>
+                  <div id="wizard_student_fields" class="col-md-6 mb-3 d-none">
+                    <label>Họ tên học viên</label>
+                    <input class="form-control" name="student_name"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Họ tên người đăng ký</label>
+                    <input class="form-control" name="name" required="required"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" required="required"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Số điện thoại</label>
+                    <input class="form-control" name="phone" required="required"/>
+                  </div>
+                </div>
+                <!--
+                  "Bạn đã học các khóa của Seroto trước đây chưa?"/"Tôi cam kết thông
+                  tin đăng ký trên là chính xác" ĐÃ ẨN HẲN khỏi đây (kể cả field gốc
+                  has_studied_seroto_before/commitment_confirmed vẫn còn trong model để
+                  tương thích ngược, KHÔNG còn field UI riêng nào nữa) - giao hẳn cho
+                  từng Khóa học tự cấu hình 2 câu hỏi tương đương (loại Dropdown/Checkbox)
+                  qua "Câu hỏi cơ bản" bên dưới nếu cần, xem controllers/
+                  course_registration.py (_prepare_registration_vals đã bỏ ràng buộc
+                  cứng commitment_confirmed).
+                -->
+
+                <!--
+                  "Câu hỏi cơ bản" (academic.course.basic.question, module seroto_education)
+                  - RỖNG lúc render server-side, JS (course_register_wizard.js,
+                  _renderBasicQuestions) tự bơm input vào đây ngay lúc mở modal (đã biết
+                  course), rồi tự render LẠI mỗi khi đổi "Diện đăng ký" bên dưới (khác
+                  #course_wizard_questions_container của Tab 3 - nơi đó chỉ render 1 lần
+                  SAU khi phiếu đã tạo, đã biết chắc registration_category).
+                -->
+                <div id="wizard_basic_questions_container" class="mb-3"/>
+
+                <div class="course_wizard_section_title">Diện đăng ký khóa học</div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label>Diện đăng ký</label>
+                    <!-- RỖNG lúc render server-side - JS (course_register_wizard.js,
+                         _renderRegistrationCategoryOptions) tự bơm <option> ngay lúc mở
+                         modal, CHỈ gồm đúng những diện đang active=True cho ĐÚNG khóa học
+                         này (xem controllers/academic_course_snippet.py,
+                         academic_course_is_registration_open, registration_categories) -
+                         không còn danh sách 5 diện cố định dùng chung mọi khóa như trước. -->
+                    <select class="form-control" name="registration_category"
+                            id="wizard_registration_category"/>
+                  </div>
+                </div>
+                <!-- Diện đóng học phí: KHÔNG có field riêng nào trên website - "Trạng
+                     thái đăng ký" (sớm/bình thường) chỉ nhân viên tự chọn tay trên
+                     backend (Phiếu đăng ký khóa học), mặc định 'normal' lúc tạo phiếu
+                     (model default, xem models/course_registration.py). -->
+
+                <!-- "Loại voucher" đã ẩn hẳn khỏi form - khách chỉ cần nhập đúng mã,
+                     hệ thống tự xác định qua loyalty.card (xem _validate_voucher_code). -->
+                <div id="wizard_category_voucher_fields" class="row d-none">
+                  <div class="col-md-12 mb-3">
+                    <label>Mã voucher</label>
+                    <input class="form-control" name="voucher_code"/>
                   </div>
                 </div>
 
-                <div id="wizard_student_fields" class="mb-3 d-none">
-                  <label>Họ tên học viên</label>
-                  <input class="form-control" name="student_name"/>
+                <!-- Dùng CHUNG cho 3 diện cần nộp giấy tờ (education_scholarship/
+                     medical_scholarship/nonprofit) - hint text + link tải mẫu đổi theo
+                     diện qua JS (_onCategoryChange). -->
+                <div id="wizard_category_upload_fields" class="mb-3 d-none">
+                  <label>Giấy tờ/tài liệu đính kèm</label>
+                  <p class="text-muted small mb-2" id="wizard_category_upload_hint"/>
+                  <a href="#" target="_blank" rel="noopener" class="d-block mb-2 d-none"
+                     id="wizard_category_template_link">Tải mẫu giấy xác nhận</a>
+                  <!-- KHÔNG để required="required" TĨNH ở đây - đã kiểm chứng thực tế
+                       (Chrome DevTools, reportValidity()): input nằm trong khối
+                       display:none (d-none) VẪN bị tính "invalid" và chặn
+                       checkValidity() của CẢ FORM (chỉ là trình duyệt không focus/hiện
+                       popup được vào đó nên im lặng chặn "Tiếp tục", dễ tưởng nhầm nút
+                       bị kẹt) - .required được course_register_wizard.js tự bật/tắt
+                       đúng lúc ẩn/hiện khối (_onCategoryChange/_onOpenWizard). -->
+                  <input type="file" class="form-control" name="category_attachment"
+                         id="wizard_category_attachment_input" multiple="multiple"/>
                 </div>
 
-                <div class="mb-3">
-                  <label>Họ tên người đăng ký</label>
-                  <input class="form-control" name="name" required="required"/>
+                <div id="wizard_category_medical_fields" class="row d-none">
+                  <div class="col-md-6 mb-3">
+                    <label>Tên cơ sở y tế</label>
+                    <input class="form-control" name="medical_facility_name"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Cơ sở y tế thuộc tỉnh/thành phố</label>
+                    <input class="form-control" name="medical_facility_province"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Vai trò</label>
+                    <input class="form-control" name="medical_role"/>
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label>Email</label>
-                  <input type="email" class="form-control" name="email" required="required"/>
+
+                <div id="wizard_category_nonprofit_fields" class="row d-none">
+                  <div class="col-md-6 mb-3">
+                    <label>Tên tổ chức</label>
+                    <input class="form-control" name="nonprofit_org_name"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Trực thuộc tỉnh/thành phố</label>
+                    <input class="form-control" name="nonprofit_org_province"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Thuộc xã/phường</label>
+                    <input class="form-control" name="nonprofit_org_ward"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Vai trò của bạn tại tổ chức</label>
+                    <input class="form-control" name="nonprofit_registrant_role"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Họ tên người ký giấy xác nhận</label>
+                    <input class="form-control" name="nonprofit_signer_name"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Số điện thoại người ký giấy xác nhận</label>
+                    <input class="form-control" name="nonprofit_signer_phone"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Họ tên người đại diện nhóm đăng ký</label>
+                    <input class="form-control" name="nonprofit_representative_name"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Số điện thoại người đại diện nhóm đăng ký</label>
+                    <input class="form-control" name="nonprofit_representative_phone"/>
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label>Số điện thoại</label>
-                  <input class="form-control" name="phone" required="required"/>
-                </div>
-                <button type="submit" class="btn btn-success w-100" id="wizard_basic_continue" disabled="disabled">
+
+                <button type="submit" class="btn btn-success w-100 mt-3" id="wizard_basic_continue" disabled="disabled">
                   Tiếp tục
                 </button>
               </form>
@@ -98,35 +214,84 @@
                   <img id="wizard_payment_qr" class="course_wizard_qr_image" alt="Mã QR thanh toán"/>
                   <p class="text-muted small mt-2 mb-0">Quét mã bằng app ngân hàng bất kỳ</p>
                 </div>
-                <p class="mb-1">Khóa học: <strong id="wizard_payment_course"/></p>
-                <p class="mb-1 d-none" id="wizard_payment_student_row">Học viên: <strong id="wizard_payment_student"/></p>
-                <p class="mb-1">Người đăng ký: <strong id="wizard_payment_name"/></p>
-                <p class="mb-1">Email: <strong id="wizard_payment_email"/></p>
-                <p class="mb-1">Số điện thoại: <strong id="wizard_payment_phone"/></p>
+
+                <div class="course_wizard_section_title">Thông tin thanh toán</div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label>Khóa học</label>
+                    <input class="form-control" id="wizard_payment_course" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3 d-none" id="wizard_payment_student_row">
+                    <label>Học viên</label>
+                    <input class="form-control" id="wizard_payment_student" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Người đăng ký</label>
+                    <input class="form-control" id="wizard_payment_name" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Email</label>
+                    <input class="form-control" id="wizard_payment_email" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Số điện thoại</label>
+                    <input class="form-control" id="wizard_payment_phone" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Diện đăng ký</label>
+                    <input class="form-control" id="wizard_payment_category" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3 d-none" id="wizard_payment_voucher_row">
+                    <label>Voucher sử dụng</label>
+                    <input class="form-control" id="wizard_payment_voucher" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Số tiền gốc</label>
+                    <input class="form-control" id="wizard_payment_base_amount" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3 d-none" id="wizard_payment_discount_row">
+                    <label>Số tiền được giảm</label>
+                    <input class="form-control" id="wizard_payment_discount_amount" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Số tiền cần thanh toán</label>
+                    <input class="form-control" id="wizard_payment_amount" readonly="readonly"/>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Nội dung chuyển khoản</label>
+                    <input class="form-control" id="wizard_payment_code" readonly="readonly"/>
+                  </div>
+                </div>
+                <!-- Nội dung chuyển khoản hiển thị ở đây lấy đúng Mã phiếu (description
+                     gửi cho payOS lúc tạo link, xem models/course_registration.py
+                     _create_payment_transaction) - payOS/ngân hàng có thể tự thêm tiền tố
+                     riêng vào nội dung chuyển khoản THẬT, nên vẫn ưu tiên nội dung hiển thị
+                     trên trang/QR thanh toán thật nếu có sai khác. -->
                 <p class="text-muted small mb-3" id="wizard_email_sent_note"/>
                 <a href="#" target="_blank" rel="noopener" class="btn btn-success w-100 mb-2"
                    id="wizard_open_bank">
                   Mở trang thanh toán
                 </a>
-                <p class="text-muted small text-center mb-0">
-                  <span class="spinner-border spinner-border-sm me-1" role="status"/>
-                  Đang chờ xác nhận thanh toán...
+                <!-- Diện học bổng giáo dục/học bổng ngành y/tổ chức phi lợi nhuận - CHƯA
+                     có link thanh toán tới khi nhân viên xác nhận giấy tờ (xem
+                     controllers/course_registration.py, _requires_category_confirmation) -
+                     ẩn QR/nút, hiện thông báo này thay vào đó (xem _onBasicSubmit, JS). -->
+                <p class="text-danger small text-center mb-0 d-none mx-auto" style="max-width: 450px;"
+                   id="wizard_payment_pending_confirmation_note">
+                  Hồ sơ của bạn đang được nhân viên xác nhận thông tin/giấy tờ - Link thanh toán sẽ được gửi qua email ngay sau khi xác nhận xong.
                 </p>
               </div>
 
               <div id="wizard_payment_success" class="d-none text-center">
-                <p class="text-success fw-bold mb-1">
+                <p class="text-success fw-bold mb-2">
                   Thanh toán thành công
                 </p>
-                <p class="mb-4" style="font-size: 14px;">Đã hoàn tất thủ tục thanh toán, tiếp tục trả lời các câu hỏi chuyên sâu để hoàn thành phiếu đăng ký khóa học</p>
+                <p class="mb-5 mx-auto" style="font-size: 14px; max-width: 460px;">Đã hoàn tất thủ tục thanh toán, tiếp tục trả lời các câu hỏi chuyên sâu để hoàn thành phiếu đăng ký khóa học</p>
                 <button type="button" class="btn btn-success w-100" id="wizard_payment_continue">
                   Tiếp tục
                 </button>
               </div>
 
-              <button type="button" class="btn btn-link w-100" id="wizard_open_slip_unpaid">
-                Xem phiếu đăng ký
-              </button>
             </div>
 
             <!--

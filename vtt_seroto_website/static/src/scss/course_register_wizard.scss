@@ -28,14 +28,44 @@
   }
 
   &.active {
-    background: #03b3bb;
-    color: #fff;
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #333;
   }
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.6;
   }
+}
+
+.course_wizard_pane {
+  label {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 2px;
+  }
+  .btn-success {
+    --btn-bg: #03b3bb;
+    --btn-border-color: #03b3bb;
+    --btn-hover-bg: #03b3bb;
+    --btn-hover-border-color: #03b3bb;
+    --btn-active-bg: #03b3bb;
+    --btn-active-border-color: #03b3bb;
+    --btn-disabled-bg: #03b3bb;
+    --btn-disabled-border-color: #03b3bb;
+  }
+}
+
+/* Tiêu đề từng phần trong bước "Thông tin cơ bản" (gộp cả "Diện đăng ký khóa học" -
+   KHÔNG phải bước riêng, xem course_register_wizard.js _onCategoryChange). */
+.course_wizard_section_title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 24px 0 16px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 /* Khung placeholder hiện tạm trước khi có ảnh QR thật (server trả về qr_url, xem

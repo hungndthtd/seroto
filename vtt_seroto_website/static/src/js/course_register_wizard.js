@@ -29,7 +29,8 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         "click .js_register_course_wizard": "_onOpenWizard",
         "click .course_wizard_step": "_onStepClick",
         "input #course_wizard_basic_form": "_onBasicInput",
-        "change input[name='student_relation']": "_onRelationChange",
+        "change select[name='student_relation']": "_onRelationChange",
+        "change #wizard_registration_category": "_onCategoryChange",
         "submit #course_wizard_basic_form": "_onBasicSubmit",
         "click #wizard_payment_continue": "_onWizardPaymentContinue",
         "click #wizard_open_slip_unpaid": "_onOpenSlipFromWizard",
@@ -72,6 +73,18 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             studentRelation: "self", studentName: "",
             questions: [], // [{id, question}, ...] - riêng theo từng khóa học, xem _renderQuestions()
             answers: [], // [{question, answer}, ...] - đã lưu ở Tab 3
+            // [{id, question, question_type, options, is_shared, category_codes}, ...] -
+            // CHƯA lọc theo diện (server trả nguyên cả bộ), tự lọc lại theo diện đang
+            // chọn mỗi khi render - xem _renderBasicQuestions.
+            basicQuestions: [],
+            // [{code, name, requires_review, requires_upload, template_url}, ...] - CHỈ
+            // những diện đang website_visible=True cho ĐÚNG khóa học này (xem controllers/
+            // academic_course_snippet.py, academic_course_is_registration_open) - nguồn
+            // duy nhất để dựng <option> của #wizard_registration_category, biết diện
+            // đang chọn có yêu cầu upload hay không, VÀ link tải mẫu giấy tờ (xem
+            // _renderRegistrationCategoryOptions, _onCategoryChange, _onBasicSubmit) -
+            // không còn hardcode "5 diện cố định"/UPLOAD_CATEGORIES như trước.
+            registrationCategories: [],
             paid: false,
         };
     },
@@ -105,6 +118,8 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
 
         this._state = this._emptyState();
         this._state.course = course;
+        this._state.basicQuestions = openCheck.basic_questions || [];
+        this._state.registrationCategories = openCheck.registration_categories || [];
 
         const modalEl = this.el.querySelector("#courseRegisterWizardModal");
 
@@ -117,6 +132,15 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         // phải state của form) - phải tự ẩn lại tay ở đây.
         modalEl.querySelector("#wizard_student_fields").classList.add("d-none");
         modalEl.querySelector("[name='student_name']").required = false;
+        // Diện đăng ký - danh sách <option> giờ DỰNG LẠI TỪ ĐẦU mỗi lần mở modal, CHỈ
+        // gồm đúng những diện đang active=True cho khóa học này (xem
+        // _renderRegistrationCategoryOptions) - không còn cố định "tuition" làm mặc định
+        // như trước (khóa có thể tắt hẳn diện tuition). Gọi lại _onCategoryChange ngay
+        // sau đó (y hệt lúc khách tự đổi dropdown) để ẩn/hiện + bật/tắt required đúng
+        // theo diện ĐẦU TIÊN thực tế đang được chọn, thay vì tự giả định "tuition".
+        this._renderRegistrationCategoryOptions(modalEl);
+        modalEl.querySelector("#wizard_category_attachment_input").value = "";
+        this._onCategoryChange({ currentTarget: modalEl.querySelector("#wizard_registration_category") });
         modalEl.querySelector("#wizard_email_sent_note").textContent = "";
         modalEl.querySelector("#wizard_payment_pending").classList.remove("d-none");
         modalEl.querySelector("#wizard_payment_success").classList.add("d-none");
@@ -166,6 +190,256 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._updateBasicContinueState(modalEl);
     },
 
+    // Dựng lại <option> của #wizard_registration_category từ this._state.registrationCategories
+    // (đã lọc theo ĐÚNG khóa học + active=True, xem _onOpenWizard) - chọn sẵn diện ĐẦU
+    // TIÊN trong danh sách (sequence nhỏ nhất, thứ tự server đã trả đúng - xem
+    // academic.course.pricing._order). Khóa không cấu hình diện nào cả (danh sách rỗng,
+    // lẽ ra không nên xảy ra vì academic.course.create() tự sinh đủ dòng) thì để
+    // <select> rỗng - form vẫn gửi registration_category="" lên server, server tự chặn
+    // lại (không có diện nào khớp).
+    _renderRegistrationCategoryOptions(modalEl) {
+        const select = modalEl.querySelector("#wizard_registration_category");
+        select.replaceChildren();
+        this._state.registrationCategories.forEach((cat, idx) => {
+            const option = document.createElement("option");
+            option.value = cat.code;
+            option.textContent = cat.name;
+            if (idx === 0) {
+                option.selected = true;
+            }
+            select.appendChild(option);
+        });
+    },
+
+    // "Diện đăng ký": hiện đúng (các) khối field theo diện đã chọn - medical/nonprofit
+    // hiện CẢ khối riêng LẪN khối "upload" dùng chung (diện cần nộp giấy tờ). Đúng
+    // pattern _onRelationChange, chỉ áp dụng cho nhiều khối hơn 1.
+    _onCategoryChange(ev) {
+        const modalEl = ev.currentTarget.closest(".modal");
+        const category = ev.currentTarget.value;
+
+        // Cấu trúc field RIÊNG của từng diện (voucher/medical/nonprofit có field đặc thù
+        // không diện nào khác dùng chung) - vẫn hardcode ở đây, cố tình KHÔNG đưa vào
+        // academic.registration.category (danh mục đó chỉ nắm 2 quyết định NGHIỆP VỤ
+        // dùng chung là requires_review/requires_upload, không nắm cấu trúc FORM). Diện
+        // đóng học phí không có khối riêng nào trên website (xem
+        // views/course_register_wizard.xml) - "Trạng thái đăng ký" chỉ nhân viên tự
+        // chọn tay trên backend.
+        const STRUCTURAL_BLOCKS_BY_CATEGORY = {
+            tuition: [],
+            voucher: ["voucher"],
+            education_scholarship: [],
+            medical_scholarship: ["medical"],
+            nonprofit: ["nonprofit"],
+        };
+        // Khối "upload" dùng chung - hiện hay không giờ đọc THẲNG từ requires_upload của
+        // đúng diện đang chọn (this._state.registrationCategories, nguồn từ
+        // academic.registration.category) thay vì mảng UPLOAD_CATEGORIES hardcode cố
+        // định như trước - đổi cấu hình ở màn "Loại diện đăng ký" (backend) là form tự
+        // theo, không cần sửa code.
+        const categoryInfo = this._state.registrationCategories.find((c) => c.code === category);
+        const requiresUpload = Boolean(categoryInfo && categoryInfo.requires_upload);
+        const visibleBlocks = STRUCTURAL_BLOCKS_BY_CATEGORY[category] || [];
+        if (requiresUpload) {
+            visibleBlocks.push("upload");
+        }
+
+        // required="required" TĨNH trong HTML KHÔNG đủ - đã kiểm chứng thực tế (Chrome
+        // DevTools, reportValidity()): input nằm trong khối display:none (d-none) VẪN bị
+        // tính "invalid" và chặn checkValidity() của CẢ FORM (chỉ là trình duyệt không
+        // focus/hiện popup được vào đó nên im lặng chặn, dễ tưởng nhầm nút bị "kẹt") -
+        // PHẢI tự bật/tắt .required bằng JS đúng lúc ẩn/hiện khối, không phó mặc cho
+        // trình duyệt tự loại trừ như vẫn tưởng trước đây. "voucher" KHÔNG nằm trong
+        // danh sách này - "Mã voucher" chưa bao giờ bắt buộc.
+        const REQUIRED_BLOCKS = ["upload", "medical", "nonprofit"];
+        ["voucher", "upload", "medical", "nonprofit"].forEach((name) => {
+            const blockEl = modalEl.querySelector(`#wizard_category_${name}_fields`);
+            const isVisible = visibleBlocks.includes(name);
+            blockEl.classList.toggle("d-none", !isVisible);
+            if (REQUIRED_BLOCKS.includes(name)) {
+                blockEl.querySelectorAll("input, select").forEach((input) => {
+                    input.required = isVisible;
+                });
+            }
+            if (!isVisible) {
+                // Ẩn thì xóa luôn giá trị (kể cả file đã chọn) - tránh gửi lên field
+                // của diện KHÔNG còn được chọn nữa.
+                blockEl.querySelectorAll("input, select").forEach((input) => {
+                    if (input.tagName === "SELECT") {
+                        input.selectedIndex = 0;
+                    } else {
+                        input.value = "";
+                    }
+                });
+            }
+        });
+
+        // Khối "upload" dùng chung cho 3 diện - đổi hint/link tải mẫu tùy diện đang
+        // chọn (medical_scholarship không có mẫu sẵn của Seroto để tải).
+        const UPLOAD_HINTS = {
+            education_scholarship: "Vui lòng đính kèm giấy xác nhận của trường (có thể dùng mẫu của Seroto).",
+            medical_scholarship: "Vui lòng đính kèm thẻ đeo (thẻ nhân viên, thẻ chức danh...) hoặc giấy tờ chứng minh khác.",
+            nonprofit: "Vui lòng đính kèm giấy xác nhận của tổ chức (có thể dùng mẫu của Seroto).",
+        };
+        modalEl.querySelector("#wizard_category_upload_hint").textContent = UPLOAD_HINTS[category] || "";
+        // Link tải mẫu - đọc THẲNG từ template_url của đúng diện đang chọn
+        // (this._state.registrationCategories, nguồn academic.registration.category) thay
+        // vì chỉ ẩn/hiện cứng theo 2 mã diện hardcode như trước - diện nào Quản lý chưa
+        // nhập link (để trống) thì KHÔNG hiện link, không phân biệt CODE diện là gì.
+        const templateUrl = (categoryInfo && categoryInfo.template_url) || "";
+        const templateLinkEl = modalEl.querySelector("#wizard_category_template_link");
+        templateLinkEl.classList.toggle("d-none", !templateUrl);
+        templateLinkEl.href = templateUrl || "#";
+
+        // "Câu hỏi cơ bản" áp dụng theo diện có thể khác hẳn diện vừa đổi - render lại
+        // TOÀN BỘ (mất câu trả lời cũ nếu có), cùng tinh thần "đổi diện thì xóa giá trị
+        // field của diện không còn liên quan" đã áp dụng cho các khối trên.
+        this._renderBasicQuestions(modalEl);
+
+        this._updateBasicContinueState(modalEl);
+    },
+
+    // "Câu hỏi cơ bản" (Bước 1) - lọc this._state.basicQuestions (CHƯA lọc, server trả
+    // nguyên cả bộ lúc mở modal) theo ĐÚNG diện đang chọn (is_shared hoặc khớp
+    // category_codes), render input y hệt _renderQuestions() (Tab 3) nhưng CÓ
+    // required="required" (select/text bắt cả nhóm, radio bắt TỪNG ô trong nhóm) - khác
+    // Tab 3 (không bắt buộc trả lời trước khi "Hoàn tất đăng ký").
+    _renderBasicQuestions(modalEl) {
+        const container = modalEl.querySelector("#wizard_basic_questions_container");
+
+        // Giữ lại câu trả lời/tick ĐÃ có TRƯỚC khi xóa - hàm này bị gọi lại MỖI LẦN đổi
+        // "Diện đăng ký" (kể cả câu "Dùng chung", is_shared=True, hoàn toàn không phụ
+        // thuộc diện) - không giữ lại thì khách tick xong đổi diện là mất tick, tưởng
+        // nút "Tiếp tục" bị kẹt dù thực ra chỉ là mất dữ liệu đã nhập.
+        const existingAnswers = {};
+        container.querySelectorAll("[data-question]").forEach((wrap) => {
+            if (wrap.dataset.questionType === "radio") {
+                const checked = wrap.querySelector(".course_wizard_basic_question_radio:checked");
+                if (checked) existingAnswers[wrap.dataset.question] = checked.value;
+            } else if (wrap.dataset.questionType === "checkbox") {
+                const checkbox = wrap.querySelector(".course_wizard_basic_question_checkbox");
+                existingAnswers[wrap.dataset.question] = Boolean(checkbox && checkbox.checked);
+            } else {
+                const input = wrap.querySelector(".course_wizard_basic_question_input");
+                if (input) existingAnswers[wrap.dataset.question] = input.value;
+            }
+        });
+
+        container.replaceChildren();
+
+        const category = modalEl.querySelector("#wizard_registration_category").value;
+        const questions = this._state.basicQuestions.filter(
+            (q) => q.is_shared || q.category_codes.includes(category),
+        );
+
+        questions.forEach((q) => {
+            const wrap = document.createElement("div");
+            wrap.className = "mb-3";
+            wrap.dataset.question = q.question;
+            wrap.dataset.questionType = q.question_type;
+
+            // "checkbox" KHÔNG hiện nhãn riêng phía trên - chính câu hỏi (q.question)
+            // đóng vai trò nhãn của ô tích, y hệt bố cục checkbox "Tôi cam kết thông
+            // tin đăng ký..." hard-code sẵn trên form (form-check: input + label cùng
+            // hàng) - hiện nhãn riêng ở đây sẽ bị lặp lại nội dung 2 lần.
+            if (q.question_type !== "checkbox") {
+                const label = document.createElement("label");
+                label.textContent = q.question;
+                wrap.appendChild(label);
+            }
+
+            if (q.question_type === "checkbox") {
+                const checkWrap = document.createElement("div");
+                checkWrap.className = "form-check";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "form-check-input course_wizard_basic_question_checkbox";
+                checkbox.id = `wizard_basic_question_${q.id}`;
+                checkbox.required = true;
+                checkbox.checked = Boolean(existingAnswers[q.question]);
+
+                const checkLabel = document.createElement("label");
+                checkLabel.className = "form-check-label";
+                checkLabel.setAttribute("for", checkbox.id);
+                checkLabel.textContent = q.question;
+
+                checkWrap.appendChild(checkbox);
+                checkWrap.appendChild(checkLabel);
+                wrap.appendChild(checkWrap);
+            } else if (q.question_type === "select") {
+                const select = document.createElement("select");
+                select.className = "form-control course_wizard_basic_question_input";
+                select.required = true;
+
+                // KHÔNG thêm option rỗng "-- Chọn --" - mặc định trình duyệt tự chọn
+                // SẴN lựa chọn ĐẦU TIÊN khai trên Khóa học (khác Tab 3 "Câu hỏi chuyên
+                // sâu", _renderQuestions() vẫn giữ placeholder rỗng - nơi đó cần phân
+                // biệt "đã trả lời"/"chưa trả lời" để hiện lại đúng câu còn thiếu, có
+                // sẵn mặc định sẽ luôn coi là "đã trả lời" ngay từ đầu).
+                q.options.forEach((opt) => {
+                    const option = document.createElement("option");
+                    option.value = opt;
+                    option.textContent = opt;
+                    select.appendChild(option);
+                });
+                if (q.options.includes(existingAnswers[q.question])) {
+                    select.value = existingAnswers[q.question];
+                }
+                wrap.appendChild(select);
+            } else if (q.question_type === "radio") {
+                const groupName = `wizard_basic_question_${q.id}`;
+                q.options.forEach((opt, idx) => {
+                    const radioWrap = document.createElement("div");
+                    radioWrap.className = "form-check";
+
+                    const radio = document.createElement("input");
+                    radio.type = "radio";
+                    radio.name = groupName;
+                    radio.className = "form-check-input course_wizard_basic_question_radio";
+                    radio.value = opt;
+                    radio.id = `${groupName}_${idx}`;
+                    radio.required = true;
+                    radio.checked = existingAnswers[q.question] === opt;
+
+                    const radioLabel = document.createElement("label");
+                    radioLabel.className = "form-check-label";
+                    radioLabel.setAttribute("for", radio.id);
+                    radioLabel.textContent = opt;
+
+                    radioWrap.appendChild(radio);
+                    radioWrap.appendChild(radioLabel);
+                    wrap.appendChild(radioWrap);
+                });
+            } else {
+                const input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control course_wizard_basic_question_input";
+                input.required = true;
+                input.value = existingAnswers[q.question] || "";
+                wrap.appendChild(input);
+            }
+
+            container.appendChild(wrap);
+        });
+    },
+
+    // Đọc 1 File thành {filename, data (base64, không kèm tiền tố "data:...;base64,"),
+    // mimetype} - dùng để gửi kèm JSON-RPC (route hiện tại là jsonrpc thuần, không phải
+    // multipart/form-data, nên phải encode base64 thay vì gửi file thẳng).
+    _fileToAttachment(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result || "";
+                const base64 = result.includes(",") ? result.split(",")[1] : result;
+                resolve({ filename: file.name, data: base64, mimetype: file.type });
+            };
+            reader.onerror = () => reject(reader.error);
+            reader.readAsDataURL(file);
+        });
+    },
+
     async _onBasicSubmit(ev) {
         ev.preventDefault();
 
@@ -182,23 +456,114 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         const phone = (data.get("phone") || "").trim();
         const studentRelation = data.get("student_relation") || "self";
         const studentName = studentRelation === "other" ? (data.get("student_name") || "").trim() : "";
+        const category = data.get("registration_category") || "tuition";
+
+        // Chỉ gửi lên field của ĐÚNG diện đang chọn - field của diện khác luôn bị
+        // _onCategoryChange xóa giá trị lúc ẩn khối tương ứng, nhưng lọc lại ở đây theo
+        // category cho rõ ràng, khỏi phụ thuộc hoàn toàn vào việc JS đã xóa đúng chưa.
+        // Diện đóng học phí không gửi gì thêm - "Trạng thái đăng ký" (sớm/bình thường)
+        // chỉ nhân viên tự chọn tay trên backend, không có ở form website.
+        const categoryVals = {};
+        if (category === "voucher") {
+            categoryVals.voucher_type = data.get("voucher_type") || "";
+            categoryVals.voucher_code = (data.get("voucher_code") || "").trim();
+        } else if (category === "medical_scholarship") {
+            categoryVals.medical_facility_name = (data.get("medical_facility_name") || "").trim();
+            categoryVals.medical_facility_province = (data.get("medical_facility_province") || "").trim();
+            categoryVals.medical_role = (data.get("medical_role") || "").trim();
+        } else if (category === "nonprofit") {
+            categoryVals.nonprofit_org_name = (data.get("nonprofit_org_name") || "").trim();
+            categoryVals.nonprofit_org_province = (data.get("nonprofit_org_province") || "").trim();
+            categoryVals.nonprofit_org_ward = (data.get("nonprofit_org_ward") || "").trim();
+            categoryVals.nonprofit_registrant_role = (data.get("nonprofit_registrant_role") || "").trim();
+            categoryVals.nonprofit_signer_name = (data.get("nonprofit_signer_name") || "").trim();
+            categoryVals.nonprofit_signer_phone = (data.get("nonprofit_signer_phone") || "").trim();
+            categoryVals.nonprofit_representative_name = (data.get("nonprofit_representative_name") || "").trim();
+            categoryVals.nonprofit_representative_phone = (data.get("nonprofit_representative_phone") || "").trim();
+        }
+
+        // Diện có requires_upload=True dùng CHUNG 1 ô chọn file - đọc + encode base64
+        // TRƯỚC khi khóa nút "Tiếp tục" (route hiện tại là jsonrpc thuần, không phải
+        // multipart, nên phải gửi file dạng base64 kèm trong payload JSON). Đọc thẳng từ
+        // this._state.registrationCategories (nguồn academic.registration.category) thay
+        // vì mảng hardcode cố định như trước.
+        let attachments = [];
+        const submitCategoryInfo = this._state.registrationCategories.find((c) => c.code === category);
+        if (submitCategoryInfo && submitCategoryInfo.requires_upload) {
+            const MAX_SIZE = 10 * 1024 * 1024;
+            const files = Array.from(modalEl.querySelector("#wizard_category_attachment_input").files || []);
+            const tooLarge = files.find((file) => file.size > MAX_SIZE);
+            if (tooLarge) {
+                alert(`File "${tooLarge.name}" vượt quá 10MB, vui lòng chọn file khác.`);
+                return;
+            }
+            try {
+                attachments = await Promise.all(files.map((file) => this._fileToAttachment(file)));
+            } catch (error) {
+                console.error("Đọc file đính kèm thất bại:", error);
+                alert("Không đọc được file đính kèm, vui lòng thử lại.");
+                return;
+            }
+        }
+
+        // "Câu hỏi cơ bản" - thu thập TỪ ĐÚNG các input đang render trong container (đã
+        // lọc theo diện, xem _renderBasicQuestions) - cùng cách đọc radio/select/text như
+        // _onDetailSubmit (Tab 3), nhưng gửi kèm NGAY trong payload Tab 1 (khác Tab 3, gửi
+        // qua route /update riêng SAU KHI phiếu đã tồn tại).
+        const basicWraps = modalEl.querySelectorAll("#wizard_basic_questions_container [data-question]");
+        const basicAnswers = Array.from(basicWraps).map((wrap) => {
+            let answer = "";
+            if (wrap.dataset.questionType === "radio") {
+                const checked = wrap.querySelector(".course_wizard_basic_question_radio:checked");
+                answer = checked ? checked.value : "";
+            } else if (wrap.dataset.questionType === "checkbox") {
+                // Lưu nhãn dễ đọc cho NV xem trên backend, thay vì "yes" khô khan - rỗng
+                // nếu chưa tích (không nên xảy ra vì input required, chỉ phòng hờ).
+                const checkbox = wrap.querySelector(".course_wizard_basic_question_checkbox");
+                answer = checkbox && checkbox.checked ? "Xác nhận/Đồng ý" : "";
+            } else {
+                const input = wrap.querySelector(".course_wizard_basic_question_input");
+                answer = input ? input.value.trim() : "";
+            }
+            return { question: wrap.dataset.question, answer };
+        });
 
         const continueBtn = modalEl.querySelector("#wizard_basic_continue");
         continueBtn.disabled = true;
         continueBtn.textContent = "Đang xử lý...";
 
+        // Đã submit thành công 1 lần trước đó (registrationId đã có, VD khách bấm quay lại
+        // bước 1 sửa lại rồi bấm "Tiếp tục" lần nữa) - GHI ĐÈ lên đúng phiếu cũ thay vì tạo
+        // phiếu MỚI + giao dịch thanh toán MỚI mỗi lần bấm lại (xem controllers/
+        // course_registration.py, update_basic_registration).
+        const isUpdate = Boolean(this._state.registrationId);
+        const payload = {
+            course: this._state.course,
+            name,
+            email,
+            phone,
+            student_relation: studentRelation,
+            student_name: studentName,
+            registration_category: category,
+            attachments,
+            basic_answers: basicAnswers,
+            ...categoryVals,
+        };
+        if (isUpdate) {
+            payload.id = this._state.registrationId;
+            payload.token = this._state.accessToken;
+        }
+
         let result;
         try {
-            result = await rpc("/seroto/course-registration/create", {
-                course: this._state.course,
-                name,
-                email,
-                phone,
-                student_relation: studentRelation,
-                student_name: studentName,
-            });
+            result = await rpc(
+                isUpdate
+                    ? "/seroto/course-registration/update-basic"
+                    : "/seroto/course-registration/create",
+                payload,
+            );
         } catch (error) {
-            console.error("Tạo phiếu đăng ký thất bại:", error);
+            console.error(isUpdate ? "Cập nhật phiếu đăng ký thất bại:" : "Tạo phiếu đăng ký thất bại:", error);
             // error.data.message: nội dung UserError thật từ server (VD "Khóa học ...
             // hiện không mở đăng ký" - trường hợp hiếm khi khóa vừa đóng đúng lúc khách
             // đang điền form, giữa lúc mở modal và lúc bấm "Tiếp tục") - chỉ rơi về câu
@@ -220,6 +585,12 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._state.phone = phone;
         this._state.studentRelation = studentRelation;
         this._state.studentName = studentName;
+        this._state.code = result.code;
+        this._state.categoryLabel = result.registration_category_label;
+        this._state.voucherLabel = result.voucher_label;
+        this._state.baseAmount = result.base_amount;
+        this._state.amount = result.amount;
+        this._state.pendingConfirmation = result.pending_confirmation;
 
         this._renderQuestions(modalEl);
 
@@ -231,34 +602,68 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         this._syncSlip();
 
         modalEl.querySelector('.course_wizard_step[data-step="payment"]').disabled = false;
-        modalEl.querySelector("#wizard_payment_course").textContent = this._state.course;
 
-        // Hiện đầy đủ lại thông tin đã điền ở Tab 1 (giống hệt phần "Phiếu đăng ký" ở
-        // _syncSlip) để khách đối chiếu lại trước khi thanh toán - không còn dòng "Nội
-        // dung chuyển khoản" tự đoán như trước (payOS/ngân hàng có thể tự thêm tiền tố
-        // riêng vào nội dung chuyển khoản thật, hiện sai còn dễ gây nhầm lẫn hơn không
-        // hiện - khách xem đúng nội dung thật ngay trên trang/QR của payOS).
+        // Hiện đầy đủ lại thông tin đã điền ở Tab 1 + thông tin thanh toán (diện đăng ký,
+        // số tiền, voucher, nội dung chuyển khoản) để khách đối chiếu lại trước khi trả
+        // tiền - các ô này đều là <input readonly>, PHẢI gán .value (không phải
+        // .textContent như trước lúc còn là <strong>/<p>).
+        modalEl.querySelector("#wizard_payment_course").value = this._state.course;
         const isForOther = this._state.studentRelation === "other";
         modalEl.querySelector("#wizard_payment_student_row").classList.toggle("d-none", !isForOther);
         if (isForOther) {
-            modalEl.querySelector("#wizard_payment_student").textContent = this._state.studentName;
+            modalEl.querySelector("#wizard_payment_student").value = this._state.studentName;
         }
-        modalEl.querySelector("#wizard_payment_name").textContent = this._state.name;
-        modalEl.querySelector("#wizard_payment_email").textContent = this._state.email;
-        modalEl.querySelector("#wizard_payment_phone").textContent = this._state.phone;
+        modalEl.querySelector("#wizard_payment_name").value = this._state.name;
+        modalEl.querySelector("#wizard_payment_email").value = this._state.email;
+        modalEl.querySelector("#wizard_payment_phone").value = this._state.phone;
+        modalEl.querySelector("#wizard_payment_category").value = this._state.categoryLabel || "";
+        const voucherRow = modalEl.querySelector("#wizard_payment_voucher_row");
+        voucherRow.classList.toggle("d-none", !this._state.voucherLabel);
+        if (this._state.voucherLabel) {
+            modalEl.querySelector("#wizard_payment_voucher").value = this._state.voucherLabel;
+        }
+        const baseAmount = this._state.baseAmount || 0;
+        const amount = this._state.amount || 0;
+        const discountAmount = baseAmount - amount;
+        modalEl.querySelector("#wizard_payment_base_amount").value =
+            `${baseAmount.toLocaleString("vi-VN")} ₫`;
+        const discountRow = modalEl.querySelector("#wizard_payment_discount_row");
+        discountRow.classList.toggle("d-none", discountAmount <= 0);
+        if (discountAmount > 0) {
+            modalEl.querySelector("#wizard_payment_discount_amount").value =
+                `${discountAmount.toLocaleString("vi-VN")} ₫`;
+        }
+        modalEl.querySelector("#wizard_payment_amount").value =
+            `${amount.toLocaleString("vi-VN")} ₫`;
+        // Nội dung chuyển khoản hiển thị ở đây lấy đúng Mã phiếu (description gửi cho
+        // payOS lúc tạo link) - payOS/ngân hàng có thể tự thêm tiền tố riêng vào nội dung
+        // chuyển khoản THẬT, khách vẫn nên ưu tiên nội dung hiển thị trên trang/QR thanh
+        // toán thật nếu có sai khác (xem models/course_registration.py
+        // _create_payment_transaction).
+        modalEl.querySelector("#wizard_payment_code").value = this._state.code || "";
 
         modalEl.querySelector("#wizard_email_sent_note").textContent =
             `Đã gửi email xác nhận kèm link phiếu đăng ký tới ${email}.`;
         modalEl.querySelector("#wizard_open_bank").href = this._state.checkoutUrl || "#";
+        const pending = Boolean(this._state.pendingConfirmation);
         // Không phải cổng nào cũng có QR (VD cổng giả lập dev, vtt_payment_dev_switch) -
         // ẩn hẳn khối QR thay vì gán src="" (browser coi <img src=""> là tải lại chính
         // trang HTML hiện tại làm ảnh -> luôn ra ảnh vỡ).
         const qrImg = modalEl.querySelector("#wizard_payment_qr");
         const qrWrap = modalEl.querySelector("#wizard_payment_qr_wrap");
-        qrWrap.classList.toggle("d-none", !this._state.qrUrl);
+        qrWrap.classList.toggle("d-none", !this._state.qrUrl || pending);
         if (this._state.qrUrl) {
             qrImg.src = this._state.qrUrl;
         }
+        // Có QR (payOS thật) -> khách quét QR là đủ, ẩn nút "Mở trang thanh toán" (đỡ
+        // rối/trùng lặp). Không có QR (cổng giả lập dev) -> đây là cách DUY NHẤT để vào
+        // được trang thanh toán, phải hiện. Diện cần xác nhận giấy tờ (pending) - CHƯA
+        // có link nào cả (checkoutUrl cũng rỗng) - ẩn nút, hiện thông báo chờ xác nhận
+        // thay vào đó (xem course_register_wizard.xml).
+        modalEl.querySelector("#wizard_open_bank").classList.toggle(
+            "d-none", Boolean(this._state.qrUrl) || pending);
+        modalEl.querySelector("#wizard_payment_pending_confirmation_note").classList.toggle(
+            "d-none", !pending);
         this._showPane(modalEl, "payment");
 
         this._startPolling();

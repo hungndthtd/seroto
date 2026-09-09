@@ -1,0 +1,682 @@
+<title>Luồng Vận Hành Seroto</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #f6f4ee;
+    --surface: #ffffff;
+    --surface-2: #fbfaf5;
+    --ink: #1e2b22;
+    --muted: #5c6b60;
+    --line: #dad4c3;
+    --line-soft: #e7e2d3;
+    --accent-auto: #2c7a64;
+    --accent-auto-soft: rgba(44, 122, 100, 0.09);
+    --accent-manual: #b4722a;
+    --accent-manual-soft: rgba(180, 114, 42, 0.10);
+    --lane-tint-a: rgba(30, 43, 34, 0.035);
+    --lane-tint-b: rgba(30, 43, 34, 0.065);
+    --shadow: 0 1px 2px rgba(30, 43, 34, 0.06), 0 8px 24px rgba(30, 43, 34, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10160f;
+      --surface: #1a221a;
+      --surface-2: #161d16;
+      --ink: #ecefe6;
+      --muted: #a2b09e;
+      --line: #333f2e;
+      --line-soft: #2a3527;
+      --accent-auto: #52d0a0;
+      --accent-auto-soft: rgba(82, 208, 160, 0.13);
+      --accent-manual: #e3a458;
+      --accent-manual-soft: rgba(227, 164, 88, 0.14);
+      --lane-tint-a: rgba(255, 255, 255, 0.025);
+      --lane-tint-b: rgba(255, 255, 255, 0.05);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10160f;
+    --surface: #1a221a;
+    --surface-2: #161d16;
+    --ink: #ecefe6;
+    --muted: #a2b09e;
+    --line: #333f2e;
+    --line-soft: #2a3527;
+    --accent-auto: #52d0a0;
+    --accent-auto-soft: rgba(82, 208, 160, 0.13);
+    --accent-manual: #e3a458;
+    --accent-manual-soft: rgba(227, 164, 88, 0.14);
+    --lane-tint-a: rgba(255, 255, 255, 0.025);
+    --lane-tint-b: rgba(255, 255, 255, 0.05);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Public Sans', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 56px 28px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  header.intro {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 32px;
+  }
+
+  .eyebrow {
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-auto);
+  }
+
+  h1 {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 38px);
+    line-height: 1.15;
+    margin: 0;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  .dek {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 68ch;
+    margin: 0;
+  }
+
+  section.figure-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .figure-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .figure-head .num {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--accent-auto);
+    border: 1px solid var(--accent-auto);
+    border-radius: 999px;
+    padding: 2px 10px;
+    letter-spacing: 0.02em;
+  }
+
+  .figure-head h2 {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+
+  figure {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .svg-scroll {
+    overflow-x: auto;
+    padding: 22px 22px 6px;
+  }
+
+  .svg-scroll svg {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-width: 640px;
+    color: var(--ink);
+  }
+
+  figcaption {
+    padding: 16px 24px 22px;
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--muted);
+    border-top: 1px solid var(--line-soft);
+    max-width: 88ch;
+  }
+
+  figcaption b { color: var(--ink); font-weight: 600; }
+
+  .legend {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 4px 24px 0;
+  }
+
+  .legend span.swatch {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: -2px;
+  }
+
+  .sw-auto { background: var(--accent-auto); }
+  .sw-manual { background: var(--accent-manual); }
+  .sw-ink { background: var(--ink); }
+
+  footer.notes {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  footer.notes a { color: var(--accent-auto); text-decoration: none; border-bottom: 1px solid var(--accent-auto-soft); }
+  footer.notes a:hover { border-bottom-color: var(--accent-auto); }
+
+  /* SVG helpers */
+  .lane-label {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    fill: var(--muted);
+  }
+  .node-text {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 500;
+    font-size: 12.6px;
+    fill: var(--ink);
+  }
+  .node-text-inv { font-family: 'Public Sans', sans-serif; font-weight: 600; font-size: 12.6px; }
+  .gate-text {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    fill: var(--ink);
+  }
+  .tag-text {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
+  }
+</style>
+
+<div class="page">
+
+  <header class="intro">
+    <span class="eyebrow">Seroto &middot; tài liệu vận hành</span>
+    <h1>Luồng vận hành phần mềm Seroto</h1>
+    <p class="dek">Sáu sơ đồ mô tả cơ chế thật đang chạy trong hệ thống — từ điều kiện mở đăng ký, đăng ký &amp; thanh toán, các nhánh ngoại lệ, điểm danh &amp; cấp chứng chỉ, đến những luồng tài chính khác đều đổ về Báo cáo tổng hợp. Vẽ theo đúng các tình huống vận hành thực tế. Vẽ để xem trước — chưa đưa lên Wiki.js.</p>
+  </header>
+
+  <section class="figure-block">
+    <div class="figure-head">
+      <span class="num">Sơ đồ 1</span>
+      <h2>Đăng ký &amp; thanh toán — hai đường vào, một điểm hội tụ</h2>
+    </div>
+    <figure>
+      <div class="legend">
+        <span><span class="swatch sw-auto"></span>Website / payOS (tự động)</span>
+        <span><span class="swatch sw-manual"></span>Sale / Kế toán (xử lý tay)</span>
+        <span><span class="swatch sw-ink"></span>Chung cho cả hai đường</span>
+      </div>
+      <div class="svg-scroll">
+        <svg viewBox="0 0 1180 900" role="img" aria-label="Sơ đồ luồng đăng ký khóa học: khách tự đăng ký qua website và thanh toán payOS, hoặc Sale nhập tay khi khách gọi điện/Zalo — cả hai đường hội tụ tại một sự kiện ghi nhận thanh toán, sau đó hệ thống tự động ghi danh học viên, liên kết Phiếu thu và đóng Phiếu đăng ký.">
+          <defs>
+            <marker id="ah-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="currentColor" />
+            </marker>
+            <marker id="ah-auto" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="var(--accent-auto)" />
+            </marker>
+            <marker id="ah-manual" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="var(--accent-manual)" />
+            </marker>
+          </defs>
+
+          <!-- lane bands -->
+          <rect x="160" y="90" width="1000" height="140" fill="var(--lane-tint-a)" />
+          <rect x="160" y="230" width="1000" height="140" fill="var(--lane-tint-b)" />
+          <rect x="160" y="370" width="1000" height="140" fill="var(--lane-tint-a)" />
+          <rect x="160" y="510" width="1000" height="390" fill="var(--lane-tint-b)" />
+
+          <text x="30" y="164" class="lane-label">Khách hàng</text>
+          <text x="30" y="304" class="lane-label">Sale</text>
+          <text x="30" y="444" class="lane-label">Kế toán</text>
+          <text x="30" y="532" class="lane-label">Hệ thống</text>
+          <text x="30" y="548" class="lane-label">(tự động)</text>
+
+          <!-- gate -->
+          <rect x="260" y="18" width="660" height="46" rx="8" fill="none" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 4" />
+          <text x="590" y="46" text-anchor="middle" class="gate-text">Chỉ áp dụng đăng ký qua website: Lớp học phải "Đang nhận đăng ký" và là "Lớp nhận đăng ký"</text>
+          <line x1="360" y1="64" x2="360" y2="96" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ah-ink)" />
+
+          <!-- A1 auto entry -->
+          <rect x="210" y="98" width="260" height="52" rx="9" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.4" />
+          <text x="340" y="129" text-anchor="middle" class="node-text">Điền form đăng ký (3 bước)</text>
+
+          <!-- A2 auto payment -->
+          <rect x="740" y="98" width="240" height="52" rx="9" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.4" />
+          <text x="860" y="129" text-anchor="middle" class="node-text">Quét QR / chuyển khoản (payOS)</text>
+          <line x1="470" y1="124" x2="734" y2="124" stroke="var(--accent-auto)" stroke-width="1.6" marker-end="url(#ah-auto)" />
+
+          <!-- B1 manual entry -->
+          <rect x="210" y="168" width="260" height="52" rx="9" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.4" />
+          <text x="340" y="199" text-anchor="middle" class="node-text">Gọi điện / nhắn Zalo cho Sale</text>
+
+          <!-- B2 Sale confirm -->
+          <rect x="560" y="276" width="280" height="52" rx="9" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.4" />
+          <text x="700" y="298" text-anchor="middle" class="node-text">Sale bấm "Xác nhận"</text>
+          <text x="700" y="315" text-anchor="middle" class="node-text">→ tự tạo Đơn hàng</text>
+          <path d="M 340 220 C 340 250, 560 250, 620 274" fill="none" stroke="var(--accent-manual)" stroke-width="1.6" marker-end="url(#ah-manual)" />
+
+          <!-- C1 Ke toan xuat hoa don -->
+          <rect x="640" y="416" width="200" height="52" rx="9" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.4" />
+          <text x="740" y="447" text-anchor="middle" class="node-text">Kế toán: Xuất Hóa đơn</text>
+          <path d="M 720 328 C 720 370, 740 380, 740 414" fill="none" stroke="var(--accent-manual)" stroke-width="1.6" marker-end="url(#ah-manual)" />
+
+          <!-- C2 Ke toan ghi nhan thanh toan -->
+          <rect x="900" y="416" width="220" height="52" rx="9" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.4" />
+          <text x="1010" y="447" text-anchor="middle" class="node-text">Kế toán: Ghi nhận thanh toán</text>
+          <line x1="840" y1="442" x2="894" y2="442" stroke="var(--accent-manual)" stroke-width="1.6" marker-end="url(#ah-manual)" />
+
+          <!-- Da payOS webhook -->
+          <rect x="740" y="590" width="240" height="56" rx="9" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.4" />
+          <text x="860" y="614" text-anchor="middle" class="node-text">payOS webhook báo đã nhận tiền</text>
+          <text x="860" y="631" text-anchor="middle" class="node-text">→ tự ghi nhận thanh toán</text>
+          <line x1="864" y1="150" x2="864" y2="584" stroke="var(--accent-auto)" stroke-width="1.6" marker-end="url(#ah-auto)" />
+
+          <!-- Merge M -->
+          <rect x="780" y="676" width="320" height="54" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="940" y="708" text-anchor="middle" class="node-text" style="font-weight:600">Thanh toán được ghi nhận</text>
+          <path d="M 858 646 C 858 664, 890 668, 900 674" fill="none" stroke="var(--accent-auto)" stroke-width="1.6" marker-end="url(#ah-auto)" />
+          <path d="M 1010 468 C 1010 560, 1000 640, 980 674" fill="none" stroke="var(--accent-manual)" stroke-width="1.6" marker-end="url(#ah-manual)" />
+
+          <!-- M2 -->
+          <rect x="720" y="750" width="440" height="56" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="940" y="774" text-anchor="middle" class="node-text" style="font-weight:600">Ghi danh học viên vào lớp</text>
+          <text x="940" y="791" text-anchor="middle" class="node-text" style="font-weight:600">+ tự liên kết Phiếu thu</text>
+          <line x1="940" y1="730" x2="940" y2="744" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ah-ink)" />
+
+          <!-- M3 -->
+          <rect x="790" y="830" width="300" height="50" rx="9" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="940" y="861" text-anchor="middle" class="node-text-inv" style="fill: var(--bg)">Phiếu đăng ký: Hoàn tất</text>
+          <line x1="940" y1="806" x2="940" y2="824" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ah-ink)" />
+        </svg>
+      </div>
+      <figcaption>
+        Hai đường đăng ký khác hẳn cơ chế — <b>website</b> (khách tự điền form, thanh toán payOS, mọi thứ tự động) và <b>thủ công</b> (Sale nhập tay khi khách gọi điện/Zalo, Kế toán tự tay ghi nhận thanh toán) — nhưng cả hai đều đổ về đúng <b>1 sự kiện "Thanh toán được ghi nhận"</b>. Từ điểm hội tụ đó, phần còn lại chạy một luồng tự động duy nhất, không phân biệt nguồn thanh toán: ghi danh học viên, liên kết Phiếu thu, đóng Phiếu đăng ký.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="figure-block">
+    <div class="figure-head">
+      <span class="num">Sơ đồ 2</span>
+      <h2>Sau ghi danh — điểm danh đến cấp chứng chỉ</h2>
+    </div>
+    <figure>
+      <div class="svg-scroll">
+        <svg viewBox="0 0 1180 340" role="img" aria-label="Sơ đồ: học viên đã ghi danh được điểm danh riêng theo buổi Zoom hoặc buổi thực hành BTH, tiến độ tổng hợp lại, khi đạt từ 50% trở lên và được bấm Hoàn thành thì hệ thống tự cấp chứng chỉ đạt, ngược lại cấp chứng chỉ không đạt.">
+          <defs>
+            <marker id="ah2-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="currentColor" />
+            </marker>
+          </defs>
+
+          <rect x="40" y="112" width="210" height="56" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="145" y="144" text-anchor="middle" class="node-text" style="font-weight:600">Ghi danh: Đã ghi danh</text>
+
+          <rect x="300" y="112" width="170" height="56" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="385" y="136" text-anchor="middle" class="node-text">Buổi học</text>
+          <text x="385" y="153" text-anchor="middle" class="node-text">(Zoom hoặc BTH)</text>
+          <line x1="250" y1="140" x2="294" y2="140" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah2-ink)" />
+
+          <rect x="270" y="216" width="160" height="46" rx="8" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.3" />
+          <text x="350" y="244" text-anchor="middle" class="node-text">Điểm danh Zoom</text>
+          <path d="M 360 168 C 355 190, 353 200, 350 214" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah2-ink)" />
+
+          <rect x="450" y="216" width="160" height="46" rx="8" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.3" />
+          <text x="530" y="244" text-anchor="middle" class="node-text">Điểm danh BTH</text>
+          <path d="M 410 168 C 460 190, 500 200, 520 214" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah2-ink)" />
+
+          <rect x="620" y="112" width="200" height="56" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="720" y="136" text-anchor="middle" class="node-text">Tiến độ tổng hợp</text>
+          <text x="720" y="153" text-anchor="middle" class="node-text">(2 số độc lập)</text>
+          <path d="M 350 216 C 350 190, 500 150, 614 143" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah2-ink)" />
+          <path d="M 530 216 C 560 190, 590 155, 614 140" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah2-ink)" />
+
+          <rect x="880" y="112" width="260" height="56" rx="9" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="1010" y="136" text-anchor="middle" class="node-text-inv" style="fill: var(--bg)">Hoàn thành &amp;</text>
+          <text x="1010" y="153" text-anchor="middle" class="node-text-inv" style="fill: var(--bg)">Cấp chứng chỉ (bấm nút)</text>
+          <line x1="820" y1="140" x2="874" y2="140" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah2-ink)" />
+
+          <rect x="900" y="200" width="90" height="34" rx="17" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.2" />
+          <text x="945" y="222" text-anchor="middle" class="tag-text" style="fill: var(--accent-auto)">Đạt (≥50%)</text>
+          <rect x="1010" y="200" width="120" height="34" rx="17" fill="var(--line-soft)" stroke="var(--muted)" stroke-width="1.2" />
+          <text x="1070" y="222" text-anchor="middle" class="tag-text" style="fill: var(--muted)">Không đạt (&lt;50%)</text>
+          <line x1="990" y1="168" x2="945" y2="196" stroke="currentColor" stroke-width="1.2" marker-end="url(#ah2-ink)" />
+          <line x1="1030" y1="168" x2="1070" y2="196" stroke="currentColor" stroke-width="1.2" marker-end="url(#ah2-ink)" />
+        </svg>
+      </div>
+      <figcaption>
+        "Số buổi đã học" giờ tách thành 2 chỉ số độc lập theo phân loại buổi — <b>Zoom</b> và <b>BTH</b> — không gộp chung. Chứng chỉ chỉ sinh ra khi Sale/Quản lý chủ động bấm <b>"Hoàn thành &amp; Cấp chứng chỉ"</b> trên đúng bản ghi Ghi danh; hệ thống tự chấm đạt/không đạt theo tiến độ tổng ≥ 50%, không tạo tay được ở màn hình danh sách Chứng chỉ.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="figure-block">
+    <div class="figure-head">
+      <span class="num">Sơ đồ 3</span>
+      <h2>6 nguồn dữ liệu → Báo cáo tổng hợp</h2>
+    </div>
+    <figure>
+      <div class="svg-scroll">
+        <svg viewBox="0 0 1180 430" role="img" aria-label="Sơ đồ: sáu nguồn dữ liệu khác nhau — ghi danh tham gia, ghi danh hoàn thành, người phụng sự trên lớp học, hóa đơn gieo hạt, hóa đơn học phí, hóa đơn nhà cung cấp gắn lớp học — đều đổ về một bảng Pivot Báo cáo tổng hợp theo khóa học, lớp học và loại số liệu.">
+          <defs>
+            <marker id="ah3-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="currentColor" />
+            </marker>
+          </defs>
+
+          <rect x="40" y="20" width="420" height="54" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="60" y="42" class="node-text">Ghi danh (mọi trạng thái trừ Đã hủy)</text>
+          <text x="60" y="60" class="node-text" style="fill: var(--muted)">→ Học viên tham gia</text>
+
+          <rect x="40" y="86" width="420" height="54" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="60" y="108" class="node-text">Ghi danh trạng thái Hoàn thành</text>
+          <text x="60" y="126" class="node-text" style="fill: var(--muted)">→ Hoàn thành</text>
+
+          <rect x="40" y="152" width="420" height="54" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="60" y="174" class="node-text">Field "Người phụng sự" trên Lớp học</text>
+          <text x="60" y="192" class="node-text" style="fill: var(--muted)">→ Người phụng sự</text>
+
+          <rect x="40" y="218" width="420" height="54" rx="8" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.3" />
+          <text x="60" y="240" class="node-text">Hóa đơn bán, sản phẩm "Gieo hạt", đã thanh toán</text>
+          <text x="60" y="258" class="node-text" style="fill: var(--accent-auto)">→ Gieo hạt (Số tiền)</text>
+
+          <rect x="40" y="284" width="420" height="54" rx="8" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.3" />
+          <text x="60" y="306" class="node-text">Hóa đơn bán, sản phẩm học phí, đã thanh toán</text>
+          <text x="60" y="324" class="node-text" style="fill: var(--accent-auto)">→ Thu học phí (Số tiền)</text>
+
+          <rect x="40" y="350" width="420" height="54" rx="8" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.3" />
+          <text x="60" y="372" class="node-text">Hóa đơn nhà cung cấp có gắn Lớp học, đã thanh toán</text>
+          <text x="60" y="390" class="node-text" style="fill: var(--accent-manual)">→ Chi (Số tiền)</text>
+
+          <rect x="800" y="150" width="340" height="130" rx="12" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="970" y="196" text-anchor="middle" class="node-text-inv" style="fill: var(--bg); font-size:14px">Báo cáo tổng hợp</text>
+          <text x="970" y="216" text-anchor="middle" class="node-text-inv" style="fill: var(--bg)">theo khóa học</text>
+          <text x="970" y="242" text-anchor="middle" class="node-text" style="fill: var(--muted)">Pivot: Khóa học × Lớp học</text>
+          <text x="970" y="259" text-anchor="middle" class="node-text" style="fill: var(--muted)">× Loại số liệu</text>
+
+          <path d="M 460 47 C 620 47, 700 150, 796 205" fill="none" stroke="currentColor" stroke-width="1.2" marker-end="url(#ah3-ink)" />
+          <path d="M 460 113 C 620 113, 700 165, 796 210" fill="none" stroke="currentColor" stroke-width="1.2" marker-end="url(#ah3-ink)" />
+          <path d="M 460 179 C 620 179, 700 190, 796 216" fill="none" stroke="currentColor" stroke-width="1.2" marker-end="url(#ah3-ink)" />
+          <path d="M 460 245 C 620 245, 700 225, 796 222" fill="none" stroke="var(--accent-auto)" stroke-width="1.3" marker-end="url(#ah3-ink)" />
+          <path d="M 460 311 C 620 311, 700 250, 796 234" fill="none" stroke="var(--accent-auto)" stroke-width="1.3" marker-end="url(#ah3-ink)" />
+          <path d="M 460 377 C 620 377, 700 260, 796 250" fill="none" stroke="var(--accent-manual)" stroke-width="1.3" marker-end="url(#ah3-ink)" />
+        </svg>
+      </div>
+      <figcaption>
+        Cả 6 nguồn gộp về <b>1 bảng Pivot duy nhất</b> — không cần mở nhiều menu rồi tự cộng tay. Chỉ 3 loại (<b style="color:var(--accent-auto)">Gieo hạt</b>, <b style="color:var(--accent-auto)">Thu</b>, <b style="color:var(--accent-manual)">Chi</b>) mang số tiền thật; 3 loại còn lại là số liệu đếm lượt nên cột "Số tiền" luôn 0đ — đúng chủ đích, không phải lỗi. Khoản không gắn được Khóa/Lớp học (chi phí chung, doanh thu khác) không xuất hiện ở đây, xem ở Kế toán › Báo cáo.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="figure-block">
+    <div class="figure-head">
+      <span class="num">Sơ đồ 4</span>
+      <h2>Vòng đời Lớp học &amp; điều kiện "Đang mở đăng ký"</h2>
+    </div>
+    <figure>
+      <div class="svg-scroll">
+        <svg viewBox="0 0 1180 420" role="img" aria-label="Sơ đồ: wizard Mở đợt học mới tạo lớp ở trạng thái Sắp mở hoặc thẳng Đang nhận đăng ký nếu tick Mở cho phép đăng ký. Lớp học đi qua 5 trạng thái theo từng nút bấm. Chỉ khi lớp đang Đang nhận đăng ký VÀ đồng thời là Lớp nhận đăng ký của khóa học thì website mới thật sự mở đăng ký, ngược lại website vẫn đóng dù lớp đang mở.">
+          <defs>
+            <marker id="ah4-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="currentColor" />
+            </marker>
+            <marker id="ah4-auto" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="var(--accent-auto)" />
+            </marker>
+          </defs>
+
+          <!-- wizard -->
+          <rect x="40" y="26" width="260" height="54" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="170" y="49" text-anchor="middle" class="node-text" style="font-weight:600">Mở đợt học mới</text>
+          <text x="170" y="66" text-anchor="middle" class="node-text">(wizard trên Khóa học)</text>
+
+          <!-- state machine -->
+          <rect x="40" y="150" width="140" height="54" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.4" />
+          <text x="110" y="182" text-anchor="middle" class="node-text">Sắp mở</text>
+
+          <rect x="260" y="150" width="200" height="54" rx="9" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.6" />
+          <text x="360" y="182" text-anchor="middle" class="node-text" style="font-weight:600">Đang nhận đăng ký</text>
+
+          <rect x="540" y="150" width="180" height="54" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.4" />
+          <text x="630" y="182" text-anchor="middle" class="node-text">Đã đóng đăng ký</text>
+
+          <rect x="800" y="150" width="140" height="54" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.4" />
+          <text x="870" y="182" text-anchor="middle" class="node-text">Đang học</text>
+
+          <rect x="1000" y="150" width="140" height="54" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.4" />
+          <text x="1070" y="182" text-anchor="middle" class="node-text">Hoàn thành</text>
+
+          <line x1="180" y1="177" x2="254" y2="177" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah4-ink)" />
+          <text x="217" y="167" text-anchor="middle" class="tag-text" style="fill: var(--muted)">Mở đăng ký</text>
+
+          <line x1="460" y1="177" x2="534" y2="177" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah4-ink)" />
+          <text x="497" y="167" text-anchor="middle" class="tag-text" style="fill: var(--muted)">Đóng đăng ký</text>
+
+          <line x1="720" y1="177" x2="794" y2="177" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah4-ink)" />
+          <text x="757" y="167" text-anchor="middle" class="tag-text" style="fill: var(--muted)">Bắt đầu học</text>
+
+          <line x1="940" y1="177" x2="994" y2="177" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah4-ink)" />
+          <text x="967" y="167" text-anchor="middle" class="tag-text" style="fill: var(--muted)">Hoàn thành</text>
+
+          <!-- wizard -> states -->
+          <path d="M 110 80 C 110 110, 110 130, 110 148" fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah4-ink)" />
+          <text x="118" y="118" class="tag-text" style="fill: var(--muted)">mặc định</text>
+          <path d="M 250 80 C 300 110, 340 130, 355 148" fill="none" stroke="var(--accent-auto)" stroke-width="1.6" marker-end="url(#ah4-auto)" />
+          <text x="300" y="122" class="tag-text" style="fill: var(--accent-auto)">nếu tick "Mở cho phép đăng ký"</text>
+
+          <!-- gate condition -->
+          <line x1="360" y1="204" x2="360" y2="248" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah4-ink)" />
+          <rect x="210" y="250" width="300" height="52" rx="9" fill="none" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 4" />
+          <text x="360" y="272" text-anchor="middle" class="gate-text">Lớp này có đang là</text>
+          <text x="360" y="289" text-anchor="middle" class="gate-text">"Lớp nhận đăng ký" của Khóa học?</text>
+
+          <line x1="290" y1="302" x2="255" y2="326" stroke="var(--accent-auto)" stroke-width="1.4" marker-end="url(#ah4-auto)" />
+          <rect x="150" y="330" width="220" height="40" rx="20" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.3" />
+          <text x="260" y="355" text-anchor="middle" class="tag-text" style="fill: var(--accent-auto)">CÓ → website mở đăng ký</text>
+
+          <line x1="430" y1="302" x2="470" y2="326" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah4-ink)" />
+          <rect x="400" y="330" width="280" height="40" rx="20" fill="var(--line-soft)" stroke="var(--muted)" stroke-width="1.3" />
+          <text x="540" y="355" text-anchor="middle" class="tag-text" style="fill: var(--muted)">KHÔNG → website vẫn đóng</text>
+          <text x="540" y="392" text-anchor="middle" class="node-text" style="fill: var(--muted); font-size: 11.5px">(hệ thống cảnh báo ngay lúc bấm "Mở đăng ký")</text>
+        </svg>
+      </div>
+      <figcaption>
+        Nút <b>"Mở đăng ký"/"Đóng đăng ký"</b> chỉ đổi trạng thái của <b>1 lớp</b>. Website chỉ thật sự nhận đăng ký khi lớp đó <b>đồng thời</b> đang "Đang nhận đăng ký" <b>và</b> là "Lớp nhận đăng ký" của khóa — thiếu 1 trong 2 thì dù lớp đang mở, khách vẫn không đăng ký được. Đây chính là điều kiện ở khung nét đứt trong Sơ đồ 1. Wizard "Mở đợt học mới" có tick "Mở cho phép đăng ký" để nhảy thẳng vào "Đang nhận đăng ký", gộp luôn bước này.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="figure-block">
+    <div class="figure-head">
+      <span class="num">Sơ đồ 5</span>
+      <h2>Phiếu đăng ký — nhánh Từ chối &amp; ngoại lệ</h2>
+    </div>
+    <figure>
+      <div class="svg-scroll">
+        <svg viewBox="0 0 1180 400" role="img" aria-label="Sơ đồ: Sale kiểm tra Phiếu đăng ký mới, nếu hợp lệ thì Xác nhận và tự tạo Đơn hàng, nếu nghi vấn thì Từ chối kèm lý do. Trường hợp đặc biệt: nếu khách đã thanh toán trước khi Sale kịp xử lý thì hệ thống đã tự ghi danh rồi, bấm Từ chối lúc này không hủy ngược đơn hàng hay ghi danh đã tạo.">
+          <defs>
+            <marker id="ah5-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="currentColor" />
+            </marker>
+            <marker id="ah5-auto" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="var(--accent-auto)" />
+            </marker>
+            <marker id="ah5-manual" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="var(--accent-manual)" />
+            </marker>
+          </defs>
+
+          <rect x="40" y="140" width="220" height="54" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="150" y="172" text-anchor="middle" class="node-text" style="font-weight:600">Phiếu: Mới đăng ký</text>
+
+          <rect x="310" y="140" width="220" height="54" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.5" />
+          <text x="420" y="172" text-anchor="middle" class="node-text">Sale kiểm tra thông tin</text>
+          <line x1="260" y1="167" x2="304" y2="167" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah5-ink)" />
+
+          <rect x="580" y="60" width="240" height="50" rx="9" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.4" />
+          <text x="700" y="90" text-anchor="middle" class="node-text">Hợp lệ → bấm Xác nhận</text>
+          <path d="M 530 150 C 560 120, 560 100, 578 90" fill="none" stroke="var(--accent-auto)" stroke-width="1.5" marker-end="url(#ah5-auto)" />
+
+          <rect x="870" y="60" width="230" height="50" rx="9" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.4" />
+          <text x="985" y="82" text-anchor="middle" class="node-text">Tự tạo Đơn hàng</text>
+          <text x="985" y="98" text-anchor="middle" class="node-text" style="font-size:11px; fill:var(--muted)">(→ tiếp Sơ đồ 1)</text>
+          <line x1="820" y1="85" x2="864" y2="85" stroke="var(--accent-auto)" stroke-width="1.5" marker-end="url(#ah5-auto)" />
+
+          <rect x="580" y="220" width="270" height="54" rx="9" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.4" />
+          <text x="715" y="242" text-anchor="middle" class="node-text">Nghi vấn → bấm Từ chối</text>
+          <text x="715" y="259" text-anchor="middle" class="node-text">+ nhập lý do (bắt buộc)</text>
+          <path d="M 530 180 C 560 200, 560 220, 578 240" fill="none" stroke="var(--accent-manual)" stroke-width="1.5" marker-end="url(#ah5-manual)" />
+
+          <rect x="900" y="220" width="200" height="54" rx="9" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.4" />
+          <text x="1000" y="252" text-anchor="middle" class="node-text">Phiếu: Đã từ chối</text>
+          <line x1="850" y1="247" x2="894" y2="247" stroke="var(--accent-manual)" stroke-width="1.5" marker-end="url(#ah5-manual)" />
+
+          <!-- special case -->
+          <rect x="40" y="320" width="300" height="56" rx="9" fill="none" stroke="var(--ink)" stroke-width="1.4" stroke-dasharray="4 4" />
+          <text x="190" y="343" text-anchor="middle" class="gate-text">Ngoại lệ: khách ĐÃ thanh toán</text>
+          <text x="190" y="360" text-anchor="middle" class="gate-text">trước khi Sale kịp xử lý</text>
+
+          <rect x="380" y="320" width="330" height="56" rx="9" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="1.4" />
+          <text x="545" y="343" text-anchor="middle" class="node-text">Hệ thống đã tự ghi danh +</text>
+          <text x="545" y="360" text-anchor="middle" class="node-text">tạo Đơn hàng/Hóa đơn rồi</text>
+          <line x1="340" y1="348" x2="374" y2="348" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah5-ink)" />
+
+          <rect x="750" y="316" width="390" height="64" rx="9" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.4" />
+          <text x="945" y="341" text-anchor="middle" class="node-text-inv" style="fill: var(--bg)">Bấm Từ chối lúc này KHÔNG</text>
+          <text x="945" y="358" text-anchor="middle" class="node-text-inv" style="fill: var(--bg)">hủy ngược Đơn hàng/Ghi danh</text>
+          <line x1="710" y1="348" x2="744" y2="348" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah5-ink)" />
+        </svg>
+      </div>
+      <figcaption>
+        Nhánh "Xác nhận" nối tiếp vào chuỗi tự động ở <b>Sơ đồ 1</b>. Điểm dễ hiểu nhầm nằm ở hàng dưới: nếu phiếu <b>đã được thanh toán qua website trước khi Sale kịp mở ra xem</b>, hệ thống đã tự xử lý xong (ghi danh, tạo Đơn hàng/Hóa đơn) — lúc này bấm "Từ chối" chỉ đổi nhãn của Phiếu đăng ký, <b>không</b> hủy ngược lại những gì đã tạo. Muốn hủy thật (hoàn tiền, hủy ghi danh) phải xử lý riêng ở đúng Đơn hàng/Ghi danh đó.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="figure-block">
+    <div class="figure-head">
+      <span class="num">Sơ đồ 6</span>
+      <h2>Kế toán — 3 luồng tài chính khác đều nuôi Báo cáo tổng hợp</h2>
+    </div>
+    <figure>
+      <div class="svg-scroll">
+        <svg viewBox="0 0 1180 380" role="img" aria-label="Sơ đồ 3 luồng ghi nhận tài chính của Kế toán: chi phí gắn lớp học cộng vào cột Chi, gieo hạt gắn lớp học (tuỳ chọn) cộng vào cột Gieo hạt, và hoàn học phí qua giấy báo có trừ ngược vào cột Thu.">
+          <defs>
+            <marker id="ah6-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,0 10,5 0,10" fill="currentColor" />
+            </marker>
+          </defs>
+
+          <!-- Row 1: Chi -->
+          <rect x="40" y="30" width="240" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="160" y="63" text-anchor="middle" class="node-text">Hóa đơn NCC: thêm dòng chi phí</text>
+
+          <rect x="320" y="30" width="220" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="430" y="63" text-anchor="middle" class="node-text">Chọn Lớp học trên dòng đó</text>
+          <line x1="280" y1="58" x2="314" y2="58" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah6-ink)" />
+
+          <rect x="580" y="30" width="200" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="680" y="63" text-anchor="middle" class="node-text">Xác nhận + Thanh toán</text>
+          <line x1="540" y1="58" x2="574" y2="58" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah6-ink)" />
+
+          <rect x="820" y="30" width="320" height="56" rx="18" fill="var(--accent-manual-soft)" stroke="var(--accent-manual)" stroke-width="1.3" />
+          <text x="980" y="63" text-anchor="middle" class="tag-text" style="fill: var(--accent-manual)">+ cộng vào "Chi" của đúng lớp</text>
+          <line x1="780" y1="58" x2="814" y2="58" stroke="var(--accent-manual)" stroke-width="1.4" marker-end="url(#ah6-ink)" />
+
+          <!-- Row 2: Gieo hat -->
+          <rect x="40" y="150" width="240" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="160" y="174" text-anchor="middle" class="node-text">Đơn hàng/Hóa đơn: dòng sản</text>
+          <text x="160" y="191" text-anchor="middle" class="node-text">phẩm "Gieo hạt"</text>
+
+          <rect x="320" y="150" width="220" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="430" y="174" text-anchor="middle" class="node-text">(Tùy chọn) chọn Lớp học</text>
+          <line x1="280" y1="178" x2="314" y2="178" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah6-ink)" />
+
+          <rect x="580" y="150" width="200" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="680" y="183" text-anchor="middle" class="node-text">Xác nhận + Thanh toán</text>
+          <line x1="540" y1="178" x2="574" y2="178" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah6-ink)" />
+
+          <rect x="820" y="150" width="320" height="56" rx="18" fill="var(--accent-auto-soft)" stroke="var(--accent-auto)" stroke-width="1.3" />
+          <text x="980" y="183" text-anchor="middle" class="tag-text" style="fill: var(--accent-auto)">+ cộng vào "Gieo hạt"</text>
+          <line x1="780" y1="178" x2="814" y2="178" stroke="var(--accent-auto)" stroke-width="1.4" marker-end="url(#ah6-ink)" />
+
+          <!-- Row 3: Hoan hoc phi -->
+          <rect x="40" y="270" width="240" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="160" y="294" text-anchor="middle" class="node-text">Hóa đơn học phí gốc</text>
+          <text x="160" y="311" text-anchor="middle" class="node-text">đã thanh toán</text>
+
+          <rect x="320" y="270" width="220" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="430" y="294" text-anchor="middle" class="node-text">Tạo Giấy báo có</text>
+          <text x="430" y="311" text-anchor="middle" class="node-text">(Credit Note)</text>
+          <line x1="280" y1="298" x2="314" y2="298" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah6-ink)" />
+
+          <rect x="580" y="270" width="200" height="56" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.3" />
+          <text x="680" y="303" text-anchor="middle" class="node-text">Xác nhận + Tất toán</text>
+          <line x1="540" y1="298" x2="574" y2="298" stroke="currentColor" stroke-width="1.3" marker-end="url(#ah6-ink)" />
+
+          <rect x="820" y="270" width="320" height="56" rx="18" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 4" />
+          <text x="980" y="303" text-anchor="middle" class="tag-text" style="fill: var(--ink)">&#8722; TRỪ ngược vào "Thu"</text>
+          <line x1="780" y1="298" x2="814" y2="298" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah6-ink)" />
+        </svg>
+      </div>
+      <figcaption>
+        3 luồng đi qua <b>đúng quy trình Đơn hàng/Hóa đơn quen thuộc</b>, chỉ khác ở sản phẩm dùng và có/không gắn Lớp học. Riêng dòng dưới cùng khác về bản chất: Giấy báo có không sinh ra số liệu mới mà <b>trừ ngược</b> (số âm) vào chính cột "Thu" của khóa đó — Kế toán không cần tự tính phần chênh lệch tay. Chi phí/khoản gieo hạt <b>không gắn Lớp học</b> vẫn vào sổ kế toán bình thường, chỉ là không tách được theo lớp trong Báo cáo tổng hợp.
+      </figcaption>
+    </figure>
+  </section>
+
+  <footer class="notes">
+    Nguồn nội dung: <a href="/hdsd/home">HDSD phần mềm Seroto</a> và <a href="/hdsd/tinh-huong-van-hanh">Tình huống vận hành thực tế</a>. Sơ đồ phản ánh đúng cơ chế hiện tại trong code (payOS thật, gộp bước Xác nhận + Tạo đơn hàng, Mở/Đóng đăng ký đã sửa lỗi) — chưa đẩy lên Wiki.js, chỉ để xem trước.
+  </footer>
+
+</div>

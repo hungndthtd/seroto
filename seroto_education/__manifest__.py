@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Seroto Education Management',
-    'version': '19.0.1.10.0',
+    'version': '19.0.1.13.0',
     'category': 'Education',
     'summary': 'Manage courses, classes, enrollments, attendance, and certificates without events module',
     'description': """
@@ -27,6 +27,7 @@
         'security/seroto_rules.xml',
         'data/ir_sequence_data.xml',
         'data/product_data.xml',
+        'data/academic_registration_category_data.xml',
         'views/academic_course_views.xml',
         'views/account_move_views.xml',
         'views/account_payment_views.xml',
@@ -39,6 +40,7 @@
         'views/sale_order_views.xml',
         'views/res_partner_views.xml',
         'views/academic_menus.xml',
+        'views/academic_registration_category_views.xml',
         'views/website_course_templates.xml',
         'views/website_foundation_templates.xml',
         'data/automated_actions.xml',

@@ -1,6 +1,6 @@
 {
   'name': 'VTT Seroto Website',
-  'version': '1.16',
+  'version': '1.18',
   'author': 'Seroto',
   'summary': 'Snippet kéo-thả và trang landing khóa học trên website',
   'depends': [
@@ -19,12 +19,22 @@
     # - khai depends thật (không còn phụ thuộc ngầm) vì menuitem BẮT BUỘC module chứa
     # menu cha phải nạp trước, không giống việc tra model qua self.env lúc runtime.
     'seroto_education',
+    # Diện "Voucher quà tặng" - validate/áp mã "Phiếu giảm giá" chuẩn Odoo (Sales > Chiết
+    # khấu & Khách hàng thân thiết) vào học phí, xem models/course_registration.py
+    # _validate_voucher_code(). LƯU Ý: vì "sale" đã có sẵn (qua seroto_education ->
+    # sale_management -> sale), khai thêm module này sẽ tự kéo theo sale_loyalty
+    # (auto_install khi cả sale lẫn loyalty cùng có mặt) - chỉ thêm field/tính năng coupon
+    # vào sale.order, không ảnh hưởng gì luồng hiện tại, KHÔNG dùng tới model/luồng đó.
+    'loyalty',
     # Snippet/trang landing đọc dữ liệu seroto.course + dùng chung modal đăng ký
     # (course_register_modal, register_modal.js) định nghĩa trong seroto_form.
     # 'seroto_form',
   ],
   'data': [
     'security/ir.model.access.csv',
+    # Sản phẩm ẩn dùng chung để tạo dòng chiết khấu riêng trên Đơn hàng (xem
+    # models/course_registration.py, _create_sale_order) - nạp SỚM, trước mọi view.
+    'data/registration_discount_product_data.xml',
     # Thêm nút "Tạo trang landing" vào form Khóa học (kế thừa view của seroto_form) -
     # xem models/seroto_course.py trong module này để biết lý do action này KHÔNG thể
     # nằm ở seroto_form (tránh phụ thuộc vòng tròn).
