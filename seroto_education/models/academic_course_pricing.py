@@ -49,9 +49,14 @@ class AcademicCoursePricing(models.Model):
     registration_category = fields.Selection(
         REGISTRATION_CATEGORY_SELECTION, string='Diện đăng ký', required=True,
     )
-    # Mặc định True - giữ đúng hành vi hiện tại (mọi khóa đang hiện đủ 5 diện). Quản lý
-    # tắt dòng nào thì diện đó KHÔNG còn xuất hiện trên form đăng ký website CỦA ĐÚNG
-    # khóa này nữa (không xóa cấu hình % đã nhập, chỉ ẩn) - xem controllers/
+    # Mặc định False (CỐ TÌNH, đổi từ True trước đây) - dòng diện mới sinh ra (tự động lúc
+    # tạo Khóa học, hoặc nhân viên tự thêm) BẮT BUỘC phải được bật tay mới hiện lên form
+    # đăng ký website. Mục đích: nhắc nhân viên phải vào cấu hình giá/ưu đãi (early_price/
+    # discount_percent) cho ĐÚNG diện đó trước khi cho khách chọn - tránh trường hợp khách
+    # đăng ký nhằm 1 diện chưa cấu hình gì (early_price/discount_percent = 0) mà không
+    # nhận được ưu đãi nào cả, không phát hiện ra cho tới khi khách phản ánh. Quản lý tắt
+    # dòng nào thì diện đó KHÔNG còn xuất hiện trên form đăng ký website CỦA ĐÚNG khóa
+    # này nữa (không xóa cấu hình % đã nhập, chỉ ẩn) - xem controllers/
     # academic_course_snippet.py (module vtt_seroto_website), academic_course_is_registration_open.
     # CỐ TÌNH đặt tên "website_visible" (KHÔNG dùng tên field mặc định "active" của Odoo)
     # - "active" mang ý nghĩa đặc biệt trong ORM (tự bị loại khỏi mọi search()/browse()
@@ -61,8 +66,10 @@ class AcademicCoursePricing(models.Model):
     # theo diện lúc nhân viên tạo Phiếu tay ở backend) - trong khi ý định thật của field
     # này CHỈ là ẩn/hiện trên FORM ĐĂNG KÝ WEBSITE, không phải lưu trữ/xóa mềm bản ghi.
     website_visible = fields.Boolean(
-        string='Hiển thị trên website', default=True,
-        help='Tắt để tạm ẩn diện này khỏi form đăng ký của khóa học này, không xóa cấu hình đã nhập.',
+        string='Hiển thị trên website', default=False,
+        help='Bật lên để cho diện này xuất hiện trên form đăng ký của khóa học này - nhớ '
+             'nhập đủ cấu hình giá/ưu đãi trước khi bật, tránh khách đăng ký mà không có '
+             'ưu đãi nào.',
     )
     content = fields.Char(
         string='Nội dung',

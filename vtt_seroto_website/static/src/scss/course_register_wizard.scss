@@ -3,6 +3,19 @@
    website.layout (ngoài mọi section snippet), nên biến --color-* của .custom-snippet sẽ
    không "chảy" tới được - style ở đây phải tự đứng độc lập. */
 
+.btn-odoo {
+  --btn-color: #fff;
+  --btn-bg: #03b3bb;
+  --btn-border-color: #03b3bb;
+  --btn-hover-color: #fff;
+  --btn-hover-bg: #03b3bb;
+  --btn-hover-border-color: #03b3bb;
+  --btn-active-bg: #03b3bb;
+  --btn-active-border-color: #03b3bb;
+  --btn-disabled-bg: #03b3bb;
+  --btn-disabled-border-color: #03b3bb;
+}
+
 .course_wizard_steps {
   display: flex;
   gap: 4px;
@@ -96,4 +109,20 @@
   border: 1px solid #dee2e6;
   border-radius: 8px;
   padding: 8px;
+}
+
+/* Icon dấu "!" trên modal thông báo dùng chung (#courseWizardNoticeModal) - thay cho
+   alert() mặc định của trình duyệt, xem course_register_wizard.js _showNotice(). */
+.course_wizard_notice_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #fdecea;
+  color: #e53935;
+  font-size: 26px;
+  font-weight: 700;
 }
