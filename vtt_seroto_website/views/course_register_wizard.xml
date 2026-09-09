@@ -104,33 +104,37 @@
                 -->
                 <div id="wizard_basic_questions_container" class="mb-3"/>
 
-                <div class="course_wizard_section_title">Diện đăng ký khóa học</div>
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label>Diện đăng ký</label>
-                    <!-- RỖNG lúc render server-side - JS (course_register_wizard.js,
-                         _renderRegistrationCategoryOptions) tự bơm <option> ngay lúc mở
-                         modal, CHỈ gồm đúng những diện đang active=True cho ĐÚNG khóa học
-                         này (xem controllers/academic_course_snippet.py,
-                         academic_course_is_registration_open, registration_categories) -
-                         không còn danh sách 5 diện cố định dùng chung mọi khóa như trước. -->
-                    <select class="form-control" name="registration_category"
-                            id="wizard_registration_category"/>
+                <!-- Cả khối (tiêu đề + dropdown) tự ẩn/hiện qua JS (_onOpenWizard) khi
+                     this._state.registrationCategories rỗng - khóa học chưa cấu hình
+                     website_visible=True cho diện nào cả (mặc định giờ là False, xem
+                     academic.course.pricing.website_visible) thì không có gì để khách
+                     chọn, hiện 1 dropdown rỗng sẽ gây rối chứ không giúp ích gì. -->
+                <div id="wizard_registration_category_section">
+                  <div class="course_wizard_section_title">Diện đăng ký khóa học</div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label>Diện đăng ký</label>
+                      <!-- RỖNG lúc render server-side - JS (course_register_wizard.js,
+                           _renderRegistrationCategoryOptions) tự bơm <option> ngay lúc mở
+                           modal, CHỈ gồm đúng những diện đang active=True cho ĐÚNG khóa học
+                           này (xem controllers/academic_course_snippet.py,
+                           academic_course_is_registration_open, registration_categories) -
+                           không còn danh sách 5 diện cố định dùng chung mọi khóa như trước. -->
+                      <select class="form-control" name="registration_category"
+                              id="wizard_registration_category"/>
+                    </div>
+                    <!-- "Loại voucher" đã ẩn hẳn khỏi form - khách chỉ cần nhập đúng mã,
+                        hệ thống tự xác định qua loyalty.card (xem _validate_voucher_code). -->
+                    <div id="wizard_category_voucher_fields" class="col-md-6 mb-3 d-none">
+                      <label>Mã voucher</label>
+                      <input class="form-control" name="voucher_code"/>
+                    </div>
                   </div>
                 </div>
                 <!-- Diện đóng học phí: KHÔNG có field riêng nào trên website - "Trạng
                      thái đăng ký" (sớm/bình thường) chỉ nhân viên tự chọn tay trên
                      backend (Phiếu đăng ký khóa học), mặc định 'normal' lúc tạo phiếu
                      (model default, xem models/course_registration.py). -->
-
-                <!-- "Loại voucher" đã ẩn hẳn khỏi form - khách chỉ cần nhập đúng mã,
-                     hệ thống tự xác định qua loyalty.card (xem _validate_voucher_code). -->
-                <div id="wizard_category_voucher_fields" class="row d-none">
-                  <div class="col-md-12 mb-3">
-                    <label>Mã voucher</label>
-                    <input class="form-control" name="voucher_code"/>
-                  </div>
-                </div>
 
                 <!-- Dùng CHUNG cho 3 diện cần nộp giấy tờ (education_scholarship/
                      medical_scholarship/nonprofit) - hint text + link tải mẫu đổi theo
@@ -367,7 +371,35 @@
   </template>
 
   <!--
-    Gắn 2 modal trên vào website.layout (con của #wrapwrap, NGOÀI #wrap) - lý do giống
+    Modal THÔNG BÁO dùng CHUNG, thay cho alert() mặc định của trình duyệt (giao diện xấu,
+    không đồng bộ với thiết kế modal wizard) - MỌI lỗi/thông báo của wizard đăng ký
+    (course_register_wizard.js) đều hiện qua đây, xem _showNotice(). Đặt RIÊNG (không
+    lồng bên trong modal wizard/phiếu) vì có tình huống cần hiện thông báo TRƯỚC KHI modal
+    wizard kịp mở (VD "Khóa học chưa mở đăng ký" - kiểm tra ngay lúc bấm nút "Đăng ký
+    ngay", xem _onOpenWizard) - Bootstrap tự xử lý đúng z-index/backdrop khi modal này mở
+    CHỒNG lên modal wizard đang mở sẵn (trường hợp lỗi phát sinh giữa lúc điền form, VD
+    "Mã voucher không hợp lệ").
+  -->
+  <template id="course_wizard_notice_modal">
+    <div class="modal fade" id="courseWizardNoticeModal" tabindex="-1"
+         aria-labelledby="courseWizardNoticeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+        <div class="modal-content">
+          <div class="modal-body text-center py-4 px-4">
+            <div class="course_wizard_notice_icon mb-3">!</div>
+            <h5 class="fw-bolder mb-2" id="courseWizardNoticeModalLabel">Thông báo</h5>
+            <!-- white-space: pre-line - vài thông báo lỗi từ server (UserError) có thể
+                 xuống dòng, giữ đúng định dạng thay vì dồn hết vào 1 dòng. -->
+            <p class="mb-4" id="wizard_notice_message" style="white-space: pre-line;"/>
+            <button type="button" class="btn btn-odoo w-100" data-bs-dismiss="modal">Đã hiểu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!--
+    Gắn 3 modal trên vào website.layout (con của #wrapwrap, NGOÀI #wrap) - lý do giống
     hệt seroto_form.course_register_modal_layout: nếu đặt trong 1 snippet có thể kéo
     thả/lưu (như s_trang_chu_course.xml), Website Builder sẽ đóng băng HTML lúc lưu
     trang, modal sẽ không còn tươi mới. Đặt "inside" #wrapwrap (không phải "before") để
@@ -377,6 +409,7 @@
     <xpath expr="//div[@id='wrapwrap']" position="inside">
       <t t-call="vtt_seroto_website.course_register_wizard_modal"/>
       <t t-call="vtt_seroto_website.course_registration_slip_modal"/>
+      <t t-call="vtt_seroto_website.course_wizard_notice_modal"/>
     </xpath>
   </template>
 

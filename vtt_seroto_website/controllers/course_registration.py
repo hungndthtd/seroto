@@ -118,11 +118,19 @@ class CourseRegistrationController(http.Controller):
         # models/course_registration.py _create_sale_order()) - nên sửa đi sửa lại mã
         # nhiều lần trước khi thanh toán không tốn/mất điểm gì cả.
         loyalty_card = voucher_discount = voucher_final_amount = False
-        if registration_category == 'voucher' and (voucher_code or '').strip():
+        if registration_category == 'voucher':
+            voucher_code = (voucher_code or '').strip()
+            # TRƯỚC ĐÂY: để trống mã vẫn cho qua ÂM THẦM (không validate gì), khách bấm
+            # "Tiếp tục" đăng ký được với GIÁ ĐẦY ĐỦ, không có ưu đãi nào - phát hiện thực
+            # tế qua phản ánh của khách. Chặn cứng ở đây (không chỉ dựa vào required phía
+            # JS, xem course_register_wizard.js) - khách gọi thẳng route này bỏ qua giao
+            # diện vẫn bị chặn.
+            if not voucher_code:
+                raise UserError(_('Vui lòng nhập mã voucher.'))
             base_amount = course_record.product_id.list_price if course_record and course_record.product_id else 0
             loyalty_card, voucher_discount, voucher_final_amount = request.env[
                 'seroto.course.registration'
-            ]._validate_voucher_code((voucher_code or '').strip(), course_record, base_amount)
+            ]._validate_voucher_code(voucher_code, course_record, base_amount)
 
         vals = {
             'course_name': course,
@@ -156,6 +164,17 @@ class CourseRegistrationController(http.Controller):
             # (write() KHÔNG tự chạy qua @api.onchange nên phải reset tường minh ở đây).
             'category_discount_confirmed': False,
         }
+        # Diện đóng học phí LUÔN cần 1 giá trị "Trạng thái đăng ký" (field bắt buộc phải
+        # có ý nghĩa để tính early_price, xem _get_payment_amount) - mặc định "Đăng ký
+        # bình thường", CHỈ đổi thành "Đăng ký sớm" nếu khớp điều kiện bên dưới. TRƯỚC ĐÂY
+        # để trống (False) khi không rơi vào diện sớm, hiện trống trên phiếu backend dù
+        # field model có default='normal' (default chỉ áp dụng khi THIẾU key trong vals,
+        # ở đây vals luôn có key này - xem reset 'early_registration_status': False phía
+        # trên) - gán tường minh ở đây, không dựa vào default nữa. Đặt TRƯỚC "if
+        # course_record" để vẫn có giá trị 'normal' ngay cả khi không tìm thấy academic.
+        # course khớp tên (course_record rỗng, registration_category vẫn mặc định 'tuition').
+        if registration_category == 'tuition':
+            vals['early_registration_status'] = 'normal'
         if course_record:
             pricing = course_record.pricing_ids.filtered(
                 lambda p: p.registration_category == registration_category

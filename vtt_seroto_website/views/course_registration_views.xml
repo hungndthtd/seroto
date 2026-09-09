@@ -186,7 +186,17 @@
                      invisible="not requires_category_confirmation"/>
               <!-- voucher_type ẩn hẳn - field vẫn còn trong model (tương thích ngược
                    dữ liệu phiếu cũ) nhưng không còn ai điền/hiển thị nữa. -->
-              <field name="voucher_code" invisible="registration_category != 'voucher'"/>
+              <!-- Nút "Kiểm tra" - gọi action_check_voucher_code() (model) để tra lại
+                   ĐÚNG Phiếu giảm giá (loyalty.card) khớp mã, dùng khi nhân viên tự gõ
+                   tay mã ở đây (không qua wizard website) - gõ tay đơn thuần vào field
+                   Char này KHÔNG có onchange nào tự tra loyalty_card_id cả. -->
+              <label for="voucher_code" invisible="registration_category != 'voucher'"/>
+              <div class="o_row" invisible="registration_category != 'voucher'">
+                <field name="voucher_code"/>
+                <button name="action_check_voucher_code" type="object" icon="fa-search"
+                        class="btn btn-secondary" title="Kiểm tra mã voucher" style="height: 28px; padding: 0 4px;"
+                        help="Tra lại đúng Phiếu giảm giá (loyalty.card) khớp mã voucher vừa nhập."/>
+              </div>
               <field name="loyalty_card_id" readonly="1" invisible="registration_category != 'voucher'"/>
               <field name="voucher_discount_amount" readonly="1" invisible="registration_category != 'voucher'"/>
               <field name="voucher_final_amount" readonly="1" invisible="registration_category != 'voucher'"/>

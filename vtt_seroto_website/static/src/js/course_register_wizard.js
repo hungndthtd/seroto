@@ -110,7 +110,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             openCheck = { is_registration_open: true };
         }
         if (!openCheck.is_registration_open) {
-            alert(`Khóa học "${course}" hiện chưa mở đăng ký, vui lòng quay lại sau hoặc liên hệ Seroto để được tư vấn.`);
+            this._showNotice(`Khóa học "${course}" hiện chưa mở đăng ký, vui lòng quay lại sau hoặc liên hệ Seroto để được tư vấn.`);
             return;
         }
 
@@ -139,6 +139,13 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         // sau đó (y hệt lúc khách tự đổi dropdown) để ẩn/hiện + bật/tắt required đúng
         // theo diện ĐẦU TIÊN thực tế đang được chọn, thay vì tự giả định "tuition".
         this._renderRegistrationCategoryOptions(modalEl);
+        // Khóa chưa cấu hình website_visible=True cho diện nào (mặc định giờ là False,
+        // xem academic.course.pricing.website_visible) -> registrationCategories rỗng ->
+        // ẩn hẳn khối "Diện đăng ký" thay vì hiện dropdown rỗng không chọn được gì. Select
+        // vốn không có required="required" (xem course_register_wizard.xml) nên ẩn khối
+        // này KHÔNG chặn nút "Tiếp tục" nếu Thông tin cơ bản đã điền đủ.
+        modalEl.querySelector("#wizard_registration_category_section").classList.toggle(
+            "d-none", this._state.registrationCategories.length === 0);
         modalEl.querySelector("#wizard_category_attachment_input").value = "";
         this._onCategoryChange({ currentTarget: modalEl.querySelector("#wizard_registration_category") });
         modalEl.querySelector("#wizard_email_sent_note").textContent = "";
@@ -249,9 +256,12 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
         // tính "invalid" và chặn checkValidity() của CẢ FORM (chỉ là trình duyệt không
         // focus/hiện popup được vào đó nên im lặng chặn, dễ tưởng nhầm nút bị "kẹt") -
         // PHẢI tự bật/tắt .required bằng JS đúng lúc ẩn/hiện khối, không phó mặc cho
-        // trình duyệt tự loại trừ như vẫn tưởng trước đây. "voucher" KHÔNG nằm trong
-        // danh sách này - "Mã voucher" chưa bao giờ bắt buộc.
-        const REQUIRED_BLOCKS = ["upload", "medical", "nonprofit"];
+        // trình duyệt tự loại trừ như vẫn tưởng trước đây. "voucher" NẰM trong danh sách
+        // này (đổi lại - trước đây "Mã voucher" không bắt buộc, gây lỗi thực tế: khách
+        // chọn diện voucher, để trống mã, vẫn bấm "Tiếp tục" được và đăng ký với GIÁ ĐẦY
+        // ĐỦ không có ưu đãi nào - xem thêm chặn phía server ở _prepare_registration_vals,
+        // module vtt_seroto_website/controllers/course_registration.py).
+        const REQUIRED_BLOCKS = ["upload", "medical", "nonprofit", "voucher"];
         ["voucher", "upload", "medical", "nonprofit"].forEach((name) => {
             const blockEl = modalEl.querySelector(`#wizard_category_${name}_fields`);
             const isVisible = visibleBlocks.includes(name);
@@ -494,14 +504,14 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             const files = Array.from(modalEl.querySelector("#wizard_category_attachment_input").files || []);
             const tooLarge = files.find((file) => file.size > MAX_SIZE);
             if (tooLarge) {
-                alert(`File "${tooLarge.name}" vượt quá 10MB, vui lòng chọn file khác.`);
+                this._showNotice(`File "${tooLarge.name}" vượt quá 10MB, vui lòng chọn file khác.`);
                 return;
             }
             try {
                 attachments = await Promise.all(files.map((file) => this._fileToAttachment(file)));
             } catch (error) {
                 console.error("Đọc file đính kèm thất bại:", error);
-                alert("Không đọc được file đính kèm, vui lòng thử lại.");
+                this._showNotice("Không đọc được file đính kèm, vui lòng thử lại.");
                 return;
             }
         }
@@ -569,7 +579,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             // đang điền form, giữa lúc mở modal và lúc bấm "Tiếp tục") - chỉ rơi về câu
             // chung chung khi đây thực sự là lỗi không xác định được (mất mạng...).
             const serverMessage = error && error.data && error.data.message;
-            alert(serverMessage || "Có lỗi xảy ra, vui lòng thử lại.");
+            this._showNotice(serverMessage || "Có lỗi xảy ra, vui lòng thử lại.");
             continueBtn.textContent = "Tiếp tục";
             continueBtn.disabled = false;
             return;
@@ -834,7 +844,7 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             });
         } catch (error) {
             console.error("Lưu thông tin chuyên sâu thất bại:", error);
-            alert("Có lỗi xảy ra, vui lòng thử lại.");
+            this._showNotice("Có lỗi xảy ra, vui lòng thử lại.");
             return;
         }
 
@@ -968,12 +978,31 @@ publicWidget.registry.CourseRegisterWizard = publicWidget.Widget.extend({
             });
         } catch (error) {
             console.error("Lưu câu trả lời thất bại:", error);
-            alert("Có lỗi xảy ra, vui lòng thử lại.");
+            this._showNotice("Có lỗi xảy ra, vui lòng thử lại.");
             submitBtn.disabled = false;
             return;
         }
 
         window.location.reload();
+    },
+
+    // --- Dùng CHUNG cho cả wizard: hiện thông báo lỗi/thông tin qua modal riêng
+    // (#courseWizardNoticeModal, views/course_register_wizard.xml) thay vì alert() mặc
+    // định của trình duyệt (giao diện xấu, không đồng bộ) - GỌI ĐƯỢC ở mọi lúc, kể cả
+    // TRƯỚC KHI modal wizard mở (VD "Khóa học chưa mở đăng ký" ở _onOpenWizard) hay
+    // trong lúc modal wizard ĐANG mở (VD "Mã voucher không hợp lệ" ở _onBasicSubmit) -
+    // Bootstrap tự xếp đúng z-index/backdrop khi 2 modal chồng nhau. ---
+    _showNotice(message, title) {
+        const noticeEl = this.el.querySelector("#courseWizardNoticeModal");
+        if (!noticeEl) {
+            // Phòng hờ template chưa kịp render (không nên xảy ra thực tế) - fallback về
+            // alert() gốc để KHÔNG BAO GIỜ nuốt mất thông báo lỗi.
+            window.alert(message);
+            return;
+        }
+        noticeEl.querySelector("#courseWizardNoticeModalLabel").textContent = title || "Thông báo";
+        noticeEl.querySelector("#wizard_notice_message").textContent = message;
+        $(noticeEl).modal("show");
     },
 
     // --- Dùng chung cho cả wizard: đổi bước đang active + hiện đúng pane ---

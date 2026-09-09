@@ -238,6 +238,32 @@ class SerotoCourseRegistration(models.Model):
             raise UserError(_('Loại phiếu giảm giá này chưa được hỗ trợ.'))
         return card, round(discount), round(amount - discount)
 
+    def action_check_voucher_code(self):
+        """Nút "Kiểm tra" cạnh ô "Mã voucher" trên form backend - dành cho trường hợp
+        nhân viên tự gõ tay mã (VD khách đăng ký qua điện thoại/Zalo, không qua wizard
+        website). Khác lúc đăng ký qua website (loyalty_card_id được _validate_voucher_code
+        tự gán TRƯỚC create(), xem controllers/course_registration.py) - gõ tay trên
+        backend KHÔNG có onchange nào tự tra cả, voucher_code chỉ là 1 field Char đơn
+        thuần, để trống loyalty_card_id/voucher_discount_amount/voucher_final_amount nếu
+        không bấm nút này. Gọi lại ĐÚNG _validate_voucher_code() dùng chung với website -
+        cùng 1 chỗ validate, không viết lại logic riêng dễ lệch nhau.
+        """
+        self.ensure_one()
+        if self.registration_category != 'voucher':
+            raise UserError(_('Chỉ áp dụng cho Diện voucher quà tặng.'))
+        code = (self.voucher_code or '').strip()
+        if not code:
+            raise UserError(_('Vui lòng nhập Mã voucher trước khi kiểm tra.'))
+        card, discount, final_amount = self._validate_voucher_code(
+            code, self.course_id, self._get_base_amount(),
+        )
+        self.write({
+            'voucher_code': code,
+            'loyalty_card_id': card.id,
+            'voucher_discount_amount': discount,
+            'voucher_final_amount': final_amount,
+        })
+
     # Dùng CHUNG cho 3 diện cần nộp giấy tờ (education_scholarship/medical_scholarship/
     # nonprofit) - Many2many ir.attachment, đúng widget many2many_binary chuẩn Odoo cho
     # nhiều file, không cần model riêng cho từng diện.
