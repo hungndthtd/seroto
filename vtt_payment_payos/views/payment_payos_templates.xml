@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="redirect_form">
+        <form t-att-action="api_url" method="post">
+            <input type="hidden" name="reference" t-att-value="reference"/>
+        </form>
+    </template>
+
+    <!-- Hiển thị QR payOS NGAY trên trang trạng thái chuẩn của Odoo (không chuyển hướng
+         sang trang payOS lưu trữ) - mirror cấu trúc payment_custom's custom_state_header,
+         bỏ phần "OR"/QR ngân hàng song song vì payOS chỉ có đúng 1 cách thanh toán. -->
+    <template id="payos_state_header" inherit_id="payment.state_header">
+
+        <xpath expr="//div[@name='o_payment_status_alert']" position="before">
+            <h1 t-if="tx.provider_id.sudo().code == 'payos' and tx.state == 'pending'" class="mb-3">
+                Quét mã QR để hoàn tất thanh toán
+            </h1>
+        </xpath>
+
+        <xpath expr="//div[@name='o_payment_status_alert']" position="inside">
+            <t t-if="tx.provider_id.sudo().code == 'payos' and tx.state == 'pending' and tx.payos_get_qr_image_url()">
+                <div class="o_qr_code_card card flex-shrink-0">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center pb-3">
+                        <img class="mb-2 border border-dark rounded" t-att-src="tx.payos_get_qr_image_url()"/>
+                        <small class="text-center text-wrap lh-sm">Quét mã bằng ứng dụng ngân hàng của bạn</small>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@id='o_payment_status_icon']" position="attributes">
+            <attribute name="t-if">tx.provider_id.sudo().code != 'payos'</attribute>
+        </xpath>
+
+    </template>
+
+</odoo>
